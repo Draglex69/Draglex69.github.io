@@ -1,0 +1,27 @@
+The typefaces in this folder are free software under the SIL Open Font License, Version 1.1
+(https://openfontlicense.org). They are used unmodified, as served by Google Fonts. Each file also carries
+its copyright notice and licence in its own name table.
+
+Caveat
+  Copyright 2014 The Caveat Project Authors (https://github.com/googlefonts/caveat)
+
+Cinzel Decorative
+  Copyright © 2012 Natanael Gama (info@ndiscovered.com), with Reserved Font Name 'Cinzel'
+
+EB Garamond
+  Copyright 2017 The EB Garamond Project Authors (https://github.com/octaviopardo/EBGaramond12)
+
+IM Fell English
+  © 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL English Italic
+
+IM Fell English SC
+  © 2007 Igino Marini (www.iginomarini.com) With Reserved Font Name IM FELL English SC
+
+Josefin Sans
+  Copyright 2010 The Josefin Sans Project Authors (https://github.com/ThomasJockin/JosefinSansFont-master), with Reserved Font Name "Josefin Sans".
+
+Limelight
+  Copyright (c) 2010 by Sorkin Type Co with Reserved Font Name Limelight.This Font Software is licensed under the SIL Open Font License, Version 1.1.This license is copied below, and is also available with a FAQ at:http://scripts.sil.org/OFL
+
+Playfair Display SC
+  Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name "Playfair Display".

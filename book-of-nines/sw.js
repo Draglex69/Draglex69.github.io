@@ -1,0 +1,30 @@
+/* The Book of Nines: offline app shell.
+   The book and its art come from the cache first, so it opens without a connection.
+   Wireless play (/api/) always goes to the network. Bump VERSION on every release. */
+const VERSION='nines-2026-11-09b';
+const SHELL=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png','apple-touch-icon.png','favicon-32.png','fonts/Ktk1ALSLW8zDe0rthJysWrnLsAzHEKOY.woff2','fonts/Ktk3ALSLW8zDe0rthJysWrnLsAzHFZOafYs.woff2','fonts/Qw3aZQNVED7rKGKxtqIqX5EUA3x4RHw.woff2','fonts/Qw3aZQNVED7rKGKxtqIqX5EUDXx4.woff2','fonts/SlGUmQSNjdsmc35JDF1K5GR1SDk.woff2','fonts/SlGUmQSNjdsmc35JDF1K5GR7SDktYw.woff2','fonts/SlGWmQSNjdsmc35JDF1K5GRweDU1ZzPJ.woff2','fonts/SlGWmQSNjdsmc35JDF1K5GRweDs1Zw.woff2','fonts/WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6eIWpYQ.woff2','fonts/WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6eIupYSxP.woff2','fonts/XLYkIZL7aopJVbZJHDuoNOlHnnY.woff2','fonts/XLYkIZL7aopJVbZJHDuoOulH.woff2','fonts/a8IENpD3CDX-4zrWfr1VY879qFF05pZ7PIIP.woff2','fonts/daaHSScvJGqLYhG8nNt8KPPswUAPniZQa9lESTE.woff2','fonts/daaHSScvJGqLYhG8nNt8KPPswUAPniZQa9lKSTG7lQ.woff2','fonts/daaHSScvJGqLYhG8nNt8KPPswUAPniZoadlESTE.woff2','fonts/daaHSScvJGqLYhG8nNt8KPPswUAPniZoadlKSTG7lQ.woff2','fonts/ke80OhoaMkR6-hSn7kbHVoFf7ZfgMPr_nTorBcIXLrIU.woff2','fonts/ke80OhoaMkR6-hSn7kbHVoFf7ZfgMPr_nTorBcwXLg.woff2','models/Awa.glb','models/Cloud.glb','models/Grump.glb','models/Pookie.glb'];
+
+self.addEventListener('install',e=>{
+  e.waitUntil(caches.open(VERSION).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()));
+});
+self.addEventListener('activate',e=>{
+  e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==VERSION).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
+});
+self.addEventListener('fetch',e=>{
+  const req=e.request,url=new URL(req.url);
+  if(req.method!=='GET'||url.pathname.includes('/api/'))return;
+  // pages: try the network for a fresh book, fall back to the cached one
+  if(req.mode==='navigate'){
+    // a fresh book if the network answers within three seconds; otherwise the copy on the phone, refreshed in the background
+    const fresh=fetch(req).then(r=>{if(r.ok){const copy=r.clone();caches.open(VERSION).then(c=>c.put('index.html',copy))}return r});
+    e.respondWith(new Promise(done=>{let settled=false;const fall=()=>caches.match('index.html').then(hit=>{if(hit&&!settled){settled=true;done(hit)}});
+      const t=setTimeout(fall,3000);
+      fresh.then(r=>{clearTimeout(t);if(!settled){settled=true;done(r)}}).catch(()=>{clearTimeout(t);caches.match('index.html').then(hit=>{if(!settled){settled=true;done(hit||Response.error())}})})}));
+    return;
+  }
+  // everything else (icons, the typefaces): cache first, then remember what the network returns
+  e.respondWith(caches.match(req).then(hit=>hit||fetch(req).then(r=>{
+    if(r.ok||r.type==='opaque'){const copy=r.clone();caches.open(VERSION).then(c=>c.put(req,copy))}
+    return r;
+  })));
+});
