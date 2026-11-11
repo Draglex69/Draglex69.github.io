@@ -1568,13 +1568,13 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
 .mediabar .mb-pause{display:none}.mediabar.playing .mb-pause{display:block}.mediabar.playing .mb-play{display:none}
 /* split: the pill itself vanishes, each half is its own small panel beside the book, one button above the other */
 .mediabar.split{left:0;bottom:auto;top:0;width:0;height:0;padding:0;background:none;box-shadow:none;transform:none;animation:none}
-.mediabar.split .mb-half{position:fixed;flex-direction:column;gap:4px;margin:0;padding:6px 4px;border-radius:999px;background:rgba(24,17,12,var(--mb-a));box-shadow:inset 0 0 0 1px rgba(240,211,138,calc(var(--mb-a) * .4));transform:translate(-50%,-50%);animation:mbside .4s cubic-bezier(.3,1.3,.5,1);transition:left .35s ease,top .35s ease}
+.mediabar.split .mb-half{position:fixed;gap:4px;margin:0;padding:4px 8px;border-radius:999px;background:rgba(24,17,12,var(--mb-a));box-shadow:inset 0 0 0 1px rgba(240,211,138,calc(var(--mb-a) * .4));flex-direction:row;transform:translate(-50%,-50%);animation:mbside .4s cubic-bezier(.3,1.3,.5,1);transition:left .35s ease,top .35s ease}
 body.immersed .mediabar{display:none!important}
 @keyframes mbin{from{opacity:0;transform:translate(-50%,10px)}}
 @keyframes mbside{from{opacity:0;transform:translate(-50%,-50%) scale(.6)}}
 @media (prefers-reduced-motion:reduce){.mediabar,.mediabar .mb-half,.mediabar button.pop{animation:none}}
 .mbset{display:flex;align-items:center;gap:8px}.tog.mbset input[type=range]{position:static;opacity:1;width:auto;height:22px;flex:1;min-width:60px;accent-color:var(--gild);cursor:pointer}.mbset b{min-width:3.2em;text-align:right;font-weight:600}
-.mediaask{max-width:360px}.mediaask h2{margin:4px 0 8px}.mediaask .lede{margin:0 0 10px}.mediaask .nrow{display:flex;justify-content:center;gap:10px;margin:6px 0 8px}
+.mediaask{max-width:360px;text-align:center}.mediaask h2{margin:4px 0 8px}.ma-mark{width:58px;height:58px;margin:4px auto 2px;color:#c9973f}.ma-mark svg{width:100%;height:100%;fill:rgba(201,151,63,.12);stroke:currentColor;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}.ma-why{text-align:left;margin:0 0 10px;font-size:14px}.ma-why summary{cursor:pointer;text-align:center;font-style:italic;opacity:.85}.ma-why p{margin:8px 0 0}.mediaask .lede{margin:0 0 10px}.mediaask .nrow{display:flex;justify-content:center;gap:10px;margin:6px 0 8px}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -3924,7 +3924,6 @@ function solved(){
   const first=!S.solved[S.page],{c}=chapterOf(S.page);
   const reward=G.failed?0:(first?(2+c)+(G.clean?2:0):1);
   const zeroWas=zeroOpen();S.solved[S.page]=1;S.maxPage=Math.max(S.maxPage,S.page+1);versoBadge();
-  if(first&&mediaApp()&&!S.mediaAsked){let n=0;const tryAsk=()=>{if(document.querySelector('.veil')&&++n<40)return setTimeout(tryAsk,1500);mediaAsk()};setTimeout(tryAsk,5200)}   /* once the page is stamped and any other window is closed */
   if(!zeroWas&&zeroOpen())setTimeout(()=>toast('All ninety-nine pages solved. Page 0 has opened at the front of the book.',6000),2600);
   boost=5;
   for(let i=0;i<81;i++){const el=cells[i];el.style.setProperty('--d',((RW[i]+CL[i])*.04)+'s');el.classList.remove('wave');void el.offsetWidth;el.classList.add('wave')}
@@ -5633,7 +5632,7 @@ function fit(){
     return{gs,pw,ph,tw,th}};
   /* the music controls under the book (Play app): the book stays above them, still in the middle */
   const mbEl=$('#mediaBar'),mbOn=!immersed&&mbEl&&!mbEl.hidden,mbSide=mbOn&&innerWidth>innerHeight,mbTop=mbOn&&!mbSide?mbEl.getBoundingClientRect().top-6:0,stR=$('#stage').getBoundingClientRect(),midS=(stR.top+stR.bottom)/2;
-  let {gs,pw,ph,tw,th}=size(mbSide?Math.min(W,innerWidth-2*(66+16)):W,mbTop?Math.min(H,2*(mbTop-midS)):H);   /* wide: the split controls stand left and right of the book */
+  let {gs,pw,ph,tw,th}=size(mbSide?Math.min(W,innerWidth-2*(112+16)):W,mbTop?Math.min(H,2*(mbTop-midS)):H);   /* wide: the split controls stand left and right of the book */
   const CB=immersed?0:70,mid=($('#stage').getBoundingClientRect().top+$('#stage').getBoundingClientRect().bottom)/2;   /* CB: the band the corner buttons take at the top and the bottom of the screen */
   const vb0=$('#vaseBtn');vb0.style.width=vb0.style.height=vb0.style.right='';   /* the vase (above the sprout, bottom right) counts as part of the bottom band when it is out */
   const botLim=Math.min(innerHeight-CB,mbTop||innerHeight,!immersed&&S.flowers&&!vb0.hidden?vb0.getBoundingClientRect().top-6:innerHeight),between=2*Math.min(mid-CB,botLim-mid)-16;
@@ -6183,10 +6182,19 @@ $('#mediaBar')?.addEventListener('click',e=>{const btn=e.target.closest('[data-m
   try{NinesApp.media(k)}catch(e){}});
 function applyMediaPanel(){const a=Number.isFinite(S.mbAlpha)?S.mbAlpha:50;root.style.setProperty('--mb-a',(a/100*.62).toFixed(3));const r=$('#optMbAlpha');if(r){r.value=a;$('#mbAlphaVal').textContent=a+'%'}}
 const mediaApp=()=>!!(window.NINES_APP&&window.NinesApp&&typeof NinesApp.mediaState==='function');
-function mediaAsk(){if(!mediaApp()||S.mediaAsked||MEDIA.state?.access||document.querySelector('.veil'))return;S.mediaAsked=1;save();
-  const v=document.createElement('div');v.className='veil';v.innerHTML=`<div class="toc paper mediaask" role="dialog" aria-label="Music controls"><h2>Music while you play?</h2><p class="lede">When music or a video plays in another app, the book can show three small buttons under it: back, pause or play, and next. You never have to leave the book to change the song.</p><p class="lede">Android calls the permission for this <b>notification access</b>. The book uses it only to see what is playing; nothing is read out, kept or sent anywhere.</p><div class="nrow"><button class="px close" data-ma="no">Not now</button><button class="px close" data-ma="yes">Allow</button></div><p class="lede" style="font-size:12px;opacity:.75">You can change this later in your phone’s settings under Notification access.</p></div>`;
-  v.addEventListener('click',e=>{const b=e.target.closest('[data-ma]');if(!b&&e.target!==v)return;v.remove();if(b?.dataset.ma==='yes')try{NinesApp.openMediaAccess()}catch(err){}});document.body.appendChild(v)}
+/* the music permission: asked as soon as the book is open, until it is given or the player says no.
+   The card keeps the purpose folded away as a surprise; one tap on "What is it for?" shows all of it. */
+function mediaAsk(){if(!mediaApp()||S.mediaAsked||MEDIA.state?.access||document.querySelector('.veil'))return;
+  const v=document.createElement('div');v.className='veil';v.innerHTML=`<div class="toc paper mediaask" role="dialog" aria-label="One permission"><div class="ma-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 20h28v18a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3Z"/><path d="M7 14h34v6H7z"/><path d="M24 14v27M24 14c-3-6-11-7-11-2s8 2 11 2c3 0 11 3 11-2s-8-4-11 2"/></svg></div><h2>One small permission</h2><p class="lede">The book has a little surprise for you. To unwrap it, it needs one permission from Android.</p><details class="ma-why"><summary>What is it for?</summary><p>When music or a video plays in another app, the book shows small buttons beside it: back, pause or play, stop and next, so you never have to leave the book to change the song.</p><p>Android calls this permission <b>notification access</b>. The book uses it only to see what is playing; nothing is read out, kept or sent anywhere. You can take it back any time in your phone’s settings under Notification access.</p></details><div class="nrow"><button class="px close" data-ma="no">No, thanks</button><button class="px close" data-ma="yes">Allow</button></div></div>`;
+  v.addEventListener('click',e=>{const b=e.target.closest('[data-ma]');if(!b)return;v.remove();
+    if(b.dataset.ma==='no'){S.mediaAsked=1;save();return}
+    try{NinesApp.openMediaAccess()}catch(err){}
+    /* back from Android's settings without switching it on counts as a no, so the book does not ask again */
+    const back=()=>{if(document.visibilityState!=='visible')return;document.removeEventListener('visibilitychange',back);setTimeout(()=>{if(!MEDIA.state?.access){S.mediaAsked=1;save()}},1500)};
+    document.addEventListener('visibilitychange',back)});
+  document.body.appendChild(v)}
 if(mediaApp()){try{window.ninesMedia(JSON.parse(NinesApp.mediaState()))}catch(e){}}
+if(mediaApp()&&!S.mediaAsked){let n=0;const tryAsk=()=>{if(S.mediaAsked||MEDIA.state?.access)return;const busy=document.querySelector('.veil')||[...document.querySelectorAll('#publisherIntro,#quietLoader')].some(x=>x.isConnected&&!x.hidden&&getComputedStyle(x).visibility!=='hidden'&&+getComputedStyle(x).opacity>.02);calm=busy?0:calm+1;if(calm<3&&++n<300)return setTimeout(tryAsk,700);mediaAsk()};let calm=0;setTimeout(tryAsk,1200)}   /* right after the loading screen, or once the first window (the name card) is closed */
 function setImmersed(on){requestAnimationFrame(()=>requestAnimationFrame(mediaPlace));if(on&&stickering)endEdit();immersed=!!on;document.body.classList.toggle('immersed',immersed);const b=$('#zoomBtn');b.querySelector('.zsign').textContent=immersed?'−':'+';b.setAttribute('aria-label',immersed?'Zoom out of the book':'Zoom into the book');b.title=immersed?'Leave immersive zoom':'Immersive zoom';closePops();requestAnimationFrame(()=>{fit();requestAnimationFrame(fit)})}
 let magDragged=false;
 $('#zoomBtn').addEventListener('click',e=>{e.stopPropagation();if(magDragged){magDragged=false;return}sfx.tick();setImmersed(!immersed)});
