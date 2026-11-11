@@ -1555,11 +1555,11 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
 .scene-tile{display:grid;place-items:center;width:40px;height:44px;border-radius:6px;background:linear-gradient(160deg,#3a2a1c,#1f160e);color:#f0d38a;box-shadow:inset 0 0 0 1.5px rgba(240,211,138,.35),0 2px 0 rgba(0,0,0,.3)}
 .scene-tile svg{width:26px;height:26px}.cm-cell .art .scene-swatch{width:40px;height:44px}
 
-/* the music controls under the book (Play app): back, play or pause, next, on a dark glass pill */
-.mediabar{position:fixed;z-index:44;left:50%;bottom:max(14px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:rgba(24,17,12,.62);box-shadow:inset 0 0 0 1px rgba(240,211,138,.22),0 3px 10px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:mbin .35s ease-out}
+/* the music controls under the book (Play app): back, play or pause, next, straight on the scene */
+.mediabar{position:fixed;z-index:44;left:50%;bottom:max(14px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:4px 10px;background:none;animation:mbin .35s ease-out}
 .mediabar[hidden]{display:none}
 .mediabar button{display:grid;place-items:center;width:44px;height:40px;padding:0;border:0;border-radius:50%;background:none;color:#f6ead2;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.mediabar button svg{width:22px;height:22px;fill:currentColor}.mediabar [data-media="toggle"] svg{width:26px;height:26px}
+.mediabar button svg{width:22px;height:22px;fill:currentColor;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.85)) drop-shadow(0 0 4px rgba(0,0,0,.45))}.mediabar [data-media="toggle"] svg{width:26px;height:26px}
 .mediabar button:active{transform:scale(.9);background:rgba(240,211,138,.14)}
 .mediabar .mb-pause{display:none}.mediabar.playing .mb-pause{display:block}.mediabar.playing .mb-play{display:none}
 body.immersed .mediabar{display:none!important}

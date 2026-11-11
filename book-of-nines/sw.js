@@ -1,7 +1,7 @@
 /* The Book of Nines: offline app shell.
    The book and its art come from the cache first, so it opens without a connection.
    Wireless play (/api/) always goes to the network. Bump VERSION on every release. */
-const VERSION='nines-2026-11-11';
+const VERSION='nines-2026-11-11a';
 const SHELL=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png','apple-touch-icon.png','favicon-32.png','fonts/Ktk1ALSLW8zDe0rthJysWrnLsAzHEKOY.woff2','fonts/Ktk3ALSLW8zDe0rthJysWrnLsAzHFZOafYs.woff2','fonts/Qw3aZQNVED7rKGKxtqIqX5EUA3x4RHw.woff2','fonts/Qw3aZQNVED7rKGKxtqIqX5EUDXx4.woff2','fonts/SlGUmQSNjdsmc35JDF1K5GR1SDk.woff2','fonts/SlGUmQSNjdsmc35JDF1K5GR7SDktYw.woff2','fonts/SlGWmQSNjdsmc35JDF1K5GRweDU1ZzPJ.woff2','fonts/SlGWmQSNjdsmc35JDF1K5GRweDs1Zw.woff2','fonts/WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6eIWpYQ.woff2','fonts/WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6eIupYSxP.woff2','fonts/XLYkIZL7aopJVbZJHDuoNOlHnnY.woff2','fonts/XLYkIZL7aopJVbZJHDuoOulH.woff2','fonts/a8IENpD3CDX-4zrWfr1VY879qFF05pZ7PIIP.woff2','fonts/daaHSScvJGqLYhG8nNt8KPPswUAPniZQa9lESTE.woff2','fonts/daaHSScvJGqLYhG8nNt8KPPswUAPniZQa9lKSTG7lQ.woff2','fonts/daaHSScvJGqLYhG8nNt8KPPswUAPniZoadlESTE.woff2','fonts/daaHSScvJGqLYhG8nNt8KPPswUAPniZoadlKSTG7lQ.woff2','fonts/ke80OhoaMkR6-hSn7kbHVoFf7ZfgMPr_nTorBcIXLrIU.woff2','fonts/ke80OhoaMkR6-hSn7kbHVoFf7ZfgMPr_nTorBcwXLg.woff2','models/Awa.glb','models/Cloud.glb','models/Grump.glb','models/Pookie.glb'];
 
 self.addEventListener('install',e=>{
