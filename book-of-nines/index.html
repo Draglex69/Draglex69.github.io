@@ -1686,8 +1686,11 @@ body.immersed .px-cap{opacity:0}
 .g-face{position:absolute;inset:16%;display:grid;place-items:center;transform:translateZ(10px);filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
 .g-face svg{width:100%;height:100%}
 .g-back{position:absolute;inset:2%;transform:rotateY(180deg) translateZ(1px);border-radius:50%;background:radial-gradient(circle,#e9c46a,#9a7020)}
-.g-cap{margin:0;text-align:center;color:#fff3d6;text-shadow:0 2px 6px rgba(0,0,0,.6);animation:gfin .6s ease-out 1.6s both}
-.g-cap b{display:block;font:700 20px var(--deco);letter-spacing:.12em;text-transform:uppercase}.g-cap span{font:italic 15px var(--fell);opacity:.9}
+.g-cap{position:relative;max-width:min(440px,calc(100vw - 32px));margin:0;padding:12px 18px 10px;border-radius:12px;background:rgba(22,14,6,.82);box-shadow:0 0 0 1px rgba(233,196,106,.35),0 10px 30px rgba(0,0,0,.45);display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;color:#fff3d6;text-shadow:0 2px 6px rgba(0,0,0,.6);animation:gfin .6s ease-out 1.6s both}
+.g-cap b{display:block;font:700 20px var(--deco);letter-spacing:.12em;text-transform:uppercase}
+.g-mean{font:italic 17px/1.3 var(--fell);color:#ffe7a8}
+.g-cap blockquote{margin:4px 0 0;font:15px/1.4 var(--fell);opacity:.92}.g-cap cite{display:block;margin-top:3px;font:italic 13px var(--fell);opacity:.8}.g-cap cite::before{content:"— "}
+.g-tap{margin-top:6px;font:italic 14px var(--fell);opacity:.75}
 .g-fly{position:fixed;z-index:160;pointer-events:none;display:grid;place-items:center;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}.g-fly svg{width:100%;height:100%}
 @media (prefers-reduced-motion:reduce){.g-rays{animation:none}}
 
@@ -3161,13 +3164,13 @@ if(typeof module!=='undefined')module.exports=Commode;
    r: nine rows of nine letters, one per square; each letter is a colour in PAL, a dot leaves the square bare. */
 const PixArt=(()=>{
 const PAL={"k":"#2b2118","w":"#fffaf0","r":"#d7263d","R":"#8e1b2b","p":"#f7a1c4","P":"#d6337a","o":"#f28c28","y":"#f6c945","Y":"#fff3a0","g":"#5cb85c","G":"#2e7d32","l":"#a5d66f","b":"#4a90e2","B":"#1f3c88","c":"#9fe3f0","v":"#9b6ad6","V":"#5b2d9e","L":"#cdb8ee","n":"#9a6234","N":"#5a3418","t":"#d9b77e","s":"#a3a3a3","S":"#5f5f5f","u":"#ffd9b3","m":"#ef7b6b","q":"#dfe6ea","h":"#2a2f45","a":"#e9c46a"};
-const ARTS=[{"n":"Camellia","m":"admiration","r":"..RrrrR..|.rrRrRrr.|rrrryrrrr|rRryyyrRr|rrrryrrrr|.rrRrRrr.|G.RrrrR.G|GG.....GG|.GGG.GGG."},
+const ARTS=[{"n":"Camellia","m":"admiration and longing","r":"..RrrrR..|.rrRrRrr.|rrrryrrrr|rRryyyrRr|rrrryrrrr|.rrRrRrr.|G.RrrrR.G|GG.....GG|.GGG.GGG."},
 {"n":"π","m":"","r":".........|.BBBBBBBB|B.B...B..|..B...B..|..B...B..|..B...B..|..B...B..|.BB...BB.|........."},
 {"n":"White Rabbit","m":"","r":"..w...w..|..wp.pw..|..wp.pw..|..wwwww..|.wwkwkww.|.wwwpwww.|..wwwww..|.wwwwwww.|..ww.ww.."},
-{"n":"Snowdrop","m":"new beginnings","r":"...GGGG..|..G....G.|..g....G.|.www...G.|.www...G.|wwqww..G.|w.w.w..G.|......lG.|.....lGG."},
+{"n":"Snowdrop","m":"hope and new beginnings","r":"...GGGG..|..G....G.|..g....G.|.www...G.|.www...G.|wwqww..G.|w.w.w..G.|......lG.|.....lGG."},
 {"n":"Pagoda","m":"","r":"....a....|...NNN...|..rrrrr..|.NNNNNNN.|..rwrwr..|NNNNNNNNN|.rwrrrwr.|.rrrNrrr.|sssssssss"},
-{"n":"Sunflower","m":"adoration","r":".y.y.y.y.|yyyyyyyyy|.yNNNNNy.|yyNnNnNyy|.yNNNNNy.|yyyyyyyyy|.y.yGy.y.|...GG.GG.|....G...."},
-{"n":"Daisy","m":"innocence","r":"..w.w.w..|.wwwwwww.|.wwyyyww.|wwyyyyyww|.wwyyyww.|.wwwwwww.|..w.G.w..|...GG....|....G...."},
+{"n":"Sunflower","m":"adoration (its seeds spiral in Fibonacci numbers)","r":".y.y.y.y.|yyyyyyyyy|.yNNNNNy.|yyNnNnNyy|.yNNNNNy.|yyyyyyyyy|.y.yGy.y.|...GG.GG.|....G...."},
+{"n":"Daisy","m":"innocence and wonder","r":"..w.w.w..|.wwwwwww.|.wwyyyww.|wwyyyyyww|.wwyyyww.|.wwwwwww.|..w.G.w..|...GG....|....G...."},
 {"n":"Scales","m":"","r":"....a....|aaaaaaaaa|.a..a..a.|a.a.a.a.a|aaa.a.aaa|....a....|....a....|...aaa...|..aaaaa.."},
 {"n":"Bellflower","m":"gratitude","r":"....G....|...GGG...|..vvvvv..|..vvvvv..|.vvvvvvv.|.vvvvvvv.|vVvVvVvVv|....y....|........."},
 {"n":"Spool of thread","m":"","r":".nnnnnnn.|..rrrrr..|..rRrRr..|..rrrrr..|..rRrRr..|..rrrrr..|.nnnnnnn.|......r..|.......rr"},
@@ -3175,10 +3178,10 @@ const ARTS=[{"n":"Camellia","m":"admiration","r":"..RrrrR..|.rrRrRrr.|rrrryrrrr|
 {"n":"Daruma","m":"","r":"..rrrrr..|.rrrrrrr.|rrwwwwwrr|rwkwwwSwr|rwwkkkwwr|rrwwwwwrr|rrraaarrr|.rrrrrrr.|..RRRRR.."},
 {"n":"Ace of hearts","m":"","r":".qqqqqqq.|.qrwwwwq.|.qwwwwwq.|.qwrwrwq.|.qrrrrrq.|.qwrrrwq.|.qwwrwwq.|.qwwwwrq.|.qqqqqqq."},
 {"n":"Water and stone","m":"","r":"....b....|...bcb...|...bbb...|....b....|.........|....b....|.sss.sss.|sssSbSsss|sssssssss"},
-{"n":"Bamboo","m":"strength","r":".g...g...|.g..lgl..|.gll.g.l.|GGG.GGG..|.g...g...|.g.l.g...|.gl..gll.|GGG.GGG..|.g...g..."},
+{"n":"Bamboo","m":"strength through persistence","r":".g...g...|.g..lgl..|.gll.g.l.|GGG.GGG..|.g...g...|.g.l.g...|.gl..gll.|GGG.GGG..|.g...g..."},
 {"n":"Snail","m":"","r":".........|.......k.|..ooo..k.|.oNNNo.k.|oNoooNouu|oNoNoNouu|oNNNoNouu|.ooooouuu|uuuuuuuu."},
 {"n":"Colosseum","m":"","r":"tttttt...|t.t.t.t..|ttttttttt|t.t.t.t.t|ttttttttt|t.t.t.t.t|ttttttttt|t.t.t.t.t|ttttttttt"},
-{"n":"Morning glory","m":"affection","r":"..bbbbb..|.bbbbbbb.|bbbcwcbbb|bbcwwwcbb|bbbcwcbbb|.bbbbbbb.|..bbGbb..|G...G...G|.GGGGGGG."},
+{"n":"Morning glory","m":"affection that winds its way","r":"..bbbbb..|.bbbbbbb.|bbbcwcbbb|bbcwwwcbb|bbbcwcbbb|.bbbbbbb.|..bbGbb..|G...G...G|.GGGGGGG."},
 {"n":"Pencil","m":"","r":".......pp|......qpp|.....yqq.|....yyy..|...yyy...|..yyy....|.tyy.....|.tt......|k........"},
 {"n":"Magnifying glass","m":"","r":"..ssss...|.sccccs..|sccwcccs.|sccccccs.|sccccccs.|.sccccs..|..sssss..|......nn.|.......nn"},
 {"n":"Eye","m":"","r":".........|..kkkkk..|.kwwwwwk.|kwwbbbwwk|kwwbkbwwk|kwwbbbwwk|.kwwwwwk.|..kkkkk..|........."},
@@ -3193,19 +3196,19 @@ const ARTS=[{"n":"Camellia","m":"admiration","r":"..RrrrR..|.rrRrRrr.|rrrryrrrr|
 {"n":"Flask","m":"","r":"...sss...|...q.q...|...q.q...|..q...q..|..q...q..|.qgggggq.|.qglgggq.|qgggggggq|.qqqqqqq."},
 {"n":"Die","m":"","r":".sssssss.|swwwwwwws|swkwwwkws|swwwwwwws|swwwkwwws|swwwwwwws|swkwwwkws|swwwwwwws|.sssssss."},
 {"n":"Looking-glass","m":"","r":"..aaaaa..|.acccwca.|.accccwa.|.acwccca.|.accccca.|..aaaaa..|....a....|....a....|....a...."},
-{"n":"Dandelion","m":"wishes","r":".q.q.q.q.|q.qqqqq.q|.qqqqqqq.|qqqqsqqqq|.qqqqqqq.|q.qqqqq.q|.q.qgq.q.|....g....|....g...."},
+{"n":"Dandelion","m":"wishes, and a whole split into many parts","r":".q.q.q.q.|q.qqqqq.q|.qqqqqqq.|qqqqsqqqq|.qqqqqqq.|q.qqqqq.q|.q.qgq.q.|....g....|....g...."},
 {"n":"Abacus","m":"","r":"nnnnnnnnn|n.......n|nrrrssyyn|n.......n|nbbssrrrn|n.......n|nyyyssbbn|n.......n|nnnnnnnnn"},
 {"n":"Feather","m":"","r":".......cc|......ccb|.....ccbc|....ccbcc|...ccbcc.|..ccbcc..|..cbcc...|.b.......|b........"},
-{"n":"Iris","m":"wisdom","r":"...vvv...|..vVvVv..|...vVv...|vvvvyvvvv|vVvvyvvVv|.vv.v.vv.|....G....|.G..G..G.|..G.G.G.."},
-{"n":"Violet","m":"faithfulness","r":"..vv.vv..|.vVv.vVv.|..vvvvv..|.vvvyvvv.|vvVvvvVvv|.vv.v.vv.|....G....|.GG.G.GG.|GGG.G.GGG"},
+{"n":"Iris","m":"wisdom and hope","r":"...vvv...|..vVvVv..|...vVv...|vvvvyvvvv|vVvvyvvVv|.vv.v.vv.|....G....|.G..G..G.|..G.G.G.."},
+{"n":"Violet","m":"Ophelia’s flower: faithfulness","r":"..vv.vv..|.vVv.vVv.|..vvvvv..|.vvvyvvv.|vvVvvvVvv|.vv.v.vv.|....G....|.GG.G.GG.|GGG.G.GGG"},
 {"n":"Hatching chick","m":"","r":".........|...yyy...|..ykyyy..|..yyyoo..|.q.yyy.q.|.qqyyyqq.|.qqqqqqq.|..qqqqq..|...qqq..."},
 {"n":"Monkey","m":"","r":"..nnnnn..|.nnnnnnn.|unuuuuunu|uukuuukuu|.nuuuuun.|.nuuuuun.|..uukuu..|..uuuuu..|...nnn..."},
-{"n":"Dove","m":"peace","r":".........|.....ww..|....wkwo.|.ww.www..|wqqwwww..|.wqqqww..|..wwww...|....GG...|...G.G..."},
+{"n":"Dove","m":"forgiveness and peace","r":".........|.....ww..|....wkwo.|.ww.www..|wqqwwww..|.wqqqww..|..wwww...|....GG...|...G.G..."},
 {"n":"Bricks","m":"","r":"mmmtmmmtm|ttttttttt|mtmmmtmmm|ttttttttt|mmmtmmmtm|ttttttttt|mtmmmtmmm|ttttttttt|mmmtmmmtm"},
 {"n":"Pyramid","m":"","r":".........|....t....|...ttn...|..tttnn..|..tttnn..|.ttttnnn.|.ttttnnn.|tttttnnnn|yyyyyyyyy"},
 {"n":"Hourglass","m":"","r":"nnnnnnnnn|.q.....q.|.qyyyyyq.|..qyyyq..|...qyq...|..q.y.q..|.q..y..q.|.qyyyyyq.|nnnnnnnnn"},
 {"n":"Cactus flower","m":"endurance","r":"....p....|...pPp...|...gpg...|.g.ggg...|.g.ggg.g.|.ggggggg.|...ggg...|..nnnnn..|...nnn..."},
-{"n":"Edelweiss","m":"courage","r":"....q....|...qwq...|.qwwywwq.|qwwyyywwq|.qwyyywq.|.qwwqwwq.|.q.qGq.q.|....G....|...GGG..."},
+{"n":"Edelweiss","m":"courage: it blooms where it is hardest to reach","r":"....q....|...qwq...|.qwwywwq.|qwwyyywwq|.qwyyywq.|.qwwqwwq.|.q.qGq.q.|....G....|...GGG..."},
 {"n":"Four-leaf clover","m":"good luck","r":".gg...gg.|gggg.gggg|gggg.gggg|.ggggggg.|....G....|.ggggggg.|gggg.gggg|gggg.gggg|.gg..Ggg."},
 {"n":"Raven","m":"","r":".........|.....kk..|....kkwkk|...kkkkkS|..kkkkk..|.kkSkkk..|kkSSkkk..|...k.k...|..kk.kk.."},
 {"n":"Dancing man","m":"","r":"....k....|...kkk...|....k....|.k.kkk.k.|..k.k.k..|....k....|...k.k...|..k...k..|.k.....k."},
@@ -3213,30 +3216,30 @@ const ARTS=[{"n":"Camellia","m":"admiration","r":"..RrrrR..|.rrRrRrr.|rrrryrrrr|
 {"n":"Question mark","m":"","r":"..VVVVV..|.VV...VV.|......VV.|.....VV..|....VV...|....VV...|.........|....VV...|....VV..."},
 {"n":"Teacup","m":"","r":"..q...q..|.q...q...|..q...q..|ppppppp..|pwwwwwppp|pwpwpwp.p|pwwwwwppp|.ppppp...|qqqqqqq.."},
 {"n":"Bat (inverted)","m":"","r":".........|....k....|.k.kkk.k.|kkkkkkkkk|kkkykykkk|kkkkkkkkk|kk.k.k.kk|k.......k|........."},
-{"n":"Cosmos","m":"harmony","r":"...ppp...|.p.ppp.p.|ppp.p.ppp|.ppyyypp.|pppyyyppp|.ppyyypp.|ppp.p.ppp|.p.pGp.p.|....G...."},
+{"n":"Cosmos","m":"order and harmony","r":"...ppp...|.p.ppp.p.|ppp.p.ppp|.ppyyypp.|pppyyyppp|.ppyyypp.|ppp.p.ppp|.p.pGp.p.|....G...."},
 {"n":"Reed","m":"","r":"....n....|...nNn...|...nNn...|...nNn...|.l.nNn.l.|.l..g..l.|..l.g.l..|..l.g.l..|...lgl..."},
 {"n":"Letter","m":"","r":".........|qqqqqqqqq|qwqwwwqwq|qwwqwqwwq|qwwwrwwwq|qwwwwwwwq|qwwwwwwwq|qqqqqqqqq|........."},
 {"n":"Cherries","m":"","r":"......G..|.....GG..|....G.G..|...G...G.|..G....G.|.rr...rr.|rrrr.rrrr|rwrr.rwrr|.rr...rr."},
 {"n":"Pine","m":"","r":"....G....|...GGG...|..GGGGG..|...GGG...|..GGGGG..|.GGGGGGG.|GGGGGGGGG|....n....|....n...."},
 {"n":"Mount Fuji","m":"","r":".......rr|...www.rr|..wwwww..|..bwbwb..|.bbbbbbb.|.bbbbbbb.|bbbbbbbbb|BBBBBBBBB|........."},
-{"n":"Peony","m":"prosperity","r":"..ppppp..|.pPpPpPp.|pPppPppPp|pppPPPppp|pPpPPPpPp|.ppPpPpp.|..ppppp..|.G..G..G.|GG..G..GG"},
+{"n":"Peony","m":"prosperity: the king of flowers","r":"..ppppp..|.pPpPpPp.|pPppPppPp|pppPPPppp|pPpPPPpPp|.ppPpPpp.|..ppppp..|.G..G..G.|GG..G..GG"},
 {"n":"Two birds","m":"","r":".bb...bb.|bkbo.bkbo|bbbb.bbbb|.b.b..bb.|.........|.........|...sss...|..sssss..|.sssSsss."},
 {"n":"Hawk","m":"","r":"..nnnn...|.nnnnnn..|nnwwknnn.|nwwwwwyy.|nwwwwyyk.|.nwwwwy..|..nwwn...|...nn....|........."},
 {"n":"Nine","m":"","r":"..aaaaa..|.aa...aa.|.aa...aa.|..aaaaaa.|......aa.|......aa.|.aa...aa.|..aaaaa..|........."},
 {"n":"Iceberg","m":"","r":".........|....w....|...wwq...|..wwwqq..|ccccccccc|bcqqqqqcb|bbcqqqcbb|bbbcqcbbb|bbbbbbbbb"},
 {"n":"Candle","m":"","r":"....y....|...yoy...|...yoy...|....k....|...www...|...wwq...|...wwq...|...wwq...|.aaaaaaa."},
 {"n":"Clay vessel","m":"","r":"..nnnnn..|...ooo...|..n.o.n..|.nooooon.|.ooooooo.|.ooNNNoo.|..ooooo..|...ooo...|..nnnnn.."},
-{"n":"Lavender","m":"devotion","r":"..L...L..|.Lv.L.vL.|.vL.v.Lv.|.Lv.L.vL.|..v.v.v..|..g.g.g..|...ggg...|...ggg...|..aaaaa.."},
+{"n":"Lavender","m":"devotion and calm","r":"..L...L..|.Lv.L.vL.|.vL.v.Lv.|.Lv.L.vL.|..v.v.v..|..g.g.g..|...ggg...|...ggg...|..aaaaa.."},
 {"n":"Present","m":"","r":"..r...r..|...r.r...|bbbbrbbbb|bbbbrbbbb|rrrrrrrrr|bbbbrbbbb|bbbbrbbbb|bbbbrbbbb|........."},
-{"n":"Hydrangea","m":"heartfelt feeling","r":"..bLbv...|.bLbvbLb.|LbvbLbvbL|bLbvbLbvb|.vbLbvbL.|..bLbvb..|....G....|..GGGGG..|.GG.G.GG."},
+{"n":"Hydrangea","m":"it takes its colour from the soil, as the soul from its thoughts","r":"..bLbv...|.bLbvbLb.|LbvbLbvbL|bLbvbLbvb|.vbLbvbL.|..bLbvb..|....G....|..GGGGG..|.GG.G.GG."},
 {"n":"Scroll","m":"","r":"ttttttttt|nuuuuuuun|.ukkkku..|.uuuuuu..|.ukkkku..|.uuuuuu..|.ukkku...|nuuuuuuun|ttttttttt"},
 {"n":"Lantern","m":"","r":"....k....|...aaa...|..rrrrr..|.rrRrRrr.|.rRrrrRr.|.rrRrRrr.|..rrrrr..|...aaa...|....a...."},
 {"n":"Umbrella","m":"","r":"....k....|..rrrrr..|.rrrrrrr.|rrrrrrrrr|r.r.k.r.r|....k....|....k....|..k.k....|...k....."},
 {"n":"Crescent moon","m":"","r":"...yyy...|.yyy...y.|.yy......|yy....Y..|yy.......|.yy....y.|.yyy.....|...yyy...|........."},
 {"n":"Temple","m":"","r":"....q....|..qqqqq..|qqqqqqqqq|.q.q.q.q.|.q.q.q.q.|.q.q.q.q.|.q.q.q.q.|qqqqqqqqq|sssssssss"},
 {"n":"Snowflake","m":"","r":"....b....|.b..b..b.|..b.b.b..|...bbb...|bbbbcbbbb|...bbb...|..b.b.b..|.b..b..b.|....b...."},
-{"n":"Rose","m":"love","r":"...rrr...|..rRrRr..|.rRrrRrr.|.rrRRrrr.|..rrrrr..|...rrr...|.G..g..G.|.GG.g.GG.|....g...."},
-{"n":"Pansy","m":"thought","r":".VVV.VVV.|VVVVVVVVV|VVvvyvvVV|.vykykyv.|vyyykyyyv|vvyyyyyvv|.vvvvvvv.|...G.....|..GGG...."},
+{"n":"Rose","m":"love; Ada’s loom wove flowers and leaves","r":"...rrr...|..rRrRr..|.rRrrRrr.|.rrRRrrr.|..rrrrr..|...rrr...|.G..g..G.|.GG.g.GG.|....g...."},
+{"n":"Pansy","m":"thought, from the French pensée","r":".VVV.VVV.|VVVVVVVVV|VVvvyvvVV|.vykykyv.|vyyykyyyv|vvyyyyyvv|.vvvvvvv.|...G.....|..GGG...."},
 {"n":"Crown","m":"","r":".........|a...a...a|aa.aaa.aa|aaaaaaaaa|araabaara|aaaaaaaaa|aaaaaaaaa|.........|........."},
 {"n":"Saturn","m":"","r":".........|...ooo...|..oyyoo..|ttttttttt|.ooyyoo..|..ooooo..|...ooo...|.........|........."},
 {"n":"Knight","m":"","r":"...kk....|..kkkk...|.kkwkkk..|kkkkkkkk.|....kkkk.|...kkkk..|..kkkkk..|.kkkkkkk.|kkkkkkkkk"},
@@ -4324,16 +4327,18 @@ function showArt(anim,note){clearArt();const a=artFor();if(!a)return;const col=P
   col.forEach((c,i)=>{if(!c)return;const el=cells[i];el.style.setProperty('--px',c);el.style.setProperty('--pd',grow?(Math.hypot(RW[i]-4,CL[i]-4)*.12+Math.random()*.14).toFixed(2)+'s':'0s');el.classList.add('pxl');if(PixArt.dark(c))el.classList.add('pxd');if(grow){el.classList.remove('pxa');void el.offsetWidth;el.classList.add('pxa')}});
   gridEl.setAttribute('aria-description','Picture: '+a.n+(a.m?', '+a.m:''));
   if(playMode==='book'&&(S.block||'nines')==='nines'&&!S.rw?.[S.page??1])setTimeout(()=>{if(G.done&&!G.failed&&playMode==='book')giftSticker(S.page??1)},anim?2900:700);
-  if(!anim)return;const cap=document.createElement('div');cap.className='px-cap';cap.innerHTML=`<b>${a.n}</b>${a.m?`<i>${a.m}</i>`:''}${note?`<span>${note}</span>`:''}`;$('#gridwrap').appendChild(cap);setTimeout(()=>{cap.classList.add('out');setTimeout(()=>cap.remove(),700)},5600)}
+  if(!anim)return;const gift=playMode==='book'&&(S.block||'nines')==='nines'&&!S.rw?.[S.page??1];if(gift&&!note)return;   /* with a sticker to come, the picture is told about on the sticker's card */
+  const cap=document.createElement('div');cap.className='px-cap';cap.innerHTML=gift?`<span>${note}</span>`:`<b>${a.n}</b>${a.m?`<i>${a.m}</i>`:''}${note?`<span>${note}</span>`:''}`;$('#gridwrap').appendChild(cap);setTimeout(()=>{cap.classList.add('out');setTimeout(()=>cap.remove(),700)},5600)}
 /* the page's sticker, handed over: shards of a low-poly gem fly together, the gem turns and opens on the sticker; a tap takes it to the drawer */
 function giftSticker(p,tries=0){const st=STK.find(x=>x.id==='pg-'+p);if(!st||S.rw?.[p]||document.querySelector('.gift3d'))return;
   if(/[?&]test\b/.test(location.search)&&!window.__giftOn)return;   /* the automatic tests switch the gift on where they look at it */
   if((document.querySelector('.veil')||atBack||!opened)&&tries<60){setTimeout(()=>{if(playMode==='book'&&(S.page??1)===p&&G.done&&!G.failed)giftSticker(p,tries+1)},900);return}   /* after any other window (the name card, for one) */
+  const art=PixArt.get(p),q=p>0?VQ[p-1]:null;
   const v=document.createElement('div');v.className='gift3d';v.setAttribute('role','dialog');v.setAttribute('aria-label',`A sticker for solving page ${p}: ${st.name}. Tap to take it.`);
   const N=12,shards=Array.from({length:N},(_,i)=>{const a0=i/N*360,a1=(i+1)/N*360,r=a=>[50+48*Math.sin(a*Math.PI/180),50-48*Math.cos(a*Math.PI/180)];const[p0,p1]=[r(a0),r(a1)];
     return`<i class="sh" style="--c:${i%3?i%3===1?'#f6dc8a':'#e9c46a':'#fff3c8'};clip-path:polygon(50% 50%,${p0[0].toFixed(1)}% ${p0[1].toFixed(1)}%,${p1[0].toFixed(1)}% ${p1[1].toFixed(1)}%)"></i>`}).join('');
   const inner=Array.from({length:6},(_,i)=>{const r=a=>[50+30*Math.sin(a*Math.PI/180),50-30*Math.cos(a*Math.PI/180)],p0=r(i*60+15),p1=r(i*60+75);return`<i class="sh in" style="--c:${i%2?'#fff1b8':'#f3d27a'};clip-path:polygon(50% 50%,${p0[0].toFixed(1)}% ${p0[1].toFixed(1)}%,${p1[0].toFixed(1)}% ${p1[1].toFixed(1)}%)"></i>`}).join('');
-  v.innerHTML=`<div class="g-rays" aria-hidden="true"></div><div class="g-stage"><div class="g-gem">${shards}${inner}<div class="g-face">${stickSVG(st)}</div><div class="g-back" aria-hidden="true"></div></div></div><p class="g-cap"><b>${st.name}</b><span>a sticker for page ${p} · tap to take it</span></p>`;
+  v.innerHTML=`<div class="g-rays" aria-hidden="true"></div><div class="g-stage"><div class="g-gem">${shards}${inner}<div class="g-face">${stickSVG(st)}</div><div class="g-back" aria-hidden="true"></div></div></div><div class="g-cap"><b>${st.name}</b>${art?.m?`<i class="g-mean">${art.m}</i>`:''}${q&&q[0]?`<blockquote>“${q[0]}”<cite>${q[1]}</cite></blockquote>`:''}<span class="g-tap">a sticker for page ${p} · tap to take it</span></div>`;
   document.body.appendChild(v);sfx.coin?.();
   if(!reduced){v.querySelectorAll('.sh').forEach((sh,i)=>{const a=Math.random()*Math.PI*2,d=160+Math.random()*160;sh.animate([{transform:`translate3d(${Math.cos(a)*d}px,${Math.sin(a)*d}px,${-200+Math.random()*400}px) rotate3d(${Math.random()},${Math.random()},${Math.random()},${200+Math.random()*400}deg)`,opacity:0},{transform:'none',opacity:1}],{duration:900+i*35,easing:'cubic-bezier(.2,.9,.25,1)',fill:'both'})});
     v.querySelector('.g-gem').animate([{transform:'rotateY(0deg) rotateX(14deg)'},{transform:'rotateY(720deg) rotateX(0deg)'}],{duration:2200,easing:'cubic-bezier(.3,.1,.2,1)',fill:'both'});
