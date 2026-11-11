@@ -1554,6 +1554,18 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
 /* a scene in the Styles drawer: its icon on a small dark tile */
 .scene-tile{display:grid;place-items:center;width:40px;height:44px;border-radius:6px;background:linear-gradient(160deg,#3a2a1c,#1f160e);color:#f0d38a;box-shadow:inset 0 0 0 1.5px rgba(240,211,138,.35),0 2px 0 rgba(0,0,0,.3)}
 .scene-tile svg{width:26px;height:26px}.cm-cell .art .scene-swatch{width:40px;height:44px}
+
+/* the music controls under the book (Play app): back, play or pause, next, on a dark glass pill */
+.mediabar{position:fixed;z-index:44;left:50%;bottom:max(14px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:rgba(24,17,12,.62);box-shadow:inset 0 0 0 1px rgba(240,211,138,.22),0 3px 10px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:mbin .35s ease-out}
+.mediabar[hidden]{display:none}
+.mediabar button{display:grid;place-items:center;width:44px;height:40px;padding:0;border:0;border-radius:50%;background:none;color:#f6ead2;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mediabar button svg{width:22px;height:22px;fill:currentColor}.mediabar [data-media="toggle"] svg{width:26px;height:26px}
+.mediabar button:active{transform:scale(.9);background:rgba(240,211,138,.14)}
+.mediabar .mb-pause{display:none}.mediabar.playing .mb-pause{display:block}.mediabar.playing .mb-play{display:none}
+body.immersed .mediabar{display:none!important}
+@keyframes mbin{from{opacity:0;transform:translate(-50%,10px)}}
+@media (prefers-reduced-motion:reduce){.mediabar{animation:none}}
+.mediaask{max-width:360px}.mediaask h2{margin:4px 0 8px}.mediaask .lede{margin:0 0 10px}.mediaask .nrow{display:flex;justify-content:center;gap:10px;margin:6px 0 8px}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -1653,6 +1665,11 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
  <button class="plushbtn" id="plushBtn" aria-label="Your plushie" title="Plushie" hidden><canvas width="60" height="60" aria-hidden="true"></canvas></button>
  <button class="radiobtn" id="radioBtn" aria-label="Radio" title="Radio" hidden><svg viewBox="0 0 48 40" aria-hidden="true"><path class="ant" d="M14 12 30 2"/><rect class="body" x="4" y="12" width="40" height="26" rx="5"/><circle class="dial" cx="33" cy="25" r="6"/><rect class="grill" x="9" y="18" width="16" height="14" rx="2"/><path class="lines" d="M12 22h10M12 25h10M12 28h10"/></svg></button>
  <button class="shopbtn" id="shopBtn" aria-label="Bookstore" title="Bookstore"></button>
+ <div class="mediabar" id="mediaBar" role="group" aria-label="Music playing in another app" hidden>
+   <button type="button" data-media="prev" aria-label="Previous track"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="5" width="2.6" height="14" rx="1"/><path d="M19 5.6v12.8a.8.8 0 0 1-1.25.66L9 12.66a.8.8 0 0 1 0-1.32l8.75-6.4A.8.8 0 0 1 19 5.6z"/></svg></button>
+   <button type="button" data-media="toggle" aria-label="Play"><svg class="mb-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.6v14.8a.9.9 0 0 0 1.38.76l11.2-7.4a.9.9 0 0 0 0-1.52L8.38 3.84A.9.9 0 0 0 7 4.6z"/></svg><svg class="mb-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="4.5" width="4.4" height="15" rx="1.2"/><rect x="14.1" y="4.5" width="4.4" height="15" rx="1.2"/></svg></button>
+   <button type="button" data-media="next" aria-label="Next track"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="16.9" y="5" width="2.6" height="14" rx="1"/><path d="M5 5.6v12.8a.8.8 0 0 0 1.25.66L15 12.66a.8.8 0 0 0 0-1.32L6.25 4.94A.8.8 0 0 0 5 5.6z"/></svg></button>
+ </div>
  <div class="placebar" id="placebar" data-side="bottom" hidden aria-label="Sticker box">
    <div class="pb-drawer" id="pbDrawer"></div>
    <div class="pb-tools"><span id="placeMsg"></span><button class="pb-icon" data-turn="-15" aria-label="Turn it to the left"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12a7 7 0 1 0 2.2-5.1"/><path d="M7 2.5v4.6h4.6"/></svg></button><button class="pb-icon" data-turn="15" aria-label="Turn it to the right"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12a7 7 0 1 1-2.2-5.1"/><path d="M17 2.5v4.6h-4.6"/></svg></button><button id="placeStick">Stick it</button><button class="pb-icon pb-x" id="placeCancel" aria-label="Put it back in the drawer">✕</button><button id="placeDone">Done</button><button class="pb-icon" id="placeSide" aria-label="Move the box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"/></svg></button></div>
@@ -1714,7 +1731,7 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
 
 <template id="privacyText">
 <h1>Privacy</h1>
-<p class="asof">The Book of Nines · last changed 9 November 2026</p>
+<p class="asof">The Book of Nines · last changed 11 November 2026</p>
 <p class="lead">Your book stays on your device. There is no account, no tracking, no analytics and no advertising. Only when you play with friends does a little leave your device: the name you gave your book, its player ID, and your moves in that match.</p>
 
 <h2>Who is responsible</h2>
@@ -1744,6 +1761,7 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
 <p>The app and the website carry their own typefaces, so no font service is contacted. Only the version on claude.ai loads them from Google Fonts, as claude.ai provides.</p>
 
 <h2>Links and advertising</h2>
+<p><b>Music controls (Google Play app).</b> If you allow it, the app uses Android's notification access only to see which app is playing music or a video, its title and artist, so it can show back, pause or play, and next under the book. This stays on your phone: nothing is stored or sent anywhere, and the app does not read your notifications. You can switch it off any time in your phone's settings under Notification access.</p>
 <p>The WhatsApp and Telegram buttons on the credits page open those apps; nothing is sent until you send a message there, and their own terms apply. The television shows no real advertising. If that changes, this page will say so first, and you will be asked for consent where the law requires it.</p>
 
 <h2>Children</h2>
@@ -3139,10 +3157,11 @@ function solve(g,limit,rnd,budget=Infinity){
   })();
   return gaveUp?{count:-1,sol:null,gaveUp:true}:{count,sol};
 }
-function chapterOf(p){const c=Math.min(10,Math.floor((p-1)/9));const k=p>NP?8:(p-1)%9;return{c,k}}
+function chapterOf(p){if(p===0)return{c:10,k:8};   /* page 0: the hardest kind, an Ascent page */
+  const c=Math.min(10,Math.floor((p-1)/9));const k=p>NP?8:(p-1)%9;return{c,k}}
 function target(p){const{c,k}=chapterOf(p);const[,a,b]=CH11[c];return Math.round(a-(a-b)*k/8)}
 /* the puzzle a page shows is seeded by its old number (ten to a chapter), so pages carried over from a sixty-sheet save keep their puzzles */
-function seedNo(p){const{c,k}=chapterOf(p);return p>NP?1000+(p-NP):c*10+k+1}
+function seedNo(p){const{c,k}=chapterOf(p);return p===0?777:p>NP?1000+(p-NP):c*10+k+1}
 /* ---------- blocks: the collections of pages that can be bound into the book ---------- */
 const BLOCKS={
   nines:{id:'nines',title:'99 Sheets',sub:'Volume I',pages:99,
@@ -3741,7 +3760,7 @@ function renderHead(){
   if(playMode==='multi'){const z=multiPageInfo();$('#hChap').textContent=z.title;$('#hChap').title=z.title;$('#hDiff').textContent=CH[z.diff][0];$('#fClues').textContent=`${G.giv} clues`;$('#fPage').textContent=z.label;fitHead();return}
   const {c}=chapterOf(S.page),p=S.page,bk=block();
   if(bk.names){$('#hChap').textContent=bk.names[p-1]||bk.title;$('#hChap').title=$('#hChap').textContent;$('#hDiff').textContent=CH[bk.diffs[p-1]||2][0]}
-  else{$('#hChap').textContent=p>NP?'Appendix':`Chapter ${ROMAN[c]}`;$('#hChap').title=$('#hChap').textContent;$('#hDiff').textContent=p>NP?'Ascent':CH11[c][0]}
+  else{$('#hChap').textContent=p===0?'Page Zero':p>NP?'Appendix':`Chapter ${ROMAN[c]}`;$('#hChap').title=$('#hChap').textContent;$('#hDiff').textContent=p>NP||p===0?'Ascent':CH11[c][0]}
   $('#fClues').textContent=`${G.giv} clues`;
   $('#fPage').textContent=`- ${p} -`;fitHead();
 }
@@ -3862,7 +3881,7 @@ function chip(i,text){
   pageEl.appendChild(el);setTimeout(()=>el.remove(),1150);
 }
 let toastEl=null;
-function toast(msg){if(toastEl)toastEl.remove();toastEl=document.createElement('div');toastEl.className='toast paper';toastEl.textContent=msg;document.body.appendChild(toastEl);const t=toastEl;setTimeout(()=>t.remove(),2900)}
+function toast(msg,ms=2900){if(toastEl)toastEl.remove();toastEl=document.createElement('div');toastEl.className='toast paper';toastEl.textContent=msg;document.body.appendChild(toastEl);const t=toastEl;setTimeout(()=>t.remove(),ms)}
 function showLost(){
   if(!S.lostStamp)return;                     // off by default: it gets in the way of finishing the page
   if(pageEl.querySelector('.lost-stamp'))return;
@@ -3888,7 +3907,9 @@ function solved(){
   G.done=true;G.sel=-1;
   const first=!S.solved[S.page],{c}=chapterOf(S.page);
   const reward=G.failed?0:(first?(2+c)+(G.clean?2:0):1);
-  S.solved[S.page]=1;S.maxPage=Math.max(S.maxPage,S.page+1);versoBadge();
+  const zeroWas=zeroOpen();S.solved[S.page]=1;S.maxPage=Math.max(S.maxPage,S.page+1);versoBadge();
+  if(first&&mediaApp()&&!S.mediaAsked){let n=0;const tryAsk=()=>{if(document.querySelector('.veil')&&++n<40)return setTimeout(tryAsk,1500);mediaAsk()};setTimeout(tryAsk,5200)}   /* once the page is stamped and any other window is closed */
+  if(!zeroWas&&zeroOpen())setTimeout(()=>toast('All ninety-nine pages solved. Page 0 has opened at the front of the book.',6000),2600);
   boost=5;
   for(let i=0;i<81;i++){const el=cells[i];el.style.setProperty('--d',((RW[i]+CL[i])*.04)+'s');el.classList.remove('wave');void el.offsetWidth;el.classList.add('wave')}
   sfx.solve();render();steam(18);
@@ -3999,7 +4020,7 @@ function openBook(){
 }
 coverEl.addEventListener('click',openBook);
 function closeBook(){
-  if(!opened||flipping)return;dropFront();if(immersed)setImmersed(false);if(playMode==='daily'){stash();loadPage(S.page||1,true)}else if(playMode==='multi'){leaveMatch();loadPage(S.page||1,true)}opened=false;closePops();const gen=++bookGen;if(stickering)renderStickers();
+  if(!opened||flipping)return;dropFront();if(immersed)setImmersed(false);if(playMode==='daily'){stash();loadPage((S.page??1),true)}else if(playMode==='multi'){leaveMatch();loadPage((S.page??1),true)}opened=false;closePops();const gen=++bookGen;if(stickering)renderStickers();
   if(S.sound){ac();sfx.creak()}
   const dur=reduced?10:1000;
   coverEl.getAnimations().forEach(a=>a.cancel());coverEl.hidden=false;
@@ -4043,7 +4064,7 @@ const STK=[
 const stickSVG=(st)=>st.raw?`<svg viewBox="0 0 64 64" aria-hidden="true">${st.svg}</svg>`:st.tape?`<span class="washi w-${st.tape}"></span>`:`<svg viewBox="0 0 64 64" aria-hidden="true"><g stroke="#fff" stroke-width="7" stroke-linejoin="round" paint-order="stroke">${st.svg.replace(/<(path|circle|ellipse|rect)/g,'<$1 stroke="#fff" stroke-width="7" paint-order="stroke"')}</g></svg>`;
 function stk(){if(!S.stk)S.stk={owned:{},placed:[],pages:{}};if(!S.stk.pages)S.stk.pages={};return S.stk}
 /* where a sticker goes right now: the cover while the book is shut, the page while it is open (the almanac's and a match's pages take none) */
-function stkKey(){return opened?(playMode==='book'?(S.block||'nines')+'/'+(S.page||1):null):'cover'}
+function stkKey(){return opened?(playMode==='book'?(S.block||'nines')+'/'+((S.page??1)):null):'cover'}
 function stkSurface(){const key=stkKey();if(!key)return null;const k=stk();return key==='cover'?{key,list:k.placed,box:$('#stickers')}:{key,list:k.pages[key]||(k.pages[key]=[]),box:$('#pstickers')}}
 function renderStickers(){const k=stk(),cur=stickering?stkSurface():null,pk=opened?stkKey():null;
   const paint=(box,list,live)=>{box.innerHTML='';list.forEach((p,i)=>{const st=STK.find(x=>x.id===p.id);if(!st)return;const e=document.createElement('div');e.className='sticker'+(st.tape?' tapebit':'');e.dataset.i=i;
@@ -4054,7 +4075,7 @@ function switchBlock(id){
   if(!getBlock(id)||!libraryHas(id)||id===(S.block||'nines'))return;if(playMode==='multi'){toast('Leave the multiplayer match before changing the pages.');return}
   dropBack();if(playMode==='daily')leaveDaily(false);stash();
   S.shelf=S.shelf||{};S.shelf[S.block||'nines']={page:S.page,maxPage:S.maxPage,solved:S.solved,prog:S.prog};
-  const r=S.shelf[id]||{page:1,maxPage:1,solved:{},prog:{}};S.block=id;S.page=r.page||1;S.maxPage=r.maxPage||1;S.solved=r.solved||{};S.prog=r.prog||{};
+  const r=S.shelf[id]||{page:1,maxPage:1,solved:{},prog:{}};S.block=id;S.page=r.page??1;S.maxPage=r.maxPage||1;S.solved=r.solved||{};S.prog=r.prog||{};
   for(const k in PZ)delete PZ[k];swapping=true;
   const done=()=>{swapping=false;loadPage(S.page,true);renderOwner();save();toast(`${getBlock(id).title} is now bound into the book.`)};
   if(!opened||reduced){done();return}
@@ -4916,18 +4937,21 @@ document.addEventListener('pointerdown',()=>document.body.classList.remove('kbd'
 document.addEventListener('click',e=>{if(e.detail>0){const b=e.target.closest&&e.target.closest('button');if(b&&document.activeElement===b)b.blur()}},true);
 $('#shopBtn').addEventListener('click',e=>{e.stopPropagation();if(entering||document.querySelector('.toc.shop'))return;storeDoor();entering=setTimeout(()=>{entering=0;openShop('',true)},reduced?0:200)});
 
-const unlocked=p=>p>=1&&(block().custom?p===1:block().id!=='nines'?p<=block().pages:true)&&(p===1||(block().id==='nines'&&p<=NP&&(p-1)%9===0)||!!S.solved[p]||!!S.solved[p-1]||p===S.page);
+/* page 0 waits at the front of Volume I and opens once all ninety-nine pages are solved */
+const zeroOpen=()=>{if(block().id!=='nines')return false;for(let p=1;p<=NP;p++)if(!S.solved[p])return false;return true};
+const unlocked=p=>p===0?zeroOpen():p>=1&&(block().custom?p===1:block().id!=='nines'?p<=block().pages:true)&&(p===1||(block().id==='nines'&&p<=NP&&(p-1)%9===0)||!!S.solved[p]||!!S.solved[p-1]||p===S.page);
 function previousUnlocked(p){for(let n=p-1;n>=1;n--)if(unlocked(n))return n;return 0}
 function openToc(){
   if(playMode==='daily'){leaveDaily(false);setTimeout(openToc,reduced?0:80);return}
   if(playMode==='multi'){openMultiplayer();return}
   sfx.ok()&&noise({f:900,f2:2600,q:.8,d:.25,g:.12});
   const v=document.createElement('div');v.className='veil';
-  const solvedN=Object.keys(S.solved).length;
+  const solvedN=Object.keys(S.solved).filter(k=>k!=='0').length;
   const bk=block();
   let h=`<div class="toc paper" role="dialog" aria-label="Table of pages"><p class="endmark toc-mark">${escH(bk.title)}</p><h2>${escH(bk.sub)}</h2><p class="lede">${solvedN} of ${bk.pages} pages solved · ${bk.id==='nines'?'start any chapter, or carry on after a page you’ve solved':'each page opens after the one before it'}</p>`;
   if(bk.id==='nines'){
     const chapters=CH11.map((c,k)=>({name:`Chapter ${ROMAN[k]}`,diff:c[0],from:k*9+1,to:k*9+9}));
+    {const open=zeroOpen();h+=`<h3>Page Zero<b></b><em>${open?'Ascent':'opens after page 99'}</em></h3><div class="pages"><button class="px pg${S.solved[0]?' done':''}${S.page===0?' cur':''}" data-p="0" ${open?'':'disabled'} aria-label="Page 0${S.solved[0]?', solved':open?'':', opens when all ninety-nine pages are solved'}">0</button></div>`}
     if(S.maxPage>NP)chapters.push({name:'Appendix',diff:'Ascent',from:NP+1,to:Math.max(NP+9,NP+Math.ceil((S.maxPage-NP)/9)*9)});
     chapters.forEach(ch=>{
       h+=`<h3>${ch.name}<b></b><em>${ch.diff}</em></h3><div class="pages">`;
@@ -4995,10 +5019,11 @@ function normaliseSave(d){
   /* the books bought for the library. For a few hours on 6 Nov 2026 the library icon's choice was saved under the same name and wrote over them;
      every book the player had put on the shelf (and the one open) is given back */
   n.lib={};for(const id of Object.keys(typeof d.lib==='string'?Object.assign({},obj(d.shelf),d.block?{[d.block]:1}:{}):obj(d.lib)))if(BLOCKS[id]?.shop)n.lib[id]=1;n.styles={};for(const id0 of Object.keys(obj(d.styles))){const id=id0==='ember'?'onyx':id0;if(STYLES.some(x=>x.id===id))n.styles[id]=1}n.wear={};{const w=Object.fromEntries(Object.entries(obj(d.wear)).map(([c,v])=>[c,v==='ember'?'onyx':v]));for(const[c] of STYLE_CATS){const id=w[c]??(styleOf(d.style)?.cat===c?d.style:null);n.wear[c]=id&&n.styles[id]&&styleOf(id)?.cat===c?id:'none'}}
-  n.block=(BLOCKS[d.block]&&(!BLOCKS[d.block].shop||n.lib[d.block]))||n.pages[d.block]?d.block:'nines';n.shelf={};for(const[id,sh]of Object.entries(obj(d.shelf))){if((!BLOCKS[id]&&!n.pages[id])||!sh||typeof sh!=='object')continue;const lim=id==='nines'?NP+999:(BLOCKS[id]?.pages||1),solved={};for(const[q,v]of Object.entries(obj(sh.solved)))if(/^\d+$/.test(q)&&+q>0&&+q<=lim&&v)solved[q]=1;const pg=Number.isInteger(+sh.page)?Math.max(1,Math.min(lim,+sh.page)):1;n.shelf[id]={page:pg,maxPage:Number.isInteger(+sh.maxPage)?Math.max(pg,Math.min(lim+1,+sh.maxPage)):pg,solved,prog:{}};for(const[q,pr]of Object.entries(obj(sh.prog)))if(/^\d+$/.test(q)&&pr&&Array.isArray(pr.v)&&pr.v.length===81&&Array.isArray(pr.n)&&pr.n.length===81)n.shelf[id].prog[q]={v:pr.v.map(x=>+x|0),n:pr.n.map(x=>+x|0),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(x=>x?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(x=>x).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?pr.l:MAX_LIVES,b:pr.b|0,m:pr.m|0,done:!!pr.done}}
+  n.block=(BLOCKS[d.block]&&(!BLOCKS[d.block].shop||n.lib[d.block]))||n.pages[d.block]?d.block:'nines';n.shelf={};for(const[id,sh]of Object.entries(obj(d.shelf))){if((!BLOCKS[id]&&!n.pages[id])||!sh||typeof sh!=='object')continue;const lim=id==='nines'?NP+999:(BLOCKS[id]?.pages||1),solved={};for(const[q,v]of Object.entries(obj(sh.solved)))if(/^\d+$/.test(q)&&(+q>0||(id==='nines'&&+q===0))&&+q<=lim&&v)solved[q]=1;const pg=Number.isInteger(+sh.page)?Math.max(id==='nines'?0:1,Math.min(lim,+sh.page)):1;n.shelf[id]={page:pg,maxPage:Number.isInteger(+sh.maxPage)?Math.max(pg,Math.min(lim+1,+sh.maxPage)):pg,solved,prog:{}};for(const[q,pr]of Object.entries(obj(sh.prog)))if(/^\d+$/.test(q)&&pr&&Array.isArray(pr.v)&&pr.v.length===81&&Array.isArray(pr.n)&&pr.n.length===81)n.shelf[id].prog[q]={v:pr.v.map(x=>+x|0),n:pr.n.map(x=>+x|0),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(x=>x?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(x=>x).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?pr.l:MAX_LIVES,b:pr.b|0,m:pr.m|0,done:!!pr.done}}
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
-  n.nv=2;n.page=Number.isInteger(+top.page)&&+top.page>0?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
+  n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(n.block==='nines'&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
+  if(d.mediaAsked)n.mediaAsked=1;
   n.flora={fl:{},vz:{},cur:null,arr:{},seed:{}};{const f=obj(d.flora),fid=Flora.FLOWERS.map(x=>x.id),vid=Flora.VASES.map(x=>x.id);
     for(const [id,c] of Object.entries(obj(f.fl)))if(fid.includes(id)&&Number.isInteger(+c)&&+c>0)n.flora.fl[id]=Math.min(999,+c);
     for(const id of Object.keys(obj(f.vz)))if(vid.includes(id))n.flora.vz[id]=1;
@@ -5018,9 +5043,9 @@ function normaliseSave(d){
   n.vseen=Number.isInteger(+d.vseen)&&+d.vseen>0?Math.min(NP,+d.vseen):0;
   n.mig25=d.mig25?1:0;n.mig26=d.mig26?1:0;n.tv=Number.isInteger(+d.tv)&&+d.tv>=1&&+d.tv<=9?+d.tv:1;   // migration marks travel with the record
   n.owner=typeof d.owner==='string'&&d.owner.trim()?d.owner.trim().slice(0,16):null;n.askedName=d.askedName?1:0;n.pid=n.owner&&PID_RE.test(d.pid||'')?d.pid:null;
-  for(const[p,v]of Object.entries(obj(top.solved)))if(/^\d+$/.test(p)&&+p>0&&+p<=lim&&v)n.solved[p]=1;
+  for(const[p,v]of Object.entries(obj(top.solved)))if(/^\d+$/.test(p)&&(+p>0||(n.block==='nines'&&+p===0))&&+p<=lim&&v)n.solved[p]=1;
   for(const[p,pr]of Object.entries(obj(top.prog))){
-    if(!/^\d+$/.test(p)||+p<1||!pr||!Array.isArray(pr.v)||!Array.isArray(pr.n)||pr.v.length!==81||pr.n.length!==81)continue;
+    if(!/^\d+$/.test(p)||(+p<1&&!(n.block==='nines'&&+p===0))||!pr||!Array.isArray(pr.v)||!Array.isArray(pr.n)||pr.v.length!==81||pr.n.length!==81)continue;
     if(!pr.v.every(v=>Number.isInteger(v)&&v>=0&&v<=9)||!pr.n.every(v=>Number.isInteger(v)&&v>=0&&v<=1022))continue;
     n.prog[p]={v:pr.v.slice(),n:pr.n.slice(),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(v=>v?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(Boolean).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?Math.max(0,Math.min(MAX_LIVES,pr.l)):MAX_LIVES,b:Number.isInteger(pr.b)?pr.b&511:0,m:Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0};
   }
@@ -5588,10 +5613,12 @@ function fit(){
       gs-=9;
     }
     return{gs,pw,ph,tw,th}};
-  let {gs,pw,ph,tw,th}=size(W,H);
+  /* the music controls under the book (Play app): the book stays above them, still in the middle */
+  const mbEl=$('#mediaBar'),mbTop=!immersed&&mbEl&&!mbEl.hidden?mbEl.getBoundingClientRect().top-6:0,stR=$('#stage').getBoundingClientRect(),midS=(stR.top+stR.bottom)/2;
+  let {gs,pw,ph,tw,th}=size(W,mbTop?Math.min(H,2*(mbTop-midS)):H);
   const CB=immersed?0:70,mid=($('#stage').getBoundingClientRect().top+$('#stage').getBoundingClientRect().bottom)/2;   /* CB: the band the corner buttons take at the top and the bottom of the screen */
   const vb0=$('#vaseBtn');vb0.style.width=vb0.style.height=vb0.style.right='';   /* the vase (above the sprout, bottom right) counts as part of the bottom band when it is out */
-  const botLim=Math.min(innerHeight-CB,!immersed&&S.flowers&&!vb0.hidden?vb0.getBoundingClientRect().top-6:innerHeight),between=2*Math.min(mid-CB,botLim-mid)-16;
+  const botLim=Math.min(innerHeight-CB,mbTop||innerHeight,!immersed&&S.flowers&&!vb0.hidden?vb0.getBoundingClientRect().top-6:innerHeight),between=2*Math.min(mid-CB,botLim-mid)-16;
   /* a tall phone: the corner buttons are far above and below the book, so it need not leave their width free; if it fits between their bands it takes the full width */
   if(!immersed&&!foldSeam()){const b=size(innerWidth-2*(6+40),between);if(b.gs>gs)({gs,pw,ph,tw,th}=b)}   /* 40 on both sides: the bookmarks past the right edge, and as much on the left so the book stays in the middle */
   /* a screen wider than it is tall (a phone on its side, the Flip's cover screen, a laptop): the book lies sideways, the instrument to the left of the page,
@@ -6113,6 +6140,22 @@ function applyDark(){root.dataset.dark=S.dark?'1':'';applyDayBtn();document.quer
 function setScene(id){S.scene=id;buildScene()}
 
 /* ================= immersive zoom & the daily almanac ================= */
+/* Music controls (the Play app only): while another app plays music or a video, Android tells the book what is playing
+   (window.ninesMedia), and three buttons under the book go back, pause or play, and skip. They stay while that app keeps its
+   player (paused included) and go when it lets it go. Android needs "notification access" for this; the book asks once. */
+const MEDIA={state:null};
+function mediaShow(){const b=$('#mediaBar'),s=MEDIA.state;if(!b)return;const on=!!(s&&s.access&&s.active);if(b.hidden===on){b.hidden=!on;requestAnimationFrame(()=>fit())}if(!on)return;
+  b.classList.toggle('playing',!!s.playing);const tg=b.querySelector('[data-media="toggle"]');tg.setAttribute('aria-label',s.playing?'Pause':'Play');
+  const what=[s.title,s.artist].filter(Boolean).join(' · ');b.title=what?(what+(s.app?' ('+s.app+')':'')):(s.app||'');b.setAttribute('aria-label',what?'Now playing: '+what:'Music playing in another app')}
+window.ninesMedia=st=>{MEDIA.state=st&&typeof st==='object'?st:null;mediaShow()};
+$('#mediaBar')?.addEventListener('click',e=>{const k=e.target.closest('[data-media]')?.dataset.media;if(!k||!window.NinesApp?.media)return;
+  if(k==='toggle'&&MEDIA.state){MEDIA.state.playing=!MEDIA.state.playing;mediaShow()}   /* answer at once; Android confirms a moment later */
+  try{NinesApp.media(k)}catch(e){}});
+const mediaApp=()=>!!(window.NINES_APP&&window.NinesApp&&typeof NinesApp.mediaState==='function');
+function mediaAsk(){if(!mediaApp()||S.mediaAsked||MEDIA.state?.access||document.querySelector('.veil'))return;S.mediaAsked=1;save();
+  const v=document.createElement('div');v.className='veil';v.innerHTML=`<div class="toc paper mediaask" role="dialog" aria-label="Music controls"><h2>Music while you play?</h2><p class="lede">When music or a video plays in another app, the book can show three small buttons under it: back, pause or play, and next. You never have to leave the book to change the song.</p><p class="lede">Android calls the permission for this <b>notification access</b>. The book uses it only to see what is playing; nothing is read out, kept or sent anywhere.</p><div class="nrow"><button class="px close" data-ma="no">Not now</button><button class="px close" data-ma="yes">Allow</button></div><p class="lede" style="font-size:12px;opacity:.75">You can change this later in your phone’s settings under Notification access.</p></div>`;
+  v.addEventListener('click',e=>{const b=e.target.closest('[data-ma]');if(!b&&e.target!==v)return;v.remove();if(b?.dataset.ma==='yes')try{NinesApp.openMediaAccess()}catch(err){}});document.body.appendChild(v)}
+if(mediaApp()){try{window.ninesMedia(JSON.parse(NinesApp.mediaState()))}catch(e){}}
 function setImmersed(on){if(on&&stickering)endEdit();immersed=!!on;document.body.classList.toggle('immersed',immersed);const b=$('#zoomBtn');b.querySelector('.zsign').textContent=immersed?'−':'+';b.setAttribute('aria-label',immersed?'Zoom out of the book':'Zoom into the book');b.title=immersed?'Leave immersive zoom':'Immersive zoom';closePops();requestAnimationFrame(()=>{fit();requestAnimationFrame(fit)})}
 let magDragged=false;
 $('#zoomBtn').addEventListener('click',e=>{e.stopPropagation();if(magDragged){magDragged=false;return}sfx.tick();setImmersed(!immersed)});
@@ -6201,7 +6244,7 @@ function startDaily(key){
   const a=sheet.animate([{left:from.left+'px',top:from.top+'px',width:from.width+'px',height:from.height+'px',transform:'rotate(-4deg) scale(.92)',opacity:.9},{left:to.left+'px',top:to.top-12+'px',width:to.width+'px',height:to.height+'px',transform:'rotate(1.5deg) scale(1.02)',offset:.72},{left:to.left+'px',top:to.top+'px',width:to.width+'px',height:to.height+'px',transform:'rotate(0deg) scale(1)',opacity:1}],{duration:850,easing:'cubic-bezier(.25,.75,.25,1)',fill:'forwards'});a.onfinish=()=>{sheet.remove();under.remove();pageEl.style.opacity='';flipping=false}
 }
 function leaveDaily(calendar=true){
-  if(playMode!=='daily')return;const key=dailyKey,old=pageEl.cloneNode(true),r=pcell.getBoundingClientRect();old.removeAttribute('id');old.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));stash();loadPage(S.page||1,true);dailyKey=null;currentTheme=null;
+  if(playMode!=='daily')return;const key=dailyKey,old=pageEl.cloneNode(true),r=pcell.getBoundingClientRect();old.removeAttribute('id');old.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));stash();loadPage((S.page??1),true);dailyKey=null;currentTheme=null;
   if(!reduced){old.classList.add('tear-sheet');Object.assign(old.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});document.body.appendChild(old);old.animate([{transform:'translateY(0) rotate(0)',opacity:1},{transform:'translateY(-110vh) rotate(-7deg)',opacity:.7}],{duration:650,easing:'cubic-bezier(.45,0,.8,.3)',fill:'forwards'}).onfinish=()=>old.remove()}
   if(calendar)setTimeout(()=>openCalendar(key),reduced?0:180)
 }
@@ -6415,10 +6458,10 @@ function startWatch(){clearInterval(MP.poll);clearInterval(MP.clock);MP.poll=set
 function mpRestore(){const m=S.mp;if(!m||!m.room)return;
   MP.room=m.room;MP.playerId=m.pid;MP.pages=Array.isArray(m.pages)?m.pages:[];MP.localPage=0;MP.loaded='';MP.result=false;MP.away=true;MP.seen=m.seen||'';faxBadge();
   Net.resume(m).then(()=>{if(MP.room)startWatch()}).catch(()=>{})}
-function mpPutAway(){stashMulti();MP.away=true;MP.loaded='';MP.seen=mpDigest(MP.room);if(MP.overlay){MP.overlay.remove();MP.overlay=null}loadPage(S.page||1,true);startWatch();mpRemember();faxBadge();toast('The match is kept. The fax shows a red dot when something happens.')}
+function mpPutAway(){stashMulti();MP.away=true;MP.loaded='';MP.seen=mpDigest(MP.room);if(MP.overlay){MP.overlay.remove();MP.overlay=null}loadPage((S.page??1),true);startWatch();mpRemember();faxBadge();toast('The match is kept. The fax shows a red dot when something happens.')}
 function mpContinue(){const r=MP.room;if(!r)return;MP.away=false;if(MP.overlay){MP.overlay.remove();MP.overlay=null}startMPLoop();if(r.status==='lobby'){mpLobby();return}if(r.status==='finished'){mpResult();return}
   const me=r.players.find(p=>p.id===MP.playerId);MP.loaded='';MP.seen=mpDigest(r);faxBadge();loadMultiPage(r.mode==='party'?(me?.page||0):MP.localPage,false);mpRemember()}
-async function mpGiveUp(){const r=MP.room;if(r?.status==='playing'){try{await Net.event('forfeit',{})}catch(e){}}leaveMatch();loadPage(S.page||1,true)}
+async function mpGiveUp(){const r=MP.room;if(r?.status==='playing'){try{await Net.event('forfeit',{})}catch(e){}}leaveMatch();loadPage((S.page??1),true)}
 function mpDialog(html,cls=''){document.querySelectorAll('.veil').forEach(v=>v.remove());const v=document.createElement('div');v.className='veil';v.innerHTML=`<div class="toc paper mp-card ${cls}" role="dialog" aria-label="Multiplayer">${html}</div>`;document.body.appendChild(v);MP.overlay=v;v.addEventListener('click',e=>{if(e.target===v){v.remove();MP.overlay=null}});return v}
 function mpSetup(){
   const name=(S.owner||'Player').replace(/[<>"]/g,'').slice(0,18),party=MP.choice==='party';
@@ -6484,7 +6527,7 @@ function mpWaiting(){const r=MP.room;if(!r)return;const mode=r.mode==='bo3'?'Bes
 function startMPLoop(){clearInterval(MP.poll);clearInterval(MP.clock);MP.poll=setInterval(pollMP,window.NINES_API?1500:900);MP.clock=setInterval(()=>{if(MP.room?.mode==='party')renderMatchHUD()},250)}
 async function pollMP(){if(!MP.room||MP.busy||MP.polling)return;const sess=MP.sess;MP.polling=true;
   try{const data=await Net.get();if(MP.room&&MP.sess===sess)acceptMP(data)}
-  catch(e){if(e.gone&&MP.room&&MP.sess===sess){toast(e.message);const was=playMode==='multi',ov=MP.overlay;leaveMatch();ov?.remove();if(was)loadPage(S.page||1,true)}}
+  catch(e){if(e.gone&&MP.room&&MP.sess===sess){toast(e.message);const was=playMode==='multi',ov=MP.overlay;leaveMatch();ov?.remove();if(was)loadPage((S.page??1),true)}}
   finally{MP.polling=false}}
 function acceptMP(data){const old=MP.room,r=data.room;if(data.playerId)MP.playerId=data.playerId;MP.offset=data.serverTime-Date.now();if(old)r.players.forEach(p=>{const q=old.players.find(x=>x.id===p.id);if(q&&(q.hearts!==p.hearts||q.damage!==p.damage)){MP.hit.add(p.id);if(p.id===MP.playerId)buzz(p.hearts<=0?'destroyed':q.hearts!==p.hearts?'heart':'damage')}});MP.room=r;{const d=JSON.stringify(r);if(d!==MP.lastDig){MP.lastDig=d;mpRemember()}}
   if(MP.away){faxBadge();return}   // a match put away for later: news shows on the fax, nothing opens by itself
@@ -6501,7 +6544,7 @@ function heartMeter(p){return`<span class="heart-meter" aria-label="${p.hearts} 
 function renderMatchHUD(){const r=MP.room,h=$('#matchHud');if(!r||playMode!=='multi'){h.innerHTML='';return}if(r.mode==='duel'){h.innerHTML=`<div class="hud-row">${r.players.map(p=>`<span class="player-score ${p.id===MP.playerId?'me':''}">${escH(p.name)}${heartMeter(p)}</span>`).join('')}</div>`}else if(r.mode==='bo3'&&(S.bo3hud||'bomb')==='bomb'){const pos=r.sword+2,dir=r.sword<0?'left':r.sword>0?'right':'neutral',man=`<svg viewBox="0 0 20 30" aria-hidden="true"><circle cx="10" cy="5" r="3.6"/><path d="M10 9v10M10 11l-6 4M10 11l6 4M10 19l-4 9M10 19l4 9"/></svg>`,who=(p,k)=>`<div class="who ${p.id===MP.playerId?'me':''} ${r.status==='finished'&&r.winner!==p.id&&r.winner!=='draw'?'lost':Math.abs(r.sword)===2&&(k===0?r.sword<0:r.sword>0)?'threat':''}">${man}<span>${escH(p.name)}</span></div>`;h.innerHTML=`<div class="bomb-track">${who(r.players[0],0)}${Array.from({length:5},(_,i)=>`<span class="slot"><i class="dot5"></i>${i===pos?`<i class="bomb ${dir}"><svg viewBox="0 0 30 30"><path class="fuse" d="M19 9c2-3 4-3 6-6"/><circle class="spark" cx="25" cy="3" r="2.6"/><circle cx="13" cy="18" r="10" fill="#1b1b1f" stroke="#000"/><circle cx="9.5" cy="14" r="2.6" fill="#555a66"/><rect x="15" y="5.5" width="7" height="5" rx="1.5" fill="#6b6f7a"/></svg></i>`:''}</span>`).join('')}${who(r.players[1],1)}</div><div class="hud-row">${r.players.map(p=>`<span class="player-score ${p.id===MP.playerId?'me':''}"><span class="round-dots">${p.done.map(d=>`<i class="${d?'done':''}"></i>`).join('')}</span></span>`).join('')}</div><div class="swipe-hint">Each solve pushes the bomb toward your rival · first +1, second +2, third +3</div>`}else if(r.mode==='bo3'){const pos=r.sword+2,dir=r.sword<0?'left':r.sword>0?'right':'neutral';h.innerHTML=`<div class="sword-track"><span class="endheart">♥</span>${Array.from({length:5},(_,i)=>`<span class="slot"><i class="dot5"></i>${i===pos?`<i class="sword ${dir}"><svg viewBox="0 0 24 24"><path d="M12 2v14M8 6l4-4 4 4M7 16h10M9 16v5h6v-5"/></svg></i>`:''}</span>`).join('')}<span class="endheart">♥</span></div><div class="hud-row">${r.players.map(p=>`<span class="player-score ${p.id===MP.playerId?'me':''}">${escH(p.name)}<span class="round-dots">${p.done.map(d=>`<i class="${d?'done':''}"></i>`).join('')}</span></span>`).join('')}</div><div class="swipe-hint">Swipe to change sheets · first solve +1, second +2, third +3</div>`}else{const left=Math.max(0,(r.endsAt||0)-(Date.now()+MP.offset)),sec=Math.ceil(left/1000),clock=`${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;h.innerHTML=`<div class="party-clock ${sec<=30?'urgent':''}">${clock}</div><div class="hud-row">${r.players.map(p=>`<span class="player-score ${p.id===MP.playerId?'me':''}">${escH(p.name)} · ${p.score}</span>`).join('')}</div>`}}
 function historyFromMatch(){const r=MP.room;if(!r||r.status==='lobby'||MP.logged===r.code+r.seed)return;MP.logged=r.code+r.seed;stashMulti();const others=r.players.filter(p=>p.id!==MP.playerId),who=others.map(p=>p.name).join(', '),whoId=others.map(p=>p.tag||'').join(',');const n=r.mode==='bo3'?3:r.mode==='party'?Math.max(1,MP.pages.length):1;
   for(let k=0;k<n;k++){const pr=MP.pages[k];if(!pr&&k>0)continue;const z=multiPuzzle(k);recordHistory({mode:r.mode,who,whoId,code:r.code==='WIFI'?'':r.code,grid:z.puz.map(x=>x||'.').join(''),done:!!(pr&&pr.done),sheet:k+1})}}
-function mpResult(){historyFromMatch();const r=MP.room;if(!r)return;const winner=r.players.find(p=>p.id===r.winner),text=r.winner==='draw'?'The match is a draw.':winner?.id===MP.playerId?'You win the match!':`${escH(winner?.name||'Your opponent')} wins the match.`;const v=mpDialog(`<h2>Match complete</h2><p class="mp-status" style="font:700 20px var(--title)">${text}</p><div class="lobby-players">${r.players.map(p=>`<div class="lobby-player"><span>${escH(p.name)}</span><b>${r.mode==='duel'?`${p.hearts} hearts`:r.mode==='bo3'?`${p.solves} sheets`:`${p.score} solved`}</b></div>`).join('')}</div><div class="mp-actions"><button class="px close" id="mpView">View final page</button><button class="px close" id="mpDone">Return to book</button></div>`);v.querySelector('#mpView').onclick=()=>{v.remove();MP.overlay=null};v.querySelector('#mpDone').onclick=()=>{leaveMatch();loadPage(S.page||1,true);v.remove();MP.overlay=null}}
+function mpResult(){historyFromMatch();const r=MP.room;if(!r)return;const winner=r.players.find(p=>p.id===r.winner),text=r.winner==='draw'?'The match is a draw.':winner?.id===MP.playerId?'You win the match!':`${escH(winner?.name||'Your opponent')} wins the match.`;const v=mpDialog(`<h2>Match complete</h2><p class="mp-status" style="font:700 20px var(--title)">${text}</p><div class="lobby-players">${r.players.map(p=>`<div class="lobby-player"><span>${escH(p.name)}</span><b>${r.mode==='duel'?`${p.hearts} hearts`:r.mode==='bo3'?`${p.solves} sheets`:`${p.score} solved`}</b></div>`).join('')}</div><div class="mp-actions"><button class="px close" id="mpView">View final page</button><button class="px close" id="mpDone">Return to book</button></div>`);v.querySelector('#mpView').onclick=()=>{v.remove();MP.overlay=null};v.querySelector('#mpDone').onclick=()=>{leaveMatch();loadPage((S.page??1),true);v.remove();MP.overlay=null}}
 function leaveMatch(){historyFromMatch();stopScan();Net.leave();Net.useNet();MP.sess=(MP.sess||0)+1;MP.polling=false;MP.away=false;MP.seen='';MP.lastDig='';clearInterval(MP.poll);clearInterval(MP.clock);MP.room=null;MP.playerId=null;MP.pages=[];MP.loaded='';MP.result=false;MP.overlay=null;$('#matchHud').innerHTML='';mpRemember();faxBadge()}
 $('#faxBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();openMultiplayer()});
 /* the privacy policy, the same text as public/privacy.html (both built from privacy.html) */
@@ -6555,14 +6598,14 @@ function moonDisc(f,r=10){const c=Math.cos(2*Math.PI*f),rx=Math.abs(c)*r,wax=f<.
   return`<svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="${r}" fill="#2a2f3a"/><path d="M0 ${-r}A${r} ${r} 0 0 ${outer} 0 ${r}A${rx.toFixed(2)} ${r} 0 0 ${inner} 0 ${-r}Z" fill="#f6efd2"/></svg>`}
 /* page 100: the bookstore, the book and the plushies, in the colours of teletext */
 function tvTeletext(){const d=new Date(),dd=d.toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short'}),tt=d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-  const L=shopCat().filter(it=>!it.hid),D=shopDeals(),pick=shopSelection(L,D).slice(0,5),solved=Object.keys(ninesSolved()).length,ps=plushState(),pets=plushIds(ps);
+  const L=shopCat().filter(it=>!it.hid),D=shopDeals(),pick=shopSelection(L,D).slice(0,5),solved=Object.keys(ninesSolved()).filter(k=>k!=='0').length,ps=plushState(),pets=plushIds(ps);
   const dots=(a,b,n=24)=>`${a}${'.'.repeat(Math.max(2,n-a.length-String(b).length))}${b}`;
   return`<p class="ttx-hd"><b>P100</b> NINES TXT <span>${dd} ${tt}</span></p><p class="c">BOOKSTORE · TODAY’S SELECTION</p>`+pick.map(it=>`<p>${dots(it.name.toUpperCase().slice(0,16),(D[it.key]?'−'+Math.round(D[it.key].off*100)+'% ':'')+priceOf(it,D))}</p>`).join('')+
     `<p class="c">YOUR BOOK</p><p>${dots('PAGES SOLVED',solved+'/99')}</p><p>${dots('COINS',S.coins)}</p>`+
     (pets.length?`<p class="c">PLUSHIES</p>`+pets.slice(0,3).map(id=>`<p>${dots(PlushCast.get(id).name.toUpperCase(),LIFE_STAGES[lifeStage(id)].toUpperCase())}</p>`).join(''):'')+
     `<p class="ttx-ft"><i class="r">100</i><i class="g">SHOP</i><i class="y">BOOK</i><i class="b">PETS</i></p>`}
 /* the high-score table */
-function tvScores(){const solved=Object.keys(ninesSolved()).length,k=stk(),stuck=k.placed.length+Object.values(k.pages).reduce((a,l)=>a+l.length,0),ps=plushState(),pets=plushIds(ps);
+function tvScores(){const solved=Object.keys(ninesSolved()).filter(k=>k!=='0').length,k=stk(),stuck=k.placed.length+Object.values(k.pages).reduce((a,l)=>a+l.length,0),ps=plushState(),pets=plushIds(ps);
   const best=pets.sort((a,b)=>(ps.own[b]||0)-(ps.own[a]||0))[0];
   const rows=[['PAGES',solved],['COINS',S.coins],['STICKERS',stuck],['PLUSHIES',pets.length],['BEST FRIEND',best?PlushCast.get(best).name.toUpperCase():'---']];
   return`<p class="hs-hd">HIGH SCORES</p>`+rows.map(([a,b],i)=>`<p><i>${i+1}</i><span>${a}</span><b>${b}</b></p>`).join('')+`<p class="hs-ft">PRESS 1P</p>`}
@@ -6758,7 +6801,7 @@ function start(data){
   if(data&&data.opened){opened=true;board.classList.remove('shut');coverEl.hidden=true;$('#openHint').hidden=true}
   let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(sizeBG,150)});
   fit();
-  applyDark();applyShape();applyBo3();applyStyle();applyStore();applyCommode();applyBell();applyTune();applyPay();applyRcpt();applyPengu();if(typeof applyTV==='function')applyTV();loadPage(S.page||1);renderStickers();renderOwner();applyShow();applyMagnifier();applyPlushMode();applyCorners();applyFlowers();applyPad();mpRestore();
+  applyDark();applyShape();applyBo3();applyStyle();applyStore();applyCommode();applyBell();applyTune();applyPay();applyRcpt();applyPengu();if(typeof applyTV==='function')applyTV();loadPage((S.page??1));renderStickers();renderOwner();applyShow();applyMagnifier();applyPlushMode();applyCorners();applyFlowers();applyPad();mpRestore();
   sizeBG();requestAnimationFrame(loop);
   requestAnimationFrame(fit);
 }
