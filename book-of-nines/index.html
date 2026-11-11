@@ -1555,16 +1555,25 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
 .scene-tile{display:grid;place-items:center;width:40px;height:44px;border-radius:6px;background:linear-gradient(160deg,#3a2a1c,#1f160e);color:#f0d38a;box-shadow:inset 0 0 0 1.5px rgba(240,211,138,.35),0 2px 0 rgba(0,0,0,.3)}
 .scene-tile svg{width:26px;height:26px}.cm-cell .art .scene-swatch{width:40px;height:44px}
 
-/* the music controls under the book (Play app): back, play or pause, next, straight on the scene */
-.mediabar{position:fixed;z-index:44;left:50%;bottom:max(14px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:4px 10px;background:none;animation:mbin .35s ease-out}
+/* the music controls (Play app). Tall screens: one pill under the book (back, play/pause, next).
+   Wide screens: split beside the book, back and play/pause on the left, stop and next on the right. --mb-a: the panel, set in Design */
+.mediabar{--mb-a:.31;position:fixed;z-index:44;left:50%;bottom:max(14px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;align-items:center;gap:0;padding:4px 10px;border-radius:999px;background:rgba(24,17,12,var(--mb-a));box-shadow:inset 0 0 0 1px rgba(240,211,138,calc(var(--mb-a) * .4));animation:mbin .35s ease-out}
 .mediabar[hidden]{display:none}
-.mediabar button{display:grid;place-items:center;width:44px;height:40px;padding:0;border:0;border-radius:50%;background:none;color:#f6ead2;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mb-half{display:flex;align-items:center;gap:6px}.mb-r{margin-left:6px}.mediabar:not(.split) [data-media="stop"]{display:none}
+.mediabar button{display:grid;place-items:center;width:44px;height:40px;padding:0;border:0;border-radius:50%;background:none;color:#f6ead2;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s ease-out,background-color .12s}
 .mediabar button svg{width:22px;height:22px;fill:currentColor;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.85)) drop-shadow(0 0 4px rgba(0,0,0,.45))}.mediabar [data-media="toggle"] svg{width:26px;height:26px}
-.mediabar button:active{transform:scale(.9);background:rgba(240,211,138,.14)}
+.mediabar button:active{transform:scale(.84);background:rgba(240,211,138,.16)}
+.mediabar button.pop{animation:mbpop .32s cubic-bezier(.3,1.7,.5,1)}
+@keyframes mbpop{0%{transform:scale(.8)}55%{transform:scale(1.14)}100%{transform:scale(1)}}
 .mediabar .mb-pause{display:none}.mediabar.playing .mb-pause{display:block}.mediabar.playing .mb-play{display:none}
+/* split: the pill itself vanishes, each half is its own small panel beside the book, one button above the other */
+.mediabar.split{left:0;bottom:auto;top:0;width:0;height:0;padding:0;background:none;box-shadow:none;transform:none;animation:none}
+.mediabar.split .mb-half{position:fixed;flex-direction:column;gap:4px;margin:0;padding:6px 4px;border-radius:999px;background:rgba(24,17,12,var(--mb-a));box-shadow:inset 0 0 0 1px rgba(240,211,138,calc(var(--mb-a) * .4));transform:translate(-50%,-50%);animation:mbside .4s cubic-bezier(.3,1.3,.5,1);transition:left .35s ease,top .35s ease}
 body.immersed .mediabar{display:none!important}
 @keyframes mbin{from{opacity:0;transform:translate(-50%,10px)}}
-@media (prefers-reduced-motion:reduce){.mediabar{animation:none}}
+@keyframes mbside{from{opacity:0;transform:translate(-50%,-50%) scale(.6)}}
+@media (prefers-reduced-motion:reduce){.mediabar,.mediabar .mb-half,.mediabar button.pop{animation:none}}
+.mbset{display:flex;align-items:center;gap:8px}.mbset input{flex:1;min-width:80px}.mbset b{min-width:3.2em;text-align:right;font-weight:600}
 .mediaask{max-width:360px}.mediaask h2{margin:4px 0 8px}.mediaask .lede{margin:0 0 10px}.mediaask .nrow{display:flex;justify-content:center;gap:10px;margin:6px 0 8px}
 </style>
 
@@ -1666,9 +1675,14 @@ body.immersed .mediabar{display:none!important}
  <button class="radiobtn" id="radioBtn" aria-label="Radio" title="Radio" hidden><svg viewBox="0 0 48 40" aria-hidden="true"><path class="ant" d="M14 12 30 2"/><rect class="body" x="4" y="12" width="40" height="26" rx="5"/><circle class="dial" cx="33" cy="25" r="6"/><rect class="grill" x="9" y="18" width="16" height="14" rx="2"/><path class="lines" d="M12 22h10M12 25h10M12 28h10"/></svg></button>
  <button class="shopbtn" id="shopBtn" aria-label="Bookstore" title="Bookstore"></button>
  <div class="mediabar" id="mediaBar" role="group" aria-label="Music playing in another app" hidden>
+  <div class="mb-half mb-l">
    <button type="button" data-media="prev" aria-label="Previous track"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="5" width="2.6" height="14" rx="1"/><path d="M19 5.6v12.8a.8.8 0 0 1-1.25.66L9 12.66a.8.8 0 0 1 0-1.32l8.75-6.4A.8.8 0 0 1 19 5.6z"/></svg></button>
    <button type="button" data-media="toggle" aria-label="Play"><svg class="mb-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.6v14.8a.9.9 0 0 0 1.38.76l11.2-7.4a.9.9 0 0 0 0-1.52L8.38 3.84A.9.9 0 0 0 7 4.6z"/></svg><svg class="mb-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="4.5" width="4.4" height="15" rx="1.2"/><rect x="14.1" y="4.5" width="4.4" height="15" rx="1.2"/></svg></button>
+  </div>
+  <div class="mb-half mb-r">
+   <button type="button" data-media="stop" aria-label="Stop"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="5.5" width="13" height="13" rx="2"/></svg></button>
    <button type="button" data-media="next" aria-label="Next track"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="16.9" y="5" width="2.6" height="14" rx="1"/><path d="M5 5.6v12.8a.8.8 0 0 0 1.25.66L15 12.66a.8.8 0 0 0 0-1.32L6.25 4.94A.8.8 0 0 0 5 5.6z"/></svg></button>
+  </div>
  </div>
  <div class="placebar" id="placebar" data-side="bottom" hidden aria-label="Sticker box">
    <div class="pb-drawer" id="pbDrawer"></div>
@@ -1700,6 +1714,8 @@ body.immersed .mediabar{display:none!important}
      <label class="tog"><input type="checkbox" id="optMoon"><span class="sl"></span>Moon phases in the almanac</label>
      <label class="tog"><input type="checkbox" id="optQtab"><span class="sl"></span>Quotes bookmark on the book (solved pages always link to their quote)</label>
      <label class="tog"><input type="checkbox" id="optSndBtn"><span class="sl"></span>Sound button</label>
+     <div class="tog mbset"><span>Music controls panel</span><input type="range" id="optMbAlpha" min="0" max="100" step="5" aria-label="How solid the panel behind the music controls is"><b id="mbAlphaVal"></b></div>
+     <label class="tog"><input type="checkbox" id="optMbPreview"><span class="sl"></span>Preview the music controls (as if music were playing)</label>
      <label class="tog"><input type="checkbox" id="optSavePage"><span class="sl"></span>Save page on the back bookmark instead of the credits (save codes to copy and bind)</label>
      <label class="tog"><input type="checkbox" id="optWide"><span class="sl"></span>Sideways book on wide screens (in the making: off until its own edition is ready)</label>
      <label class="tog"><input type="checkbox" id="optFsBtn"><span class="sl"></span>Full-screen button (holding the magnifier does the same)</label>
@@ -5023,7 +5039,7 @@ function normaliseSave(d){
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
   n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(n.block==='nines'&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
-  if(d.mediaAsked)n.mediaAsked=1;
+  if(d.mediaAsked)n.mediaAsked=1;if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
   n.flora={fl:{},vz:{},cur:null,arr:{},seed:{}};{const f=obj(d.flora),fid=Flora.FLOWERS.map(x=>x.id),vid=Flora.VASES.map(x=>x.id);
     for(const [id,c] of Object.entries(obj(f.fl)))if(fid.includes(id)&&Number.isInteger(+c)&&+c>0)n.flora.fl[id]=Math.min(999,+c);
     for(const id of Object.keys(obj(f.vz)))if(vid.includes(id))n.flora.vz[id]=1;
@@ -5097,7 +5113,7 @@ function applySaveState(incoming){
   dropFront();S=incoming;G.puz=null;playMode='book';dailyKey=null;currentTheme=null;$('#matchHud').innerHTML='';opened=false;bookGen++;closePops();if(stickering)endEdit();atBack=false;saveFlipping=false;
   backCover.getAnimations().forEach(a=>a.cancel());backCover.hidden=true;board.classList.remove('at-end');{const tc=$('.tcell');tc.classList.remove('folded');tc.getAnimations().forEach(a=>a.cancel())}
   coverEl.getAnimations().forEach(a=>a.cancel());coverEl.hidden=false;coverEl.style.opacity='';coverEl.style.transform='';void coverEl.offsetWidth;board.classList.add('shut');board.classList.remove('opening','placing','stickering');$('#openHint').hidden=false;$('#placebar').hidden=true;
-  root.dataset.pal=S.pal;applyDark();applyShape();applyBo3();applyStyle();applyStore();applyCommode();applyBell();applyTune();applyPay();applyRcpt();applyPengu();if(typeof applyTV==='function')applyTV();setScaleNotes(S.scale);fit();loadPage(S.page);renderStickers();renderOwner();applyShow();applyMagnifier();applyPlushMode();applyCorners();applyFlowers();applyPad();sizeBG();
+  root.dataset.pal=S.pal;applyDark();applyShape();applyBo3();applyStyle();applyStore();applyCommode();applyBell();applyTune();applyPay();applyRcpt();applyPengu();applyMediaPanel();if(typeof applyTV==='function')applyTV();setScaleNotes(S.scale);fit();loadPage(S.page);renderStickers();renderOwner();applyShow();applyMagnifier();applyPlushMode();applyCorners();applyFlowers();applyPad();sizeBG();
   try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}toast('Save state loaded. Your book is ready.');
 }
 /* the credits always fit one page: the whole colophon shrinks a little on a short screen instead of scrolling */
@@ -5320,6 +5336,8 @@ $('#optQtab').addEventListener('change',e=>{S.qtab=e.target.checked;versoBadge()
 $('#optSndBtn').addEventListener('change',e=>{S.sndbtn=e.target.checked;applyShow();sfx.toggle();save()});
 $('#optFsBtn').addEventListener('change',e=>{S.fsbtn=e.target.checked;applyShow();sfx.toggle();save()});
 $('#optRadio').addEventListener('change',e=>{S.radio=e.target.checked;applyCorners();sfx.toggle();save()});
+$('#optMbAlpha').addEventListener('input',e=>{S.mbAlpha=+e.target.value;applyMediaPanel();save()});
+$('#optMbPreview').addEventListener('change',e=>{MEDIA.preview=e.target.checked;if(MEDIA.preview){MEDIA.real=MEDIA.state;MEDIA.state={access:true,active:true,playing:true,title:'Preview',app:'Design'}}else MEDIA.state=MEDIA.real||null;mediaShow();sfx.toggle()});
 $('#optSavePage').addEventListener('change',e=>{if(atBack)closeSave();S.savePage=e.target.checked;sfx.toggle();save();applyEndPage()});
 $('#optWide').checked=!!S.wide;$('#optWide').addEventListener('change',e=>{S.wide=e.target.checked;sfx.toggle();save();fit()});
 $('#optSprout').addEventListener('change',e=>{S.sprout=e.target.checked;applyCorners();sfx.toggle();save()});
@@ -5614,8 +5632,8 @@ function fit(){
     }
     return{gs,pw,ph,tw,th}};
   /* the music controls under the book (Play app): the book stays above them, still in the middle */
-  const mbEl=$('#mediaBar'),mbTop=!immersed&&mbEl&&!mbEl.hidden?mbEl.getBoundingClientRect().top-6:0,stR=$('#stage').getBoundingClientRect(),midS=(stR.top+stR.bottom)/2;
-  let {gs,pw,ph,tw,th}=size(W,mbTop?Math.min(H,2*(mbTop-midS)):H);
+  const mbEl=$('#mediaBar'),mbOn=!immersed&&mbEl&&!mbEl.hidden,mbSide=mbOn&&innerWidth>innerHeight,mbTop=mbOn&&!mbSide?mbEl.getBoundingClientRect().top-6:0,stR=$('#stage').getBoundingClientRect(),midS=(stR.top+stR.bottom)/2;
+  let {gs,pw,ph,tw,th}=size(mbSide?Math.min(W,innerWidth-2*(66+16)):W,mbTop?Math.min(H,2*(mbTop-midS)):H);   /* wide: the split controls stand left and right of the book */
   const CB=immersed?0:70,mid=($('#stage').getBoundingClientRect().top+$('#stage').getBoundingClientRect().bottom)/2;   /* CB: the band the corner buttons take at the top and the bottom of the screen */
   const vb0=$('#vaseBtn');vb0.style.width=vb0.style.height=vb0.style.right='';   /* the vase (above the sprout, bottom right) counts as part of the bottom band when it is out */
   const botLim=Math.min(innerHeight-CB,mbTop||innerHeight,!immersed&&S.flowers&&!vb0.hidden?vb0.getBoundingClientRect().top-6:innerHeight),between=2*Math.min(mid-CB,botLim-mid)-16;
@@ -6144,19 +6162,32 @@ function setScene(id){S.scene=id;buildScene()}
    (window.ninesMedia), and three buttons under the book go back, pause or play, and skip. They stay while that app keeps its
    player (paused included) and go when it lets it go. Android needs "notification access" for this; the book asks once. */
 const MEDIA={state:null};
-function mediaShow(){const b=$('#mediaBar'),s=MEDIA.state;if(!b)return;const on=!!(s&&s.access&&s.active);if(b.hidden===on){b.hidden=!on;requestAnimationFrame(()=>fit())}if(!on)return;
+const mediaWide=()=>innerWidth>innerHeight;
+/* where the controls go: under the book (tall screens), or split to its left and right (wide screens) */
+function mediaPlace(){const b=$('#mediaBar');if(!b||b.hidden)return;const wide=mediaWide()&&!immersed;b.classList.toggle('split',wide);
+  const L=b.querySelector('.mb-l'),R=b.querySelector('.mb-r');
+  if(!wide){L.style.left=L.style.top=R.style.left=R.style.top='';return}
+  const bd=$('#board').getBoundingClientRect(),tabs=[...document.querySelectorAll('#tocBtn,#saveBtn')].filter(e=>e.offsetWidth).map(e=>e.getBoundingClientRect().right),rr=Math.max(bd.right,...tabs);
+  const y=Math.round(bd.top+bd.height/2),lx=Math.round(bd.left/2),rx=Math.round(rr+(innerWidth-rr)/2);
+  L.style.left=lx+'px';L.style.top=y+'px';R.style.left=rx+'px';R.style.top=y+'px'}
+addEventListener('resize',()=>requestAnimationFrame(()=>requestAnimationFrame(mediaPlace)));
+function mediaShow(){const b=$('#mediaBar'),s=MEDIA.state;if(!b)return;const on=!!(s&&s.access&&s.active);if(b.hidden===on){b.hidden=!on;requestAnimationFrame(()=>{fit();requestAnimationFrame(mediaPlace)})}if(!on)return;mediaPlace();
   b.classList.toggle('playing',!!s.playing);const tg=b.querySelector('[data-media="toggle"]');tg.setAttribute('aria-label',s.playing?'Pause':'Play');
   const what=[s.title,s.artist].filter(Boolean).join(' · ');b.title=what?(what+(s.app?' ('+s.app+')':'')):(s.app||'');b.setAttribute('aria-label',what?'Now playing: '+what:'Music playing in another app')}
-window.ninesMedia=st=>{MEDIA.state=st&&typeof st==='object'?st:null;mediaShow()};
-$('#mediaBar')?.addEventListener('click',e=>{const k=e.target.closest('[data-media]')?.dataset.media;if(!k||!window.NinesApp?.media)return;
+window.ninesMedia=st=>{if(MEDIA.preview){MEDIA.real=st;return}MEDIA.state=st&&typeof st==='object'?st:null;mediaShow()};
+$('#mediaBar')?.addEventListener('click',e=>{const btn=e.target.closest('[data-media]'),k=btn?.dataset.media;if(!k)return;
+  btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop');   /* a little bounce on every press */
+  if(MEDIA.preview){if(k==='toggle'){MEDIA.state.playing=!MEDIA.state.playing;mediaShow()}else if(k==='stop'){MEDIA.state.playing=false;mediaShow()}return}
+  if(!window.NinesApp?.media)return;
   if(k==='toggle'&&MEDIA.state){MEDIA.state.playing=!MEDIA.state.playing;mediaShow()}   /* answer at once; Android confirms a moment later */
   try{NinesApp.media(k)}catch(e){}});
+function applyMediaPanel(){const a=Number.isFinite(S.mbAlpha)?S.mbAlpha:50;root.style.setProperty('--mb-a',(a/100*.62).toFixed(3));const r=$('#optMbAlpha');if(r){r.value=a;$('#mbAlphaVal').textContent=a+'%'}}
 const mediaApp=()=>!!(window.NINES_APP&&window.NinesApp&&typeof NinesApp.mediaState==='function');
 function mediaAsk(){if(!mediaApp()||S.mediaAsked||MEDIA.state?.access||document.querySelector('.veil'))return;S.mediaAsked=1;save();
   const v=document.createElement('div');v.className='veil';v.innerHTML=`<div class="toc paper mediaask" role="dialog" aria-label="Music controls"><h2>Music while you play?</h2><p class="lede">When music or a video plays in another app, the book can show three small buttons under it: back, pause or play, and next. You never have to leave the book to change the song.</p><p class="lede">Android calls the permission for this <b>notification access</b>. The book uses it only to see what is playing; nothing is read out, kept or sent anywhere.</p><div class="nrow"><button class="px close" data-ma="no">Not now</button><button class="px close" data-ma="yes">Allow</button></div><p class="lede" style="font-size:12px;opacity:.75">You can change this later in your phone’s settings under Notification access.</p></div>`;
   v.addEventListener('click',e=>{const b=e.target.closest('[data-ma]');if(!b&&e.target!==v)return;v.remove();if(b?.dataset.ma==='yes')try{NinesApp.openMediaAccess()}catch(err){}});document.body.appendChild(v)}
 if(mediaApp()){try{window.ninesMedia(JSON.parse(NinesApp.mediaState()))}catch(e){}}
-function setImmersed(on){if(on&&stickering)endEdit();immersed=!!on;document.body.classList.toggle('immersed',immersed);const b=$('#zoomBtn');b.querySelector('.zsign').textContent=immersed?'−':'+';b.setAttribute('aria-label',immersed?'Zoom out of the book':'Zoom into the book');b.title=immersed?'Leave immersive zoom':'Immersive zoom';closePops();requestAnimationFrame(()=>{fit();requestAnimationFrame(fit)})}
+function setImmersed(on){requestAnimationFrame(()=>requestAnimationFrame(mediaPlace));if(on&&stickering)endEdit();immersed=!!on;document.body.classList.toggle('immersed',immersed);const b=$('#zoomBtn');b.querySelector('.zsign').textContent=immersed?'−':'+';b.setAttribute('aria-label',immersed?'Zoom out of the book':'Zoom into the book');b.title=immersed?'Leave immersive zoom':'Immersive zoom';closePops();requestAnimationFrame(()=>{fit();requestAnimationFrame(fit)})}
 let magDragged=false;
 $('#zoomBtn').addEventListener('click',e=>{e.stopPropagation();if(magDragged){magDragged=false;return}sfx.tick();setImmersed(!immersed)});
 {const b=$('#zoomBtn');let drag=null,lens=null;
@@ -6801,7 +6832,7 @@ function start(data){
   if(data&&data.opened){opened=true;board.classList.remove('shut');coverEl.hidden=true;$('#openHint').hidden=true}
   let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(sizeBG,150)});
   fit();
-  applyDark();applyShape();applyBo3();applyStyle();applyStore();applyCommode();applyBell();applyTune();applyPay();applyRcpt();applyPengu();if(typeof applyTV==='function')applyTV();loadPage((S.page??1));renderStickers();renderOwner();applyShow();applyMagnifier();applyPlushMode();applyCorners();applyFlowers();applyPad();mpRestore();
+  applyDark();applyShape();applyBo3();applyStyle();applyStore();applyCommode();applyBell();applyTune();applyPay();applyRcpt();applyPengu();applyMediaPanel();if(typeof applyTV==='function')applyTV();loadPage((S.page??1));renderStickers();renderOwner();applyShow();applyMagnifier();applyPlushMode();applyCorners();applyFlowers();applyPad();mpRestore();
   sizeBG();requestAnimationFrame(loop);
   requestAnimationFrame(fit);
 }
