@@ -1700,9 +1700,8 @@ body.immersed .px-cap{opacity:0}
 .v-label{position:absolute;inset:34%;border-radius:50%;background:radial-gradient(circle,#140c06 0 9%,transparent 10%),conic-gradient(#e9c46a 0 22deg,#b8323a 22deg 180deg,#8e1b2b 180deg 360deg);box-shadow:inset 0 0 0 1px rgba(0,0,0,.4)}
 .v-sheen{position:absolute;inset:0;border-radius:50%;pointer-events:none;background:conic-gradient(from 20deg,transparent 0deg,rgba(255,255,255,.16) 18deg,transparent 40deg,transparent 180deg,rgba(255,255,255,.1) 200deg,transparent 222deg);-webkit-mask:radial-gradient(circle,transparent 0 33%,#000 34%);mask:radial-gradient(circle,transparent 0 33%,#000 34%)}
 /* tall screens: a slimmer panel, and a little record, taller than the panel, sits on it behind the play button */
-.mediabar:not(.split){padding:1px 10px}.mediabar:not(.split) button{height:34px}
-.mediabar.tall-vin [data-media="toggle"]{position:relative;margin:0 14px}
-.mediabar.tall-vin .v-mini{display:block;position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;pointer-events:auto;box-shadow:0 2px 6px rgba(0,0,0,.45)}
+.mediabar.tall-vin [data-media="toggle"]{position:relative;margin:0 24px}
+.mediabar.tall-vin .v-mini{display:block;position:absolute;left:50%;top:50%;width:78px;height:78px;margin:-39px 0 0 -39px;border-radius:50%;pointer-events:auto;box-shadow:0 2px 6px rgba(0,0,0,.45)}
 .mediabar.tall-vin [data-media="toggle"] svg{position:relative;z-index:1;color:#fff6e0}
 /* wide screens without the big record: a little record takes the stop button's place on the panel */
 .mediabar.split.vin-side [data-media="stop"]{display:none}
@@ -1725,6 +1724,25 @@ body.immersed .vinyl-big{display:none!important}
 body:has(#vinylBig:not([hidden])) #stage{pointer-events:none}body:has(#vinylBig:not([hidden])) #stage>*{pointer-events:auto}
 .vinpos{flex-wrap:wrap;gap:6px 10px}.vinpos .mag-choice{display:inline-flex;gap:6px}.vinpos .mag-choice button{margin:0}
 html,body{overflow-x:hidden}
+/* little room under the book: the record stands just left of the bar instead of inside it */
+.mb-lrec{display:none}
+.mediabar.tall-vin-left .mb-lrec{display:block;position:absolute;right:calc(100% + 8px);top:50%;width:52px;height:52px;margin-top:-26px;pointer-events:none}
+.mediabar.tall-vin-left .v-left{width:100%;height:100%;box-shadow:0 2px 6px rgba(0,0,0,.45);pointer-events:auto}
+body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(14deg);box-shadow:0 3px 0 #050505,0 6px 10px rgba(0,0,0,.4)}
+/* the little books: a back cover you can see, and the covers' edges either side of the pages */
+.obj.book .bk{backface-visibility:visible}
+.obj.book .pgs.r{box-shadow:inset 2.5px 0 0 var(--leatherLo,#2a1810),inset -2.5px 0 0 var(--leatherLo,#2a1810)}
+.obj.book .pgs.t,.obj.book .pgs.b{box-shadow:inset 0 2.5px 0 var(--leatherLo,#2a1810),inset 0 -2.5px 0 var(--leatherLo,#2a1810)}
+
+/* chalk: the colour laid on in strokes, with the grain of a blackboard's dust showing through and a slightly ragged edge */
+#grid[data-px="chalk"] .cell.pxl{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.6 -.75'/%3E%3C/filter%3E%3Crect width='64' height='64' filter='url(%23n)'/%3E%3C/svg%3E"),repeating-linear-gradient(118deg,rgba(255,255,255,.16) 0 1.5px,transparent 1.5px 4px),linear-gradient(var(--px),var(--px));background-size:48px 48px,100% 100%,88% 86%;background-position:center}
+#grid[data-px="chalk"] .cell.pxl.pxa{animation-name:pxchalk}
+@keyframes pxchalk{0%{background-size:48px 48px,0 0,0 0}60%{background-size:48px 48px,104% 104%,96% 94%}100%{background-size:48px 48px,100% 100%,88% 86%}}
+/* pastel: soft, milky colours with gently rounded squares */
+#grid[data-px="pastel"] .cell.pxl{background-image:radial-gradient(circle at 35% 30%,rgba(255,255,255,.35),transparent 60%),linear-gradient(var(--px),var(--px));background-size:100% 100%,92% 92%;border-radius:0}
+#grid[data-px="pastel"] .cell.pxl{background-clip:padding-box}
+#grid[data-px="pastel"] .cell.pxl.pxa{animation-name:pxpastel}
+@keyframes pxpastel{0%{background-size:0 0,0 0}60%{background-size:100% 100%,100% 100%}100%{background-size:100% 100%,92% 92%}}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -1826,6 +1844,7 @@ html,body{overflow-x:hidden}
  <button class="radiobtn" id="radioBtn" aria-label="Radio" title="Radio" hidden><svg viewBox="0 0 48 40" aria-hidden="true"><path class="ant" d="M14 12 30 2"/><rect class="body" x="4" y="12" width="40" height="26" rx="5"/><circle class="dial" cx="33" cy="25" r="6"/><rect class="grill" x="9" y="18" width="16" height="14" rx="2"/><path class="lines" d="M12 22h10M12 25h10M12 28h10"/></svg></button>
  <button class="shopbtn" id="shopBtn" aria-label="Bookstore" title="Bookstore"></button>
  <div class="mediabar" id="mediaBar" role="group" aria-label="Music playing in another app" hidden>
+  <span class="mb-lrec" aria-hidden="true"><span class="vinyl v-left"><span class="v-disc"><i class="v-label"></i></span><i class="v-sheen"></i></span></span>
   <div class="mb-half mb-l">
    <button type="button" data-media="prev" aria-label="Previous track"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="5" width="2.6" height="14" rx="1"/><path d="M19 5.6v12.8a.8.8 0 0 1-1.25.66L9 12.66a.8.8 0 0 1 0-1.32l8.75-6.4A.8.8 0 0 1 19 5.6z"/></svg></button>
    <button type="button" data-media="toggle" aria-label="Play"><span class="vinyl v-mini" aria-hidden="true"><span class="v-disc"><i class="v-label"></i></span><i class="v-sheen"></i></span><svg class="mb-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.6v14.8a.9.9 0 0 0 1.38.76l11.2-7.4a.9.9 0 0 0 0-1.52L8.38 3.84A.9.9 0 0 0 7 4.6z"/></svg><svg class="mb-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="4.5" width="4.4" height="15" rx="1.2"/><rect x="14.1" y="4.5" width="4.4" height="15" rx="1.2"/></svg></button>
@@ -1867,6 +1886,7 @@ html,body{overflow-x:hidden}
      <label class="tog"><input type="checkbox" id="optQtab"><span class="sl"></span>Quotes bookmark on the book (solved pages always link to their quote)</label>
      <label class="tog"><input type="checkbox" id="optSndBtn"><span class="sl"></span>Sound button</label>
      <div class="tog mbset"><span>Music controls panel</span><input type="range" id="optMbAlpha" min="0" max="100" step="5" aria-label="How solid the panel behind the music controls is"><b id="mbAlphaVal"></b></div>
+     <div class="tog vinpos"><span>Pictures on solved pages</span><span class="mag-choice" id="pxStyleChoice"><button type="button" data-pxs="plain">Pixels</button><button type="button" data-pxs="chalk">Chalk</button><button type="button" data-pxs="pastel">Pastel</button></span></div>
      <div class="tog vinpos"><span>Record behind the book</span><span class="mag-choice" id="vinPosChoice"><button type="button" data-vinpos="center">Centred</button><button type="button" data-vinpos="side">Beside it</button><button type="button" data-vinpos="in">Half inside</button></span></div>
      <div class="tog vinpos"><span>Records</span><span class="mag-choice" id="vin3dChoice"><button type="button" data-vin3d="0">Flat</button><button type="button" data-vin3d="1">3D</button></span></div>
      <label class="tog"><input type="checkbox" id="optMbPreview"><span class="sl"></span>Preview the music controls (as if music were playing)</label>
@@ -4324,7 +4344,14 @@ function solved(){
 /* the picture behind the numbers: the Book of Nines has one for each page; other books and the almanac show a flower */
 function artFor(){if(playMode==='book'&&(S.block||'nines')==='nines')return PixArt.get(S.page??1);const F=PixArt.FLOWERS,key=playMode==='daily'?'d'+dailyKey:(S.block||'')+'/'+S.page;let h=7;for(const ch of key)h=(h*31+ch.charCodeAt(0))>>>0;return PixArt.get(F[h%F.length])}
 function clearArt(){cells.forEach(c=>{if(!c.classList.contains('pxl'))return;c.classList.remove('pxl','pxd','pxa');c.style.removeProperty('--px');c.style.removeProperty('--pd')});$('#gridwrap')?.querySelectorAll('.px-cap').forEach(n=>n.remove())}
-function showArt(anim,note){clearArt();const a=artFor();if(!a)return;const col=PixArt.cells(a),grow=anim&&!reduced;
+/* the pictures' style (Design): plain pixels, chalk on a board, or soft pastel */
+const pxStyle=()=>S.pxStyle==='chalk'||S.pxStyle==='pastel'?S.pxStyle:'plain';
+function pxTint(hex){const st=pxStyle();if(st==='plain')return hex;const n=parseInt(hex.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;const y=.299*r+.587*g+.114*b;
+  const mix=(c,t,k)=>Math.round(c+(t-c)*k);
+  if(st==='pastel'){r=mix(mix(r,y,.25),255,.42);g=mix(mix(g,y,.25),255,.42);b=mix(mix(b,y,.25),255,.42)}   /* a little greyed, then lightened: soft and milky */
+  else{r=mix(mix(r,y,.18),236,.16);g=mix(mix(g,y,.18),230,.16);b=mix(mix(b,y,.18),220,.16)}   /* chalk: a touch dusty */
+  return'#'+((1<<24)|(r<<16)|(g<<8)|b).toString(16).slice(1)}
+function showArt(anim,note){clearArt();const a=artFor();if(!a)return;const col=PixArt.cells(a).map(c=>c&&pxTint(c)),grow=anim&&!reduced;gridEl.dataset.px=pxStyle();
   col.forEach((c,i)=>{if(!c)return;const el=cells[i];el.style.setProperty('--px',c);el.style.setProperty('--pd',grow?(Math.hypot(RW[i]-4,CL[i]-4)*.12+Math.random()*.14).toFixed(2)+'s':'0s');el.classList.add('pxl');if(PixArt.dark(c))el.classList.add('pxd');if(grow){el.classList.remove('pxa');void el.offsetWidth;el.classList.add('pxa')}});
   gridEl.setAttribute('aria-description','Picture: '+a.n+(a.m?', '+a.m:''));
   if(playMode==='book'&&(S.block||'nines')==='nines'&&!S.rw?.[S.page??1])setTimeout(()=>{if(G.done&&!G.failed&&playMode==='book')giftSticker(S.page??1)},anim?2900:700);
@@ -5513,7 +5540,7 @@ function normaliseSave(d){
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
   n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(n.block==='nines'&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
-  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.vin3d===1)n.vin3d=1;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
+  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
   n.flora={fl:{},vz:{},cur:null,arr:{},seed:{}};{const f=obj(d.flora),fid=Flora.FLOWERS.map(x=>x.id),vid=Flora.VASES.map(x=>x.id);
     for(const [id,c] of Object.entries(obj(f.fl)))if(fid.includes(id)&&Number.isInteger(+c)&&+c>0)n.flora.fl[id]=Math.min(999,+c);
     for(const id of Object.keys(obj(f.vz)))if(vid.includes(id))n.flora.vz[id]=1;
@@ -6682,7 +6709,8 @@ function mediaPlace(){const b=$('#mediaBar'),big=$('#vinylBig'),bigBox=big?.quer
     b.classList.toggle('vin-big',bigOn);b.classList.toggle('vin-side',!bigOn);
     if(bigOn)bigBox.style.cssText=`left:${cx-D/2}px;top:${y-D/2}px;width:${D}px;height:${D}px`;
     b.style.bottom='';b.classList.remove('tall-vin')}
-  else{L.style.left=L.style.top=R.style.left=R.style.top='';b.classList.remove('vin-big','vin-side');b.classList.toggle('tall-vin',!immersed);
+  else{L.style.left=L.style.top=R.style.left=R.style.top='';b.classList.remove('vin-big','vin-side');
+    const roomy=below>=100;b.classList.toggle('tall-vin',!immersed&&roomy);b.classList.toggle('tall-vin-left',!immersed&&!roomy);   /* room below the book: the record sits in the bar around play; little room: beside the bar, on its left */
     /* under the book: in the middle of the room left below it, never closer than 14 px to the edge */
     const h=b.offsetHeight||40,ins=parseFloat(getComputedStyle(root).getPropertyValue('--sa-b'))||0;b.style.bottom=Math.round(Math.max(14+ins,(below-h)/2))+'px'}
   if(big){big.hidden=!bigOn;big.classList.toggle('playing',b.classList.contains('playing'))}
@@ -6709,9 +6737,10 @@ const mediaClick=e=>{const btn=e.target.closest('[data-media]'),k=btn?.dataset.m
   if(k==='toggle'&&MEDIA.state){MEDIA.state.playing=!MEDIA.state.playing;mediaShow()}   /* answer at once; Android confirms a moment later */
   try{NinesApp.media(k)}catch(e){}};
 $('#mediaBar')?.addEventListener('click',mediaClick);$('#vinylBig')?.addEventListener('click',mediaClick);
+$('#pxStyleChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-pxs]');if(!b)return;S.pxStyle=b.dataset.pxs;applyMediaPanel();if(G.done&&!G.failed&&gridEl.querySelector('.cell.pxl'))showArt(false);save();sfx.tick?.()});
 $('#vin3dChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-vin3d]');if(!b)return;S.vin3d=+b.dataset.vin3d;applyMediaPanel();mediaPlace();save();sfx.tick?.()});
 $('#vinPosChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-vinpos]');if(!b)return;S.vinPos=b.dataset.vinpos;applyMediaPanel();mediaPlace();save();sfx.tick?.()});
-function applyMediaPanel(){const vp=S.vinPos==='side'||S.vinPos==='in'?S.vinPos:'center';document.querySelectorAll('#vinPosChoice [data-vinpos]').forEach(x=>x.classList.toggle('selected',x.dataset.vinpos===vp));document.querySelectorAll('#vin3dChoice [data-vin3d]').forEach(x=>x.classList.toggle('selected',+x.dataset.vin3d===(S.vin3d===1?1:0)));document.body.classList.toggle('vin3d',S.vin3d===1);const a=Number.isFinite(S.mbAlpha)?S.mbAlpha:50;root.style.setProperty('--mb-a',(a/100*.62).toFixed(3));const r=$('#optMbAlpha');if(r){r.value=a;$('#mbAlphaVal').textContent=a+'%'}}
+function applyMediaPanel(){document.querySelectorAll('#pxStyleChoice [data-pxs]').forEach(x=>x.classList.toggle('selected',x.dataset.pxs===pxStyle()));const vp=S.vinPos==='side'||S.vinPos==='in'?S.vinPos:'center';document.querySelectorAll('#vinPosChoice [data-vinpos]').forEach(x=>x.classList.toggle('selected',x.dataset.vinpos===vp));document.querySelectorAll('#vin3dChoice [data-vin3d]').forEach(x=>x.classList.toggle('selected',+x.dataset.vin3d===(S.vin3d===1?1:0)));document.body.classList.toggle('vin3d',S.vin3d===1);const a=Number.isFinite(S.mbAlpha)?S.mbAlpha:50;root.style.setProperty('--mb-a',(a/100*.62).toFixed(3));const r=$('#optMbAlpha');if(r){r.value=a;$('#mbAlphaVal').textContent=a+'%'}}
 const mediaApp=()=>!!(window.NINES_APP&&window.NinesApp&&typeof NinesApp.mediaState==='function');
 /* the music permission: asked as soon as the book is open, until it is given or the player says no.
    The card keeps the purpose folded away as a surprise; one tap on "What is it for?" shows all of it. */
