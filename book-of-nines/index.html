@@ -1586,7 +1586,7 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
    Wide screens: split beside the book, back and play/pause on the left, stop and next on the right. --mb-a: the panel, set in Design */
 .mediabar{--mb-a:.31;position:fixed;z-index:44;left:50%;bottom:max(14px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;align-items:center;gap:0;padding:4px 10px;border-radius:999px;background:rgba(24,17,12,var(--mb-a));box-shadow:inset 0 0 0 1px rgba(240,211,138,calc(var(--mb-a) * .4));animation:mbin .35s ease-out}
 .mediabar[hidden]{display:none}
-.mb-half{display:flex;align-items:center;gap:6px}.mb-r{margin-left:6px}.mediabar:not(.split) [data-media="stop"]{display:none}
+.mb-half{display:flex;align-items:center;gap:6px}.mb-r{margin-left:6px}.mediabar:not(.split) [data-media="stop"],.mediabar .mb-vin,.mediabar .v-mini{display:none}
 .mediabar button{display:grid;place-items:center;width:44px;height:40px;padding:0;border:0;border-radius:50%;background:none;color:#f6ead2;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s ease-out,background-color .12s}
 .mediabar button svg{width:22px;height:22px;fill:currentColor;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.85)) drop-shadow(0 0 4px rgba(0,0,0,.45))}.mediabar [data-media="toggle"] svg{width:26px;height:26px}
 .mediabar button:active{transform:scale(.84);background:rgba(240,211,138,.16)}
@@ -1690,6 +1690,32 @@ body.immersed .px-cap{opacity:0}
 .g-cap b{display:block;font:700 20px var(--deco);letter-spacing:.12em;text-transform:uppercase}.g-cap span{font:italic 15px var(--fell);opacity:.9}
 .g-fly{position:fixed;z-index:160;pointer-events:none;display:grid;place-items:center;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}.g-fly svg{width:100%;height:100%}
 @media (prefers-reduced-motion:reduce){.g-rays{animation:none}}
+
+/* the records: black vinyl with fine grooves, a paper label with a gold mark (so the turning shows), and a fixed sheen that catches the light */
+.vinyl{position:relative;display:block;border-radius:50%;pointer-events:auto;touch-action:none}
+.v-disc{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#1a1a1a 0 3%,transparent 3.2%),radial-gradient(circle,transparent 0 30%,#0d0d0d 30.5% 32%,transparent 32.5%),repeating-radial-gradient(circle,#141414 0 1px,#1f1f1f 1.4px 2.3px);box-shadow:inset 0 0 0 1.5px #050505}
+.v-label{position:absolute;inset:34%;border-radius:50%;background:radial-gradient(circle,#140c06 0 9%,transparent 10%),conic-gradient(#e9c46a 0 22deg,#b8323a 22deg 180deg,#8e1b2b 180deg 360deg);box-shadow:inset 0 0 0 1px rgba(0,0,0,.4)}
+.v-sheen{position:absolute;inset:0;border-radius:50%;pointer-events:none;background:conic-gradient(from 20deg,transparent 0deg,rgba(255,255,255,.16) 18deg,transparent 40deg,transparent 180deg,rgba(255,255,255,.1) 200deg,transparent 222deg);-webkit-mask:radial-gradient(circle,transparent 0 33%,#000 34%);mask:radial-gradient(circle,transparent 0 33%,#000 34%)}
+/* tall screens with room below: the bar grows, and a little record turns around the play button */
+.mediabar.tall-vin{padding:6px 14px;gap:4px}
+.mediabar.tall-vin [data-media="toggle"]{position:relative;width:76px;height:76px;margin:0 8px}
+.mediabar.tall-vin .v-mini{display:block;position:absolute;inset:0;transform:perspective(220px) rotateX(18deg);box-shadow:0 4px 0 #050505,0 8px 14px rgba(0,0,0,.45);border-radius:50%}
+.mediabar.tall-vin [data-media="toggle"] svg{position:relative;z-index:1;width:24px;height:24px;color:#fff6e0}
+.mediabar.tall-vin [data-media="toggle"]:active{transform:scale(.92)}
+/* wide screens without room for the big record: a little record takes the stop button's place */
+.mediabar.split.vin-side [data-media="stop"]{display:none}
+.mediabar.split.vin-side .mb-vin{display:grid;width:48px;height:48px}
+.mb-vin .v-side{width:44px;height:44px;transform:perspective(200px) rotateX(14deg);box-shadow:0 3px 0 #050505,0 6px 10px rgba(0,0,0,.4)}
+/* plenty of room on the right: a big record stands half behind the book, tipped a little towards the light */
+.vinyl-big{position:fixed;perspective:900px;pointer-events:none;animation:vbin .7s cubic-bezier(.25,1.2,.4,1)}
+.vinyl-big[hidden]{display:none}
+.vinyl-big button{display:block;width:100%;height:100%;padding:0;border:0;background:none;border-radius:50%;cursor:grab;pointer-events:auto;transform:rotateY(-24deg) rotateX(6deg);transform-style:preserve-3d;-webkit-tap-highlight-color:transparent}
+.vinyl-big .v-big{width:100%;height:100%;box-shadow:5px 4px 0 #050505,9px 8px 0 rgba(0,0,0,.35),16px 18px 30px rgba(0,0,0,.5)}
+@keyframes vbin{from{transform:translateX(-40%);opacity:0}}
+body.immersed .vinyl-big{display:none!important}
+@media (prefers-reduced-motion:reduce){.vinyl-big{animation:none}}
+/* the stage spans the screen: its empty part lets taps through to what lies behind it (the big record) */
+body:has(#vinylBig:not([hidden])) #stage{pointer-events:none}body:has(#vinylBig:not([hidden])) #stage>*{pointer-events:auto}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -1698,6 +1724,7 @@ body.immersed .px-cap{opacity:0}
 <div class="quiet-loader" id="quietLoader" role="status" aria-label="Preparing your book" hidden><div class="loading-pen" aria-hidden="true"><svg viewBox="0 0 90 90"><path d="m19 66 8-23 38-38 15 15-38 38-23 8Z"/><path d="m27 43 15 15M19 66l11-4-7-7Z"/></svg></div><div class="waiting-dots" aria-hidden="true"><i></i><i></i><i></i></div><p>Preparing your book</p></div>
 <canvas id="bg" aria-hidden="true"></canvas>
 <div class="app">
+<div class="vinyl-big" id="vinylBig" hidden><button type="button" data-media="toggle" aria-label="The record: tap to pause or play, turn it with a finger"><span class="vinyl v-big" aria-hidden="true"><span class="v-disc"><i class="v-label"></i></span><i class="v-sheen"></i></span></button></div>
  <div class="stage" id="stage">
   <div class="board shut" id="board">
     <div class="tcell"><section class="leaf tools device calc" id="tools" aria-label="Instrument">
@@ -1792,9 +1819,10 @@ body.immersed .px-cap{opacity:0}
  <div class="mediabar" id="mediaBar" role="group" aria-label="Music playing in another app" hidden>
   <div class="mb-half mb-l">
    <button type="button" data-media="prev" aria-label="Previous track"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="5" width="2.6" height="14" rx="1"/><path d="M19 5.6v12.8a.8.8 0 0 1-1.25.66L9 12.66a.8.8 0 0 1 0-1.32l8.75-6.4A.8.8 0 0 1 19 5.6z"/></svg></button>
-   <button type="button" data-media="toggle" aria-label="Play"><svg class="mb-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.6v14.8a.9.9 0 0 0 1.38.76l11.2-7.4a.9.9 0 0 0 0-1.52L8.38 3.84A.9.9 0 0 0 7 4.6z"/></svg><svg class="mb-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="4.5" width="4.4" height="15" rx="1.2"/><rect x="14.1" y="4.5" width="4.4" height="15" rx="1.2"/></svg></button>
+   <button type="button" data-media="toggle" aria-label="Play"><span class="vinyl v-mini" aria-hidden="true"><span class="v-disc"><i class="v-label"></i></span><i class="v-sheen"></i></span><svg class="mb-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.6v14.8a.9.9 0 0 0 1.38.76l11.2-7.4a.9.9 0 0 0 0-1.52L8.38 3.84A.9.9 0 0 0 7 4.6z"/></svg><svg class="mb-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="4.5" width="4.4" height="15" rx="1.2"/><rect x="14.1" y="4.5" width="4.4" height="15" rx="1.2"/></svg></button>
   </div>
   <div class="mb-half mb-r">
+   <button type="button" class="mb-vin" data-media="toggle" aria-label="Pause or play"><span class="vinyl v-side" aria-hidden="true"><span class="v-disc"><i class="v-label"></i></span><i class="v-sheen"></i></span></button>
    <button type="button" data-media="stop" aria-label="Stop"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="5.5" width="13" height="13" rx="2"/></svg></button>
    <button type="button" data-media="next" aria-label="Next track"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="16.9" y="5" width="2.6" height="14" rx="1"/><path d="M5 5.6v12.8a.8.8 0 0 0 1.25.66L15 12.66a.8.8 0 0 0 0-1.32L6.25 4.94A.8.8 0 0 0 5 5.6z"/></svg></button>
   </div>
@@ -6090,11 +6118,11 @@ function fit(){
     }
     return{gs,pw,ph,tw,th}};
   /* the music controls under the book (Play app): the book stays above them, still in the middle */
-  const mbEl=$('#mediaBar'),mbOn=!immersed&&mbEl&&!mbEl.hidden,mbSide=mbOn&&innerWidth>innerHeight,mbTop=mbOn&&!mbSide?mbEl.getBoundingClientRect().top-6:0,stR=$('#stage').getBoundingClientRect(),midS=(stR.top+stR.bottom)/2;
-  let {gs,pw,ph,tw,th}=size(mbSide?Math.min(W,innerWidth-2*(112+16)):W,mbTop?Math.min(H,2*(mbTop-midS)):H);   /* wide: the split controls stand left and right of the book */
+  /* the music controls fit themselves around the book (mediaPlace); the book never gives up room for them */
+  let {gs,pw,ph,tw,th}=size(W,H);
   const CB=immersed?0:70,mid=($('#stage').getBoundingClientRect().top+$('#stage').getBoundingClientRect().bottom)/2;   /* CB: the band the corner buttons take at the top and the bottom of the screen */
   const vb0=$('#vaseBtn');vb0.style.width=vb0.style.height=vb0.style.right='';   /* the vase (above the sprout, bottom right) counts as part of the bottom band when it is out */
-  const botLim=Math.min(innerHeight-CB,mbTop||innerHeight,!immersed&&S.flowers&&!vb0.hidden?vb0.getBoundingClientRect().top-6:innerHeight),between=2*Math.min(mid-CB,botLim-mid)-16;
+  const botLim=Math.min(innerHeight-CB,!immersed&&S.flowers&&!vb0.hidden?vb0.getBoundingClientRect().top-6:innerHeight),between=2*Math.min(mid-CB,botLim-mid)-16;
   /* a tall phone: the corner buttons are far above and below the book, so it need not leave their width free; if it fits between their bands it takes the full width */
   if(!immersed&&!foldSeam()){const b=size(innerWidth-2*(6+40),between);if(b.gs>gs)({gs,pw,ph,tw,th}=b)}   /* 40 on both sides: the bookmarks past the right edge, and as much on the left so the book stays in the middle */
   /* a screen wider than it is tall (a phone on its side, the Flip's cover screen, a laptop): the book lies sideways, the instrument to the left of the page,
@@ -6621,24 +6649,47 @@ function setScene(id){S.scene=id;buildScene()}
    player (paused included) and go when it lets it go. Android needs "notification access" for this; the book asks once. */
 const MEDIA={state:null};
 const mediaWide=()=>innerWidth>innerHeight;
-/* where the controls go: under the book (tall screens), or split to its left and right (wide screens) */
-function mediaPlace(){const b=$('#mediaBar');if(!b||b.hidden)return;const wide=mediaWide()&&!immersed;b.classList.toggle('split',wide);
-  const L=b.querySelector('.mb-l'),R=b.querySelector('.mb-r');
-  if(!wide){L.style.left=L.style.top=R.style.left=R.style.top='';return}
+/* where the controls go, fitted into the room the book leaves (the book never shrinks for them):
+   wide screens: split to the left and right of the book; with plenty of room on the right a big record stands half behind the book,
+     otherwise a little record takes the stop button's place;
+   tall screens: under the book; with room enough below, the bar grows and a little record turns around the play button. */
+function mediaPlace(){const b=$('#mediaBar'),big=$('#vinylBig');if(!b||b.hidden){if(big)big.hidden=true;return}
   const bd=$('#board').getBoundingClientRect(),tabs=[...document.querySelectorAll('#tocBtn,#saveBtn')].filter(e=>e.offsetWidth).map(e=>e.getBoundingClientRect().right),rr=Math.max(bd.right,...tabs);
-  const y=Math.round(bd.top+bd.height/2),lx=Math.round(bd.left/2),rx=Math.round(rr+(innerWidth-rr)/2);
-  L.style.left=lx+'px';L.style.top=y+'px';R.style.left=rx+'px';R.style.top=y+'px'}
+  const sideL=bd.left,sideR=innerWidth-rr,below=innerHeight-bd.bottom-(parseFloat(getComputedStyle(root).getPropertyValue('--sa-b'))||0);
+  const wide=mediaWide()&&!immersed&&Math.min(sideL,sideR)>=96;b.classList.toggle('split',wide);
+  const L=b.querySelector('.mb-l'),R=b.querySelector('.mb-r');let bigOn=false;
+  if(wide){const y=Math.round(bd.top+bd.height/2),lx=Math.round(sideL/2),band=74,D=Math.round(Math.min(bd.height*.62,(sideR+bd.width*.18)*.92,360,innerHeight-2*band-62));   /* clear of the corner buttons' bands, with room for the two buttons under it */
+    bigOn=sideR>=210&&D>=150;b.classList.toggle('vin-big',bigOn);b.classList.toggle('vin-side',!bigOn);
+    L.style.left=lx+'px';L.style.top=y+'px';
+    if(bigOn){const cx=Math.round(bd.right+D*.5-D*.32),cy=Math.round(Math.max(band+D/2,Math.min(innerHeight-band-62-D/2,bd.top+bd.height*.42)));big.style.cssText=`left:${cx-D/2}px;top:${cy-D/2}px;width:${D}px;height:${D}px`;
+      const ry=Math.min(innerHeight-band-24,cy+D/2+34);R.style.left=Math.round(Math.max(rr+60,Math.min(innerWidth-60,cx)))+'px';R.style.top=ry+'px'}
+    else{R.style.left=Math.round(rr+sideR/2)+'px';R.style.top=y+'px'}
+    b.classList.remove('tall-vin')}
+  else{L.style.left=L.style.top=R.style.left=R.style.top='';b.classList.remove('vin-big','vin-side');b.classList.toggle('tall-vin',below>=96&&!immersed)}
+  if(big){big.hidden=!bigOn;big.classList.toggle('playing',b.classList.contains('playing'))}
+  vinylRun()}
+/* the records turn while the music plays (about 33 turns a minute) and stand still when it stops; a finger can turn them, like a DJ */
+const VIN={a:0,last:0,raf:0,drag:null};
+function vinylPaint(){document.querySelectorAll('.v-disc').forEach(d=>d.style.transform=`rotate(${VIN.a.toFixed(1)}deg)`)}
+function vinylRun(){const on=!!MEDIA.state?.playing&&!$('#mediaBar').hidden;if(!on||reduced){cancelAnimationFrame(VIN.raf);VIN.raf=0;vinylPaint();return}
+  if(VIN.raf)return;VIN.last=performance.now();const step=t=>{if(!VIN.drag)VIN.a=(VIN.a+(t-VIN.last)*.2)%360;VIN.last=t;vinylPaint();VIN.raf=MEDIA.state?.playing&&!$('#mediaBar').hidden?requestAnimationFrame(step):0};VIN.raf=requestAnimationFrame(step)}
+document.addEventListener('pointerdown',e=>{const v=e.target.closest('.vinyl');if(!v)return;const r=v.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+  VIN.drag={cx,cy,a0:Math.atan2(e.clientY-cy,e.clientX-cx),s0:VIN.a,moved:false,el:v.closest('button')};try{v.setPointerCapture(e.pointerId)}catch(err){}});
+document.addEventListener('pointermove',e=>{const d=VIN.drag;if(!d)return;const a=Math.atan2(e.clientY-d.cy,e.clientX-d.cx),da=(a-d.a0)*180/Math.PI;if(Math.abs(da)>6)d.moved=true;if(d.moved){VIN.a=(d.s0+da+360)%360;vinylPaint()}});
+const vinylEnd=()=>{const d=VIN.drag;if(!d)return;VIN.drag=null;if(d.moved&&d.el){d.el.dataset.scratched=performance.now()}};
+document.addEventListener('pointerup',vinylEnd);document.addEventListener('pointercancel',vinylEnd);
 addEventListener('resize',()=>requestAnimationFrame(()=>requestAnimationFrame(mediaPlace)));
-function mediaShow(){const b=$('#mediaBar'),s=MEDIA.state;if(!b)return;const on=!!(s&&s.access&&s.active);if(b.hidden===on){b.hidden=!on;requestAnimationFrame(()=>{fit();requestAnimationFrame(mediaPlace)})}if(!on)return;mediaPlace();
-  b.classList.toggle('playing',!!s.playing);const tg=b.querySelector('[data-media="toggle"]');tg.setAttribute('aria-label',s.playing?'Pause':'Play');
+function mediaShow(){const b=$('#mediaBar'),s=MEDIA.state;if(!b)return;const on=!!(s&&s.access&&s.active);if(!on&&$('#vinylBig'))$('#vinylBig').hidden=true;if(b.hidden===on){b.hidden=!on;requestAnimationFrame(()=>{fit();requestAnimationFrame(mediaPlace)})}if(!on)return;mediaPlace();
+  b.classList.toggle('playing',!!s.playing);$('#vinylBig')?.classList.toggle('playing',!!s.playing);b.querySelectorAll('[data-media="toggle"]').forEach(tg=>tg.setAttribute('aria-label',s.playing?'Pause':'Play'));vinylRun();
   const what=[s.title,s.artist].filter(Boolean).join(' · ');b.title=what?(what+(s.app?' ('+s.app+')':'')):(s.app||'');b.setAttribute('aria-label',what?'Now playing: '+what:'Music playing in another app')}
 window.ninesMedia=st=>{if(MEDIA.preview){MEDIA.real=st;return}MEDIA.state=st&&typeof st==='object'?st:null;mediaShow()};
-$('#mediaBar')?.addEventListener('click',e=>{const btn=e.target.closest('[data-media]'),k=btn?.dataset.media;if(!k)return;
+const mediaClick=e=>{const btn=e.target.closest('[data-media]'),k=btn?.dataset.media;if(!k)return;if(performance.now()-(+btn.dataset.scratched||0)<350)return;
   btn.classList.remove('pop');void btn.offsetWidth;btn.classList.add('pop');   /* a little bounce on every press */
   if(MEDIA.preview){if(k==='toggle'){MEDIA.state.playing=!MEDIA.state.playing;mediaShow()}else if(k==='stop'){MEDIA.state.playing=false;mediaShow()}return}
   if(!window.NinesApp?.media)return;
   if(k==='toggle'&&MEDIA.state){MEDIA.state.playing=!MEDIA.state.playing;mediaShow()}   /* answer at once; Android confirms a moment later */
-  try{NinesApp.media(k)}catch(e){}});
+  try{NinesApp.media(k)}catch(e){}};
+$('#mediaBar')?.addEventListener('click',mediaClick);$('#vinylBig')?.addEventListener('click',mediaClick);
 function applyMediaPanel(){const a=Number.isFinite(S.mbAlpha)?S.mbAlpha:50;root.style.setProperty('--mb-a',(a/100*.62).toFixed(3));const r=$('#optMbAlpha');if(r){r.value=a;$('#mbAlphaVal').textContent=a+'%'}}
 const mediaApp=()=>!!(window.NINES_APP&&window.NinesApp&&typeof NinesApp.mediaState==='function');
 /* the music permission: asked as soon as the book is open, until it is given or the player says no.
