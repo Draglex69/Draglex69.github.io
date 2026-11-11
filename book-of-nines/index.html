@@ -959,11 +959,11 @@ body.radio-side .radiobtn{left:auto;margin-left:0;right:max(11px,env(safe-area-i
 .shop .padhint{display:none;flex:0 0 auto;min-width:24px;padding:4px 6px;border-radius:5px;background:#3a2614;color:#f3e2b8;font:800 11px/1 var(--deco);text-align:center;cursor:pointer}body.pad-on .shop .padhint{display:block}
 .shop-foot{flex:0 0 auto;display:flex;align-items:center;gap:8px;margin:0 -18px;padding:9px 12px calc(9px + env(safe-area-inset-bottom,0px));background:linear-gradient(#efe2c4,#e3cfa6);box-shadow:0 -1px 0 rgba(80,50,20,.28),0 -8px 14px rgba(80,50,20,.08);border-radius:0 0 4px 4px}
 .shop-foot .close{display:flex;align-items:center;gap:5px;margin:0;padding:7px 11px}.shop-foot .close .spr{width:15px;height:15px}
-.bsk-btn{position:relative;display:flex;align-items:center;gap:6px;margin:0 auto 0 0;padding:7px 12px;border-radius:18px;background:#fbf8f1;color:#3a2614;box-shadow:inset 0 0 0 1.5px rgba(80,50,20,.35);font:700 12px var(--deco)}
+.bsk-btn{position:relative;display:flex;align-items:center;gap:6px;margin:0 0 0 auto;padding:7px 10px;border-radius:18px;background:#fbf8f1;color:#3a2614;box-shadow:inset 0 0 0 1.5px rgba(80,50,20,.35);font:700 12px var(--deco)}
 .bsk-btn .spr{width:17px;height:17px}.bsk-btn.on{background:#3a2614;color:#f3e2b8}
-.bsk-btn .bsk-n{min-width:18px;height:18px;padding:0 4px;box-sizing:border-box;border-radius:9px;background:#b8323a;color:#fff;font:700 11px/18px var(--deco);text-align:center}.bsk-btn .bsk-n:empty{display:none}
+.bsk-btn .spr{width:20px;height:20px}.bsk-btn .bsk-n{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;box-sizing:border-box;border-radius:9px;background:#b8323a;color:#fff;font:700 11px/18px var(--deco);text-align:center}.bsk-btn .bsk-n:empty{display:none}
 .bsk-btn.hop{animation:bskhop .45s cubic-bezier(.3,1.6,.5,1)}@keyframes bskhop{30%{transform:translateY(-5px) scale(1.06)}}
-.purse{display:flex;align-items:center;gap:6px;padding:6px 12px 6px 9px;border-radius:16px;background:#3a2614;color:#f3e2b8;font:700 15px var(--deco);box-shadow:inset 0 0 0 1px rgba(255,230,170,.25)}.purse .coin{width:16px;height:16px}
+.purse{display:flex;align-items:center;gap:6px;padding:6px 12px 6px 9px;border-radius:16px;background:#3a2614;color:#f3e2b8;font:700 15px var(--deco);box-shadow:inset 0 0 0 1px rgba(255,230,170,.25)}.purse .spr{width:19px;height:19px;color:#e9c46a}
 @media (max-width:380px){.shop-foot .close span,.bsk-btn span{display:none}}
 /* the cards: a price (struck through when on sale), Buy, and the basket */
 .shop .shelf{grid-template-columns:repeat(auto-fill,minmax(102px,1fr));gap:12px 10px}
@@ -1612,6 +1612,53 @@ body.immersed .mediabar{display:none!important}
 .nf-choice button.on{box-shadow:0 0 0 2px var(--gild),0 2px 6px rgba(0,0,0,.5),inset 0 0 0 1.5px #b8902e,inset 0 0 0 3px #fbf6e8,inset 0 0 0 4px rgba(184,144,46,.45)}
 .nfink{margin-top:8px}
 .ma-pledge{list-style:none;margin:6px auto 10px;padding:0;text-align:left;font-size:14.5px;line-height:1.4;max-width:300px}.ma-pledge li{padding-left:16px;position:relative;margin:3px 0}.ma-pledge li::before{content:'';position:absolute;left:2px;top:.55em;width:6px;height:6px;transform:rotate(45deg);background:#b8902e}
+
+/* the slogan under the shop's name */
+.shop .slogan{margin:-4px 0 0;text-align:center;font:italic 15px var(--fell);color:#8a2a1e;letter-spacing:.02em}
+/* the cards: golden-ratio portrait (1 : 1.618), the whole card is the button; a thing in the basket wears a little basket */
+.shop .shelf:not(.mine){grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}
+.shop .shelf:not(.mine)>.item{aspect-ratio:1/1.618;justify-content:flex-start;gap:3px;padding:8px 5px 9px;min-width:0;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+.shop .shelf:not(.mine)>.item .blurb,.shop .shelf:not(.mine)>.item .need{display:none}
+.shop .shelf:not(.mine)>.item .nm2{flex:none;font-size:13.5px;max-width:100%;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.shop .shelf:not(.mine)>.item .buy{margin:2px 0 0;padding:5px 9px;font-size:11.5px}
+.shop .item.unaffordable .price{opacity:.55}
+.shop .item.inb{box-shadow:0 2px 0 rgba(80,50,20,.25),0 0 0 2px rgba(58,38,20,.55)}
+.inb-mark{position:absolute;z-index:2;top:6px;left:6px;display:flex;align-items:center;gap:2px;padding:3px 5px;border-radius:10px;background:#3a2614;color:#f3e2b8;font:700 10px/1 var(--deco);font-style:normal}.inb-mark .spr{width:12px;height:12px}
+.shop .item.poster,.shop .shelf:not(.mine)>.item.poster{aspect-ratio:1/1.618;padding:0;gap:0}
+/* the stage: each thing stands in a little 3D space and can be turned */
+.stage{flex:1 1 0;min-height:0;width:100%;display:grid;place-items:center;perspective:340px;container-type:size;touch-action:pan-y;cursor:grab}
+.obj{position:relative;transform-style:preserve-3d;transform:rotateX(-6deg) rotateY(-16deg);will-change:transform}
+.obj .fc,.obj .ly{position:absolute;inset:0;backface-visibility:hidden}
+/* a die-cut sticker on layers of paper: the front is the printed picture, behind it the white card shows at the edges and on the back */
+.obj.cut{width:min(78cqmin,112px);height:min(78cqmin,112px)}
+.obj.cut .ly{display:grid;place-items:center;transform:translateZ(calc(var(--z,0) * 1.15px));backface-visibility:visible}
+.obj.cut .ly>*{max-width:100%;max-height:100%}.obj.cut .ly svg,.obj.cut .ly img{width:100%;height:100%;object-fit:contain;display:block}
+.obj.cut .ly .washi{width:100%;height:30%;transform:rotate(-9deg)}
+.obj.cut .ly.bk{filter:brightness(0) invert(.9) sepia(.25)}.obj.cut .ly.bk[style*="-3"]{filter:brightness(0) invert(.78) sepia(.3)}
+.obj.cut::after{content:"";position:absolute;left:12%;right:12%;bottom:-10px;height:8px;border-radius:50%;background:rgba(60,35,10,.22);filter:blur(3px);transform:translateZ(-12px) rotateX(80deg)}
+/* a swatch on a thin board: a box of six faces */
+.obj.slab{--w:min(70cqmin,100px);--h:min(70cqmin,100px);--d:6px;width:var(--w);height:var(--h)}
+.obj.slab .fc.fr{transform:translateZ(calc(var(--d)/2));display:grid;place-items:center;overflow:hidden;border-radius:3px}
+.obj.slab .fc.fr>*{width:100%!important;height:100%!important;border-radius:3px}
+.obj.slab .fc.bk{transform:rotateY(180deg) translateZ(calc(var(--d)/2));border-radius:3px;background:#efe6d2 repeating-linear-gradient(45deg,rgba(80,50,20,.05) 0 3px,transparent 3px 7px)}
+.obj.slab .ed{background:#d9c9a6}.obj.slab .ed.t,.obj.slab .ed.b{height:var(--d);top:calc(50% - var(--d)/2)}.obj.slab .ed.l,.obj.slab .ed.r{width:var(--d);left:calc(50% - var(--d)/2)}
+.obj.slab .ed.t{transform:rotateX(90deg) translateZ(calc(var(--h)/2))}.obj.slab .ed.b{transform:rotateX(-90deg) translateZ(calc(var(--h)/2));background:#bfae8a}
+.obj.slab .ed.l{transform:rotateY(-90deg) translateZ(calc(var(--w)/2));background:#c9b894}.obj.slab .ed.r{transform:rotateY(90deg) translateZ(calc(var(--w)/2))}
+/* a little book: cover with the title, spine, pages and back */
+.obj.book{--w:min(64cqmin,92px);--h:min(92cqmin,132px);--d:13px;width:var(--w);height:var(--h);background:none!important;box-shadow:none!important}
+.obj.book .fc{border-radius:2px 4px 4px 2px;background:linear-gradient(160deg,var(--leatherHi),var(--leather) 45%,var(--leatherLo))}
+.obj.book .fr{transform:translateZ(calc(var(--d)/2));display:flex;align-items:center;justify-content:center;padding:9px 6px;box-sizing:border-box;box-shadow:inset 3px 0 0 rgba(0,0,0,.3),inset 0 0 0 4px rgba(0,0,0,.12)}
+.obj.book .fr::before{content:"";position:absolute;inset:5px 4px 5px 7px;border:1px solid rgba(233,196,106,.75);border-radius:1px}
+.obj.book .bt{position:relative;font:700 calc(var(--w) * var(--fs,.17))/1.12 var(--deco);letter-spacing:.02em;text-align:center;color:#f0d38a;text-shadow:0 1px 0 rgba(0,0,0,.45)}
+.obj.book .bk{transform:rotateY(180deg) translateZ(calc(var(--d)/2));filter:brightness(.85)}
+.obj.book .sp{width:var(--d);left:calc(50% - var(--d)/2);transform:rotateY(-90deg) translateZ(calc(var(--w)/2));filter:brightness(.7);border-radius:2px}
+.obj.book .pgs{background:#f4ecd8 repeating-linear-gradient(90deg,#e6dcc2 0 1px,transparent 1px 3px)}
+.obj.book .pgs.r{width:calc(var(--d) - 2px);left:calc(50% - var(--d)/2 + 1px);top:2px;bottom:2px;right:auto;transform:rotateY(90deg) translateZ(calc(var(--w)/2 - 1.5px));backface-visibility:visible;background:#f4ecd8 repeating-linear-gradient(90deg,#e2d6ba 0 1px,transparent 1px 2.5px)}
+.obj.book .pgs.t,.obj.book .pgs.b{height:calc(var(--d) - 2px);top:calc(50% - var(--d)/2 + 1px);left:2px;right:3px;background:#f4ecd8 repeating-linear-gradient(0deg,#e2d6ba 0 1px,transparent 1px 2.5px)}
+.obj.book .pgs.t{transform:rotateX(90deg) translateZ(calc(var(--h)/2 - 1.5px));backface-visibility:visible}.obj.book .pgs.b{transform:rotateX(-90deg) translateZ(calc(var(--h)/2 - 1.5px));backface-visibility:visible}
+/* a plushie: its own picture, and while it turns, its model drawn on top */
+.obj.plush{width:min(96cqmin,130px);height:min(96cqmin,130px);transform:none}.obj.plush img,.obj.plush canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}.obj.plush.live img{visibility:hidden}
+@media (prefers-reduced-motion:reduce){.obj{transition:none!important}}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -3668,6 +3715,7 @@ const VEC={
  flower:'<circle cx="12" cy="8.5" r="2"/><path d="M12 6.5c-1.4-3 2.8-3 1.4 0M14 8.5c3-1.4 3 2.8 0 1.4M12 10.5c1.4 3-2.8 3-1.4 0M10 8.5c-3 1.4-3-2.8 0-1.4M12 10.5V21M12 17c-2-2.4-4.6-2.4-5.6-1.4"/>',
  vase:'<path d="M9 3h6M10 3v3.4C7.4 8.4 6 11 6 14.4A6 6 0 0 0 12 21a6 6 0 0 0 6-6.6C18 11 16.6 8.4 14 6.4V3"/>',
  books:'<path d="M4 4h4v16H4zM10 4h4v16h-4zM16 5.4l3.4-.9 3 14.6-3.4.9z"/>',
+ wallet:'<path d="M4 7.5h14.5a1.5 1.5 0 0 1 1.5 1.5v9.5a1.5 1.5 0 0 1-1.5 1.5H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M4 7.5V7a2 2 0 0 1 1.4-1.9L14.6 2.4a1.2 1.2 0 0 1 1.6 1.1V7.5"/><path d="M20 11.5h-4.2a2 2 0 0 0 0 4H20"/><circle cx="16" cy="13.5" r=".7"/>',
  basket:'<path d="M3 10h18l-2.2 10H5.2z"/><path d="M8 10l3.4-6M16 10l-3.4-6M9.4 13.4v3.6M12 13.4v3.6M14.6 13.4v3.6"/>',
  skyline:'<path d="M2.5 21.5h19M4 21.5V11h4v10.5M8 21.5V7l2-2 2 2v14.5M10 5V2.5M12 21.5v-9h4v9M16 21.5V9a2 2 0 0 1 4 0v12.5M18 7V5"/>',
  earth:'<circle cx="12" cy="12" r="8.5"/><path d="M6.2 7.8c2 .2 3 1.6 2.4 3.2S6 13.4 7 15.6M14.5 3.9c-1 1.5 0 3 2 3.4s2.4 2 1.4 3.6M11.5 20.4c0-2 1.2-3 2.6-3.6"/>',
@@ -4481,33 +4529,43 @@ const yearAnimal=()=>{const d=new Date(),y=d.getFullYear()-(d.getMonth()<1?1:0);
 /* every thing the shop sells, in one shape: where it lives, what it costs, how it is given, and what can be done with it once it is yours */
 function shopCat(){const L=[],k=stk(),ps=plushState(),fs=floraState(),btn=(a,t,dis)=>`<button class="buy" ${a} ${dis?'disabled':''}>${t}</button>`;
   STK.forEach(st=>L.push({key:'stk:'+st.id,tab:'stickers',sub:st.tape?'tape':st.zod?'signs':'stickers',name:st.name,price:st.price,many:1,have:k.owned[st.id]||0,legacy:`data-buy="${st.id}"`,
-    art:`<div class="art">${stickSVG(st)}</div>`,give:()=>{k.owned[st.id]=(k.owned[st.id]||0)+1}}));
+    k3:'cut',art:`<div class="art">${stickSVG(st)}</div>`,give:()=>{k.owned[st.id]=(k.owned[st.id]||0)+1}}));
   PAL2.filter(p=>p.id!==2).forEach(p=>L.push({key:'ink:'+p.id,tab:'styles',sub:'ink',name:p.name,price:INK_PRICE[p.id],blurb:'An ink for the whole book, by day and by night.',own:inkOwned(p.id),legacy:`data-buy-ink="${p.id}"`,
-    art:`<div class="art"><div class="ink-swatch" style="--a:${p.a};--b:${p.b};--an:${p.an};--bn:${p.bn}"><i></i><i></i></div></div>`,give:()=>{S.inks=S.inks||{};S.inks[p.id]=1;setPal(p.id);applyDark();render()},
+    k3:'slab',art:`<div class="art"><div class="ink-swatch" style="--a:${p.a};--b:${p.b};--an:${p.an};--bn:${p.bn}"><i></i><i></i></div></div>`,give:()=>{S.inks=S.inks||{};S.inks[p.id]=1;setPal(p.id);applyDark();render()},
     use:()=>btn(`data-use-ink="${p.id}"`,S.pal===p.id?'In use':'Use it')}));
   STYLES.forEach(st=>L.push({key:'sty:'+st.id,tab:'styles',sub:st.cat,name:st.name,price:st.price,blurb:st.blurb,own:!!S.styles?.[st.id],legacy:`data-buy-style="${st.id}"`,
-    art:`<div class="art"><div class="style-swatch ${st.id}"></div></div>`,give:()=>{S.styles=S.styles||{};S.styles[st.id]=1;wearOf()[st.cat]=st.id;applyStyle()},
+    k3:'slab',art:`<div class="art"><div class="style-swatch ${st.id}"></div></div>`,give:()=>{S.styles=S.styles||{};S.styles[st.id]=1;wearOf()[st.cat]=st.id;applyStyle()},
     use:()=>btn(`data-wear="${st.id}"`,wearOf()[st.cat]===st.id?'Worn':'Wear it')}));
   PlushCast.CAST.forEach(C=>L.push({key:'pl:'+C.id,tab:'plush',hid:!plushShown(C.id),name:C.name,price:C.price,blurb:C.tag,own:ps.own[C.id]!=null,legacy:`data-buy-plush="${C.id}"`,plush:C.id,
-    art:`<div class="art"><img class="plush-art" data-plush="${C.id}" src="${plushArt(C.id)}" alt=""></div>`,
+    k3:'plush',art:`<div class="art"><img class="plush-art" data-plush="${C.id}" src="${plushArt(C.id)}" alt=""></div>`,
     give:()=>{ps.own[C.id]=C.startBond;ps.life=ps.life||{};ps.life[C.id]=0;if(!ps.lifeAt)ps.lifeAt=Date.now();ps.cur=C.id;ps.tvEmpty=0},use:()=>btn(`data-hold-plush="${C.id}"`,'Hold')}));
   Flora.FLOWERS.forEach(F=>L.push({key:'fl:'+F.id,tab:'flowers',hid:!S.flowers,name:F.name,price:F.price,blurb:F.blurb,many:1,have:floraHave(F.id),legacy:`data-buy-flower="${F.id}"`,
-    art:`<div class="art"><img class="plush-art" src="${floraArt('f',F.id)}" alt=""></div>`,give:()=>{fs.fl[F.id]=(fs.fl[F.id]||0)+1}}));
+    k3:'cut',art:`<div class="art"><img class="plush-art" src="${floraArt('f',F.id)}" alt=""></div>`,give:()=>{fs.fl[F.id]=(fs.fl[F.id]||0)+1}}));
   Flora.VASES.forEach(V=>L.push({key:'vz:'+V.id,tab:'vases',hid:!S.flowers,name:V.name,price:V.price,blurb:`${V.blurb} Holds ${V.cap}.`,own:!!fs.vz[V.id],legacy:`data-buy-vase="${V.id}"`,vase:1,
-    art:`<div class="art"><img class="plush-art" src="${floraArt('v',V.id)}" alt=""></div>`,give:()=>{fs.vz[V.id]=1;if(!fs.cur)fs.cur=V.id},use:()=>btn(`data-arrange-vase="${V.id}"`,'Arrange')}));
+    k3:'cut',art:`<div class="art"><img class="plush-art" src="${floraArt('v',V.id)}" alt=""></div>`,give:()=>{fs.vz[V.id]=1;if(!fs.cur)fs.cur=V.id},use:()=>btn(`data-arrange-vase="${V.id}"`,'Arrange')}));
   Object.entries(Commode.ORN).filter(([,o])=>!o.free).forEach(([id,o])=>L.push({key:'or:'+id,tab:'decor',name:o.name,price:o.price,blurb:o.blurb,own:ornOwned(id),legacy:`data-buy-orn="${id}"`,
     art:`<div class="art orn-art">${Commode.ornSvg(id)}</div>`,give:()=>{const os=ornState(),full=ornOnTop().length>=ORN_TOP;os.own[id]=1;if(full)os.off[id]=1;else delete os.off[id]},
     use:()=>btn('',ornOnTop().includes(id)?'On the commode':'In its drawer',1)}));
   L.push({key:'sc:heraldry',tab:'scenes',name:'Heraldry',price:30,blurb:'A scene behind the book: drifting coats of arms, lions and fleurs-de-lis.',own:sceneOwned('heraldry'),legacy:'data-buy-scene="heraldry"',
-    art:`<div class="art"><span class="scene-swatch" style="background-image:url(${HERALDRY_TILE})"></span></div>`,give:()=>{S.scenes=S.scenes||{};S.scenes.heraldry=1;setScene('heraldry');render()},
+    k3:'slab',art:`<div class="art"><span class="scene-swatch" style="background-image:url(${HERALDRY_TILE})"></span></div>`,give:()=>{S.scenes=S.scenes||{};S.scenes.heraldry=1;setScene('heraldry');render()},
     use:()=>btn('data-use-scene="heraldry"',S.scene==='heraldry'?'In use':'Use it')});
   L.push({key:'sc:confetti',tab:'scenes',name:'Confetti',price:30,blurb:'A scene behind the book: confetti floating by, cream and pastel by day, neon on midnight blue by night.',own:sceneOwned('confetti'),legacy:'data-buy-scene="confetti"',
-    art:`<div class="art"><span class="scene-swatch" style="background-image:url(${sceneSwatch('confetti')})"></span></div>`,give:()=>{S.scenes=S.scenes||{};S.scenes.confetti=1;setScene('confetti');render()},
+    k3:'slab',art:`<div class="art"><span class="scene-swatch" style="background-image:url(${sceneSwatch('confetti')})"></span></div>`,give:()=>{S.scenes=S.scenes||{};S.scenes.confetti=1;setScene('confetti');render()},
     use:()=>btn('data-use-scene="confetti"',S.scene==='confetti'?'In use':'Use it')});
-  Object.values(BLOCKS).filter(b=>b.shop).forEach(b=>L.push({key:'bk:'+b.id,tab:'books',name:b.title,price:b.price,blurb:`${b.sub} · ${b.pages} pages`,own:!!S.lib?.[b.id],legacy:`data-buy-block="${b.id}"`,book:b.title,
+  Object.values(BLOCKS).filter(b=>b.shop).forEach(b=>L.push({key:'bk:'+b.id,tab:'books',name:b.title,price:b.price,blurb:`${b.sub} · ${b.pages} pages`,own:!!S.lib?.[b.id],legacy:`data-buy-block="${b.id}"`,book:b.title,k3:'book',cover:b.cover,
     art:`<div class="art"><div class="style-swatch" style="${b.cover}"></div></div>`,give:()=>{S.lib=S.lib||{};S.lib[b.id]=1},use:()=>btn('','On the shelf',1)}));
   return L}
 const shopItem=key=>shopCat().find(it=>it.key===key);
+/* the shelf shows each thing as a small object that can be turned: the picture stays flat, on a body with some thickness, like a cartridge or a card.
+   cut: a die-cut sticker (or flower, vase, tape) on a few layers of paper; slab: a square swatch on a thin board; book: a little book with the title on its cover;
+   plush: the plushie's own model, drawn again as it turns. Ornaments keep their flat picture for now. */
+function obj3(it){const k=it.k3;if(!k)return it.art;
+  const inner=it.art.replace(/^<div class="art[^"]*">/,'').replace(/<\/div>$/,'');
+  if(k==='cut')return`<div class="obj cut">${[3,2,1].map(i=>`<div class="ly bk" style="--z:${-i}" aria-hidden="true">${inner}</div>`).join('')}<div class="ly fr">${inner}</div></div>`;
+  if(k==='slab')return`<div class="obj slab"><div class="fc fr">${inner}</div><div class="fc bk"></div><div class="fc ed t"></div><div class="fc ed b"></div><div class="fc ed l"></div><div class="fc ed r"></div></div>`;
+  if(k==='book'){const t=it.name.replace(/</g,'&lt;'),long=Math.max(...it.name.split(/\s+/).map(w=>w.length)),fs=Math.min(.19,.78/(long*.62));return`<div class="obj book" style="${it.cover}"><div class="fc fr" style="${it.cover}"><span class="bt" style="--fs:${fs.toFixed(3)}">${t}</span></div><div class="fc bk" style="${it.cover}"></div><div class="fc sp" style="${it.cover}"></div><div class="fc pgs t"></div><div class="fc pgs b"></div><div class="fc pgs r"></div></div>`}
+  if(k==='plush')return`<div class="obj plush">${inner}</div>`;
+  return it.art}
 const SHOP_KIND={stickers:'Sticker',signs:'Star sign',tape:'Washi tape',cover:'Cover',ink:'Ink',acc:'Accessory'},SHOP_KIND_TAB={plush:'Plushie',flowers:'Flower',vases:'Vase',decor:'Ornament',scenes:'Scene',books:'Sudoku book'};
 const shopKind=it=>SHOP_KIND[it.sub]||SHOP_KIND_TAB[it.tab]||'';
 function shopDesc(it){const k=it.key.split(':')[0],id=it.key.slice(k.length+1);
@@ -4548,12 +4606,12 @@ function openShop(tab,door){
   let cur=tabs().some(t=>t[0]===tab)?tab:'offer',view='shelf';
   const v=document.createElement('div');v.className='veil';{const rm=v.remove.bind(v);v.remove=()=>{if(!v.isConnected)return;rm();ShopTunes.stop(.9);storeDoor()}}
   if(S.shopTune!=='off')ShopTunes.play(ShopTunes.TUNES[S.shopTune]?S.shopTune:'waltz',{delay:door?1.1:.9,fade:1.6});   /* the music comes up once the bell has rung */
-  v.innerHTML=`<div class="toc shop" role="dialog" aria-label="Bookstore"><div class="awning" aria-hidden="true"></div><h2>Bookstore</h2>
+  v.innerHTML=`<div class="toc shop" role="dialog" aria-label="Bookstore"><div class="awning" aria-hidden="true"></div><h2>Bookstore</h2><p class="slogan">More than just Books!</p>
     <div class="shop-tabs" data-tabstrip><b class="padhint" data-tabstep="-1" aria-hidden="true"></b><div class="tabs-row" role="tablist"></div><b class="padhint" data-tabstep="1" aria-hidden="true"></b></div>
     <div class="shop-body"></div>
     <div class="shop-foot"><button class="px close" aria-label="Back to the book">${spr('undo')}<span>Back</span></button>
-      <button class="bsk-btn" data-basket aria-label="Basket">${spr('basket')}<span>Basket</span><b class="bsk-n"></b></button>
-      <span class="purse" role="status" aria-label="Coins in your purse"><i class="coin"></i><b></b></span></div></div>`;
+      <button class="bsk-btn" data-basket aria-label="Basket">${spr('basket')}<b class="bsk-n"></b></button>
+      <span class="purse" role="status" aria-label="Coins in your wallet">${spr('wallet')}<b></b></span></div></div>`;
   document.body.appendChild(v);
   const body=v.querySelector('.shop-body'),row=v.querySelector('.tabs-row'),shopEl=v.querySelector('.toc.shop');
   /* a tapped item tells about itself in a small window beside it, with Buy and the basket (or, once it is yours, what it does) */
@@ -4579,19 +4637,20 @@ function openShop(tab,door){
   v.addEventListener('keydown',e=>{const c=e.target.closest?.('.shop-body .item[data-key]');if(c&&(e.key==='Enter'||e.key===' ')&&e.target===c){e.preventDefault();c.click()}
     if(e.key==='Escape'&&rcEnd&&v.querySelector('.rc-wrap')){e.preventDefault();e.stopPropagation();rcEnd();return}
     if(e.key==='Escape'&&desc){e.preventDefault();e.stopPropagation();closeDesc()}},true);
-  const card=(it,D,extra='')=>{const d=D[it.key],p=priceOf(it,D),own=!it.many&&it.own,short=Math.max(0,p-S.coins),inB=basket().some(l=>l.k===it.key);
+  const card=(it,D,extra='')=>{const d=D[it.key],p=priceOf(it,D),own=!it.many&&it.own,short=Math.max(0,p-S.coins),inB=basket().find(l=>l.k===it.key);
     const badge=d?`<i class="badge sale">−${Math.round(d.off*100)}%</i>`:shopIsNew(it.key)?'<i class="badge new">New!</i>':'';
-    return`<div class="item${own?' owned':''}${d&&!own?' sale':''}${short&&!own?' unaffordable':''}" data-key="${it.key}" ${own?'':it.legacy} role="button" tabindex="0" aria-haspopup="dialog" aria-label="${it.name}: ${own?'yours':`${p} coins`}, tap for more">${badge}${it.art}<span class="nm2">${it.name}</span>${it.blurb?`<span class="blurb">${it.blurb}</span>`:''}`+
-      (own?it.use():`<span class="price">${d?`<s>${it.price}</s>`:''}<i class="coin"></i><b>${p}</b></span>${d?`<span class="ends">${d.left?d.left===1?'until tomorrow':`${d.left+1} days left`:'ends tonight'}</span>`:''}
-        <span class="acts"><button class="addb${inB?' in':''}" data-add="${it.key}" ${inB&&!it.many?'disabled':''} aria-label="${inB&&!it.many?`${it.name} is in the basket`:`Put ${it.name} in the basket`}">${spr('basket')}</button></span>
-        ${short?`<span class="need">${short} more needed</span>`:''}`)+
+    const lab=own?`${it.name}: yours. Hold for more`:inB&&!it.many?`${it.name}: in the basket. Hold for more`:`${it.name}, ${p} coins: tap to put it in the basket, hold for more`;
+    return`<div class="item${own?' owned':''}${d&&!own?' sale':''}${short&&!own?' unaffordable':''}${inB?' inb':''}${it.k3?' k3-'+it.k3:''}" data-key="${it.key}" role="button" tabindex="0" aria-label="${lab}">${badge}`+
+      (inB?`<i class="inb-mark" aria-hidden="true">${spr('basket')}${it.many&&inB.n>1?`<b>${inB.n}</b>`:''}</i>`:'')+
+      `<div class="stage">${obj3(it)}</div>${it.k3==='book'?'':`<span class="nm2">${it.name}</span>`}`+
+      (own?it.use():`<span class="price">${d?`<s>${it.price}</s>`:''}<i class="coin"></i><b>${p}</b></span>${d?`<span class="ends">${d.left?d.left===1?'until tomorrow':`${d.left+1} days left`:'ends tonight'}</span>`:''}`)+
       (it.many&&it.have?`<span class="have">you have ${it.have}</span>`:'')+'</div>'};
   const shelf=(list,D,extra)=>`<div class="shelf">${list.map(it=>card(it,D,extra)).join('')}</div>`;
   /* Commercials: one row of poster cards (named poster, never ad: ad blockers hide anything called .ad or .ads) the same size as the items; until real ads come, invented Art Deco ones, a different order each day */
   const adShelf=()=>{const R=mulberry(dayNo()*17+5),list=ADS.map(a=>[R(),a]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);
     return`<div class="shelf posters">${list.map(a=>`<div class="item poster" data-poster="${a.id}" role="img" aria-label="Poster for ${a.name}: ${a.tag} (an advertisement)"><span class="poster-art" style="background:${a.bg};--pl:${a.line}"><svg viewBox="0 0 60 60" aria-hidden="true">${a.svg}</svg><span class="p-t1" style="--n:${a.t1.length}">${a.t1}</span><span class="p-t2" style="--m:${a.t2.length}">${a.t2}</span></span><span class="p-strip"><b>${a.tag}</b><span class="p-who"><i style="background:${a.bg};color:${a.line}">${a.name[0]}</i><span>${a.name}</span><small>Ad</small></span></span></div>`).join('')}</div>`};
   /* only as many as fit on one line */
-  const fitAds=()=>{const row=body.querySelector('.shelf.posters');if(!row)return;const c=[...row.children],ref=body.querySelector('.shelf:not(.posters) .item');c.forEach(x=>{x.style.display='';x.style.minHeight=ref?ref.offsetHeight+'px':''});const t=c[0]?.offsetTop;c.forEach(x=>{if(x.offsetTop>t+2)x.style.display='none'})};
+  const fitAds=()=>{const row=body.querySelector('.shelf.posters');if(!row)return;const c=[...row.children],ref=body.querySelector('.shelf:not(.posters) .item');c.forEach(x=>{x.style.display=''});const t=c[0]?.offsetTop;c.forEach(x=>{if(x.offsetTop>t+2)x.style.display='none'})};
   const sec=(t,em,inner)=>`<h3>${t}<b></b>${em?`<em>${em}</em>`:''}</h3>${inner}`;
   /* a section with a little wooden sign pointing to its whole shelf */
   const secTo=(t,em,_,inner,to)=>`<h3>${t}<b></b>${em?`<em>${em}</em>`:''}<button type="button" class="see-all" data-tab="${to||'new'}" aria-label="All of ${t}">See all</button></h3>${inner}`;
@@ -4613,7 +4672,7 @@ function openShop(tab,door){
     if(cur==='styles')return [['cover','Covers'],['ink','Ink'],['acc','Accessories']].filter(([c])=>c!=='acc'||STYLES.some(st=>st.cat==='acc')).map(([c,cap])=>sec(cap,c==='acc'?'shown on the shut book':c==='ink'?'Walnut comes with the book':'',shelf(by('styles').filter(it=>it.sub===c),D))).join('');
     return shelf(by(cur),D)};
   const basketView=()=>{const D=shopDeals(),L=basket().map(l=>[shopItem(l.k),l.n,l.k]).filter(([it])=>canHave(it)),total=L.reduce((a,[it,n])=>a+priceOf(it,D)*n,0),short=Math.max(0,total-S.coins);
-    if(!L.length)return`<h3>Your basket<b></b></h3><p class="empty">The basket is empty. Tap ${spr('basket')} on anything to put it in.</p><button class="px close keep" data-keep>Keep shopping</button>`;
+    if(!L.length)return`<h3>Your basket<b></b></h3><p class="empty">The basket is empty. Tap anything on the shelves to put it in; hold it to read about it.</p><button class="px close keep" data-keep>Keep shopping</button>`;
     return`<h3>Your basket<b></b><em>${L.reduce((a,[,n])=>a+n,0)} things</em></h3><div class="bsk-list">`+L.map(([it,n,key])=>`<div class="bline">${it.art}<span class="nm">${it.name}${D[key]?` <i class="badge sale in">−${Math.round(D[key].off*100)}%</i>`:''}</span>
         ${it.many?`<span class="qty"><button data-dec="${key}" aria-label="One fewer">−</button><b>${n}</b><button data-inc="${key}" aria-label="One more">+</button></span>`:'<span class="qty"></span>'}
         <span class="lp"><i class="coin"></i>${priceOf(it,D)*n}</span><button class="rm" data-rm="${key}" aria-label="Take ${it.name} out of the basket">×</button></div>`).join('')+
@@ -4629,6 +4688,9 @@ function openShop(tab,door){
   /* paid: the receipt prints over the shop, and only then does the shop go on (or close, for a plushie on its way to the television) */
   const printed=(r,then)=>{closeDesc();setTimeout(()=>{if(v.isConnected)printReceipt(shopEl,r.rc,then);else then()},reduced?0:260)};
   const hop=()=>{const b=v.querySelector('.bsk-btn');b.classList.remove('hop');void b.offsetWidth;b.classList.add('hop')};
+  const addToBasket=it=>{const l=basket().find(x=>x.k===it.key);if(l){if(it.many)l.n=Math.min(99,l.n+1)}else basket().push({k:it.key,n:1});save();sfx.tick();paint(true);hop()};
+  /* the card it came from gives a little bounce, and a basket mark stays on it */
+  const plop=el=>{const c=body.querySelector(`.item[data-key="${CSS.escape(el.dataset.key)}"]`);if(!c||reduced)return;c.animate([{transform:'scale(.93)'},{transform:'scale(1.04)'},{transform:'none'}],{duration:320,easing:'cubic-bezier(.3,1.5,.5,1)'})};
   const done=r=>{if(!r)return;if(r.plush){v.remove();const C=PlushCast.get(r.plush);setTimeout(()=>toast(`${C.name} is sitting on the television.`),reduced?0:650);return true}
     if(r.books.length)toast(`${r.books.join(' and ')} ${r.books.length>1?'are':'is'} now on the Commode Shelf.`);else if(r.count>1)toast(`Paid ${r.total} coins for ${r.count} things.`);return false};
   paint();
@@ -4637,7 +4699,7 @@ function openShop(tab,door){
     const tb=t.closest('[data-tab]');if(tb){cur=tb.dataset.tab;view='shelf';sfx.tick();paint();return}
     const ts=t.closest('[data-tabstep]');if(ts){v._step(+ts.dataset.tabstep);return}
     const bn=t.closest('[data-buynow]');if(bn&&!bn.disabled){const r=shopGive([[bn.dataset.buynow,1]]);if(r){paint(true);printed(r,()=>{if(!done(r))paint(true)})}return}
-    const ad=t.closest('[data-add]');if(ad&&!ad.disabled){const it=shopItem(ad.dataset.add);if(!canHave(it))return;const l=basket().find(x=>x.k===it.key);if(l){if(it.many)l.n=Math.min(99,l.n+1)}else basket().push({k:it.key,n:1});save();sfx.tick();paint(true);hop();return}
+    const ad=t.closest('[data-add]');if(ad&&!ad.disabled){const it=shopItem(ad.dataset.add);if(!canHave(it))return;addToBasket(it);return}
     if(t.closest('[data-basket]')){view=view==='basket'?'shelf':'basket';sfx.tick();paint();return}
     if(t.closest('[data-keep]')){view='shelf';paint();return}
     const inc=t.closest('[data-inc]'),dec=t.closest('[data-dec]'),rm=t.closest('[data-rm]');
@@ -4650,21 +4712,58 @@ function openShop(tab,door){
     const av=t.closest('[data-arrange-vase]');if(av){floraState().cur=av.dataset.arrangeVase;v.remove();openFlora();return}
     const pl=t.closest('[data-place]');if(pl){v.remove();startPlacing(pl.dataset.place);return}
     if(t.closest('[data-arrange]')){v.remove();startArranging();return}
-    const ic=t.closest('.shop-body .item[data-key]');if(ic){if(desc===ic.dataset.key&&ic.classList.contains('picked'))closeDesc();else openDesc(ic.dataset.key,ic);sfx.tick();return}
+    const ic=t.closest('.shop-body .item[data-key]');if(ic){const it=shopItem(ic.dataset.key),inB=basket().some(l=>l.k===it?.key);
+      if(desc){closeDesc();if(desc===ic.dataset.key)return}
+      if(it&&canHave(it)&&(it.many||!inB)){addToBasket(it);plop(ic);return}
+      openDesc(ic.dataset.key,ic);sfx.tick();return}
     if(desc&&!t.closest('.shop-desc')&&!t.closest('.close')){closeDesc();return}   /* a tap beside the window closes it, not the shop */
     if(t===v||t.closest('.close'))v.remove()});
   /* L and R (or the arrows at either end of the tabs, with a controller) step through the tabs */
   {const ro=new ResizeObserver(()=>fitAds());ro.observe(body);const st=v.remove.bind(v);v.remove=()=>{ro.disconnect();st()}}
-  v._step=d=>{const ids=tabs().map(t=>t[0]),i=view==='basket'?(d>0?-1:ids.length):ids.indexOf(cur);cur=ids[(i+d+ids.length)%ids.length];view='shelf';sfx.tick();paint();
+  v._step=(d,from)=>{const ids=tabs().map(t=>t[0]),i=view==='basket'?(d>0?-1:ids.length):ids.indexOf(cur);cur=ids[(i+d+ids.length)%ids.length];view='shelf';sfx.tick();paint();
     const on=row.querySelector('.on');if(on)row.scrollTo({left:on.offsetLeft-(row.clientWidth-on.offsetWidth)/2,behavior:reduced?'auto':'smooth'});
-    if(!reduced)body.animate([{transform:`translateX(${d*48}px)`,opacity:.15},{transform:'none',opacity:1}],{duration:230,easing:'cubic-bezier(.2,.8,.3,1)'})};
-  /* a sideways swipe over the shelves turns to the next shelf (left) or the one before (right): easy with one thumb */
-  {let id=null,sx=0,sy=0,t0=0;
-   body.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;id=e.pointerId;sx=e.clientX;sy=e.clientY;t0=performance.now()});
-   body.addEventListener('pointerup',e=>{if(e.pointerId!==id)return;id=null;const dx=e.clientX-sx,dy=e.clientY-sy;
-     if(Math.abs(dx)>=56&&Math.abs(dx)>Math.abs(dy)*1.5&&performance.now()-t0<900){v._swiped=performance.now();v._step(dx<0?1:-1)}});
-   body.addEventListener('pointercancel',()=>{id=null})}
-  v._add=el=>{const c=el&&el.closest('.item')?.querySelector('[data-add]');if(c&&!c.disabled)c.click()};
+    if(!reduced)body.animate([{transform:`translateX(${d*(from||48)}px)`,opacity:.15},{transform:'none',opacity:1}],{duration:from?300:230,easing:'cubic-bezier(.2,.8,.3,1)'})};
+  /* Under the finger: a sideways drag that starts on a thing turns it (a little; a plushie all the way round), and past that the whole shelf follows
+     the finger and slides on to the next tab; a drag that starts anywhere else moves the shelf straight away. Holding a thing tells about it.
+     On a computer the things lean towards the mouse. */
+  {const REST={x:-6,y:-16},rest=st=>st.querySelector('.obj.plush')?{x:0,y:0}:REST;
+   const turnTo=(st,rx,ry,ease)=>{const o=st.querySelector('.obj');if(!o)return;if(o.classList.contains('plush')){plushTurn(st,ry,rx,ease);return}
+     o.style.transition=ease?'transform .7s cubic-bezier(.25,1.55,.45,1)':'none';o.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`};
+   /* a plushie is drawn again from its model at each turn, on a canvas laid over its picture */
+   const plushTurn=(st,ry,rx,ease)=>{const o=st.querySelector('.obj.plush'),img=o.querySelector('img'),id=img?.dataset.plush;if(!id)return;
+     let cv=o.querySelector('canvas');if(!cv){cv=document.createElement('canvas');const r=img.getBoundingClientRect(),dp=Math.min(2,devicePixelRatio||1);cv.width=cv.height=Math.round(Math.max(r.width,r.height)*dp);o.appendChild(cv);o.classList.add('live')}
+     cancelAnimationFrame(st._raf);const draw=(y,x)=>{st._ry=y;st._rx=x;PlushCast.render3D(cv,id,{yaw:.45+y*Math.PI/180,pitch:.1+x*Math.PI/360})};
+     if(!ease){draw(ry,rx);return}
+     const y0=st._ry||0,x0=st._rx||0,t0=performance.now(),go=t=>{const k=Math.min(1,(t-t0)/650),e=1-Math.pow(1-k,3);draw(y0*(1-e),x0*(1-e));if(k<1)st._raf=requestAnimationFrame(go);else{cv.remove();o.classList.remove('live')}};st._raf=requestAnimationFrame(go)};
+   let g=null;
+   const slide=d=>{const w=body.clientWidth;if(reduced){body.style.transform='';v._step(d);return}
+     body.style.transition='transform .14s ease-in,opacity .14s';body.style.transform=`translateX(${-d*w*.55}px)`;body.style.opacity='0';
+     setTimeout(()=>{body.style.transition='none';body.style.transform='';body.style.opacity='';v._step(d,w*.45)},140)};
+   const settle=()=>{body.style.transition='transform .32s cubic-bezier(.3,1.4,.5,1),opacity .3s';body.style.transform='';body.style.opacity=''};
+   body.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;
+     const it=e.target.closest('.item[data-key]'),st=e.target.closest('.stage');if(e.target.closest('button'))return;
+     g={id:e.pointerId,sx:e.clientX,sy:e.clientY,t0:performance.now(),it,st:st&&st.querySelector('.obj')?st:null,mode:null,off:0,lx:e.clientX,lt:performance.now(),vx:0,mouse:e.pointerType==='mouse'};
+     if(it)g.lp=setTimeout(()=>{if(!g||g.mode)return;g.held=true;v._swiped=performance.now();openDesc(it.dataset.key,it);sfx.tick();try{navigator.vibrate?.(12)}catch(err){}},480)});
+   body.addEventListener('pointermove',e=>{
+     if(!g||e.pointerId!==g.id){const st=e.target.closest?.('.stage');if(e.pointerType==='mouse'&&!e.buttons){   /* leaning towards the mouse */
+         if(body._hov&&body._hov!==st){turnTo(body._hov,rest(body._hov).x,rest(body._hov).y,true);body._hov=null}
+         if(st&&st.querySelector('.obj')&&!st.querySelector('.obj.plush')){const r=st.getBoundingClientRect(),fx=(e.clientX-r.left)/r.width-.5,fy=(e.clientY-r.top)/r.height-.5;body._hov=st;turnTo(st,-fy*22,fx*34,false)}}return}
+     const dx=e.clientX-g.sx,dy=e.clientY-g.sy,now=performance.now();g.vx=(e.clientX-g.lx)/Math.max(1,now-g.lt);g.lx=e.clientX;g.lt=now;
+     if(!g.mode){if(Math.hypot(dx,dy)<8)return;clearTimeout(g.lp);if(g.held)return;g.mode=Math.abs(dx)>Math.abs(dy)*1.1?'h':'v';if(g.mode==='h')try{body.setPointerCapture(g.id)}catch(err){}}
+     if(g.mode!=='h')return;
+     let over=dx;
+     if(g.st){const plush=!!g.st.querySelector('.obj.plush'),k=plush?1.6:1.1,max=plush?180:65,r0=rest(g.st),turn=Math.max(-max,Math.min(max,dx*k));
+       over=Math.abs(dx*k)>max?dx-Math.sign(dx)*max/k:0;turnTo(g.st,g.mouse?Math.max(-30,Math.min(30,r0.x-dy*.5)):r0.x,r0.y+turn,false)}
+     g.off=over;body.style.transition='none';body.style.transform=over?`translateX(${over*.85}px)`:'';body.style.opacity=over?String(1-Math.min(.5,Math.abs(over)/700)):''});
+   const end=e=>{if(!g||e.pointerId!==g.id)return;clearTimeout(g.lp);const G=g;g=null;if(G.held)v._swiped=performance.now();
+     if(G.st){const r0=rest(G.st);turnTo(G.st,r0.x,r0.y,true)}
+     if(G.mode==='h'){v._swiped=performance.now();const fast=Math.abs(G.vx)>.55&&Math.abs(G.off)>24;
+       if(e.type==='pointerup'&&(Math.abs(G.off)>80||fast)&&Math.sign(G.vx||G.off)===Math.sign(G.off))slide(G.off<0?1:-1);else settle()}};
+   body.addEventListener('pointerup',end);body.addEventListener('pointercancel',end);
+   body.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'&&body._hov){turnTo(body._hov,rest(body._hov).x,rest(body._hov).y,true);body._hov=null}});
+   /* a long press on a phone (or the right button) tells about the thing rather than opening the browser's menu */
+   body.addEventListener('contextmenu',e=>{const it=e.target.closest('.item[data-key]');if(!it)return;e.preventDefault();if(g&&g.held)return;if(desc!==it.dataset.key){openDesc(it.dataset.key,it);sfx.tick()}})}
+  v._add=el=>{const c=el&&el.closest('.shop-body .item[data-key]');if(c)openDesc(c.dataset.key,c)};   /* X on a controller: tell about it (A puts it in the basket) */
 }
 /* ================= flowers and vases ================= */
 /* The vase on the right holds the flowers put in it; tapping it opens the shelf: put flowers in, take them out, rearrange, change vases.
@@ -5004,7 +5103,7 @@ function openToc(){
   let h=`<div class="toc paper" role="dialog" aria-label="Table of pages"><p class="endmark toc-mark">${escH(bk.title)}</p><h2>${escH(bk.sub)}</h2><p class="lede">${solvedN} of ${bk.pages} pages solved · ${bk.id==='nines'?'start any chapter, or carry on after a page you’ve solved':'each page opens after the one before it'}</p>`;
   if(bk.id==='nines'){
     const chapters=CH11.map((c,k)=>({name:`Chapter ${ROMAN[k]}`,diff:c[0],from:k*9+1,to:k*9+9}));
-    {const open=zeroOpen();h+=`<h3>Page Zero<b></b><em>${open?'Ascent':'opens after page 99'}</em></h3><div class="pages"><button class="px pg${S.solved[0]?' done':''}${S.page===0?' cur':''}" data-p="0" ${open?'':'disabled'} aria-label="Page 0${S.solved[0]?', solved':open?'':', opens when all ninety-nine pages are solved'}">0</button></div>`}
+    if(zeroOpen()||S.solved[0]){const open=true;h+=`<h3>Page Zero<b></b><em>Ascent</em></h3><div class="pages"><button class="px pg${S.solved[0]?' done':''}${S.page===0?' cur':''}" data-p="0" ${open?'':'disabled'} aria-label="Page 0${S.solved[0]?', solved':open?'':', opens when all ninety-nine pages are solved'}">0</button></div>`}
     if(S.maxPage>NP)chapters.push({name:'Appendix',diff:'Ascent',from:NP+1,to:Math.max(NP+9,NP+Math.ceil((S.maxPage-NP)/9)*9)});
     chapters.forEach(ch=>{
       h+=`<h3>${ch.name}<b></b><em>${ch.diff}</em></h3><div class="pages">`;
