@@ -1659,6 +1659,19 @@ body.immersed .mediabar{display:none!important}
 /* a plushie: its own picture, and while it turns, its model drawn on top */
 .obj.plush{width:min(96cqmin,130px);height:min(96cqmin,130px);transform:none}.obj.plush img,.obj.plush canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}.obj.plush.live img{visibility:hidden}
 @media (prefers-reduced-motion:reduce){.obj{transition:none!important}}
+
+/* the picture behind the numbers: each square's colour blooms out from its middle, the middle of the grid first */
+.cell.pxl{background-image:linear-gradient(var(--px),var(--px));background-repeat:no-repeat;background-position:center;background-size:100% 100%}
+.cell.pxl.pxa{animation:pxin .62s cubic-bezier(.3,1.45,.5,1) var(--pd,0s) both}
+@keyframes pxin{0%{background-size:0 0;filter:brightness(1.6)}55%{background-size:112% 112%;filter:brightness(1.25)}100%{background-size:100% 100%;filter:none}}
+.cell.pxl.pxd{color:#fff8e8!important;text-shadow:0 1px 1px rgba(0,0,0,.45)}.cell.pxl:not(.pxd){color:#2a1a0c!important;text-shadow:0 1px 0 rgba(255,255,255,.35)}
+.px-cap{position:absolute;left:50%;bottom:-4px;z-index:6;transform:translate(-50%,100%);max-width:96%;white-space:nowrap;overflow:hidden;display:flex;flex-wrap:nowrap;justify-content:center;align-items:baseline;gap:2px 7px;padding:5px 11px 4px;border-radius:12px;
+  background:var(--paper,#fbf6e8);color:var(--ink,#3a2614);box-shadow:0 2px 8px rgba(0,0,0,.25),inset 0 0 0 1px rgba(80,50,20,.25);font:12.5px/1.25 var(--fell);text-align:center;pointer-events:none;animation:pxcap .5s ease-out 1.1s both}
+.px-cap b{flex:none;font:700 11.5px var(--deco);letter-spacing:.08em;text-transform:uppercase}.px-cap i{opacity:.85;min-width:0;overflow:hidden;text-overflow:ellipsis}.px-cap span{flex:none}.px-cap span{font:700 12px var(--deco);color:#b8892f}
+.px-cap.dead{animation-delay:.2s;white-space:normal;flex-wrap:wrap}.px-cap.out{opacity:0;transition:opacity .6s}
+@keyframes pxcap{from{opacity:0;transform:translate(-50%,calc(100% + 8px))}}
+@media (prefers-reduced-motion:reduce){.cell.pxl.pxa{animation:none}.px-cap{animation:none}}
+body.immersed .px-cap{opacity:0}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -3088,6 +3101,121 @@ return{W,H,TOPY,SH,DR,S,ids,body,front,icon,mini:miniSvg,alts:Object.keys(ALT),a
 if(typeof module!=='undefined')module.exports=Commode;
 </script>
 <script>
+/* pixart.js */
+/* The pictures behind the numbers: one 9 × 9 pixel picture for each page of the Book of Nines (page 0 to 99), shown in the grid's squares
+   when the page is solved. Each fits its page's quotation, or is a flower, with what that flower is said to mean.
+   r: nine rows of nine letters, one per square; each letter is a colour in PAL, a dot leaves the square bare. */
+const PixArt=(()=>{
+const PAL={"k":"#2b2118","w":"#fffaf0","r":"#d7263d","R":"#8e1b2b","p":"#f7a1c4","P":"#d6337a","o":"#f28c28","y":"#f6c945","Y":"#fff3a0","g":"#5cb85c","G":"#2e7d32","l":"#a5d66f","b":"#4a90e2","B":"#1f3c88","c":"#9fe3f0","v":"#9b6ad6","V":"#5b2d9e","L":"#cdb8ee","n":"#9a6234","N":"#5a3418","t":"#d9b77e","s":"#a3a3a3","S":"#5f5f5f","u":"#ffd9b3","m":"#ef7b6b","q":"#dfe6ea","h":"#2a2f45","a":"#e9c46a"};
+const ARTS=[{"n":"Camellia","m":"admiration","r":"..RrrrR..|.rrRrRrr.|rrrryrrrr|rRryyyrRr|rrrryrrrr|.rrRrRrr.|G.RrrrR.G|GG.....GG|.GGG.GGG."},
+{"n":"π","m":"","r":".........|.BBBBBBBB|B.B...B..|..B...B..|..B...B..|..B...B..|..B...B..|.BB...BB.|........."},
+{"n":"White Rabbit","m":"","r":"..w...w..|..wp.pw..|..wp.pw..|..wwwww..|.wwkwkww.|.wwwpwww.|..wwwww..|.wwwwwww.|..ww.ww.."},
+{"n":"Snowdrop","m":"new beginnings","r":"...GGGG..|..G....G.|..g....G.|.www...G.|.www...G.|wwqww..G.|w.w.w..G.|......lG.|.....lGG."},
+{"n":"Pagoda","m":"","r":"....a....|...NNN...|..rrrrr..|.NNNNNNN.|..rwrwr..|NNNNNNNNN|.rwrrrwr.|.rrrNrrr.|sssssssss"},
+{"n":"Sunflower","m":"adoration","r":".y.y.y.y.|yyyyyyyyy|.yNNNNNy.|yyNnNnNyy|.yNNNNNy.|yyyyyyyyy|.y.yGy.y.|...GG.GG.|....G...."},
+{"n":"Daisy","m":"innocence","r":"..w.w.w..|.wwwwwww.|.wwyyyww.|wwyyyyyww|.wwyyyww.|.wwwwwww.|..w.G.w..|...GG....|....G...."},
+{"n":"Scales","m":"","r":"....a....|aaaaaaaaa|.a..a..a.|a.a.a.a.a|aaa.a.aaa|....a....|....a....|...aaa...|..aaaaa.."},
+{"n":"Bellflower","m":"gratitude","r":"....G....|...GGG...|..vvvvv..|..vvvvv..|.vvvvvvv.|.vvvvvvv.|vVvVvVvVv|....y....|........."},
+{"n":"Spool of thread","m":"","r":".nnnnnnn.|..rrrrr..|..rRrRr..|..rrrrr..|..rRrRr..|..rrrrr..|.nnnnnnn.|......r..|.......rr"},
+{"n":"Aster","m":"patience","r":".v.v.v.v.|v.vvvvv.v|.vvvvvvv.|vvvyyyvvv|.vvyyyvv.|vvvyyyvvv|.vvvvvvv.|v.vvGvv.v|....G...."},
+{"n":"Daruma","m":"","r":"..rrrrr..|.rrrrrrr.|rrwwwwwrr|rwkwwwSwr|rwwkkkwwr|rrwwwwwrr|rrraaarrr|.rrrrrrr.|..RRRRR.."},
+{"n":"Ace of hearts","m":"","r":".qqqqqqq.|.qrwwwwq.|.qwwwwwq.|.qwrwrwq.|.qrrrrrq.|.qwrrrwq.|.qwwrwwq.|.qwwwwrq.|.qqqqqqq."},
+{"n":"Water and stone","m":"","r":"....b....|...bcb...|...bbb...|....b....|.........|....b....|.sss.sss.|sssSbSsss|sssssssss"},
+{"n":"Bamboo","m":"strength","r":".g...g...|.g..lgl..|.gll.g.l.|GGG.GGG..|.g...g...|.g.l.g...|.gl..gll.|GGG.GGG..|.g...g..."},
+{"n":"Snail","m":"","r":".........|.......k.|..ooo..k.|.oNNNo.k.|oNoooNouu|oNoNoNouu|oNNNoNouu|.ooooouuu|uuuuuuuu."},
+{"n":"Colosseum","m":"","r":"tttttt...|t.t.t.t..|ttttttttt|t.t.t.t.t|ttttttttt|t.t.t.t.t|ttttttttt|t.t.t.t.t|ttttttttt"},
+{"n":"Morning glory","m":"affection","r":"..bbbbb..|.bbbbbbb.|bbbcwcbbb|bbcwwwcbb|bbbcwcbbb|.bbbbbbb.|..bbGbb..|G...G...G|.GGGGGGG."},
+{"n":"Pencil","m":"","r":".......pp|......qpp|.....yqq.|....yyy..|...yyy...|..yyy....|.tyy.....|.tt......|k........"},
+{"n":"Magnifying glass","m":"","r":"..ssss...|.sccccs..|sccwcccs.|sccccccs.|sccccccs.|.sccccs..|..sssss..|......nn.|.......nn"},
+{"n":"Eye","m":"","r":".........|..kkkkk..|.kwwwwwk.|kwwbbbwwk|kwwbkbwwk|kwwbbbwwk|.kwwwwwk.|..kkkkk..|........."},
+{"n":"Ladybird","m":"","r":"..k...k..|...kkk...|..rrkrr..|.rkrkrkr.|.rrrkrrr.|rkrrkrrkr|.rrrkrrr.|..rrkrr..|........."},
+{"n":"Pipe","m":"","r":"...q.....|..q......|...q.....|.NnnN....|.NnnN....|.NnnNNNNk|..NNNnnnk|.........|........."},
+{"n":"Wax seal","m":"","r":"..rr.rr..|.rrrrrrr.|rrRRRRRrr|rrRrrrRrr|rrRrRrRrr|rrRrrrRrr|rrRRRRRrr|.rrrrrrr.|..rr.rr.."},
+{"n":"Globe","m":"","r":"...bbb...|.bbgbbbb.|.bggbbgb.|bbgggbgbb|bbbggbbbb|bbbbgggbb|.bbbbggb.|.bbbbbbb.|...bbb..."},
+{"n":"Lyre","m":"","r":"a.......a|aa.....aa|.aaaaaaa.|.a.q.q.a.|.a.q.q.a.|..aq.qa..|..aq.qa..|...aaa...|....a...."},
+{"n":"Black cat","m":"","r":".k.....k.|.kk...kk.|.kkkkkkk.|kkykkkykk|kkkkpkkkk|kkkkkkkkk|.kkkkkkk.|..kkkkk..|........."},
+{"n":"Owl","m":"","r":".n.....n.|.nn...nn.|nwwwnwwwn|nwkwnwkwn|nwwwowwwn|.nnnonnn.|.ntntntn.|.nntttnn.|..o...o.."},
+{"n":"Key","m":"","r":"..aaa....|.a...a...|.a...a...|..aaa....|...a.....|...a.....|...aaa...|...a.....|...aa...."},
+{"n":"Flask","m":"","r":"...sss...|...q.q...|...q.q...|..q...q..|..q...q..|.qgggggq.|.qglgggq.|qgggggggq|.qqqqqqq."},
+{"n":"Die","m":"","r":".sssssss.|swwwwwwws|swkwwwkws|swwwwwwws|swwwkwwws|swwwwwwws|swkwwwkws|swwwwwwws|.sssssss."},
+{"n":"Looking-glass","m":"","r":"..aaaaa..|.acccwca.|.accccwa.|.acwccca.|.accccca.|..aaaaa..|....a....|....a....|....a...."},
+{"n":"Dandelion","m":"wishes","r":".q.q.q.q.|q.qqqqq.q|.qqqqqqq.|qqqqsqqqq|.qqqqqqq.|q.qqqqq.q|.q.qgq.q.|....g....|....g...."},
+{"n":"Abacus","m":"","r":"nnnnnnnnn|n.......n|nrrrssyyn|n.......n|nbbssrrrn|n.......n|nyyyssbbn|n.......n|nnnnnnnnn"},
+{"n":"Feather","m":"","r":".......cc|......ccb|.....ccbc|....ccbcc|...ccbcc.|..ccbcc..|..cbcc...|.b.......|b........"},
+{"n":"Iris","m":"wisdom","r":"...vvv...|..vVvVv..|...vVv...|vvvvyvvvv|vVvvyvvVv|.vv.v.vv.|....G....|.G..G..G.|..G.G.G.."},
+{"n":"Violet","m":"faithfulness","r":"..vv.vv..|.vVv.vVv.|..vvvvv..|.vvvyvvv.|vvVvvvVvv|.vv.v.vv.|....G....|.GG.G.GG.|GGG.G.GGG"},
+{"n":"Hatching chick","m":"","r":".........|...yyy...|..ykyyy..|..yyyoo..|.q.yyy.q.|.qqyyyqq.|.qqqqqqq.|..qqqqq..|...qqq..."},
+{"n":"Monkey","m":"","r":"..nnnnn..|.nnnnnnn.|unuuuuunu|uukuuukuu|.nuuuuun.|.nuuuuun.|..uukuu..|..uuuuu..|...nnn..."},
+{"n":"Dove","m":"peace","r":".........|.....ww..|....wkwo.|.ww.www..|wqqwwww..|.wqqqww..|..wwww...|....GG...|...G.G..."},
+{"n":"Bricks","m":"","r":"mmmtmmmtm|ttttttttt|mtmmmtmmm|ttttttttt|mmmtmmmtm|ttttttttt|mtmmmtmmm|ttttttttt|mmmtmmmtm"},
+{"n":"Pyramid","m":"","r":".........|....t....|...ttn...|..tttnn..|..tttnn..|.ttttnnn.|.ttttnnn.|tttttnnnn|yyyyyyyyy"},
+{"n":"Hourglass","m":"","r":"nnnnnnnnn|.q.....q.|.qyyyyyq.|..qyyyq..|...qyq...|..q.y.q..|.q..y..q.|.qyyyyyq.|nnnnnnnnn"},
+{"n":"Cactus flower","m":"endurance","r":"....p....|...pPp...|...gpg...|.g.ggg...|.g.ggg.g.|.ggggggg.|...ggg...|..nnnnn..|...nnn..."},
+{"n":"Edelweiss","m":"courage","r":"....q....|...qwq...|.qwwywwq.|qwwyyywwq|.qwyyywq.|.qwwqwwq.|.q.qGq.q.|....G....|...GGG..."},
+{"n":"Four-leaf clover","m":"good luck","r":".gg...gg.|gggg.gggg|gggg.gggg|.ggggggg.|....G....|.ggggggg.|gggg.gggg|gggg.gggg|.gg..Ggg."},
+{"n":"Raven","m":"","r":".........|.....kk..|....kkwkk|...kkkkkS|..kkkkk..|.kkSkkk..|kkSSkkk..|...k.k...|..kk.kk.."},
+{"n":"Dancing man","m":"","r":"....k....|...kkk...|....k....|.k.kkk.k.|..k.k.k..|....k....|...k.k...|..k...k..|.k.....k."},
+{"n":"Infinity","m":"","r":".........|.........|.bb...bb.|b..b.b..b|b...b...b|b..b.b..b|.bb...bb.|.........|........."},
+{"n":"Question mark","m":"","r":"..VVVVV..|.VV...VV.|......VV.|.....VV..|....VV...|....VV...|.........|....VV...|....VV..."},
+{"n":"Teacup","m":"","r":"..q...q..|.q...q...|..q...q..|ppppppp..|pwwwwwppp|pwpwpwp.p|pwwwwwppp|.ppppp...|qqqqqqq.."},
+{"n":"Bat (inverted)","m":"","r":".........|....k....|.k.kkk.k.|kkkkkkkkk|kkkykykkk|kkkkkkkkk|kk.k.k.kk|k.......k|........."},
+{"n":"Cosmos","m":"harmony","r":"...ppp...|.p.ppp.p.|ppp.p.ppp|.ppyyypp.|pppyyyppp|.ppyyypp.|ppp.p.ppp|.p.pGp.p.|....G...."},
+{"n":"Reed","m":"","r":"....n....|...nNn...|...nNn...|...nNn...|.l.nNn.l.|.l..g..l.|..l.g.l..|..l.g.l..|...lgl..."},
+{"n":"Letter","m":"","r":".........|qqqqqqqqq|qwqwwwqwq|qwwqwqwwq|qwwwrwwwq|qwwwwwwwq|qwwwwwwwq|qqqqqqqqq|........."},
+{"n":"Cherries","m":"","r":"......G..|.....GG..|....G.G..|...G...G.|..G....G.|.rr...rr.|rrrr.rrrr|rwrr.rwrr|.rr...rr."},
+{"n":"Pine","m":"","r":"....G....|...GGG...|..GGGGG..|...GGG...|..GGGGG..|.GGGGGGG.|GGGGGGGGG|....n....|....n...."},
+{"n":"Mount Fuji","m":"","r":".......rr|...www.rr|..wwwww..|..bwbwb..|.bbbbbbb.|.bbbbbbb.|bbbbbbbbb|BBBBBBBBB|........."},
+{"n":"Peony","m":"prosperity","r":"..ppppp..|.pPpPpPp.|pPppPppPp|pppPPPppp|pPpPPPpPp|.ppPpPpp.|..ppppp..|.G..G..G.|GG..G..GG"},
+{"n":"Two birds","m":"","r":".bb...bb.|bkbo.bkbo|bbbb.bbbb|.b.b..bb.|.........|.........|...sss...|..sssss..|.sssSsss."},
+{"n":"Hawk","m":"","r":"..nnnn...|.nnnnnn..|nnwwknnn.|nwwwwwyy.|nwwwwyyk.|.nwwwwy..|..nwwn...|...nn....|........."},
+{"n":"Nine","m":"","r":"..aaaaa..|.aa...aa.|.aa...aa.|..aaaaaa.|......aa.|......aa.|.aa...aa.|..aaaaa..|........."},
+{"n":"Iceberg","m":"","r":".........|....w....|...wwq...|..wwwqq..|ccccccccc|bcqqqqqcb|bbcqqqcbb|bbbcqcbbb|bbbbbbbbb"},
+{"n":"Candle","m":"","r":"....y....|...yoy...|...yoy...|....k....|...www...|...wwq...|...wwq...|...wwq...|.aaaaaaa."},
+{"n":"Clay vessel","m":"","r":"..nnnnn..|...ooo...|..n.o.n..|.nooooon.|.ooooooo.|.ooNNNoo.|..ooooo..|...ooo...|..nnnnn.."},
+{"n":"Lavender","m":"devotion","r":"..L...L..|.Lv.L.vL.|.vL.v.Lv.|.Lv.L.vL.|..v.v.v..|..g.g.g..|...ggg...|...ggg...|..aaaaa.."},
+{"n":"Present","m":"","r":"..r...r..|...r.r...|bbbbrbbbb|bbbbrbbbb|rrrrrrrrr|bbbbrbbbb|bbbbrbbbb|bbbbrbbbb|........."},
+{"n":"Hydrangea","m":"heartfelt feeling","r":"..bLbv...|.bLbvbLb.|LbvbLbvbL|bLbvbLbvb|.vbLbvbL.|..bLbvb..|....G....|..GGGGG..|.GG.G.GG."},
+{"n":"Scroll","m":"","r":"ttttttttt|nuuuuuuun|.ukkkku..|.uuuuuu..|.ukkkku..|.uuuuuu..|.ukkku...|nuuuuuuun|ttttttttt"},
+{"n":"Lantern","m":"","r":"....k....|...aaa...|..rrrrr..|.rrRrRrr.|.rRrrrRr.|.rrRrRrr.|..rrrrr..|...aaa...|....a...."},
+{"n":"Umbrella","m":"","r":"....k....|..rrrrr..|.rrrrrrr.|rrrrrrrrr|r.r.k.r.r|....k....|....k....|..k.k....|...k....."},
+{"n":"Crescent moon","m":"","r":"...yyy...|.yyy...y.|.yy......|yy....Y..|yy.......|.yy....y.|.yyy.....|...yyy...|........."},
+{"n":"Temple","m":"","r":"....q....|..qqqqq..|qqqqqqqqq|.q.q.q.q.|.q.q.q.q.|.q.q.q.q.|.q.q.q.q.|qqqqqqqqq|sssssssss"},
+{"n":"Snowflake","m":"","r":"....b....|.b..b..b.|..b.b.b..|...bbb...|bbbbcbbbb|...bbb...|..b.b.b..|.b..b..b.|....b...."},
+{"n":"Rose","m":"love","r":"...rrr...|..rRrRr..|.rRrrRrr.|.rrRRrrr.|..rrrrr..|...rrr...|.G..g..G.|.GG.g.GG.|....g...."},
+{"n":"Pansy","m":"thought","r":".VVV.VVV.|VVVVVVVVV|VVvvyvvVV|.vykykyv.|vyyykyyyv|vvyyyyyvv|.vvvvvvv.|...G.....|..GGG...."},
+{"n":"Crown","m":"","r":".........|a...a...a|aa.aaa.aa|aaaaaaaaa|araabaara|aaaaaaaaa|aaaaaaaaa|.........|........."},
+{"n":"Saturn","m":"","r":".........|...ooo...|..oyyoo..|ttttttttt|.ooyyoo..|..ooooo..|...ooo...|.........|........."},
+{"n":"Knight","m":"","r":"...kk....|..kkkk...|.kkwkkk..|kkkkkkkk.|....kkkk.|...kkkk..|..kkkkk..|.kkkkkkk.|kkkkkkkkk"},
+{"n":"House and fence","m":"","r":"....r....|...rrr...|..rrrrr..|.rrrrrrr.|..wwwww..|..wbwnw..|..wwwnw..|t.t.t.t.t|ttttttttt"},
+{"n":"Eiffel Tower","m":"","r":"....S....|....S....|...SSS...|...S.S...|..SSSSS..|..S...S..|.SSSSSSS.|.S.....S.|SS.....SS"},
+{"n":"Speech bubble","m":"","r":".qqqqqqq.|qwwwwwwwq|qwwwwwwwq|qwkwkwkwq|qwwwwwwwq|.qqwwqqq.|...qwq...|...qq....|........."},
+{"n":"Stairs","m":"","r":"......ttt|......t..|....ttt..|....t....|..ttt....|..t......|ttt......|t........|t........"},
+{"n":"Signpost","m":"","r":"....n....|ttttttt..|tttttttt.|ttttttt..|....n....|..ttttttt|.tttttttt|..ttttttt|....n...."},
+{"n":"Lotus","m":"enlightenment","r":"....p....|...pPp...|.p.pPp.p.|.pPpPpPp.|ppPpppPpp|.ppppppp.|..ppppp..|ggggggggg|.ggggggg."},
+{"n":"Mortarboard","m":"","r":".........|....k....|..kkkkk..|kkkkkkkkk|..kkkkka.|..kkkkk.a|...kkk..a|........y|........."},
+{"n":"Apple","m":"","r":"....n....|....nG...|..rrnrr..|.rrrrrrr.|rrwrrrrrr|rrrrrrrrr|rrrrrrrrr|.rrrrrrr.|..rr.rr.."},
+{"n":"Palette","m":"","r":"...tttt..|.ttrttbt.|tttttttt.|tytt..ttt|ttt...tgt|ttt..ttt.|.ttvttt..|..tttt...|........."},
+{"n":"Open book","m":"","r":".........|.qqq.qqq.|qwwwqwwwq|qwkkqkkwq|qwwwqwwwq|qwkkqkkwq|qwwwqwwwq|.qqqnqqq.|....n...."},
+{"n":"Pitcher","m":"","r":".........|o.ooooo..|.ooooooo.|.oooooo.o|.oooooo.o|.ooooooo.|..ooooo..|..ooooo..|.sss.sss."},
+{"n":"Flamingo","m":"","r":"..ppp....|.pkpp....|..k.p....|....p....|...ppp...|..ppppp..|...pppp..|....p....|....p...."},
+{"n":"Rocket","m":"","r":"....r....|...rwr...|...wbw...|...www...|...www...|..rwwwr..|.r.www.r.|....o....|...yoy..."},
+{"n":"Star","m":"","r":"....y....|....y....|...yyy...|yyyyyyyyy|.yyyyyyy.|..yyyyy..|..yy.yy..|.yy...yy.|.y.....y."},
+{"n":"Torch","m":"","r":"...r.....|..ror....|..oyo.r..|.oyyyoo..|..oyyo...|...aa....|...nn....|...nn....|...nn...."},
+{"n":"Ladder","m":"","r":".n.....n.|.nnnnnnn.|.n.....n.|.nnnnnnn.|.n.....n.|.nnnnnnn.|.n.....n.|.nnnnnnn.|.n.....n."},
+{"n":"Butterfly","m":"","r":"..k...k..|vv.k.k.vv|vvv.k.vvv|vLvvkvvLv|.vvvkvvv.|..vvkvv..|.ppvkvpp.|.pp.k.pp.|........."},
+{"n":"Laurel wreath","m":"","r":"..g...g..|.g.....g.|g.......g|gg.....gg|.g.....g.|.gg...gg.|..gg.gg..|...ara...|....a...."},
+{"n":"Acorn","m":"","r":"....n....|..nnnnn..|.NnNnNnN.|.nnnnnnn.|..ttttt..|..ttttt..|..ttttt..|...ttt...|....t...."},
+{"n":"Poppy","m":"remembrance","r":"...rr....|.rrrrrr..|rrrrrrrr.|rrrkkkrrr|rrrkkkrrr|.rrkkkrr.|..rrrrr..|....G....|...GG...."},
+{"n":"Light bulb","m":"","r":"...yyy...|..yYYYy..|.yYyyyYy.|.yYyyyyy.|.yyyyyyy.|..yyyyy..|...sss...|...SSS...|....S...."}];
+/* the flowers, for pages outside the Book of Nines (the bookstore's books and the almanac) */
+const FLOWERS=ARTS.map((a,i)=>a.m?i:-1).filter(i=>i>=0&&!/Bamboo|clover|Dove/i.test(ARTS[i].n));
+const cells=a=>{const out=[];a.r.split('|').forEach(row=>{for(const ch of row)out.push(ch==='.'?null:PAL[ch])});return out};
+/* light or dark: the number on a square is written in the colour that reads best on it */
+const dark=hex=>{const n=parseInt(hex.slice(1),16),r=n>>16,g=n>>8&255,b=n&255;return(.299*r+.587*g+.114*b)/255<.58};
+return{PAL,ARTS,FLOWERS,cells,dark,get:i=>ARTS[i]}})();
+if(typeof module!=='undefined')module.exports=PixArt;
+</script>
+<script>
 /* drafts.js */
 /* Scenes drawn in code (no image files): the Patchwork drafts on trial in Design, and Confetti from the bookstore.
    Each draft: paint(c,W,H,k,R) draws the still part once and returns its state;
@@ -3412,7 +3540,7 @@ function save(){clearTimeout(saveT);saveT=setTimeout(put,150)}
 function saveNow(){clearTimeout(saveT);put()}
 addEventListener('pagehide',saveNow);document.addEventListener('visibilitychange',()=>{if(document.hidden)saveNow()});
 let swapping=false;
-function stash(){if(!G.puz||swapping)return;const rec={v:G.vals.slice(),n:G.notes.slice(),h:G.hint.slice(),u:G.hu|0,c:G.clean,l:G.lives,b:G.boxes,m:G.combo};if(playMode==='daily'&&dailyKey){if(!S.daily)S.daily={};S.daily[dailyKey]={...rec,d:S.daily[dailyKey]?.d||0}}else if(playMode==='book')S.prog[S.page]=rec;else if(playMode==='multi')stashMulti()}
+function stash(){if(!G.puz||swapping)return;const rec={v:G.vals.slice(),n:G.notes.slice(),h:G.hint.slice(),u:G.hu|0,c:G.clean,l:G.lives,b:G.boxes,m:G.combo,s:G.sh|0};if(playMode==='daily'&&dailyKey){if(!S.daily)S.daily={};S.daily[dailyKey]={...rec,d:S.daily[dailyKey]?.d||0}}else if(playMode==='book')S.prog[S.page]=rec;else if(playMode==='multi')stashMulti()}
 
 /* ================= audio ================= */
 let AC=null,master,verb,nbuf;
@@ -3879,9 +4007,9 @@ function loadPage(p,skipStash=false){
   G.vals=pr?pr.v.slice():z.puz.slice();G.notes=pr?pr.n.slice():new Array(81).fill(0);
   G.hint=pr&&pr.h?pr.h.slice():new Array(81).fill(0);G.hu=pr&&Number.isInteger(pr.u)?pr.u:G.hint.filter(Boolean).length;G.clean=pr?pr.c:true;
   G.lives=pr&&Number.isInteger(pr.l)?Math.max(0,Math.min(MAX_LIVES,pr.l)):MAX_LIVES;G.boxes=pr&&Number.isInteger(pr.b)?pr.b&511:0;
-  G.combo=pr&&Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0;
-  G.hist=[];G.fut=[];G.sel=-1;G.hl=0;G.arm=0;G.rub=false;G.bulb=false;G.done=false;G.failed=G.lives<=0;
-  pageEl.querySelectorAll('.stamp,.turn,.spark,.chip,.out').forEach(n=>n.remove());
+  G.combo=pr&&Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0;G.sh=pr&&Number.isInteger(pr.s)?Math.max(0,pr.s):0;
+  G.hist=[];G.fut=[];G.sel=-1;G.hl=0;G.arm=0;G.rub=false;G.bulb=false;G.done=false;G.failed=G.lives<=0&&!spareHearts();
+  pageEl.querySelectorAll('.stamp,.turn,.spark,.chip,.out').forEach(n=>n.remove());clearArt();
   cells.forEach(c=>c.classList.remove('wave','flash','pop'));
   drawLines(p);renderHead();render();renderStickers();
   if(S.solved[p]&&G.vals.every((v,k)=>v===G.sol[k])){G.done=true;showSolved(false);render()}
@@ -3926,10 +4054,19 @@ function placeAt(i,v){
   apply(ch);afterPlace(i,v);
 }
 /* haptics: a tick for damage, a thud for a lost heart, a long rumble when the last heart goes */
-function buzz(kind){padRumble(kind);try{if(reduced||!navigator.vibrate)return;navigator.vibrate(kind==='damage'?18:kind==='heart'?[45,40,70]:[90,50,140,50,220])}catch(e){}}
+function buzz(kind){padRumble(kind==='saved'?'damage':kind);try{if(reduced||!navigator.vibrate)return;navigator.vibrate(kind==='damage'?18:kind==='saved'?[35,45,35]:kind==='heart'?[45,40,70]:[90,50,140,50,220])}catch(e){}}
+/* a heart sticker on a page is one more heart there, not drawn among the others: a mistake uses it up with a buzz and leaves the hearts whole,
+   and on a dead page it brings the page back to life */
+const pageHearts=()=>playMode==='book'?(stk().pages[(S.block||'nines')+'/'+(S.page??1)]||[]).filter(x=>x.id==='heart').length:0;
+const spareHearts=()=>Math.max(0,pageHearts()-(G.sh|0));
+function heartStuck(){if(playMode!=='book'||!G.puz||!spareHearts())return;
+  if(G.failed){G.failed=false;$('#gridwrap').querySelectorAll('.lost-stamp,.px-cap').forEach(n=>n.remove());render();save();sfx.coin?.();
+    if(G.done){showArt(true,'brought back to life');toast('The heart sticker brought this page back to life.')}else toast('The heart sticker brought this page back to life: one more mistake is allowed.',4000)}
+  else toast('A heart sticker: the next mistake on this page costs no heart.',3600)}
 function afterPlace(i,v,hinted){
   popCell(i);
   if(v!==G.sol[i]){
+    if(spareHearts()&&!(playMode==='book'&&block().noLives)){G.sh=(G.sh|0)+1;G.clean=false;G.combo=0;buzz('saved');sfx.bad();render();save();return}   /* a heart sticker takes the mistake */
     G.clean=false;G.combo=0;if(!(playMode==='book'&&block().noLives)){G.lives=Math.max(0,G.lives-1);if(!G.lives)G.failed=true}
     buzz(G.failed?'destroyed':'heart');sfx.bad();render();save();if(G.failed)showLost();return;
   }
@@ -4015,21 +4152,31 @@ function solved(){
   for(let i=0;i<81;i++){const el=cells[i];el.style.setProperty('--d',((RW[i]+CL[i])*.04)+'s');el.classList.remove('wave');void el.offsetWidth;el.classList.add('wave')}
   sfx.solve();render();steam(18);
   const here=[playMode,S.block,S.page];
-  setTimeout(()=>{if(playMode!==here[0]||S.block!==here[1]||S.page!==here[2]||!G.done)return;board.classList.remove('shake');void board.offsetWidth;board.classList.add('shake');sfx.slam();showSolved(true,reward)},700);
+  setTimeout(()=>{if(playMode!==here[0]||S.block!==here[1]||S.page!==here[2]||!G.done)return;showSolved(true,reward)},700);
   if(!S.owner&&!S.askedName)setTimeout(()=>{if(!S.owner&&!document.querySelector('.veil')&&!atBack)askName()},3200);   // asked again after a later page if a window was open
   const start=S.coins;S.coins+=reward;save();
   const coinStep=Math.max(35,130*4/Math.max(4,reward));for(let k=1;k<=reward;k++)setTimeout(()=>{setCoins(start+k);const p=$('#purse');p.classList.remove('gain');void p.offsetWidth;p.classList.add('gain');sfx.coin()},1250+k*coinStep);
 }
+/* the picture behind the numbers: the Book of Nines has one for each page; other books and the almanac show a flower */
+function artFor(){if(playMode==='book'&&(S.block||'nines')==='nines')return PixArt.get(S.page??1);const F=PixArt.FLOWERS,key=playMode==='daily'?'d'+dailyKey:(S.block||'')+'/'+S.page;let h=7;for(const ch of key)h=(h*31+ch.charCodeAt(0))>>>0;return PixArt.get(F[h%F.length])}
+function clearArt(){cells.forEach(c=>{if(!c.classList.contains('pxl'))return;c.classList.remove('pxl','pxd','pxa');c.style.removeProperty('--px');c.style.removeProperty('--pd')});$('#gridwrap')?.querySelectorAll('.px-cap').forEach(n=>n.remove())}
+function showArt(anim,note){clearArt();const a=artFor();if(!a)return;const col=PixArt.cells(a),grow=anim&&!reduced;
+  col.forEach((c,i)=>{if(!c)return;const el=cells[i];el.style.setProperty('--px',c);el.style.setProperty('--pd',grow?(Math.hypot(RW[i]-4,CL[i]-4)*.12+Math.random()*.14).toFixed(2)+'s':'0s');el.classList.add('pxl');if(PixArt.dark(c))el.classList.add('pxd');if(grow){el.classList.remove('pxa');void el.offsetWidth;el.classList.add('pxa')}});
+  gridEl.setAttribute('aria-description','Picture: '+a.n+(a.m?', '+a.m:''));
+  if(!anim)return;const cap=document.createElement('div');cap.className='px-cap';cap.innerHTML=`<b>${a.n}</b>${a.m?`<i>${a.m}</i>`:''}${note?`<span>${note}</span>`:''}`;$('#gridwrap').appendChild(cap);setTimeout(()=>{cap.classList.add('out');setTimeout(()=>cap.remove(),700)},5600)}
 function showSolved(anim,reward){
   const lost=G.failed&&!!S.lostStamp;     // the LOST stamp is a Design option; otherwise a dead page is simply stamped Solved
   if(playMode==='daily'){
-    pageEl.querySelectorAll('.stamp,.turn').forEach(n=>n.remove());const st=document.createElement('div');st.className='stamp'+(lost?' lost-stamp':'')+(anim?' land':'');st.innerHTML=lost?'<b>Lost</b><small>solved without reward</small>':`<b>Solved</b><small>${G.failed?'dead page · no reward':dailyInfo(dailyKey).title}</small>`;$('#gridwrap').appendChild(st);
+    pageEl.querySelectorAll('.stamp,.turn').forEach(n=>n.remove());
+    if(lost){const st=document.createElement('div');st.className='stamp lost-stamp'+(anim?' land':'');st.innerHTML='<b>Lost</b><small>solved without reward</small>';$('#gridwrap').appendChild(st)}
+    else if(!G.failed)showArt(anim,anim&&reward?`+${reward} coins${G.clean?' · clean page':''}`:'');
     const b=document.createElement('button');b.className='turn';b.textContent='Back to calendar';b.setAttribute('aria-label','Back to the daily calendar');b.addEventListener('click',e=>{e.stopPropagation();openCalendar()});pageEl.appendChild(b);return;
   }
   if(G.failed)$('#gridwrap').querySelectorAll('.lost-stamp').forEach(n=>n.remove());
-  const st=document.createElement('div');st.className='stamp'+(lost?' lost-stamp':'')+(anim?' land':'');
-  st.innerHTML=lost?`<b>Lost</b><small>page ${S.page} · solved without reward</small>`:G.failed?`<b>Solved</b><small>page ${S.page} · dead page · no reward</small>`:`<b>Solved</b><small>${anim&&reward?`+${reward} <i class="coin"></i>${G.clean?' · clean page':''}`:'page '+S.page}</small>`;
-  $('#gridwrap').appendChild(st);
+  /* no stamp any more: a living page shows its picture; a dead one stays bare (a heart sticker brings it back) */
+  if(lost){const st=document.createElement('div');st.className='stamp lost-stamp'+(anim?' land':'');st.innerHTML=`<b>Lost</b><small>page ${S.page} · solved without reward</small>`;$('#gridwrap').appendChild(st)}
+  else if(!G.failed)showArt(anim,anim&&reward?`+${reward} coins${G.clean?' · clean page':''}`:'');
+  else if(anim){const cap=document.createElement('div');cap.className='px-cap dead';cap.innerHTML='<b>A dead page</b><i>no picture, no reward. A heart sticker brings it back to life.</i>';$('#gridwrap').appendChild(cap);setTimeout(()=>{cap.classList.add('out');setTimeout(()=>cap.remove(),700)},6000)}
   const b=document.createElement('button');b.className='px turn';
   b.innerHTML=`page ${S.page+1} <span class="arr">&rarr;</span>`;b.setAttribute('aria-label','Turn to page '+(S.page+1));b.className='turn';
   b.addEventListener('click',e=>{e.stopPropagation();flipTo(S.page+1)});
@@ -4640,7 +4787,7 @@ function openShop(tab,door){
   const card=(it,D,extra='')=>{const d=D[it.key],p=priceOf(it,D),own=!it.many&&it.own,short=Math.max(0,p-S.coins),inB=basket().find(l=>l.k===it.key);
     const badge=d?`<i class="badge sale">−${Math.round(d.off*100)}%</i>`:shopIsNew(it.key)?'<i class="badge new">New!</i>':'';
     const lab=own?`${it.name}: yours. Hold for more`:inB&&!it.many?`${it.name}: in the basket. Hold for more`:`${it.name}, ${p} coins: tap to put it in the basket, hold for more`;
-    return`<div class="item${own?' owned':''}${d&&!own?' sale':''}${short&&!own?' unaffordable':''}${inB?' inb':''}${it.k3?' k3-'+it.k3:''}" data-key="${it.key}" role="button" tabindex="0" aria-label="${lab}">${badge}`+
+    return`<div class="item${own?' owned':''}${d&&!own?' sale':''}${short&&!own?' unaffordable':''}${inB?' inb':''}${it.k3?' k3-'+it.k3:''}" data-key="${it.key}" ${own?'':it.legacy} role="button" tabindex="0" aria-label="${lab}">${badge}`+
       (inB?`<i class="inb-mark" aria-hidden="true">${spr('basket')}${it.many&&inB.n>1?`<b>${inB.n}</b>`:''}</i>`:'')+
       `<div class="stage">${obj3(it)}</div>${it.k3==='book'?'':`<span class="nm2">${it.name}</span>`}`+
       (own?it.use():`<span class="price">${d?`<s>${it.price}</s>`:''}<i class="coin"></i><b>${p}</b></span>${d?`<span class="ends">${d.left?d.left===1?'until tomorrow':`${d.left+1} days left`:'ends tonight'}</span>`:''}`)+
@@ -4988,7 +5135,7 @@ function renderHover(){const s=placing&&stkSurface();document.querySelectorAll('
   e.style.left=placing.x+'%';e.style.top=placing.y+'%';e.style.setProperty('--rot',placing.r+'deg')}
 const tidyTurn=r=>{r=((r%360)+540)%360-180;return Math.abs(r)<4?0:Math.round(r)};                 /* nearly straight snaps straight */
 function stickIt(){if(!placing)return;const s=stkSurface();if(!s)return;const k=stk(),pl=placing;if(!(k.owned[pl.id]>0)){placing=null;renderStickers();return}k.owned[pl.id]--;
-  s.list.push({id:pl.id,x:Math.max(4,Math.min(96,pl.x)),y:Math.max(4,Math.min(96,pl.y)),r:tidyTurn(pl.r)});placing=null;renderStickers();
+  s.list.push({id:pl.id,x:Math.max(4,Math.min(96,pl.x)),y:Math.max(4,Math.min(96,pl.y)),r:tidyTurn(pl.r)});placing=null;renderStickers();if(pl.id==='heart'&&s.key!=='cover')setTimeout(heartStuck,250);
   const e=s.box.querySelector(`[data-i="${s.list.length-1}"]`),r=tidyTurn(pl.r);
   if(e&&!reduced)e.animate([{transform:`translate(-50%,-50%) rotate(${r}deg) scale(1.18)`,filter:'drop-shadow(5px 14px 7px rgba(0,0,0,.38))'},{transform:`translate(-50%,-50%) rotate(${r}deg) scale(.93)`,offset:.65},{transform:`translate(-50%,-50%) rotate(${r}deg) scale(1)`}],{duration:300,easing:'cubic-bezier(.3,.7,.4,1)'});
   sfx.stamp();save()}
@@ -5199,7 +5346,7 @@ function normaliseSave(d){
   for(const[p,pr]of Object.entries(obj(top.prog))){
     if(!/^\d+$/.test(p)||(+p<1&&!(n.block==='nines'&&+p===0))||!pr||!Array.isArray(pr.v)||!Array.isArray(pr.n)||pr.v.length!==81||pr.n.length!==81)continue;
     if(!pr.v.every(v=>Number.isInteger(v)&&v>=0&&v<=9)||!pr.n.every(v=>Number.isInteger(v)&&v>=0&&v<=1022))continue;
-    n.prog[p]={v:pr.v.slice(),n:pr.n.slice(),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(v=>v?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(Boolean).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?Math.max(0,Math.min(MAX_LIVES,pr.l)):MAX_LIVES,b:Number.isInteger(pr.b)?pr.b&511:0,m:Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0};
+    n.prog[p]={v:pr.v.slice(),n:pr.n.slice(),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(v=>v?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(Boolean).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?Math.max(0,Math.min(MAX_LIVES,pr.l)):MAX_LIVES,b:Number.isInteger(pr.b)?pr.b&511:0,m:Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0,s:Number.isInteger(pr.s)?Math.max(0,Math.min(99,pr.s)):0};
   }
   n.daily={};for(const[key,pr]of Object.entries(obj(d.daily)).sort((a,b)=>a[0]<b[0]?1:-1).slice(0,400)){
     if(!/^\d{4}-\d{2}-\d{2}$/.test(key)||!pr||!Array.isArray(pr.v)||!Array.isArray(pr.n)||pr.v.length!==81||pr.n.length!==81)continue;
@@ -6348,7 +6495,7 @@ const mediaApp=()=>!!(window.NINES_APP&&window.NinesApp&&typeof NinesApp.mediaSt
 /* the music permission: asked as soon as the book is open, until it is given or the player says no.
    The card keeps the purpose folded away as a surprise; one tap on "What is it for?" shows all of it. */
 function mediaAsk(){if(!mediaApp()||S.mediaAsked||MEDIA.state?.access||document.querySelector('.veil'))return;
-  const v=document.createElement('div');v.className='veil';v.innerHTML=`<div class="toc paper mediaask" role="dialog" aria-label="One permission"><div class="ma-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 20h28v18a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3Z"/><path d="M7 14h34v6H7z"/><path d="M24 14v27M24 14c-3-6-11-7-11-2s8 2 11 2c3 0 11 3 11-2s-8-4-11 2"/></svg></div><h2>One small permission</h2><p class="lede">The book has a little surprise for you. To unwrap it, it needs your permission.</p><ul class="ma-pledge"><li><b>We won’t</b> collect your data.</li><li><b>We won’t</b> read your messages or break your privacy.</li><li><b>We might</b> send you a letter now and then, with news and events such as tournaments.</li></ul><details class="ma-why"><summary>What is it for?</summary><p>Two things. When music or a video plays in another app, the book shows small buttons beside it: back, pause or play, stop and next, so you never have to leave the book to change the song. Android calls this <b>notification access</b>; the book uses it only to see what is playing, and nothing is read out, kept or sent anywhere.</p><p>And Android will ask whether the book may <b>send notifications</b>: those are the letters with news and events.</p><p>You can take either back any time in your phone’s settings.</p></details><div class="nrow"><button class="px close" data-ma="no">No, thanks</button><button class="px close" data-ma="yes">Allow</button></div></div>`;
+  const v=document.createElement('div');v.className='veil';v.innerHTML=`<div class="toc paper mediaask" role="dialog" aria-label="One permission"><div class="ma-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 20h28v18a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3Z"/><path d="M7 14h34v6H7z"/><path d="M24 14v27M24 14c-3-6-11-7-11-2s8 2 11 2c3 0 11 3 11-2s-8-4-11 2"/></svg></div><h2>One small permission</h2><p class="lede">The book has a little surprise for you. To unwrap it, it needs your permission.</p><ul class="ma-pledge"><li><b>We won’t</b> sell your data or track you.</li><li><b>We won’t</b> read your messages or break your privacy.</li><li><b>We might</b> send you a letter now and then, with news and events such as tournaments.</li></ul><details class="ma-why"><summary>What is it for?</summary><p>Two things. When music or a video plays in another app, the book shows small buttons beside it: back, pause or play, stop and next, so you never have to leave the book to change the song. Android calls this <b>notification access</b>; the book uses it only to see what is playing, and nothing is read out, kept or sent anywhere.</p><p>And Android will ask whether the book may <b>send notifications</b>: those are the letters with news and events.</p><p>You can take either back any time in your phone’s settings.</p></details><div class="nrow"><button class="px close" data-ma="no">No, thanks</button><button class="px close" data-ma="yes">Allow</button></div></div>`;
   v.addEventListener('click',e=>{const b=e.target.closest('[data-ma]');if(!b)return;v.remove();
     if(b.dataset.ma==='no'){S.mediaAsked=1;save();return}
     try{NinesApp.openMediaAccess()}catch(err){}
@@ -6451,7 +6598,7 @@ function leaveDaily(calendar=true){
   if(calendar)setTimeout(()=>openCalendar(key),reduced?0:180)
 }
 function solveDaily(){
-  G.done=true;G.sel=-1;if(!S.daily)S.daily={};const old=S.daily[dailyKey]?.d||0,reward=G.failed?0:(old?0:3+(G.clean?2:0));stash();S.daily[dailyKey].d=1;S.coins+=reward;sfx.solve();render();save();steam(12);const key=dailyKey;setTimeout(()=>{if(playMode!=='daily'||dailyKey!==key||!G.done)return;sfx.slam();showSolved(true,reward)},reduced?20:650);
+  G.done=true;G.sel=-1;if(!S.daily)S.daily={};const old=S.daily[dailyKey]?.d||0,reward=G.failed?0:(old?0:3+(G.clean?2:0));stash();S.daily[dailyKey].d=1;S.coins+=reward;sfx.solve();render();save();steam(12);const key=dailyKey;setTimeout(()=>{if(playMode!=='daily'||dailyKey!==key||!G.done)return;showSolved(true,reward)},reduced?20:650);
 }
 let calView=new Date(midDate().getFullYear(),midDate().getMonth(),1),calSelected=dateKey(midDate());
 function openCalendar(preferred=null){
