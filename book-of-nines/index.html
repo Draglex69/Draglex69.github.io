@@ -4868,7 +4868,7 @@ function placeDoll(p,where){const ps=plushState();ps.away=ps.away||{};const k='p
   else{if(ps.cur===p){ps.cur=null;ps.tvEmpty=1}if(CM_DRAWERS.some(d=>d.id===where))ps.away[p]=where;else L[where==='top'?'top':'shelf'].push(k)}
   renderPlushIcon();save();return true}
 const cmId=()=>Commode.S[S.commode]?S.commode:'farm';
-const cmBookNm=b=>({hard:'The Hardest',nikoli:'Dokushin'}[b.id]||b.title),cmBookH=b=>Math.round(Math.max(62,Math.min(86,cmBookNm(b).length*4.7+26))+((b.id.charCodeAt(0)*7)%5)-2);
+const cmBookNm=b=>({hard:'The Hardest',nikoli:'Dokushin',nines2:'99 Sheets · II'}[b.id]||b.title),cmBookH=b=>Math.round(Math.max(62,Math.min(86,cmBookNm(b).length*4.7+26))+((b.id.charCodeAt(0)*7)%5)-2);
 /* the outline of each thing on the commode, so things can stand close but never in one another: for each 2px band from the floor up,
    where its painted shape starts and ends (in the px of its place on the row). Books are their spines; plushies, ornaments and the vase are read from their pictures */
 const CM_SHAPE=new Map();
@@ -7531,7 +7531,9 @@ function faxSetup(){const name=faxName();if(!MP.minutes)MP.minutes=3;
   /* a page code: scan it, or paste it, then print */
   const take=c=>{try{const rec=readPageCode(String(c||'').trim());page={code:String(c).trim(),title:rec.title};printB.disabled=false;printB.classList.add('ready');err.textContent='';show();sfx.tick();return true}catch(e){say('NOT A PAGE CODE');return false}};
   v.querySelector('#fxPaste').onclick=async()=>{sfx.tick();let t='';try{t=await navigator.clipboard.readText()}catch(e){}
-    if(!t){say('NOTHING TO PASTE');return}take(t)};
+    if(!t){say('NOTHING TO PASTE');return}
+    const rc=MatchCore.normCode(t);if(!direct&&t.trim().length<=6&&MatchCore.isCode(rc)){code.value=rc;err.textContent='';show();faxBeep('#');return}   /* a room code pasted from a message (older codes had letters, which the keypad cannot type) */
+    take(t)};
   v.querySelector('#fxScan').onclick=()=>{const b=v.querySelector('#fxScan');if(b.classList.contains('live')){stopScan();b.classList.remove('live');show();return}sfx.tick();b.classList.add('live');say('POINT AT THE CODE');
     scanQR(v.querySelector('#pgVideo'),c=>{b.classList.remove('live');if(take(c))faxBeep('#')},m=>{b.classList.remove('live');say(/not available/i.test(m)?'NO CAMERA HERE':'CAMERA WOULD NOT OPEN')},/^NP-PAGE\./)};
   printB.onclick=()=>{if(!page)return;try{const rec=readPageCode(page.code),id=addPage(rec,'received');stopScan();v.remove();MP.overlay=null;faxPrint(rec.grid,rec.title);sfx.stamp();
