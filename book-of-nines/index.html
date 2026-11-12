@@ -4212,7 +4212,7 @@ $('#scales').addEventListener('click',e=>{const b=e.target.closest('.gl');if(!b)
 const UIS=[{id:'calc',label:'Calculator',icon:spr('keypad')},{id:'paint',label:'Watercolours',icon:spr('brush')},{id:'press',label:'Letterpress',icon:spr('block')}];
 const WOODS=[{id:'oak',label:'Oak',a:'#c08d55',b:'#e9cc9f'},{id:'ebony',label:'Ebony',a:'#3e2718',b:'#14100e'},{id:'bone',label:'Walnut & bone',a:'#5e3d24',b:'#efe6d2'}];
 const SCN=[{id:'still',label:'Still',icon:spr('moon')},{id:'retro',label:'Retro',icon:spr('checker')},{id:'woods',label:'Woods',icon:spr('tree')},{id:'cloth',label:'Cloth',icon:spr('waves')},
-  {id:'night',label:'Night sky',icon:spr('stars')},{id:'paris',label:'Paris',icon:spr('eiffel')},{id:'macedonia',label:'Macedonia',icon:spr('sunrays')},{id:'apero',label:'Apéritif',icon:spr('coupe')},{id:'nyc',label:'New York',icon:spr('skyline')},{id:'lunar',label:'On the Moon',icon:spr('earth')},{id:'soiree',label:'Soirée',icon:spr('lamp')},{id:'heraldry',label:'Heraldry',icon:spr('fleur')},{id:'confetti',label:'Confetti',icon:spr('confetti')},{id:'roses',label:'Roses',icon:spr('rose')}];
+  {id:'night',label:'Night sky',icon:spr('stars')},{id:'paris',label:'Paris',icon:spr('eiffel')},{id:'macedonia',label:'Macedonia',icon:spr('sunrays')},{id:'apero',label:'Apéritif',icon:spr('coupe')},{id:'nyc',label:'New York',icon:spr('skyline')},{id:'lunar',label:'On the Moon',icon:spr('earth')},{id:'soiree',label:'Soirée',icon:spr('lamp')},{id:'heraldry',label:'Heraldry',icon:spr('fleur')},{id:'confetti',label:'Confetti',icon:spr('confetti')},{id:'roses',label:'Roses (touch to bloom)',icon:spr('rose')},{id:'roseprint',label:'Rose print',icon:spr('rose')}];
 /* ================= DOM build ================= */
 const gridEl=$('#grid'),handEl=$('#hand'),pageEl=$('#page'),board=$('#board'),pcell=$('#pcell'),coverEl=$('#cover');
 const cells=[];
@@ -6895,7 +6895,39 @@ function roseTouch(e){if(S.scene!=='roses'||!ROSES.length)return;const t=e.targe
   if(S.sound){ac();tone({f:880+Math.random()*220,f2:1320,d:.5,g:.018,wet:.4});tone({f:1320,d:.6,g:.01,t:.08,wet:.5})}
   if(reduced){best.o=1;drawScene(0);setTimeout(()=>{best.o=best.tgt=best.rest;best.until=0;drawScene(0)},3800)}}
 document.addEventListener('pointerdown',roseTouch,true);
-const SCENE_FN={roses:{b:buildRoses,d:drawRoses,s:1},still:{b:buildStill,d:drawStill,s:1},retro:{b:buildRetro,d:drawRetro},woods:{b:buildWoods,d:drawWoods},cloth:{b:buildCloth,d:drawCloth,s:1},
+/* Rose print: a flat wallpaper of roses, after a print of violet, lilac and grey roses on black: each rose a scalloped bloom
+   with its petals drawn in a darker line, among two-toned leaves. Painted once; nothing moves. */
+const RP_COLS=[['#cdb2ec','#9d7cc6'],['#8a3aa2','#4a1658'],['#a160c4','#5e2a7c'],['#6a6570','#3a3640'],['#b991e0','#7a54a6'],['#6d2a84','#38103f']];
+function rpLeaf(c,x,y,len,ang,lite,dark,vein){const w=len*.42,ca=Math.cos(ang),sa=Math.sin(ang),P=(u,v)=>[x+ca*u-sa*v,y+sa*u+ca*v];
+  const half=(s,col)=>{c.fillStyle=col;c.beginPath();c.moveTo(...P(0,0));const a=P(len*.35,w*s),b=P(len*.8,w*.75*s),t=P(len,0);c.bezierCurveTo(...a,...b,...t);c.closePath();c.fill()};
+  half(1,lite);half(-1,dark);c.strokeStyle=vein;c.lineWidth=len*.05;c.lineCap='round';c.beginPath();c.moveTo(...P(-len*.12,0));c.lineTo(...P(len*.9,0));c.stroke()}
+function rpRose(c,x,y,R,col,line,rot){c.save();c.translate(x,y);c.rotate(rot);
+  /* the bloom: a round heart and a ring of scalloped outer petals */
+  c.fillStyle=col;c.beginPath();c.arc(0,0,R*.72,0,Math.PI*2);c.fill();const n=7;
+  for(let i=0;i<n;i++){const a=i/n*Math.PI*2,r=R*(.36+(i%2)*.04);c.beginPath();c.arc(Math.cos(a)*R*.6,Math.sin(a)*R*.6,r,0,Math.PI*2);c.fill()}
+  c.strokeStyle=line;c.lineCap='round';c.lineJoin='round';const lw=R*.1;c.lineWidth=lw;
+  /* the outer petals' edges */
+  for(let i=0;i<n;i++){const a=i/n*Math.PI*2,cx=Math.cos(a)*R*.62,cy=Math.sin(a)*R*.62;c.beginPath();c.arc(cx,cy,R*.3,a-1.15,a+.75);c.stroke()}
+  /* the middle petals: open cups around the heart */
+  for(let i=0;i<5;i++){const a=i/5*Math.PI*2+.4;c.beginPath();c.arc(Math.cos(a)*R*.1,Math.sin(a)*R*.1,R*.44,a+.5,a+1.75);c.stroke()}
+  /* the heart: a curled spiral */
+  c.lineWidth=lw*.95;c.beginPath();for(let t=0;t<=1;t+=.04){const a=t*Math.PI*3.4+1,r=R*(.05+.24*t);const px=Math.cos(a)*r,py=Math.sin(a)*r;t?c.lineTo(px,py):c.moveTo(px,py)}c.stroke();
+  c.fillStyle=line;c.beginPath();c.arc(0,0,R*.07,0,Math.PI*2);c.fill();
+  c.restore()}
+function buildRosePrint(){const n=night(),off=mkOff(),c=off.getContext('2d');FR.push(off);
+  c.fillStyle=n?'#0c060f':'#170b1c';c.fillRect(0,0,W,H);
+  const R=Math.max(22*DPR,Math.min(46*DPR,Math.min(W,H)/11)),dx=R*2.25,dy=R*1.95,roses=[];
+  for(let row=0,y=-R*.3;y<H+R*1.2;row++,y+=dy)for(let x=(row%2?dx/2:0)-R*.4;x<W+R*1.2;x+=dx)roses.push([x+lr(-.16,.16)*R,y+lr(-.14,.14)*R,R*lr(.86,1.1),RP_COLS[Math.floor(lr(0,RP_COLS.length))]]);
+  /* leaves and their stems first, peeking out between the roses */
+  const LF=[[n?'#6e5a82':'#9a80b8',n?'#463a55':'#634e7c'],[n?'#4c4752':'#6b6572',n?'#2e2b33':'#45414b'],[n?'#7a4d94':'#a070c0',n?'#4e2a62':'#6e3e8c']];
+  for(const [x,y,r] of roses){const k=Math.floor(lr(2,4));for(let i=0;i<k;i++){const a=lr(0,Math.PI*2),L=r*lr(.7,.95),[li,dk]=LF[Math.floor(lr(0,LF.length))],sx=x+Math.cos(a)*r*.75,sy=y+Math.sin(a)*r*.75;
+    c.strokeStyle=dk;c.lineWidth=r*.07;c.lineCap='round';c.beginPath();c.moveTo(x+Math.cos(a)*r*.5,y+Math.sin(a)*r*.5);c.quadraticCurveTo(sx+Math.cos(a+.6)*r*.2,sy+Math.sin(a+.6)*r*.2,sx+Math.cos(a)*r*.25,sy+Math.sin(a)*r*.25);c.stroke();
+    rpLeaf(c,sx+Math.cos(a)*r*.2,sy+Math.sin(a)*r*.2,L,a+lr(-.35,.35),li,dk,mix(dk,'#000000',.25))}}
+  for(const [x,y,r,[col,line]] of roses)rpRose(c,x,y,r,n?mix(col,'#000000',.22):col,n?mix(line,'#000000',.3):line,lr(0,Math.PI*2));
+  for(let i=0,k=W*H/40;i<k;i++){c.fillStyle=i%2?'rgba(255,255,255,.035)':'rgba(0,0,0,.08)';c.fillRect(Math.random()*W,Math.random()*H,DPR,DPR)}   /* a fine printed grain */
+  vignette(c,.35)}
+function drawRosePrint(){cx.drawImage(FR[0],0,0)}
+const SCENE_FN={roseprint:{b:buildRosePrint,d:drawRosePrint,s:1},roses:{b:buildRoses,d:drawRoses,s:1},still:{b:buildStill,d:drawStill,s:1},retro:{b:buildRetro,d:drawRetro},woods:{b:buildWoods,d:drawWoods},cloth:{b:buildCloth,d:drawCloth,s:1},
   night:{b:buildNight,d:drawNightSky},paris:{b:buildParis,d:drawParis},macedonia:{b:buildMacedonia,d:drawMacedonia},apero:{b:buildApero,d:drawApero},soiree:{b:buildSoiree,d:drawSoiree},heraldry:{b:buildHeraldry,d:drawHeraldry},nyc:{b:buildNYC,d:drawNYC},lunar:{b:buildLunar,d:drawLunar}};
 /* the scenes from drafts.js (the Patchwork drafts and Confetti): painted once, the moving ones drawn on top each frame; each has a day and a night version */
 /* a small square of a drawn scene for the bookstore, in the current day or night (made once each) */
