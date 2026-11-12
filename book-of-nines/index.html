@@ -2426,6 +2426,120 @@ const QUOTES=[
   ["It’s a poor sort of memory that only works backwards.", "The White Queen", "Lewis Carroll, Through the Looking-Glass, 1871"],
   ["Genius is one per cent inspiration, ninety-nine per cent perspiration.", "Thomas Edison", "as he was quoted, c. 1903"],
 ];
+
+/* The verso of Volume II (99 Sheets + 1, Vol. 2): the same rule, a new set. Keep exactly 99, in page order. */
+const QUOTES2=[
+  /* I · Gentle: first steps */
+  ["Well begun is half done.", "Proverb", "quoted by Aristotle, Politics"],
+  ["Every noble work is at first impossible.", "Thomas Carlyle", "Past and Present, 1843"],
+  ["All men by nature desire to know.", "Aristotle", "Metaphysics, tr. W. D. Ross"],
+  ["Seek, and ye shall find.", "Gospel of Matthew", "7:7, King James Bible"],
+  ["A journey of a thousand miles begins with a single step.", "Laozi", "Tao Te Ching, 64"],
+  ["Curiouser and curiouser!", "Alice", "Lewis Carroll, Alice’s Adventures in Wonderland, 1865"],
+  ["Little by little, one goes far.", "Spanish proverb", "poco a poco se va lejos"],
+  ["Learning is not attained by chance, it must be sought for with ardor and attended to with diligence.", "Abigail Adams", "letter to John Quincy Adams, 1780"],
+  ["Every flower is a soul blossoming in nature.", "Gérard de Nerval", "Golden Verses, 1845"],
+  /* II · Mild: habit and time */
+  ["Drop by drop is the water-pot filled.", "The Buddha", "Dhammapada, 122"],
+  ["Practice makes perfect.", "Proverb", ""],
+  ["Meanwhile it flies: time flies, never to return.", "Virgil", "Georgics, III"],
+  ["All things come round to him who will but wait.", "Henry Wadsworth Longfellow", "Tales of a Wayside Inn, 1863"],
+  ["Little strokes fell great oaks.", "Benjamin Franklin", "Poor Richard’s Almanack, 1750"],
+  ["Time is the wisest of all counsellors.", "Pericles", "in Plutarch, Life of Pericles"],
+  ["Habit is a second nature.", "Cicero", "De Finibus, V"],
+  ["Early to bed and early to rise, makes a man healthy, wealthy, and wise.", "Benjamin Franklin", "Poor Richard’s Almanack, 1735"],
+  ["Slow and steady wins the race.", "The Tortoise", "after Aesop, The Tortoise and the Hare"],
+  /* III · Moderate: seeing clearly */
+  ["There is nothing so unnatural as the commonplace.", "Sherlock Holmes", "Arthur Conan Doyle, A Case of Identity, 1891"],
+  ["In the fields of observation chance favours only the prepared mind.", "Louis Pasteur", "lecture at Lille, 1854"],
+  ["The question is not what you look at, but what you see.", "Henry David Thoreau", "Journal, 1851"],
+  ["Seeing is believing.", "Proverb", ""],
+  ["Observe due measure, for right timing is in all things the most important factor.", "Hesiod", "Works and Days"],
+  ["The eyes are of little use if the mind be blind.", "Arabic proverb", ""],
+  ["The world is a looking-glass, and gives back to every man the reflection of his own face.", "William Makepeace Thackeray", "Vanity Fair, 1848"],
+  ["Even a stopped clock is right twice a day.", "Proverb", ""],
+  ["Nature never did betray the heart that loved her.", "William Wordsworth", "Tintern Abbey, 1798"],
+  /* IV · Tough: reason */
+  ["Doubt is not a pleasant condition, but certainty is absurd.", "Voltaire", "letter to Frederick the Great, 1770"],
+  ["Every why hath a wherefore.", "William Shakespeare", "The Comedy of Errors"],
+  ["Nothing can be created out of nothing.", "Lucretius", "On the Nature of Things, I"],
+  ["Order and simplification are the first steps toward the mastery of a subject.", "Thomas Mann", "The Magic Mountain, 1924"],
+  ["If you would be a real seeker after truth, it is necessary that at least once in your life you doubt, as far as possible, all things.", "René Descartes", "Principles of Philosophy, 1644"],
+  ["It is impossible for the same thing to belong and not to belong at the same time to the same thing and in the same respect.", "Aristotle", "Metaphysics, IV, tr. W. D. Ross"],
+  ["Mathematics is the gate and key of the sciences.", "Roger Bacon", "Opus Majus, 1267"],
+  ["Whatever is worth doing at all is worth doing well.", "Lord Chesterfield", "Letters to His Son, 1746"],
+  ["Truth is the daughter of time.", "Latin proverb", "veritas filia temporis"],
+  /* V · Fiendish: courage */
+  ["Our greatest glory is not in never falling, but in rising every time we fall.", "Oliver Goldsmith", "The Citizen of the World, 1762"],
+  ["It is not because things are difficult that we do not dare; it is because we do not dare that they are difficult.", "Seneca", "Letters to Lucilius, 104"],
+  ["Fortune favours the brave.", "Terence", "Phormio"],
+  ["The gem cannot be polished without friction, nor man perfected without trials.", "Chinese proverb", ""],
+  ["If there is no struggle, there is no progress.", "Frederick Douglass", "speech at Canandaigua, 1857"],
+  ["A smooth sea never made a skilled sailor.", "English proverb", ""],
+  ["I’m not afraid of storms, for I’m learning how to sail my ship.", "Amy March", "Louisa May Alcott, Little Women, 1868"],
+  ["Hope is the thing with feathers that perches in the soul.", "Emily Dickinson", "written c. 1861"],
+  ["Courage is resistance to fear, mastery of fear, not absence of fear.", "Mark Twain", "Pudd’nhead Wilson, 1894"],
+  /* VI · Diabolical: mystery */
+  ["The universe is full of magical things patiently waiting for our wits to grow sharper.", "Eden Phillpotts", "A Shadow Passes, 1918"],
+  ["Nature loves to hide.", "Heraclitus", "fragment 123"],
+  ["We are such stuff as dreams are made on, and our little life is rounded with a sleep.", "Prospero", "William Shakespeare, The Tempest"],
+  ["Twinkle, twinkle, little bat! How I wonder what you’re at!", "The Hatter", "Lewis Carroll, Alice’s Adventures in Wonderland, 1865"],
+  ["The infinite! No other question has ever moved so profoundly the spirit of man.", "David Hilbert", "On the Infinite, 1925"],
+  ["The eternal silence of these infinite spaces frightens me.", "Blaise Pascal", "Pensées"],
+  ["There is no excellent beauty that hath not some strangeness in the proportion.", "Francis Bacon", "Of Beauty, 1625"],
+  ["A thing of beauty is a joy for ever.", "John Keats", "Endymion, 1818"],
+  ["In Xanadu did Kubla Khan a stately pleasure-dome decree.", "Samuel Taylor Coleridge", "Kubla Khan, 1816"],
+  /* VII · Sparse: less is more */
+  ["Less is more.", "Robert Browning", "Andrea del Sarto, 1855"],
+  ["The art of art, the glory of expression, is simplicity.", "Walt Whitman", "preface to Leaves of Grass, 1855"],
+  ["Brevity is the soul of wit.", "Polonius", "William Shakespeare, Hamlet"],
+  ["Nature does nothing in vain.", "Aristotle", "Politics, I"],
+  ["Beauty of style and harmony and grace and good rhythm depend on simplicity.", "Plato", "The Republic, III, tr. Benjamin Jowett"],
+  ["Enough is as good as a feast.", "English proverb", ""],
+  ["Nature is pleased with simplicity, and affects not the pomp of superfluous causes.", "Isaac Newton", "Principia, tr. Andrew Motte, 1729"],
+  ["Many a little makes a mickle.", "Scottish proverb", ""],
+  ["Consider the lilies of the field, how they grow; they toil not, neither do they spin.", "Gospel of Matthew", "6:28, King James Bible"],
+  /* VIII · Hollow: silence and rest */
+  ["Speech is silver, silence is golden.", "Proverb", ""],
+  ["Rest is not idleness, and to lie sometimes on the grass under trees on a summer’s day, listening to the murmur of the water, or watching the clouds float across the blue sky, is by no means a waste of time.", "John Lubbock", "The Use of Life, 1894"],
+  ["The world is too much with us; late and soon, getting and spending, we lay waste our powers.", "William Wordsworth", "sonnet, 1807"],
+  ["Empty vessels make the most sound.", "Proverb", ""],
+  ["Who can make muddy water clear? Let it be still, and it will gradually become clear.", "Laozi", "Tao Te Ching, 15"],
+  ["Sleep that knits up the ravell’d sleeve of care.", "Macbeth", "William Shakespeare, Macbeth"],
+  ["Take rest; a field that has rested gives a bountiful crop.", "Ovid", "The Art of Love, II"],
+  ["Conversation enriches the understanding, but solitude is the school of genius.", "Edward Gibbon", "The Decline and Fall of the Roman Empire"],
+  ["There is a pleasure in the pathless woods, there is a rapture on the lonely shore.", "Lord Byron", "Childe Harold’s Pilgrimage, IV, 1818"],
+  /* IX · Frame: order and harmony */
+  ["Order is Heaven’s first law.", "Alexander Pope", "An Essay on Man, IV, 1734"],
+  ["A place for everything, and everything in its place.", "Proverb", ""],
+  ["Harmony makes small things grow; lack of it makes great things decay.", "Sallust", "The Jugurthine War, 10"],
+  ["The whole is greater than the part.", "Euclid", "Elements, the fifth common notion"],
+  ["All things are numbers.", "Pythagorean maxim", ""],
+  ["Music is the pleasure the human mind experiences from counting without being aware that it is counting.", "Gottfried Wilhelm Leibniz", "letter to Christian Goldbach, 1712"],
+  ["I call architecture frozen music.", "Johann Wolfgang von Goethe", "Conversations with Eckermann, 1829"],
+  ["Good order is the foundation of all good things.", "Edmund Burke", "Reflections on the Revolution in France, 1790"],
+  ["There’s music in all things, if men had ears.", "Lord Byron", "Don Juan, XV, 1824"],
+  /* X · Cross: friends who meet */
+  ["A friend is, as it were, a second self.", "Cicero", "On Friendship"],
+  ["Two heads are better than one.", "English proverb", "John Heywood, 1546"],
+  ["Many hands make light work.", "English proverb", ""],
+  ["No man is an island, entire of itself.", "John Donne", "Devotions upon Emergent Occasions, 1624"],
+  ["The road to a friend’s house is never long.", "Danish proverb", ""],
+  ["Union gives strength.", "Aesop", "The Bundle of Sticks"],
+  ["Nothing in the world is single; all things by a law divine in one spirit meet and mingle.", "Percy Bysshe Shelley", "Love’s Philosophy, 1819"],
+  ["Friendship is a single soul dwelling in two bodies.", "Aristotle", "in Diogenes Laërtius, Lives of the Philosophers"],
+  ["Friendship is the wine of life.", "Edward Young", "Night Thoughts, II, 1742"],
+  /* XI · Ascent: the summit */
+  ["The higher we soar, the smaller we appear to those who cannot fly.", "Friedrich Nietzsche", "Daybreak, 1881"],
+  ["Great things are done when men and mountains meet.", "William Blake", "Notebook, c. 1808"],
+  ["Excelsior!", "Henry Wadsworth Longfellow", "Excelsior, 1841: ever higher"],
+  ["To strive, to seek, to find, and not to yield.", "Alfred, Lord Tennyson", "Ulysses, 1842"],
+  ["Step after step the ladder is ascended.", "George Herbert", "Outlandish Proverbs, 1640"],
+  ["Nothing great was ever achieved without enthusiasm.", "Ralph Waldo Emerson", "Circles, 1841"],
+  ["Ah, but a man’s reach should exceed his grasp, or what’s a heaven for?", "Robert Browning", "Andrea del Sarto, 1855"],
+  ["The end crowns all.", "Hector", "William Shakespeare, Troilus and Cressida"],
+  ["All’s well that ends well.", "William Shakespeare", "the title of his comedy, after the old proverb"],
+];
 </script>
 <script>
 /* plush.js */
@@ -3419,12 +3533,14 @@ const ARTS=[{"n":"Camellia","m":"admiration and longing","d":"The camellia flowe
 {"n":"Acorn","m":"","d":"An acorn, a whole oak tree waiting inside it.","r":"....n....|..nnnnn..|.NnNnNnN.|.nnnnnnn.|..ttttt..|..ttttt..|..ttttt..|...ttt...|....t...."},
 {"n":"Poppy","m":"remembrance","d":"The red poppy, which grows on old fields. It stands for remembrance.","r":"...rr....|.rrrrrr..|rrrrrrrr.|rrrkkkrrr|rrrkkkrrr|.rrkkkrr.|..rrrrr..|....G....|...GG...."},
 {"n":"Light bulb","m":"","d":"A light bulb, switched on: an idea.","r":"...yyy...|..yYYYy..|.yYyyyYy.|.yYyyyyy.|.yyyyyyy.|..yyyyy..|...sss...|...SSS...|....S...."}];
+/* Volume II (99 Sheets + 1, Vol. 2): a new picture for each page, fitted to its quotation, or a flower with its meaning */
+const ARTS2=[{"n": "Violet rose", "m": "enchantment", "d": "A violet rose, a colour no garden rose was born with. It stands for enchantment, and for love at first sight.", "r": "..VvvvV..|.vvLvLvv.|vvLvvvLvv|vLvVVVvLv|vvLvVvLvv|.vvLLLvv.|G.vvvvv.G|GG..G..GG|....G...."}, {"n": "Seedling", "m": "", "d": "A seedling just up out of the soil: a good start is half the work.", "r": ".........|...l.l...|..lll.ll.|...lgl...|....g....|....g....|..nnnnn..|.nNnnnNn.|nnnnnnnnn"}, {"n": "Paper boat", "m": "", "d": "A paper boat setting out on the water, small and brave.", "r": ".........|....s....|....qs...|...qqs...|..qqqqs..|sssssssss|.sqqqqqs.|ccbbcbbcc|bbbbbbbbb"}, {"n": "Open book", "m": "", "d": "An open book: everyone, by nature, wants to know.", "r": ".........|.........|.tttttt..|tqqqtqqqt|tqSqtqSqt|tqqqtqqqt|tqSqtqSqt|ttttttttt|.NNNNNNN."}, {"n": "Treasure chest", "m": "", "d": "A treasure chest, found by the one who went looking.", "r": ".........|.NNNNNNN.|NnnnnnnnN|NNNNaNNNN|NnnnaaanN|NnnnnnnnN|NnnnnnnnN|NNNNNNNNN|........."}, {"n": "Footprints", "m": "", "d": "Footprints in the sand: every long way starts with one of them.", "r": "tttttnttt|ttttnnntt|ttttnnntt|tnttnntnt|nnnttnttt|nnnttttt.|tnnttttt.|tnntttttt|ttttttttt"}, {"n": "Drink-me bottle", "m": "", "d": "A little bottle with a paper label that says DRINK ME.", "r": "...nnn...|...nnn...|...qcq...|..qcccq..|.qcwwwcq.|.qcwkwcq.|.qcwwwcq.|.qcccccq.|..qqqqq.."}, {"n": "Ant", "m": "", "d": "An ant, carrying more than its own weight, a little at a time.", "r": ".........|.k.....k.|..k...k..|...kkk...|..kkkkk..|kk.kkk.kk|..kkkkk..|.k.kkk.k.|k...k...k"}, {"n": "Quill and ink", "m": "", "d": "A quill pen and a pot of ink, for the one who studies with diligence.", "r": "......LL.|.....LvL.|....LvL..|...LvL...|...vL....|..kv.....|.kkk.....|.kBk.....|.kkk....."}, {"n": "Tulip", "m": "a declaration of love", "d": "A red tulip. Given as a flower, it is a declaration of love.", "r": ".........|.r.r.r...|.rrrrr...|.rRrRr...|.rrrrr...|..rrr..l.|...g..ll.|.l.g.ll..|.llgll..."}, {"n": "Water jug", "m": "", "d": "A water jug filling drop by drop.", "r": "....b....|.........|....b....|.ooooooo.|oo.ccc.oo|oo.ccc.oo|ooooooooo|.ooooooo.|..ooooo.."}, {"n": "Violin", "m": "", "d": "A violin, which only practice can teach to sing.", "r": "....N....|....N....|...nNn...|..nnNnn..|...nkn...|..nnknn..|.nnnknnn.|.nnnNnnn.|..nnnnn.."}, {"n": "Hourglass", "m": "", "d": "An hourglass. Meanwhile time flies, and does not come back.", "r": "NNNNNNNNN|.q.....q.|.qyyyyyq.|..qyyyq..|...qyq...|..qqyqq..|.qq.y.qq.|.qyyyyyq.|NNNNNNNNN"}, {"n": "Fishing float", "m": "", "d": "A fishing float on still water: everything comes to the one who waits.", "r": "....s....|....s....|...rrr...|...rrr...|...www...|...www...|ccbbsbbcc|bbbbsbbbb|bbbbbbbbb"}, {"n": "Oak tree", "m": "", "d": "An oak, felled in the end by many little strokes.", "r": "..GGGGG..|.GGgGgGG.|GGgGGGgGG|GgGGgGGgG|.GGGGGGG.|...nNn...|...nNn...|...nNn...|.NNNNNNN."}, {"n": "Pocket watch", "m": "", "d": "A pocket watch: time, the wisest counsellor of all.", "r": "....a....|...a.a...|..aaaaa..|.awwwwwa.|.awwkwwa.|.awwkkwa.|.awwwwwa.|..aaaaa..|........."}, {"n": "Teacup", "m": "", "d": "A cup of tea, the habit of a lifetime.", "r": "...s..s..|..s..s...|.........|bbbbbbbb.|bnnnnnbbb|bnnnnnb.b|.bbbbbb..|..bbbb...|SSSSSSSS."}, {"n": "Rooster", "m": "", "d": "A rooster, up early to greet the sun.", "r": "..rr.....|.rrn.....|.nknn....|onnn.....|.nnnnnn.G|.nNnnnnGG|..nnnnnG.|...o.o...|..oo.oo.."}, {"n": "Tortoise", "m": "", "d": "The tortoise, who won the race by never stopping.", "r": ".........|.........|...GGG...|..GlGlG..|.GlGGGlG.|uGGGGGGG.|uu.u..u..|.........|........."}, {"n": "Deerstalker", "m": "", "d": "The deerstalker cap of a certain detective.", "r": ".........|.........|...nnn...|..nNnNn..|.nNnNnNn.|nnnnnnnnn|n.nnnnn.n|.........|........."}, {"n": "Microscope", "m": "", "d": "A microscope, for the prepared mind.", "r": "...SS....|...Ss....|...Ss....|....Ss...|....Ss...|..SSSSS..|....S....|...SSS...|.SSSSSSS."}, {"n": "Spectacles", "m": "", "d": "A pair of spectacles: it is not what you look at, but what you see.", "r": ".........|.........|k.......k|.kkk.kkk.|kcwckcwck|kccckccck|.kkk.kkk.|.........|........."}, {"n": "Telescope", "m": "", "d": "A brass telescope pointed at the sky.", "r": "........y|......y..|.....aaa.|....aaaa.|...aaaa..|..aaaa...|.aaa.....|...n.....|..n.n...."}, {"n": "Sundial", "m": "", "d": "A sundial, for whom right timing is everything.", "r": "....y....|..y.y.y..|.........|..sssss..|.sqqSqqs.|.sqSSSqs.|.sssssss.|...sss...|..sssss.."}, {"n": "Lantern", "m": "", "d": "A lantern, for eyes are little use if the mind is in the dark.", "r": "....k....|...k.k...|..kkkkk..|..kyyyk..|..kyYyk..|..kyyyk..|..kkkkk..|...kkk...|........."}, {"n": "Moon on the water", "m": "", "d": "The moon and its reflection: the world gives back the face you show it.", "r": "hhhhhhhhh|hhhYYhhhh|hhYYhhhhh|hhYYhhhhh|hhhYYhhhh|bbbbbbbbb|bbbcYcbbb|bbbbcbbbb|bbbbbbbbb"}, {"n": "Alarm clock", "m": "", "d": "An alarm clock that has stopped, right twice a day.", "r": ".r.....r.|rrrrrrrrr|rwwwkwwwr|rwwwkwwwr|rwwwkwwwr|rwwwwwwwr|rwwwkwwwr|.rrrrrrr.|.r.....r."}, {"n": "Iris", "m": "a message, and faith", "d": "A blue iris, named after the messenger of the gods. It stands for a message, and for faith.", "r": "...vVv...|..vvVvv..|.VvvyvvV.|VVvvyvvVV|.VVvyvVV.|...VVV...|..l.g.l..|...lgl...|....g...."}, {"n": "Question mark", "m": "", "d": "A question mark, the shape of doubt.", "r": "...vvv...|..v...v..|......v..|.....v...|....v....|....v....|.........|....v....|........."}, {"n": "Padlock", "m": "", "d": "A padlock: every why has its wherefore, every lock its key.", "r": "...sss...|..s...s..|..s...s..|.aaaaaaa.|.aaaaaaa.|.aaakaaa.|.aaakaaa.|.aaaaaaa.|........."}, {"n": "Egg", "m": "", "d": "An egg: nothing comes of nothing, but much comes of this.", "r": ".........|...ttt...|..ttwtt..|.ttwttt..|.tttttt..|.tttttnt.|..ttttn..|...nnn...|........."}, {"n": "Stack of books", "m": "", "d": "A neat stack of books: order is the first step.", "r": ".........|.rrrrrrr.|.rarrrar.|bbbbbbbb.|baabbbab.|.gggggggg|.gaggggag|ooooooo..|oaoooaoo."}, {"n": "Candle", "m": "", "d": "A candle, for the long night of doubting everything once.", "r": "....y....|...yo....|...yy....|....k....|...www...|...wqw...|...www...|...wqw...|.aaaaaaa."}, {"n": "Coin", "m": "", "d": "A coin is heads or tails, never both at once.", "r": ".........|..aaaaa..|.aYaaaaa.|aYaaaaaaa|aYaYYYaaa|aaaaaaaaa|.aaaaaaa.|..aaaaa..|........."}, {"n": "Gate", "m": "", "d": "A gate and its key: mathematics opens the sciences.", "r": ".k.k.k.k.|kkkkkkkkk|.k.k.k.k.|.k.k.k.k.|.k.kak.k.|.k.k.k.k.|.k.k.k.k.|kkkkkkkkk|.k.k.k.k."}, {"n": "Hammer", "m": "", "d": "A hammer, for whatever is worth doing well.", "r": ".........|.SSSSS...|SSSSSSS..|.SSSSS...|...n.....|...n.....|...n.....|...n.....|...n....."}, {"n": "Sunrise", "m": "", "d": "The sun coming up: truth is the daughter of time.", "r": ".........|.........|....y....|.y.yyy.y.|..yyyyy..|.yyyyyyy.|ooooooooo|.ooooooo.|bbbbbbbbb"}, {"n": "Phoenix", "m": "", "d": "The phoenix, rising every time it falls.", "r": "....o....|...oro...|r..oro..r|ro.rrr.or|.rrrrrrr.|..rryrr..|...yoy...|..o.y.o..|.o..y..o."}, {"n": "Lion", "m": "", "d": "A lion, for daring.", "r": ".ooooooo.|oonnnnnoo|onyyyyyno|onkyykyno|onyyyyyno|onyynyyno|ooyyyyyoo|.ooyyyoo.|..ooooo.."}, {"n": "Horseshoe", "m": "", "d": "A horseshoe hung for luck: fortune favours the brave.", "r": ".........|.ss...ss.|.s.....s.|ss.....ss|s.......s|ss.....ss|.sss.sss.|..sssss..|........."}, {"n": "Gem", "m": "", "d": "A gem, polished by friction.", "r": ".........|..ccccc..|.cwcccbc.|ccccbcccb|.bccbccb.|..bcccb..|...bcb...|....b....|........."}, {"n": "Anvil", "m": "", "d": "An anvil: no struggle, no progress.", "r": ".........|.........|.SSSSSSSS|SSSSSSSS.|.SSSSSS..|...SSS...|...SSS...|.SSSSSSS.|........."}, {"n": "Sailboat", "m": "", "d": "A sailboat in rough water: a smooth sea never made a skilled sailor.", "r": "....r....|....yy...|...yyy...|..yyyy...|.yyyyy...|....n....|.nnnnnnn.|cbbcbbcbc|bbbbbbbbb"}, {"n": "Storm cloud", "m": "", "d": "A storm cloud with its bolt. Some sail into them to learn how.", "r": "..sss....|.sssss.s.|sSSssssss|sSSSSSSSs|.ssssss..|...yy....|..yy.....|...yy....|....y...."}, {"n": "Songbird", "m": "", "d": "A small bird: hope, the thing with feathers.", "r": ".........|...bb....|..bbkb...|..bbbbo..|.bbbbb...|bbcccb...|.bbbb....|...n.n...|nnnnnnnnn"}, {"n": "Shield", "m": "", "d": "A shield: courage is the mastery of fear.", "r": ".........|.aaaaaaa.|.aBBaBBa.|.aBBaBBa.|.aaaaaaa.|.aBBaBBa.|..aBaBa..|...aaa...|....a...."}, {"n": "Crystal ball", "m": "", "d": "A crystal ball, full of magical things waiting for sharper wits.", "r": ".........|..LLLLL..|.LcwLLLL.|.LwLvLLL.|.LLLLvLL.|..LLLLL..|...aaa...|..aaaaa..|........."}, {"n": "Nautilus shell", "m": "", "d": "A nautilus shell, which hides its perfect spiral inside.", "r": ".........|..ttttt..|.tnnnnnt.|tntttttnt|tntnnntnt|tntntttnt|tntnnnnt.|.tttttt..|........."}, {"n": "Sleeping moon", "m": "", "d": "The moon asleep: our little life is rounded with a sleep.", "r": ".........|...YYY...|..YYk....|.YYk.....|.YY......|.YYk.....|..YYk....|...YYY...|........."}, {"n": "Bat", "m": "", "d": "A bat, twinkling.", "r": ".........|.........|k..k.k..k|kk.kkk.kk|kkkkykkkk|kkkkkkkkk|.kk.k.kk.|.k.....k.|........."}, {"n": "Infinity", "m": "", "d": "The infinite, which has moved the spirit of man like no other question.", "r": ".........|.........|.vv...vv.|v..v.v..v|v...v...v|v..v.v..v|.vv...vv.|.........|........."}, {"n": "Ringed planet", "m": "", "d": "A ringed planet in the silence of infinite space.", "r": "w......w.|...ooo...|..ooooo..|aaaaaaaaa|..ooooo..|...ooo...|.........|.w.....w.|....w...."}, {"n": "Comet", "m": "", "d": "A comet: strangeness in the proportion.", "r": ".......wY|......wY.|....cwY..|...cc....|..cc.....|.c.......|c........|.........|........."}, {"n": "Cornflower", "m": "hope, and delicacy", "d": "A cornflower, blue as summer. It stands for hope, and for delicacy.", "r": ".b.b.b.b.|..bbbbb..|.bbBBBbb.|bbBBVBBbb|.bbBBBbb.|..bbbbb..|.b..g..b.|....g....|...gg...."}, {"n": "Dome", "m": "", "d": "A stately pleasure-dome, decreed in a dream.", "r": "....a....|...aaa...|..aaYaa..|.aaYaaaa.|ttttttttt|t.n.n.n.t|t.n.n.n.t|t.n.n.n.t|ttttttttt"}, {"n": "Feather", "m": "", "d": "A single feather: less is more.", "r": ".........|.......L.|......LL.|.....LvL.|....LvL..|...LvL...|..LvL....|.Lv......|v........"}, {"n": "Paintbrush", "m": "", "d": "A paintbrush: the art of art is simplicity.", "r": ".........|.........|.......r.|......rr.|.....kk..|....nn...|...nn....|..nn.....|.n......."}, {"n": "Scissors", "m": "", "d": "A pair of scissors: brevity is the soul of wit.", "r": ".........|.s.....s.|..s...s..|...s.s...|....s....|...s.s...|.rr...rr.|r..r.r..r|.rr...rr."}, {"n": "Leaf", "m": "", "d": "A leaf: nature does nothing in vain.", "r": ".........|......lG.|....lllG.|..llgllG.|.llgllG..|llgllG...|lgllG....|.lGG.....|G........"}, {"n": "Flute", "m": "", "d": "A flute: good rhythm depends on simplicity.", "r": ".........|.........|.........|sssssssss|sksksksss|sssssssss|.........|.........|........."}, {"n": "Bread loaf", "m": "", "d": "A loaf of bread: enough is as good as a feast.", "r": ".........|.........|..ooooo..|.otnontno|ottttttto|ottttttto|ooooooooo|.........|........."}, {"n": "Apple", "m": "", "d": "An apple: nature is pleased with simplicity.", "r": "....n....|....nG...|..rrnrr..|.rrrrrrr.|rrwrrrrrr|rrrrrrrrr|rrrrrrrrr|.rrrrrrr.|..rr.rr.."}, {"n": "Piggy bank", "m": "", "d": "A piggy bank: many a little makes a mickle.", "r": "....a....|...aa....|.ppppppp.|ppppkpppp|pppppppPP|ppppppppp|.ppppppp.|.p.p.p.p.|........."}, {"n": "Lily", "m": "purity", "d": "A white lily of the field. It stands for purity.", "r": ".........|...q.q...|..qwYwq..|.qwYyYwq.|qwwYyYwwq|..q.Y.q..|....g.l..|.l..g.l..|..llgll.."}, {"n": "Golden bell", "m": "", "d": "A golden bell, silent: speech is silver, silence is golden.", "r": "....a....|...aaa...|..aaaaa..|..aYaaa..|..aYaaa..|.aaaaaaa.|aaaaaaaaa|....a....|........."}, {"n": "Clouds", "m": "", "d": "Clouds drifting over the grass: rest is not idleness.", "r": "ccccccccc|ccwwcccww|cwwwwcwww|ccwwccccc|ccccccccc|ccccwwccc|cccwwwwcc|lllllllll|ggggggggg"}, {"n": "Armchair", "m": "", "d": "An armchair, for sitting still while the world rushes on.", "r": ".........|.rrrrrrr.|.rRRRRRr.|.rRRRRRr.|rrrrrrrrr|rrRRRRRrr|rrrrrrrrr|.n.....n.|........."}, {"n": "Drum", "m": "", "d": "A drum: empty vessels make the most sound.", "r": "n.......n|.n.....n.|..wwwww..|.qwwwwwq.|.rrrrrrr.|.ryryryr.|.rrrrrrr.|.ryryryr.|..rrrrr.."}, {"n": "Lotus", "m": "purity rising from the mud", "d": "A lotus, which grows clean out of muddy water. It stands for purity.", "r": ".........|....p....|...pPp...|.p.pPp.p.|.pPpPpPp.|..pppppp.|...ppp...|GGGlGlGGG|bbbbbbbbb"}, {"n": "Ball of yarn", "m": "", "d": "A ball of yarn: sleep knits up the ravelled sleeve of care.", "r": ".......s.|......s..|..PPPs...|.PpPpP...|PpPpPpP..|PPpPpPP..|.PpPpP...|..PPP....|....PPPP."}, {"n": "Wheat sheaf", "m": "", "d": "A sheaf of wheat from a field that was let rest.", "r": "y.y.y.y.y|.yyyyyyy.|..yyyyy..|...yyy...|...nnn...|...yyy...|..yyyyy..|.yy.y.yy.|y...y...y"}, {"n": "Lighthouse", "m": "", "d": "A lighthouse, alone on its rock: solitude is the school of genius.", "r": "y...r...y|.y.rrr.y.|...yyy...|...rrr...|...www...|...rrr...|...www...|..rrrrr..|sssssssss"}, {"n": "Seashell", "m": "", "d": "A seashell from the lonely shore.", "r": ".........|...ppp...|..pmpmp..|.pmpmpmp.|pmpmpmpmp|pmpmpmpmp|.ppppppp.|...ppp...|........."}, {"n": "Constellation", "m": "", "d": "A constellation: order is Heaven’s first law.", "r": "hhhhhhhhh|hwhhhhhwh|hhqhhhqhh|hhhwhqhhh|hhhqwhhhh|hhqhhqhhh|hwhhhhwhh|hhhhhhhhh|hhhhhhhhh"}, {"n": "Chest of drawers", "m": "", "d": "A chest of drawers: a place for everything, and everything in its place.", "r": "nnnnnnnnn|nNNNNNNNn|nnnnnnnnn|nNNnnnNNn|nnnwnwnnn|nNNnnnNNn|nnnwnwnnn|nnnnnnnnn|.n.....n."}, {"n": "Tuning fork", "m": "", "d": "A tuning fork, humming in harmony.", "r": ".........|.s.....s.|.s.....s.|.s.....s.|.s.....s.|..s...s..|...sss...|....s....|....s...."}, {"n": "Pie", "m": "", "d": "A pie with a slice taken: the whole is greater than the part.", "r": ".........|..ooooo..|.ooooooo.|oooooooo.|oooooo...|oooooo...|.ooooooo.|..ooooo..|........."}, {"n": "Tetractys", "m": "", "d": "The tetractys of the Pythagoreans: ten points in four rows, for whom all things were numbers.", "r": ".........|....a....|.........|...a.a...|.........|..a.a.a..|.........|.a.a.a.a.|........."}, {"n": "Musical note", "m": "", "d": "A pair of notes: music is counting without knowing it.", "r": "...kkkkkk|...kkkkkk|...k....k|...k....k|...k....k|.kkk..kkk|kkkk.kkkk|.kk...kk.|........."}, {"n": "Columns", "m": "", "d": "Columns under a pediment: architecture is frozen music.", "r": "....n....|..ttttt..|ttttttttt|t.n.n.n.t|t.n.n.n.t|t.n.n.n.t|t.n.n.n.t|ttttttttt|nnnnnnnnn"}, {"n": "Honeycomb", "m": "", "d": "A honeycomb, the most orderly of houses.", "r": ".aa.aa.aa|aYYaYYaYY|aYYaYYaYY|.aa.aa.aa|aa.aa.aa.|YYaYYaYYa|YYaYYaYYa|aa.aa.aa.|........."}, {"n": "Bluebell", "m": "constancy", "d": "Bluebells, ringing silently. They stand for constancy.", "r": "....g....|...g.g...|..g...g..|.b.....b.|bbb...bbb|bbb...bbb|b.b...b.b|.........|........."}, {"n": "Cherries", "m": "", "d": "Two cherries on one stem: a friend is a second self.", "r": "......G..|.....GG..|....g.g..|...g...g.|..g....g.|.rr...rr.|rrwr.rrwr|rrrr.rrrr|.rr...rr."}, {"n": "Two birds", "m": "", "d": "Two birds on one branch: two heads are better than one.", "r": ".........|.bb...pp.|bkbb.ppkp|.bbbo.ppo|.bbb..pp.|..b....p.|nnnnnnnnn|....n....|........."}, {"n": "Bee", "m": "", "d": "A bee: many hands make light work.", "r": ".cc......|ccc.cc...|.cccc....|..yyky...|.kykyk...|.ykyky...|..kyky...|...kk....|........."}, {"n": "Island", "m": "", "d": "An island: no man is one, entire of itself.", "r": "...G.G...|..GGGGG..|...GnG...|....n....|....n....|...tnt...|..ttttt..|bbbbbbbbb|bcbbbbcbb"}, {"n": "Cottage", "m": "", "d": "A friend’s house, where the road is never long.", "r": "....s....|...rrr...|..rrrrr..|.rrrrrrr.|rrrrrrrrr|.wwwwwww.|.wcwnwcw.|.wwwnwww.|ttttttttt"}, {"n": "Bundle of sticks", "m": "", "d": "A bundle of sticks, tied together: union gives strength.", "r": "n.n.n.n.n|.nnnnnnn.|.nnnnnnn.|.nnnnnnn.|.rrrrrrr.|.nnnnnnn.|.nnnnnnn.|.nnnnnnn.|n.n.n.n.n"}, {"n": "Signpost", "m": "", "d": "A signpost where the roads meet and mingle.", "r": ".........|nnnnnn...|nnnnnnn..|...n.....|...nnnnnn|...nnnnn.|...n.....|...n.....|GGGnGGGGG"}, {"n": "Heart", "m": "", "d": "A heart: one soul dwelling in two bodies.", "r": ".........|.rr...pp.|rrrr.pppp|rrrrrpppp|rrrrrpppp|.rrrrppp.|..rrrpp..|...rrp...|....r...."}, {"n": "Sweet pea", "m": "thank you for a lovely time", "d": "Sweet peas, the flower for a goodbye. They say: thank you for a lovely time.", "r": ".........|.pP...Lv.|pPPp.LvvL|.pPp..LvL|..pg..vg.|...g..g..|..lgggl..|...lgl...|....g...."}, {"n": "Eagle", "m": "", "d": "An eagle soaring, small to those who cannot fly.", "r": ".........|.........|N.......N|NN.....NN|NNN.w.NNN|.NNNwNNN.|..NNoNN..|...N.N...|........."}, {"n": "Mountain", "m": "", "d": "A mountain, where great things are done.", "r": ".........|....w....|...www...|..wsss...|..sssss..|.sssSsss.|.ssSSSss.|sssSSSSss|SSSSSSSSS"}, {"n": "Flag on a peak", "m": "", "d": "A flag on the summit: Excelsior, ever higher.", "r": "....rrr..|....rr...|....r....|....s....|...www...|..wwsww..|.wsssss..|sssSSsss.|sSSSSSSSs"}, {"n": "Compass", "m": "", "d": "A compass, to strive, to seek, to find, and not to yield.", "r": ".........|..aaaaa..|.awwrwwa.|awwwrwwwa|awwwkwwwa|awwwbwwwa|.awwbwwa.|..aaaaa..|........."}, {"n": "Ladder", "m": "", "d": "A ladder, climbed step after step.", "r": ".n.....n.|.nnnnnnn.|.n.....n.|.nnnnnnn.|.n.....n.|.nnnnnnn.|.n.....n.|.nnnnnnn.|.n.....n."}, {"n": "Hot-air balloon", "m": "", "d": "A hot-air balloon going up on enthusiasm.", "r": "...rrr...|..ryyyr..|.rryyyrr.|.rryyyrr.|..ryyyr..|...ryr...|...n.n...|...nnn...|...nnn..."}, {"n": "Kite", "m": "", "d": "A kite: a man’s reach should exceed his grasp.", "r": "....r....|...rbr...|..rrbrr..|.bbbbbbb.|..rrbrr..|...rbr...|....r....|.....y...|......y.."}, {"n": "Crown", "m": "", "d": "A crown: the end crowns all.", "r": ".........|a...a...a|aa.aaa.aa|aaaaaaaaa|araabaara|aaaaaaaaa|aaaaaaaaa|.........|........."}, {"n": "Rainbow", "m": "", "d": "A rainbow after the rain: all’s well that ends well.", "r": "..rrrrr..|.rooooor.|royyyyyor|oygggggyo|ygbbbbbgy|gb.....bg|b.......b|.........|........."}];
 /* the flowers, for pages outside the Book of Nines (the bookstore's books and the almanac) */
 const FLOWERS=ARTS.map((a,i)=>a.m?i:-1).filter(i=>i>=0&&!/Bamboo|clover|Dove/i.test(ARTS[i].n));
 const cells=a=>{const out=[];a.r.split('|').forEach(row=>{for(const ch of row)out.push(ch==='.'?null:PAL[ch])});return out};
 /* light or dark: the number on a square is written in the colour that reads best on it */
 const dark=hex=>{const n=parseInt(hex.slice(1),16),r=n>>16,g=n>>8&255,b=n&255;return(.299*r+.587*g+.114*b)/255<.58};
-return{PAL,ARTS,FLOWERS,cells,dark,get:i=>ARTS[i]}})();
+return{PAL,ARTS,ARTS2,FLOWERS,cells,dark,get:i=>ARTS[i],get2:i=>ARTS2[i]}})();
 if(typeof module!=='undefined')module.exports=PixArt;
 </script>
 <script>
@@ -3710,9 +3826,13 @@ function target(p){const{c,k}=chapterOf(p);const[,a,b]=CH11[c];return Math.round
 /* the puzzle a page shows is seeded by its old number (ten to a chapter), so pages carried over from a sixty-sheet save keep their puzzles */
 function seedNo(p){const{c,k}=chapterOf(p);return p===0?777:p>NP?1000+(p-NP):c*10+k+1}
 /* ---------- blocks: the collections of pages that can be bound into the book ---------- */
+const isVol=id=>id==='nines'||id==='nines2';   /* the books of 99 Sheets: chapters, an appendix, page 0, quotations and pictures */
+const vol1Done=()=>{const sv=((S.block||'nines')==='nines'?S.solved:S.shelf?.nines?.solved)||{};for(let p=1;p<=NP;p++)if(!sv[p])return false;return true};   /* every page of Volume I (page 0 aside) */
 const BLOCKS={
   nines:{id:'nines',title:'99 Sheets',sub:'Volume I',pages:99,
     credit:'Ninety-nine pages in eleven chapters: six that climb from Gentle to Diabolical, then five that change where the clues lie (Sparse, Hollow, Frame, Cross, Ascent), and an appendix that goes on for as long as you do.'},
+  nines2:{id:'nines2',title:'99 Sheets + 1 Vol. 2',sub:'Volume II',pages:99,price:990,shop:true,vol:2,cover:'--leather:#4a1d5a;--leatherHi:#6b2a7f;--leatherLo:#2a0f33',
+    credit:'The second volume, for those who finished the first: ninety-nine new pages in the same eleven chapters, a new quotation on the back of each, a new picture behind each solved grid, and a page 0 that opens once the rest are done.'},
   dell:{id:'dell',title:'Number Place',sub:'Dell Pencil Puzzles & Word Games · 1979',pages:12,noLives:true,
     credit:'No hearts here: as in the magazine, you may try as often as you like. After Howard Garns (1905–1989), the Indianapolis architect who devised Number Place. Dell printed it without his name from the May 1979 issue (No. 16, page 6) onward; Will Shortz later traced it to Garns through the contributors’ lists. The original grids are not in print, so these twelve pages are reconstructions in his manner: no symmetry in the givens, and four circled squares whose digits are listed beneath the diagram.',
     names:['The First Number Place · May 1979','Number Place II · 1979','Number Place III · 1979','Number Place IV · 1980','Number Place V · 1980','Number Place VI · 1981','Number Place VII · 1981','Number Place VIII · 1982','Number Place IX · 1983','Number Place X · 1984','Number Place XI · 1985','Number Place XII · 1986'],
@@ -3733,7 +3853,7 @@ const BLOCKS={
 };
 const PAGE_ALPH='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 const pageId=()=>'pg'+Array.from({length:8},()=>PAGE_ALPH[Math.random()*PAGE_ALPH.length|0]).join('');
-const PID_RE=/^PL-[A-Z0-9]{4}-[A-Z0-9]{4}$/;const PAGE_CAP=300,MAX_CLUES=64,PAGE_LIMIT=id=>id==='nines'?NP+999:(getBlock(id)?.pages||1);const plain=(t,n)=>String(t??'').replace(/[<>"&`\u0000-\u001f]/g,'').replace(/\s+/g,' ').trim().slice(0,n);const mintPid=()=>'PL-'+[4,4].map(n=>Array.from({length:n},()=>PAGE_ALPH[Math.random()*PAGE_ALPH.length|0]).join('')).join('-');
+const PID_RE=/^PL-[A-Z0-9]{4}-[A-Z0-9]{4}$/;const PAGE_CAP=300,MAX_CLUES=64,PAGE_LIMIT=id=>isVol(id)?NP+999:(getBlock(id)?.pages||1);const plain=(t,n)=>String(t??'').replace(/[<>"&`\u0000-\u001f]/g,'').replace(/\s+/g,' ').trim().slice(0,n);const mintPid=()=>'PL-'+[4,4].map(n=>Array.from({length:n},()=>PAGE_ALPH[Math.random()*PAGE_ALPH.length|0]).join('')).join('-');
 function ensurePid(){if(!S.owner)return null;if(!PID_RE.test(S.pid||''))S.pid=mintPid();return S.pid}   // a player has an ID once their book has a name
 /* a page someone made: a block of one sheet, built from the record in S.pages */
 function getBlock(id){if(BLOCKS[id])return BLOCKS[id];const pg=S.pages?.[id];if(!pg)return null;
@@ -3794,16 +3914,16 @@ function puzzle(p){
   const bk=block();
   if(bk.id==='dell')return PZ[key]=dellPuzzle(Math.max(1,Math.min(BLOCKS.dell.pages,p)));
   if(bk.grids){const g=bk.grids[Math.max(0,Math.min(bk.pages-1,p-1))],puz=[...g].map(c=>c==='.'?0:+c),sol=solve(puz.slice(),1).sol;return PZ[key]={puz,sol,giv:puz.filter(Boolean).length}}
-  const seed=((bk.id==='nines'?seedNo(p):p)*2654435761)^(bk.gen?bk.gen.seed*2246822519:0x5eed1e),rnd=mulberry(seed);
+  const seed=((isVol(bk.id)?seedNo(p):p)*2654435761)^(bk.gen?bk.gen.seed*2246822519:bk.id==='nines2'?0x2b0b2e9:0x5eed1e),rnd=mulberry(seed);   /* Volume II: the same chapters, other grids */
   const sol=solve(new Array(81).fill(0),1,rnd).sol;
   let tgt=target(p);
   if(bk.gen){const[,a,b]=CH[bk.diffs[p-1]||0];tgt=Math.min(bk.gen.maxGiv,Math.round(a-(a-b)*((p*7)%10)/9))}
-  const pat=bk.id==='nines'&&p<=NP?PATTERNS[CH11[chapterOf(p).c][3]]:null;
+  const pat=isVol(bk.id)&&p<=NP?PATTERNS[CH11[chapterOf(p).c][3]]:null;
   let best=carve(sol,rnd,tgt,pat,false);
   /* Volume I's hard chapters (Fiendish, Diabolical, Sparse, Ascent and the appendix) must reach their clue count and need more
      than single-candidate moves. A page that already does keeps its grid; one that doesn't is carved again from the SAME
      solution in other seeded orders, and the best carving is kept. Same solution: a finished page stays finished in old saves. */
-  if(bk.id==='nines'){const{c}=chapterOf(p),app=p>NP;
+  if(isVol(bk.id)){const{c}=chapterOf(p),app=p>NP;
     if(app||HARD_CH.has(c)){const loose=app||LOOSE_CH.has(c);best.left=singlesLeft(best.puz);
       if(!(best.giv<=tgt+1&&best.left>0)){const score=a=>(a.left>0?0:1000)+Math.max(0,a.giv-tgt)*10-Math.min(a.left,40)/10;
         for(let k=1;k<=40;k++){const a=carve(sol,mulberry((seed^Math.imul(k,0x9E3779B1))>>>0),tgt,pat,loose);a.left=singlesLeft(a.puz);if(score(a)<score(best))best=a;if(best.giv<=tgt&&best.left>0)break}}}}
@@ -3835,7 +3955,7 @@ function singlesLeft(puz){const g=puz.slice();
     for(const u of UNITS)for(let v=1;v<=9;v++){const b=1<<v;let at=-1,n=0,have=false;for(const i of u.c){if(g[i]===v){have=true;break}if(!g[i]&&cand[i]&b){n++;at=i}}if(!have&&n===1){g[at]=v;moved=true}}
     if(!moved)return g.filter(x=>!x).length}}
 /* the next page is made while the player looks at this one, so a page turn never waits for the generator */
-function prefetchNext(){const bk=block(),n=S.page+1;if(playMode!=='book'||bk.grids||(bk.id!=='nines'&&n>bk.pages)||PZ[bk.id+':'+n])return;
+function prefetchNext(){const bk=block(),n=S.page+1;if(playMode!=='book'||bk.grids||(!isVol(bk.id)&&n>bk.pages)||PZ[bk.id+':'+n])return;
   const go=()=>{if(block()===bk&&!PZ[bk.id+':'+n])puzzle(n)};if(window.requestIdleCallback)requestIdleCallback(go,{timeout:4000});else setTimeout(go,600)}
 
 /* ================= state ================= */
@@ -4468,7 +4588,8 @@ function solved(){
   G.done=true;G.sel=-1;
   const first=!S.solved[S.page],{c}=chapterOf(S.page);
   const reward=G.failed?0:(first?(2+c)+(G.clean?2:0):1);
-  const zeroWas=zeroOpen();S.solved[S.page]=1;S.maxPage=Math.max(S.maxPage,S.page+1);versoBadge();
+  const zeroWas=zeroOpen();S.solved[S.page]=1;if((S.block||'nines')==='nines'&&!S.v2told&&vol1Done()){S.v2told=1;setTimeout(()=>toast('Volume I is complete. 99 Sheets + 1 Vol. 2 has arrived at the bookstore.'),4200)}   /* the second volume goes on sale */
+  S.maxPage=Math.max(S.maxPage,S.page+1);versoBadge();
   if(!zeroWas&&zeroOpen())setTimeout(()=>toast('All ninety-nine pages solved. Page 0 has opened at the front of the book.',6000),2600);
   boost=5;
   for(let i=0;i<81;i++){const el=cells[i];el.style.setProperty('--d',((RW[i]+CL[i])*.04)+'s');el.classList.remove('wave');void el.offsetWidth;el.classList.add('wave')}
@@ -4480,7 +4601,7 @@ function solved(){
   const coinStep=Math.max(35,130*4/Math.max(4,reward));for(let k=1;k<=reward;k++)setTimeout(()=>{setCoins(start+k);const p=$('#purse');p.classList.remove('gain');void p.offsetWidth;p.classList.add('gain');sfx.coin()},1250+k*coinStep);
 }
 /* the picture behind the numbers: the Book of Nines has one for each page; other books and the almanac show a flower */
-function artFor(){if(playMode==='book'&&(S.block||'nines')==='nines')return PixArt.get(S.page??1);const F=PixArt.FLOWERS,key=playMode==='daily'?'d'+dailyKey:(S.block||'')+'/'+S.page;let h=7;for(const ch of key)h=(h*31+ch.charCodeAt(0))>>>0;return PixArt.get(F[h%F.length])}
+function artFor(){if(playMode==='book'&&isVol(S.block||'nines'))return(S.block==='nines2'?PixArt.get2:PixArt.get)(S.page??1);const F=PixArt.FLOWERS,key=playMode==='daily'?'d'+dailyKey:(S.block||'')+'/'+S.page;let h=7;for(const ch of key)h=(h*31+ch.charCodeAt(0))>>>0;return PixArt.get(F[h%F.length])}
 function clearArt(){cells.forEach(c=>{if(!c.classList.contains('pxl'))return;c.classList.remove('pxl','pxd','pxa');c.style.removeProperty('--px');c.style.removeProperty('--pd')});$('#gridwrap')?.querySelectorAll('.px-cap').forEach(n=>n.remove())}
 /* the pictures' style (Design): plain pixels, chalk on a board, or soft pastel */
 const pxStyle=()=>S.pxStyle==='chalk'||S.pxStyle==='pastel'?S.pxStyle:'plain';
@@ -4535,7 +4656,7 @@ function showSolved(anim,reward){
   b.innerHTML=`page ${S.page+1} <span class="arr">&rarr;</span>`;b.setAttribute('aria-label','Turn to page '+(S.page+1));b.className='turn';
   b.addEventListener('click',e=>{e.stopPropagation();flipTo(S.page+1)});
   if(anim){b.style.visibility='hidden';setTimeout(()=>{b.style.visibility=''},1400)}   /* cleared, not 'visible': it must still hide with its page behind either cover */
-  if(block().id==='nines'||S.page<block().pages)pageEl.appendChild(b);
+  if(isVol(block().id)||S.page<block().pages)pageEl.appendChild(b);
   /* a solved sheet of Volume I offers to turn straight over to the quote on its back */
   if(versoOK()&&S.page<=NP){const q=document.createElement('button');q.className='turn back';q.innerHTML='<span class="arr">&larr;</span> its quote';q.setAttribute('aria-label',`Turn page ${S.page} over and read the quote on its back`);
     q.addEventListener('click',e=>{e.stopPropagation();openVerso()});if(anim){q.style.visibility='hidden';setTimeout(()=>{q.style.visibility=''},1400)}pageEl.appendChild(q)}
@@ -4582,7 +4703,7 @@ function pageTurn(fwd){
   if(!opened||flipping)return;
   if(playMode==='daily'){if(!fwd)leaveDaily(true);return}
   if(playMode==='multi'){multiSwipe(fwd?-100:100);return}
-  if(fwd){const n=S.page+1;if(unlocked(n))flipTo(n);else{toast(block().id!=='nines'&&n>block().pages?'That was the last page of this book.':'Solve this page to unlock the next one.');}}
+  if(fwd){const n=S.page+1;if(unlocked(n))flipTo(n);else{toast(!isVol(block().id)&&n>block().pages?'That was the last page of this book.':'Solve this page to unlock the next one.');}}
   else if(S.page>1){const previous=previousUnlocked(S.page);if(previous)flipBack(previous)}
   else closeBook()}
 /* after a solved page: on to whatever comes next */
@@ -5085,7 +5206,7 @@ function shopCat(){const L=[],k=stk(),ps=plushState(),fs=floraState(),btn=(a,t,d
   L.push({key:'sc:confetti',tab:'scenes',name:'Confetti',price:30,blurb:'A scene behind the book: confetti floating by, cream and pastel by day, neon on midnight blue by night.',own:sceneOwned('confetti'),legacy:'data-buy-scene="confetti"',
     k3:'slab',art:`<div class="art"><span class="scene-swatch" style="background-image:url(${sceneSwatch('confetti')})"></span></div>`,give:()=>{S.scenes=S.scenes||{};S.scenes.confetti=1;setScene('confetti');render()},
     use:()=>btn('data-use-scene="confetti"',S.scene==='confetti'?'In use':'Use it')});
-  Object.values(BLOCKS).filter(b=>b.shop).forEach(b=>L.push({key:'bk:'+b.id,tab:'books',name:b.title,price:b.price,blurb:`${b.sub} · ${b.pages} pages`,own:!!S.lib?.[b.id],legacy:`data-buy-block="${b.id}"`,book:b.title,k3:'book',cover:b.cover,
+  Object.values(BLOCKS).filter(b=>b.shop).forEach(b=>L.push({key:'bk:'+b.id,tab:'books',hid:b.id==='nines2'&&!vol1Done()&&!S.lib?.nines2,name:b.title,price:b.price,blurb:`${b.sub} · ${b.pages} pages`,own:!!S.lib?.[b.id],legacy:`data-buy-block="${b.id}"`,book:b.title,k3:'book',cover:b.cover,
     art:`<div class="art"><div class="style-swatch" style="${b.cover}"></div></div>`,give:()=>{S.lib=S.lib||{};S.lib[b.id]=1},use:()=>btn('','On the shelf',1)}));
   return L}
 const shopItem=key=>shopCat().find(it=>it.key===key);
@@ -5646,8 +5767,8 @@ document.addEventListener('click',e=>{if(e.detail>0){const b=e.target.closest&&e
 $('#shopBtn').addEventListener('click',e=>{e.stopPropagation();if(entering||document.querySelector('.toc.shop'))return;storeDoor();entering=setTimeout(()=>{entering=0;openShop('',true)},reduced?0:200)});
 
 /* page 0 waits at the front of Volume I and opens once all ninety-nine pages are solved */
-const zeroOpen=()=>{if(block().id!=='nines')return false;for(let p=1;p<=NP;p++)if(!S.solved[p])return false;return true};
-const unlocked=p=>p===0?zeroOpen():p>=1&&(block().custom?p===1:block().id!=='nines'?p<=block().pages:true)&&(p===1||(block().id==='nines'&&p<=NP&&(p-1)%9===0)||!!S.solved[p]||!!S.solved[p-1]||p===S.page);
+const zeroOpen=()=>{if(!isVol(block().id))return false;for(let p=1;p<=NP;p++)if(!S.solved[p])return false;return true};
+const unlocked=p=>p===0?zeroOpen():p>=1&&(block().custom?p===1:!isVol(block().id)?p<=block().pages:true)&&(p===1||(isVol(block().id)&&p<=NP&&(p-1)%9===0)||!!S.solved[p]||!!S.solved[p-1]||p===S.page);
 function previousUnlocked(p){for(let n=p-1;n>=1;n--)if(unlocked(n))return n;return 0}
 function openToc(){
   if(playMode==='daily'){leaveDaily(false);setTimeout(openToc,reduced?0:80);return}
@@ -5656,8 +5777,8 @@ function openToc(){
   const v=document.createElement('div');v.className='veil';
   const solvedN=Object.keys(S.solved).filter(k=>k!=='0').length;
   const bk=block();
-  let h=`<div class="toc paper" role="dialog" aria-label="Table of pages"><p class="endmark toc-mark">${escH(bk.title)}</p><h2>${escH(bk.sub)}</h2><p class="lede">${solvedN} of ${bk.pages} pages solved · ${bk.id==='nines'?'start any chapter, or carry on after a page you’ve solved':'each page opens after the one before it'}</p>`;
-  if(bk.id==='nines'){
+  let h=`<div class="toc paper" role="dialog" aria-label="Table of pages"><p class="endmark toc-mark">${escH(bk.title)}</p><h2>${escH(bk.sub)}</h2><p class="lede">${solvedN} of ${bk.pages} pages solved · ${isVol(bk.id)?'start any chapter, or carry on after a page you’ve solved':'each page opens after the one before it'}</p>`;
+  if(isVol(bk.id)){
     const chapters=CH11.map((c,k)=>({name:`Chapter ${ROMAN[k]}`,diff:c[0],from:k*9+1,to:k*9+9}));
     if(zeroOpen()||S.solved[0]){const open=true;h+=`<h3>Page Zero<b></b><em>Ascent</em></h3><div class="pages"><button class="px pg${S.solved[0]?' done':''}${S.page===0?' cur':''}" data-p="0" ${open?'':'disabled'} aria-label="Page 0${S.solved[0]?', solved':open?'':', opens when all ninety-nine pages are solved'}">0</button></div>`}
     if(S.maxPage>NP)chapters.push({name:'Appendix',diff:'Ascent',from:NP+1,to:Math.max(NP+9,NP+Math.ceil((S.maxPage-NP)/9)*9)});
@@ -5727,9 +5848,9 @@ function normaliseSave(d){
   /* the books bought for the library. For a few hours on 6 Nov 2026 the library icon's choice was saved under the same name and wrote over them;
      every book the player had put on the shelf (and the one open) is given back */
   n.lib={};for(const id of Object.keys(typeof d.lib==='string'?Object.assign({},obj(d.shelf),d.block?{[d.block]:1}:{}):obj(d.lib)))if(BLOCKS[id]?.shop)n.lib[id]=1;n.styles={};for(const id0 of Object.keys(obj(d.styles))){const id=id0==='ember'?'onyx':id0;if(STYLES.some(x=>x.id===id))n.styles[id]=1}n.wear={};{const w=Object.fromEntries(Object.entries(obj(d.wear)).map(([c,v])=>[c,v==='ember'?'onyx':v]));for(const[c] of STYLE_CATS){const id=w[c]??(styleOf(d.style)?.cat===c?d.style:null);n.wear[c]=id&&n.styles[id]&&styleOf(id)?.cat===c?id:'none'}}
-  n.block=(BLOCKS[d.block]&&(!BLOCKS[d.block].shop||n.lib[d.block]))||n.pages[d.block]?d.block:'nines';n.shelf={};for(const[id,sh]of Object.entries(obj(d.shelf))){if((!BLOCKS[id]&&!n.pages[id])||!sh||typeof sh!=='object')continue;const lim=id==='nines'?NP+999:(BLOCKS[id]?.pages||1),solved={};for(const[q,v]of Object.entries(obj(sh.solved)))if(/^\d+$/.test(q)&&(+q>0||(id==='nines'&&+q===0))&&+q<=lim&&v)solved[q]=1;const pg=Number.isInteger(+sh.page)?Math.max(id==='nines'?0:1,Math.min(lim,+sh.page)):1;n.shelf[id]={page:pg,maxPage:Number.isInteger(+sh.maxPage)?Math.max(pg,Math.min(lim+1,+sh.maxPage)):pg,solved,prog:{}};for(const[q,pr]of Object.entries(obj(sh.prog)))if(/^\d+$/.test(q)&&pr&&Array.isArray(pr.v)&&pr.v.length===81&&Array.isArray(pr.n)&&pr.n.length===81)n.shelf[id].prog[q]={v:pr.v.map(x=>+x|0),n:pr.n.map(x=>+x|0),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(x=>x?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(x=>x).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?pr.l:MAX_LIVES,b:pr.b|0,m:pr.m|0,done:!!pr.done}}
+  n.block=(BLOCKS[d.block]&&(!BLOCKS[d.block].shop||n.lib[d.block]))||n.pages[d.block]?d.block:'nines';n.shelf={};for(const[id,sh]of Object.entries(obj(d.shelf))){if((!BLOCKS[id]&&!n.pages[id])||!sh||typeof sh!=='object')continue;const lim=isVol(id)?NP+999:(BLOCKS[id]?.pages||1),solved={};for(const[q,v]of Object.entries(obj(sh.solved)))if(/^\d+$/.test(q)&&(+q>0||(isVol(id)&&+q===0))&&+q<=lim&&v)solved[q]=1;const pg=Number.isInteger(+sh.page)?Math.max(isVol(id)?0:1,Math.min(lim,+sh.page)):1;n.shelf[id]={page:pg,maxPage:Number.isInteger(+sh.maxPage)?Math.max(pg,Math.min(lim+1,+sh.maxPage)):pg,solved,prog:{}};for(const[q,pr]of Object.entries(obj(sh.prog)))if(/^\d+$/.test(q)&&pr&&Array.isArray(pr.v)&&pr.v.length===81&&Array.isArray(pr.n)&&pr.n.length===81)n.shelf[id].prog[q]={v:pr.v.map(x=>+x|0),n:pr.n.map(x=>+x|0),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(x=>x?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(x=>x).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?pr.l:MAX_LIVES,b:pr.b|0,m:pr.m|0,done:!!pr.done}}
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
-  n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(n.block==='nines'&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
+  n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(isVol(n.block)&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
   if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.mpUi==='window')n.mpUi='window';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
   n.flora={fl:{},vz:{},cur:null,arr:{},seed:{}};{const f=obj(d.flora),fid=Flora.FLOWERS.map(x=>x.id),vid=Flora.VASES.map(x=>x.id);
@@ -5748,12 +5869,12 @@ function normaliseSave(d){
     n.plush.lifeAt=Number.isFinite(+pl.lifeAt)&&+pl.lifeAt>0?Math.min(Date.now(),+pl.lifeAt):0}
   n.pad={v:PadSets.V,set:0,map:{}};{const pd=obj(d.pad);if(pd.v===PadSets.V){if(PadSets.SETS.some(x=>x.id===+pd.set))n.pad.set=+pd.set;
     for(const st of PadSets.SETS){const own=obj(obj(pd.map)[st.id]),o={};for(const [a,b] of Object.entries(own))if(a in st.map&&PadSets.valid(b)&&b!==st.map[a])o[a]=b;if(Object.keys(o).length)n.pad.map[st.id]=o}}}
-  n.vseen=Number.isInteger(+d.vseen)&&+d.vseen>0?Math.min(NP,+d.vseen):0;
+  n.vseen=Number.isInteger(+d.vseen)&&+d.vseen>0?Math.min(NP,+d.vseen):0;if(d.v2told)n.v2told=1;n.vseen2=Number.isInteger(+d.vseen2)&&+d.vseen2>0?Math.min(NP,+d.vseen2):0;
   n.mig25=d.mig25?1:0;n.mig26=d.mig26?1:0;n.tv=Number.isInteger(+d.tv)&&+d.tv>=1&&+d.tv<=9?+d.tv:1;   // migration marks travel with the record
   n.owner=typeof d.owner==='string'&&d.owner.trim()?d.owner.trim().slice(0,16):null;n.askedName=d.askedName?1:0;n.pid=n.owner&&PID_RE.test(d.pid||'')?d.pid:null;
-  for(const[p,v]of Object.entries(obj(top.solved)))if(/^\d+$/.test(p)&&(+p>0||(n.block==='nines'&&+p===0))&&+p<=lim&&v)n.solved[p]=1;
+  for(const[p,v]of Object.entries(obj(top.solved)))if(/^\d+$/.test(p)&&(+p>0||(isVol(n.block)&&+p===0))&&+p<=lim&&v)n.solved[p]=1;
   for(const[p,pr]of Object.entries(obj(top.prog))){
-    if(!/^\d+$/.test(p)||(+p<1&&!(n.block==='nines'&&+p===0))||!pr||!Array.isArray(pr.v)||!Array.isArray(pr.n)||pr.v.length!==81||pr.n.length!==81)continue;
+    if(!/^\d+$/.test(p)||(+p<1&&!(isVol(n.block)&&+p===0))||!pr||!Array.isArray(pr.v)||!Array.isArray(pr.n)||pr.v.length!==81||pr.n.length!==81)continue;
     if(!pr.v.every(v=>Number.isInteger(v)&&v>=0&&v<=9)||!pr.n.every(v=>Number.isInteger(v)&&v>=0&&v<=1022))continue;
     n.prog[p]={v:pr.v.slice(),n:pr.n.slice(),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(v=>v?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(Boolean).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?Math.max(0,Math.min(MAX_LIVES,pr.l)):MAX_LIVES,b:Number.isInteger(pr.b)?pr.b&511:0,m:Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0,s:Number.isInteger(pr.s)?Math.max(0,Math.min(99,pr.s)):0};
   }
@@ -5862,19 +5983,20 @@ backCover.addEventListener('click',async e=>{
 $('#saveBtn').addEventListener('click',e=>{e.stopPropagation();openSave()});
 /* the verso: the whole book slides to the right and fades away, the inside of its front cover comes in from the left,
    and the sheets of Volume I turn over onto it from the right, the last one showing the back of the page you were on */
-const verso=$('#verso'),vCover=$('#vCover'),vSheet=$('#vSheet'),versoBtn=$('#versoBtn'),VQ=typeof QUOTES!=='undefined'&&Array.isArray(QUOTES)?QUOTES:[];
-const versoOK=()=>playMode==='book'&&(S.block||'nines')==='nines'&&VQ.length>=NP;
+const verso=$('#verso'),vCover=$('#vCover'),vSheet=$('#vSheet'),versoBtn=$('#versoBtn'),VQ1=typeof QUOTES!=='undefined'&&Array.isArray(QUOTES)?QUOTES:[],VQ2=typeof QUOTES2!=='undefined'&&Array.isArray(QUOTES2)?QUOTES2:[];
+const vq=()=>S.block==='nines2'?VQ2:VQ1,VSEEN=()=>S.block==='nines2'?'vseen2':'vseen';   /* each volume has its own quotations, and its own count of backs read */
+const versoOK=()=>playMode==='book'&&isVol(S.block||'nines')&&vq().length>=NP;
 const ninesSolved=()=>((S.block||'nines')==='nines'?S.solved:S.shelf?.nines?.solved)||{};
-const versoRead=()=>{const sv=ninesSolved();let n=0;for(let p=1;p<=NP;p++)if(sv[p])n++;return n};
+const versoRead=()=>{const sv=isVol(S.block||'nines')?S.solved:ninesSolved();let n=0;for(let p=1;p<=NP;p++)if(sv[p])n++;return n};
 function versoBadge(){versoBtn.hidden=!versoOK()||!S.qtab;   /* the bookmark is a Design option; solved pages carry their own link */
- versoBtn.classList.toggle('news',!versoBtn.hidden&&versoRead()>(S.vseen||0))}
+ versoBtn.classList.toggle('news',!versoBtn.hidden&&versoRead()>(S[VSEEN()]||0))}
 const V_IN=[{transform:'rotateY(180deg)',opacity:0},{transform:'rotateY(132deg)',opacity:1,offset:.24},{transform:'rotateY(0deg)',opacity:1}];
 const V_OUT=[{transform:'rotateY(0deg)',opacity:1},{transform:'rotateY(132deg)',opacity:1,offset:.76},{transform:'rotateY(180deg)',opacity:0}];
 const V_EASE='cubic-bezier(.45,.05,.3,1)';
 /* the stickers on the back of a page, drawn still (for the sheets that turn) */
 function versoStk(p){const l=stk().pages['q/'+p]||[];return l.length?`<div class="pstickers">${l.map(x=>{const st=STK.find(y=>y.id===x.id);return st?`<div class="sticker${st.tape?' tapebit':''}" style="left:${x.x}%;top:${x.y}%;--rot:${x.r}deg">${stickSVG(st)}</div>`:''}).join('')}</div>`:''}
-function versoFace(p){const q=VQ[p-1]||['','',''];
-  return`<i class="vgrid" aria-hidden="true"></i><p class="vrun">The Book of Nines</p><div class="vbody">${ninesSolved()[p]
+function versoFace(p){const q=vq()[p-1]||['','',''];
+  return`<i class="vgrid" aria-hidden="true"></i><p class="vrun">The Book of Nines</p><div class="vbody">${(isVol(S.block||'nines')?S.solved:ninesSolved())[p]
     ?`<blockquote class="vq">${escH(q[0])}</blockquote><p class="vcite">${escH(q[1])}${q[2]?`<i>${escH(q[2])}</i>`:''}</p>`
     :`<span class="vseal" aria-hidden="true">9</span><p class="vsealed">Sealed. Solve page ${p} to read what is written on its back.</p>`}</div><span class="vno">- ${p} -</span>`}
 /* the cover wears the book's own leather, style and texture; the sheets lie where the page would land if it turned over */
@@ -5903,7 +6025,7 @@ const ownAnims=el=>el.getAnimations().filter(a=>!(window.CSSAnimation&&a instanc
 function openVerso(){
   if(atFront||versoMoving||atBack||saveFlipping||flipping||!opened||!versoOK())return;
   closePops();document.querySelectorAll('.toast').forEach(t=>t.remove());
-  versoPage=Math.max(1,Math.min(NP,S.page));S.vseen=versoRead();versoBadge();save();
+  versoPage=Math.max(1,Math.min(NP,S.page));S[VSEEN()]=versoRead();versoBadge();save();
   atFront=true;versoMoving=true;const g=++versoGen;
   vCover.querySelectorAll('.vleaf').forEach(n=>n.remove());vSheet.hidden=true;verso.classList.remove('ready');
   placeVerso();verso.hidden=false;
@@ -7747,7 +7869,7 @@ $('#radioBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();openR
 
 /* ================= boot ================= */
 function start(data){
-  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
+  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
     puzzleIn(id,p){const was=S.block;S.block=id;try{return puzzle(p)}finally{S.block=was}}};
   load();if(saveLost)setTimeout(()=>toast('The book’s record could not be read, so a fresh book was opened. The old record is kept aside.'+(S.savePage?' A save code from the Binder’s Record can bring a book back.':'')),2500);
   devUnlocked();
