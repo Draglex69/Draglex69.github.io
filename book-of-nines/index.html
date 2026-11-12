@@ -1012,7 +1012,7 @@ body.radio-side .radiobtn{left:auto;margin-left:0;right:max(11px,env(safe-area-i
 .sd-buy{background:#3a2614;color:#f3e2b8}.sd-buy .coin{width:13px;height:13px;margin-left:2px}.sd-buy:disabled{opacity:.45;cursor:default}
 .sd-bsk{background:#f3e2b8;color:#3a2614;box-shadow:inset 0 0 0 1px rgba(80,50,20,.45)}.sd-bsk .spr{width:15px;height:15px}.sd-bsk.in{background:#e9dcc0}.sd-bsk:disabled{cursor:default}
 .shop .addb{display:grid;place-items:center;width:30px;height:24px;margin:0;padding:0;border-radius:6px;background:#fbf8f1;color:#3a2614;box-shadow:inset 0 0 0 1px rgba(80,50,20,.45)}.shop .addb .spr{width:16px;height:16px}.shop .addb.in{background:#3a2614;color:#f3e2b8}.shop .addb:disabled{opacity:1}
-.shop .have{font:italic 10.5px var(--fell);opacity:.7}
+.shop .have{position:absolute;left:6px;bottom:6px;min-width:20px;height:20px;padding:0 5px;box-sizing:border-box;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#4a2f1a;color:#f6e2a8;font:700 11px/1 var(--deco,sans-serif);font-variant-numeric:lining-nums;box-shadow:0 1px 0 rgba(0,0,0,.3);z-index:2}   /* how many you have: a little count in the corner
 .shop .offer-note{margin:10px 0 0;text-align:center;font:italic 14px/1.35 var(--fell);color:#5a3a1e}.shop .offer-note b{font:700 12px var(--deco);letter-spacing:.14em;text-transform:uppercase;font-style:normal;color:#b8323a}
 .shop .empty .spr{display:inline-block;width:15px;height:15px;vertical-align:-3px}
 /* the basket */
@@ -1342,7 +1342,7 @@ body.immersed .app{padding:0;height:100dvh}body.immersed .stage{position:fixed;i
   background:linear-gradient(90deg,var(--ll),var(--lh) 32%,var(--l) 68%,var(--ll));box-shadow:inset 0 5px 0 -2px rgba(233,196,106,.9),inset 0 -5px 0 -2px rgba(233,196,106,.9),inset 0 10px 0 -8px rgba(233,196,106,.7),inset 0 -10px 0 -8px rgba(233,196,106,.7),1px 0 0 rgba(0,0,0,.45)}
 .cm-book .sp-t{position:absolute;left:0;right:0;top:12px;bottom:12px;display:block;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font:600 8.4px/var(--bw) var(--cap);letter-spacing:.03em;color:#f0d48a;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .cm-book.bound::after{content:"";position:absolute;left:50%;top:-7px;width:5px;height:15px;margin-left:-2.5px;background:#b8323a;clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%)}
-.cm-book.pulled{transform:translateY(-7px) rotate(-8deg)}@media (hover:hover){.cm-book:not(.pulled):hover{transform:translateY(-3px)}.cm-pl:hover{transform:translateY(-2px)}.cm-orn:hover{transform:translateY(-1px)}}
+.cm-book.pulled{opacity:0;transition:opacity .12s}@media (hover:hover){.cm-book:not(.pulled):hover{transform:translateY(-3px)}.cm-pl:hover{transform:translateY(-2px)}.cm-orn:hover{transform:translateY(-1px)}}
 .cm-pl{position:relative;flex:none;width:58px;height:72px;padding:0;border:0;background:none;cursor:pointer;transition:transform .2s}
 .cm-pl img{width:100%;height:100%;object-fit:contain;object-position:50% 100%;filter:drop-shadow(0 2px 2px rgba(0,0,0,.55))}
 .cm-dr{position:absolute;z-index:2;padding:0;border:0;border-radius:0;background:none;cursor:pointer}
@@ -1743,6 +1743,75 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
 #grid[data-px="pastel"] .cell.pxl{background-clip:padding-box}
 #grid[data-px="pastel"] .cell.pxl.pxa{animation-name:pxpastel}
 @keyframes pxpastel{0%{background-size:0 0,0 0}60%{background-size:100% 100%,100% 100%}100%{background-size:100% 100%,92% 92%}}
+
+/* Design: the wood texture of the commode */
+.sgrp .sub-b{display:block;margin-top:10px}.mag-choice.cm-tex{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.mag-choice.cm-tex button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px}.mag-choice.cm-tex svg{width:100%;max-width:96px;aspect-ratio:96/40;display:block}.mag-choice.cm-tex span{font-size:11px}
+
+/* the shelf books in low-poly 3D: the spine, the cover's edges either side, the pages on top, seen from a little above */
+.cm-shelf{perspective:620px;perspective-origin:50% -70%;transform-style:preserve-3d}.cm-shelf .cm-it{transform-style:preserve-3d}
+.cm-book{transform-style:preserve-3d;--dp:calc(var(--bw) * 1.9)}
+.cm-book .bk3{position:absolute;display:block;pointer-events:none}
+.cm-book .bk3.t{left:1px;right:1px;top:0;height:var(--dp);transform-origin:50% 0;transform:rotateX(-90deg);background:linear-gradient(90deg,var(--ll) 0 2px,#efe4c8 2px calc(100% - 2px),var(--ll) calc(100% - 2px)),#efe4c8;
+  background-image:linear-gradient(90deg,var(--ll) 0 2px,transparent 2px calc(100% - 2px),var(--ll) calc(100% - 2px)),repeating-linear-gradient(90deg,#e3d6b6 0 1px,#f2e9d0 1px 2.5px)}
+.cm-book .bk3.l,.cm-book .bk3.r{top:0;bottom:0;width:var(--dp);background:linear-gradient(90deg,var(--l),var(--ll));clip-path:polygon(0 0,100% 3%,100% 97%,0 100%)}
+.cm-book .bk3.l{left:0;transform-origin:0 50%;transform:rotateY(90deg)}
+.cm-book .bk3.r{right:0;transform-origin:100% 50%;transform:rotateY(-90deg);background:linear-gradient(270deg,var(--lh),var(--ll))}
+/* the book taken out: hanging in the middle of the room, turning gently */
+.cm-float-bg{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse at 50% 30%,rgba(10,6,3,.35),rgba(10,6,3,.72));-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.cm-float{position:absolute;z-index:4;perspective:520px;display:grid;place-items:center;cursor:pointer;filter:drop-shadow(0 18px 14px rgba(0,0,0,.5))}
+.cm-float .obj.book{transform:rotateY(-18deg) rotateX(4deg)}
+.cm-float:not(.landing)>.obj.book{animation:cmhover 5.5s ease-in-out .55s infinite}
+@keyframes cmhover{0%,100%{transform:translateY(0) rotateY(-18deg) rotateX(4deg)}25%{transform:translateY(-7px) rotateY(-4deg) rotateX(2deg)}50%{transform:translateY(-2px) rotateY(-26deg) rotateX(5deg)}75%{transform:translateY(-8px) rotateY(-12deg) rotateX(3deg)}}
+.cm-sub.floating{z-index:5}
+@media (prefers-reduced-motion:reduce){.cm-float>.obj.book{animation:none!important}}
+
+/* stickers on the backs of the pages (the quotes) */
+.vsheet>.vstickers{z-index:6}body.stickering .vsheet>.vstickers{pointer-events:auto;touch-action:none;z-index:9}body.placing .vsheet>.vstickers{cursor:crosshair}.vleaf .pstickers{pointer-events:none}
+/* ---- the fax machine (multiplayer) ---- */
+.fax-veil{display:flex;align-items:center;justify-content:center;padding:max(10px,env(safe-area-inset-top,0px)) 8px max(10px,env(safe-area-inset-bottom,0px))}
+.fax{--fx:#e8dfcc;--fxd:#c9bea6;--fxk:#2b2925;position:relative;width:min(440px,calc(100vw - 16px));max-height:calc(100dvh - 20px);display:flex;flex-direction:column;align-items:stretch;filter:drop-shadow(0 18px 24px rgba(0,0,0,.55))}
+.fax-feed{position:relative;height:26px;margin:0 22%;background:linear-gradient(#3a3631,#24221f);border-radius:10px 10px 0 0;clip-path:polygon(4% 100%,0 0,100% 0,96% 100%)}
+.fax-feed i{position:absolute;left:14%;right:14%;bottom:4px;height:30px;background:#f6f1e4;border-radius:2px;box-shadow:inset 0 -6px 8px rgba(0,0,0,.18);transform:translateY(-8px)}
+.fax-body{position:relative;display:grid;grid-template-columns:1fr auto;gap:12px;padding:12px 14px 14px;border-radius:18px 18px 10px 10px;
+  background:linear-gradient(180deg,#f3ecdc,var(--fx) 40%,var(--fxd));box-shadow:inset 0 2px 0 rgba(255,255,255,.7),inset 0 -4px 0 rgba(0,0,0,.12),0 0 0 1.5px #8d7f63}
+.fax-body::after{content:"";position:absolute;left:14px;right:14px;top:6px;height:2px;border-radius:2px;background:repeating-linear-gradient(90deg,#b9ad92 0 6px,transparent 6px 9px);opacity:.7}
+.fax-left{display:flex;flex-direction:column;gap:9px;min-width:0;padding-top:6px}
+.fax-brand{display:flex;align-items:baseline;gap:6px;color:#5a4a2c}.fax-brand b{font:700 15px/1 var(--deco);letter-spacing:.18em;color:#9a7a33}.fax-brand span{font:italic 12px/1 var(--fell,serif)}
+.fax-lcd{display:flex;flex-direction:column;justify-content:center;gap:3px;min-height:46px;padding:6px 9px;border-radius:5px;background:linear-gradient(180deg,#9fb48a,#b8c99f);box-shadow:inset 0 2px 5px rgba(0,0,0,.45),0 0 0 3px #3b3833,0 0 0 4px #8d7f63;
+  font:700 13px/1.15 "Courier New",ui-monospace,monospace;color:#1d2a17;letter-spacing:.06em;text-shadow:1px 1px 0 rgba(29,42,23,.15);overflow:hidden}
+.fax-lcd span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fax-lcd .l2{font-size:12px;opacity:.85}
+.fax-fn{display:flex;gap:8px;margin-top:auto}
+.fk{flex:1;min-height:36px;border:0;border-radius:8px;font:700 12px/1 var(--cap,sans-serif);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;color:#fff;box-shadow:0 3px 0 rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.35)}
+.fk.start{background:linear-gradient(#4f9a5a,#2f7a3c)}.fk.stop{background:linear-gradient(#c8574a,#9c3328)}.fk:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.35)}
+.fax-pad{display:grid;grid-template-columns:repeat(3,var(--kk,40px));gap:6px;padding:7px;border-radius:9px;background:#3b3833;box-shadow:inset 0 2px 4px rgba(0,0,0,.5)}
+.fkey{--kk:40px;width:var(--kk,40px);height:calc(var(--kk,40px) * .82);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:0;border:0;border-radius:7px;cursor:pointer;
+  background:linear-gradient(#fbf7ec,#e2d8c2);box-shadow:0 3px 0 #8d7f63,inset 0 1px 0 #fff;color:#2b2925;transition:transform .06s}
+.fkey b{font:700 16px/1 var(--deco,sans-serif);font-variant-numeric:lining-nums}.fkey small{font:600 7.5px/1 var(--cap,sans-serif);letter-spacing:.08em;color:#7a6a4a;min-height:7px}
+.fkey:active,.fkey.hit{animation:fkhit .14s}@keyframes fkhit{50%{transform:translateY(3px);box-shadow:0 0 0 #8d7f63,inset 0 1px 0 #fff}}
+.fax-slot{height:12px;margin:-4px 10px 0;border-radius:0 0 6px 6px;background:linear-gradient(#141210,#2e2a25);box-shadow:0 2px 0 #8d7f63;position:relative;z-index:2}
+.fax-out{position:relative;margin:-6px 18px 0;min-height:0;flex:1 1 auto;display:flex;overflow:hidden;border-radius:0 0 4px 4px}
+.fax-paper.mp-card{position:static;width:100%;max-width:none;margin:0;max-height:none;overflow:auto;border-radius:0 0 4px 4px;padding-top:18px;
+  background:#fbf8ef repeating-linear-gradient(0deg,transparent 0 23px,rgba(120,110,90,.07) 23px 24px);box-shadow:0 6px 14px rgba(0,0,0,.35);transform-origin:50% 0}
+.fax-paper.printing{animation:faxprint .85s steps(10,end) both}@keyframes faxprint{from{transform:translateY(-100%)}to{transform:none}}
+.fax-veil .fax-paper h2{letter-spacing:.06em}
+@media (max-width:380px){.fkey{--kk:34px}.fax-pad{grid-template-columns:repeat(3,34px)}.fax-body{padding:10px 10px 12px;gap:9px}}
+/* wide and short screens: the machine on the left, the sheet beside it */
+@media (min-aspect-ratio:4/3) and (max-height:620px){.fax{flex-direction:row;flex-wrap:wrap;width:min(900px,calc(100vw - 16px));align-items:flex-start}
+  .fax-feed{display:none}.fax-body{width:330px;flex:none}.fax-slot{display:none}.fax-out{margin:0 0 0 12px;flex:1 1 300px;max-height:calc(100dvh - 24px);border-radius:4px}.fax-paper.mp-card{max-height:calc(100dvh - 24px);border-radius:4px}}
+/* a page coming in: printed out, then into the book */
+.fax-incoming{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;pointer-events:none;background:rgba(10,6,3,.35)}
+.fax-incoming .fax-out{flex:none;height:min(46vh,300px)}
+.fax-sheet{width:100%;padding:16px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#fbf8ef;box-shadow:0 6px 14px rgba(0,0,0,.35)}
+.fax-sheet p{margin:0;font:600 13px/1.2 var(--cap,sans-serif);letter-spacing:.08em;color:#3a2f22;text-transform:uppercase}
+.fx-grid{display:grid;grid-template-columns:repeat(9,1fr);width:min(56vw,210px);aspect-ratio:1;border:2px solid #2b241b;font:600 clamp(10px,3.2vw,15px)/1 var(--deco,serif);font-variant-numeric:lining-nums;color:#2b241b}
+.fx-grid i{display:flex;align-items:center;justify-content:center;font-style:normal;border-right:1px solid rgba(43,36,27,.35);border-bottom:1px solid rgba(43,36,27,.35)}.fx-grid i.r{border-right:2px solid #2b241b}.fx-grid i.b{border-bottom:2px solid #2b241b}.fx-grid i:nth-child(9n){border-right:0}.fx-grid i:nth-child(n+73){border-bottom:0}
+.fax-fly{position:fixed;z-index:301;pointer-events:none;margin:0;box-sizing:border-box}
+
+/* the things on the shelves stir a little, as if in a draught: each at its own pace */
+.shop .item .stage{animation:shopsway 6.4s ease-in-out infinite;transform-origin:50% 85%}
+.shop .item:nth-child(3n+1) .stage{animation-duration:7.2s;animation-delay:-1.3s}.shop .item:nth-child(3n+2) .stage{animation-duration:5.8s;animation-delay:-3.1s}.shop .item:nth-child(4n) .stage{animation-delay:-4.6s}
+@keyframes shopsway{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-3px) rotate(-2.2deg)}50%{transform:translateY(-1px) rotate(.6deg)}75%{transform:translateY(-4px) rotate(2deg)}}
+@media (prefers-reduced-motion:reduce){.shop .item .stage{animation:none}}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -1827,7 +1896,7 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
   </div>
   <div class="verso" id="verso" role="dialog" aria-label="The backs of the pages" hidden>
     <div class="vcover" id="vCover"><i class="vframe" aria-hidden="true"></i><i class="vsun" aria-hidden="true"></i><span class="brass tl"></span><span class="brass bl"></span>   <!-- the inside of the front cover: its fore-edge, and the corner pieces, are on the left -->
-      <section class="leaf paper vface vsheet" id="vSheet" hidden></section>
+      <section class="leaf paper vface vsheet" id="vSheet" hidden></section><div class="pstickers vstickers" id="vstickers"></div>
       <div class="vctl" id="vCtl">
         <button class="px close" data-vclose>Back to the page</button>
       </div>
@@ -1871,6 +1940,7 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
    <div class="sgrp"><b>Ink</b><div class="row" id="pals"></div><span class="nm" id="nm-pal"></span>
      <div class="mag-choice daynight" id="dayNight"><button type="button" data-dark="0"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Day</button><button type="button" data-dark="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>Night</button></div></div>
    <div class="sgrp"><b>Book shape</b><div class="mag-choice" id="shapeChoice"><button type="button" data-shape="auto">Fit the screen</button><button type="button" data-shape="phone">Tall</button><button type="button" data-shape="tablet">Wide</button></div></div>
+   <div class="sgrp"><b>Multiplayer</b><div class="mag-choice" id="mpUiChoice"><button type="button" data-mpui="fax">Fax machine</button><button type="button" data-mpui="window">Window (archived)</button></div></div>
    <div class="sgrp"><b>Best of three</b><div class="mag-choice" id="bo3Choice"><button type="button" data-bo3="bomb">Bomb</button><button type="button" data-bo3="sword">Sword &amp; hearts</button></div></div>
    <div class="sgrp"><b>Marks</b><div class="row" id="glyphs"></div><span class="nm" id="nm-marks"></span></div>
    <div class="sgrp"><b>Scene</b><div class="row wrap" id="scenes"></div><span class="nm" id="nm-scene"></span></div>
@@ -1883,6 +1953,7 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
      <label class="tog"><input type="checkbox" id="optLoad"><span class="sl"></span>Show the animated pen loading screen</label>
      <label class="tog"><input type="checkbox" id="optLost"><span class="sl"></span>Stamp LOST on dead pages (while playing and once finished)</label>
      <label class="tog"><input type="checkbox" id="optMoon"><span class="sl"></span>Moon phases in the almanac</label>
+     <label class="tog"><input type="checkbox" id="optHandGrid"><span class="sl"></span>Hand-drawn grid lines (your own pages are always hand-drawn)</label>
      <label class="tog"><input type="checkbox" id="optQtab"><span class="sl"></span>Quotes bookmark on the book (solved pages always link to their quote)</label>
      <label class="tog"><input type="checkbox" id="optSndBtn"><span class="sl"></span>Sound button</label>
      <div class="tog mbset"><span>Music controls panel</span><input type="range" id="optMbAlpha" min="0" max="100" step="5" aria-label="How solid the panel behind the music controls is"><b id="mbAlphaVal"></b></div>
@@ -1907,7 +1978,7 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
    <div class="sgrp"><b>Purchase sound</b><div class="mag-choice store-choice bell-choice" id="payChoice"></div></div>
    <div class="sgrp"><b>Receipt printer</b><div class="mag-choice store-choice tune-choice" id="rcChoice"></div></div>
    <div class="sgrp"><b>Day and night</b><div class="mag-choice store-choice dn-choice" id="dnChoice"></div></div>
-   <div class="sgrp"><b>Commode Shelf</b><div class="mag-choice store-choice cm-choice" id="cmChoice"></div></div>
+   <div class="sgrp"><b>Commode Shelf</b><div class="mag-choice store-choice cm-choice" id="cmChoice"></div><b class="sub-b">Wood texture</b><div class="mag-choice cm-tex" id="cmTexChoice"></div></div>
    <div class="sgrp"><b>Television</b><div class="mag-choice store-choice tv-choice" id="tvChoice"></div><p class="tv-perk" id="tvPerk"></p></div>
    <div class="sgrp"><b>Leather</b><div class="mag-choice" id="lthChoice"><button type="button" data-lth="smooth">Smooth</button><button type="button" data-lth="grain">Grain</button><button type="button" data-lth="croc">Crocodile</button><button type="button" data-lth="linen">Linen</button></div></div>
    <div class="sgrp"><b>Paper</b><div class="mag-choice" id="pprChoice"><button type="button" data-ppr="vellum">Vellum</button><button type="button" data-ppr="laid">Laid</button><button type="button" data-ppr="parchment">Parchment</button><button type="button" data-ppr="fibre">Fibre</button></div></div>
@@ -2950,8 +3021,30 @@ const lg=(id,st,x2=0,y2=1)=>`<linearGradient id="${id}" x1="0" y1="0" x2="${x2}"
 const rg=(id,st,cx=.38,cy=.32,r=.75)=>`<radialGradient id="${id}" cx="${cx}" cy="${cy}" r="${r}">${st.map(([o,c,a])=>`<stop offset="${o}" stop-color="${c}"${a!=null?` stop-opacity="${a}"`:''}/>`).join('')}</radialGradient>`;
 const rng=s=>()=>(s=(s*1664525+1013904223)>>>0)/4294967296;
 /* long, lazy strokes of grain across a board */
-function grain(x,y,w,h,col,op,seed,lines,sw=.6){const R=rng(seed);let d='';for(let i=0;i<lines;i++){let yy=y+h*(i+.5)/lines+(R()-.5)*h/lines*.7;d+=`M${r2(x+1)} ${r2(yy)}`;const seg=5;for(let k=1;k<=seg;k++){const xx=x+(w-2)*k/seg+1,ny=yy+(R()-.5)*1.6;d+=`Q${r2(xx-(w/seg)/2)} ${r2(yy+(R()-.5)*3)} ${r2(xx)} ${r2(ny)}`;yy=ny}}
+function grain0(x,y,w,h,col,op,seed,lines,sw=.6,wob=1){const R=rng(seed);let d='';for(let i=0;i<lines;i++){let yy=y+h*(i+.5)/lines+(R()-.5)*h/lines*.7;d+=`M${r2(x+1)} ${r2(yy)}`;const seg=5;for(let k=1;k<=seg;k++){const xx=x+(w-2)*k/seg+1,ny=yy+(R()-.5)*1.6*wob;d+=`Q${r2(xx-(w/seg)/2)} ${r2(yy+(R()-.5)*3*wob)} ${r2(xx)} ${r2(ny)}`;yy=ny}}
   return`<path d="${d}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-opacity="${op}"/>`}
+/* the wood's texture, chosen in Design (the cabinet keeps its shape and colours): '' its own grain, or one of TEXTURES */
+let TEX='';
+const TEXTURES={fine:'Fine grain',burl:'Burl',knotty:'Knotty pine',oak:'Ray-fleck oak',weathered:'Weathered'};
+function grain(x,y,w,h,col,op,seed,lines,sw=.6){const R=rng(seed*7+3),A=w*h;
+  if(TEX==='fine')return grain0(x,y,w,h,col,Math.min(1,op*1.7),seed,Math.round(lines*2.8),sw*.55,.3)+grain0(x,y,w,h,'#fff',.07,seed+1,Math.round(lines*1.4),sw*.5,.3);
+  if(TEX==='burl'){let o=grain0(x,y,w,h,col,op*.45,seed,Math.max(2,lines>>1),sw*.8,2.2),d='';const n=Math.max(1,Math.min(90,Math.round(A/450)));
+    for(let i=0;i<n;i++){const cx=x+R()*w,cy=y+R()*h,rx=3+R()*Math.min(12,h*.7+3),ry=rx*(.45+R()*.45);
+      for(let k=1;k<=4;k++){const a=rx*k/4,b=ry*k/4;d+=`M${r2(cx-a)} ${r2(cy)}a${r2(a)} ${r2(b)} 0 1 0 ${r2(2*a)} 0a${r2(a)} ${r2(b)} 0 1 0 ${r2(-2*a)} 0`}}
+    return o+`<path d="${d}" fill="none" stroke="${col}" stroke-width="${sw*.85}" stroke-opacity="${Math.min(1,op*1.6)}"/>`}
+  if(TEX==='knotty'){let o=grain0(x,y,w,h,col,op*1.1,seed,lines,sw,1.6),d='',f='';const n=A>2600?Math.max(1,Math.round(A/6000)):R()<.45?1:0;
+    for(let i=0;i<n;i++){const cx=x+6+R()*(w-12),cy=y+h*(.25+R()*.5),rx=3+R()*Math.min(6,h*.4),ry=rx*.62;
+      f+=`<ellipse cx="${r2(cx)}" cy="${r2(cy)}" rx="${r2(rx)}" ry="${r2(ry)}" fill="${col}" fill-opacity="${Math.min(1,op*2.6)}"/>`;
+      for(let k=1;k<=3;k++)d+=`M${r2(cx-rx-k*2.2)} ${r2(cy)}a${r2(rx+k*2.2)} ${r2(ry+k*1.6)} 0 1 0 ${r2(2*(rx+k*2.2))} 0a${r2(rx+k*2.2)} ${r2(ry+k*1.6)} 0 1 0 ${r2(-2*(rx+k*2.2))} 0`}
+    return o+f+`<path d="${d}" fill="none" stroke="${col}" stroke-width="${sw*1.2}" stroke-opacity="${Math.min(1,op*1.5)}"/>`}
+  if(TEX==='oak'){let o=grain0(x,y,w,h,col,op*.9,seed,Math.round(lines*1.4),sw*.6,.15),d='',l='';const n=Math.min(260,Math.round(A/260));
+    for(let i=0;i<n;i++){const px=x+R()*w,py=y+R()*h,L=2+R()*7;(R()<.5?(d+=`M${r2(px)} ${r2(py)}h${r2(L)}`):(l+=`M${r2(px)} ${r2(py)}h${r2(L)}`))}
+    return o+`<path d="${d}" stroke="${col}" stroke-width="${Math.min(2.2,h/5)}" stroke-opacity="${Math.min(1,op*1.4)}" stroke-linecap="round"/><path d="${l}" stroke="#fff" stroke-width="${Math.min(2,h/5)}" stroke-opacity=".2" stroke-linecap="round"/>`}
+  if(TEX==='weathered'){let o=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#e8e2d4" opacity=".1"/>`+grain0(x,y,w,h,col,Math.min(1,op*1.5),seed,Math.round(lines*1.3),sw*1.4,2.6),d='',c='';const n=Math.min(40,Math.round(A/1800));
+    for(let i=0;i<n;i++){const px=x+R()*w,py=y+R()*h,L=6+R()*26;d+=`M${r2(px)} ${r2(py)}l${r2(L)} ${r2((R()-.5)*L*.5)}`}
+    for(let i=0;i<Math.max(1,n>>2);i++){const px=x+R()*w*.6,py=y+R()*h;c+=`M${r2(px)} ${r2(py)}h${r2(10+R()*w*.4)}`}
+    return o+`<path d="${d}" stroke="#fff" stroke-width=".5" stroke-opacity=".18"/><path d="${c}" stroke="#000" stroke-width="1.1" stroke-opacity=".45"/>`}
+  return grain0(x,y,w,h,col,op,seed,lines,sw)}
 /* the gradients every cabinet uses: a board seen face on (x), a board seen from above (y), the dark of the shelf */
 const woods=(P,[hi,mid,lo])=>lg(P+'x',[[0,lo],[.1,mid],[.42,hi],[.8,mid],[1,lo]],1,0)+lg(P+'y',[[0,hi],[1,lo]])+lg(P+'f',[[0,hi],[.55,mid],[1,lo]])+
   lg(P+'sh',[[0,'#000',.62],[.45,'#000',.18],[1,'#000',0]])+lg(P+'sl',[[0,'#000',.45],[1,'#000',0]],1,0)+lg(P+'sr',[[0,'#000',0],[1,'#000',.45]],1,0)+
@@ -3081,8 +3174,24 @@ S.victorian={label:'Victorian mahogany',wood:['#93402a','#682314','#3c1108'],lin
  defs(P){return lg(P+'br',[[0,'#f8e19a'],[.5,'#d2a446'],[1,'#8a6420']])},
  icon:'<path d="M13 5.3c0-1.6 2-2.4 4-2.4h1.4c.4-1.2 1-1.8 1.6-1.8s1.2.6 1.6 1.8H23c2 0 4 .8 4 2.4"/><path d="M3.5 5.3Q20 7.4 36.5 5.3V7.6Q20 9.7 3.5 7.6z"/><path d="M6 8.3v18.3h28V8.3"/><path d="M8.5 10.2h23v4.8h-23z" stroke-width="1.1"/><path d="M6 15h28M6 18.9h28M6 22.8h28M20 15v11.6" stroke-width="1.1"/><path d="M11.4 16.3c0 1.6 1 2 1.6 2s1.6-.4 1.6-2M25.4 16.3c0 1.6 1 2 1.6 2s1.6-.4 1.6-2M11.4 20.2c0 1.6 1 2 1.6 2s1.6-.4 1.6-2M25.4 20.2c0 1.6 1 2 1.6 2s1.6-.4 1.6-2M11.4 24.1c0 1.6 1 2 1.6 2s1.6-.4 1.6-2M25.4 24.1c0 1.6 1 2 1.6 2s1.6-.4 1.6-2" stroke-width="1"/><path d="M5 26.6h30M7 26.6c0 2 1.6 2.4 1 4.4-.2.8.6 1.4 1.6 1.4M33 26.6c0 2-1.6 2.4-1 4.4.2.8-.6 1.4-1.6 1.4"/>'};
 const ids=Object.keys(S);
+/* what really stands on the commode, drawn small: live = {shelf:[...], top:[...]}, each thing {b:[leather, light] | p:picture | o:ornament | v:1, x, w, h, o:order}
+   in the big cabinet's px (the shelf row is 260 wide, the top 296), drawn in the order they stand (the later in front) */
+const MINI_TOP={nordic:12.6,deco:11.6,apothecary:11.8,tansu:12.4,teak:13,victorian:13.2};
+function liveShelf(live,k,id,B={x:7,y:18,w:34,h:8.4},mono){const kx=B.w/260,ky=B.h/93,bt=B.y+B.h;let o=`<clipPath id="${k}sc"><rect x="${B.x}" y="${B.y}" width="${B.w}" height="${B.h}"/></clipPath><g clip-path="url(#${k}sc)">`;
+  for(const t of [...live.shelf].sort((a,b)=>(a.o||0)-(b.o||0))){const x=B.x+t.x*kx,w=t.w*kx;
+    if(t.b){const bw=Math.max(1.4,w-.3),h=Math.min(B.h-.4,t.h*ky);if(mono){o+=`<rect x="${r2(x+.15)}" y="${r2(bt-h)}" width="${r2(bw)}" height="${r2(h)}" fill="${mono}" stroke="#24130a" stroke-width=".5"/>`;continue}o+=`<rect x="${r2(x+.15)}" y="${r2(bt-h)}" width="${r2(bw)}" height="${r2(h)}" fill="${t.b[0]}" stroke="#000" stroke-opacity=".35" stroke-width=".2"/><path d="M${r2(x+.15+bw*.3)} ${r2(bt-h)}v${r2(h)}" stroke="${t.b[1]}" stroke-opacity=".6" stroke-width="${r2(bw*.22)}"/><path d="M${r2(x+.15)} ${r2(bt+1-h)}h${r2(bw)}M${r2(x+.15)} ${r2(bt-1)}h${r2(bw)}" stroke="#e9c46a" stroke-width=".3"/>`}
+    else if(t.p)o+=`<image href="${t.p}" x="${r2(x-.6)}" y="${r2(bt-B.h+.4)}" width="${r2(w+1.2)}" height="${r2(B.h-.4)}" preserveAspectRatio="xMidYMax meet"/>`;
+    else o+=topThing(t,x,w,bt,ky*1.15)}
+  return o+'</g>'}
+function topThing(t,x,w,y0,k){
+  if(t.orn&&ORN[t.orn]){const ow=ORN[t.orn].w,h=64*k;return ornSvg(t.orn).replace('<svg ',`<svg x="${r2(x+(w-ow*k)/2)}" y="${r2(y0-h)}" width="${r2(ow*k)}" height="${r2(h)}" `)}
+  if(t.v){const cx=x+w/2,h=9.6*k/.1486;return`<path d="M${r2(cx-1.5)} ${r2(y0)}h3l.5-${r2(h*.4)}h-4z" fill="#2f52b0" stroke="#24130a" stroke-width=".5"/><path d="M${r2(cx)} ${r2(y0-h*.4)}v-${r2(h*.4)}M${r2(cx)} ${r2(y0-h*.4)}l-2 -${r2(h*.36)}M${r2(cx)} ${r2(y0-h*.4)}l2 -${r2(h*.34)}" stroke="#3f7d3e" stroke-width=".6"/><circle cx="${r2(cx)}" cy="${r2(y0-h*.82)}" r="1.1" fill="#e04f5f"/><circle cx="${r2(cx-2)}" cy="${r2(y0-h*.77)}" r=".9" fill="#ffc23c"/><circle cx="${r2(cx+2)}" cy="${r2(y0-h*.75)}" r=".9" fill="#f3f0e8"/>`}
+  if(t.p)return`<image href="${t.p}" x="${r2(x-.6)}" y="${r2(y0-9)}" width="${r2(w+1.2)}" height="9" preserveAspectRatio="xMidYMax meet"/>`;
+  if(t.b){const h=Math.min(10,t.h*k);return`<rect x="${r2(x+.2)}" y="${r2(y0-h)}" width="${r2(Math.max(1.4,w-.4))}" height="${r2(h)}" fill="${t.b[0]}" stroke="#000" stroke-opacity=".35" stroke-width=".2"/>`}
+  return''}
+function liveTop(live,id,y0){const kx=44/296;y0=y0||MINI_TOP[id]||12.2;let o='';for(const t of [...live.top].sort((a,b)=>(a.o||0)-(b.o||0)))o+=topThing(t,2+t.x*kx,t.w*kx,y0,kx);return o}
 /* the corner button: each commode in miniature (viewBox 0 0 48 52), drawn like the little television, books and a plushie on its shelf and a plant on top */
-function mini(id){const s=S[id]||S.farm;id=S[id]?id:'farm';const [hi,mid,lo]=s.wood,L='#24130a',k='cmi-'+id,G='#e9c46a',W=`url(#${k}w)`,F=`url(#${k}f)`;
+function mini(id,live){const s=S[id]||S.farm;id=S[id]?id:'farm';const [hi,mid,lo]=s.wood,L='#24130a',k='cmi-'+id+(live?'-l':''),G='#e9c46a',W=`url(#${k}w)`,F=`url(#${k}f)`;
   const deco=id==='deco',drC=id==='cottage'?'#a9c3c1':deco?'#1d1d25':id==='tansu'?'#4e301b':mid;
   let o=`<defs><linearGradient id="${k}w" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${lo}"/><stop offset=".4" stop-color="${hi}"/><stop offset="1" stop-color="${mid}"/></linearGradient><linearGradient id="${k}f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${hi}"/><stop offset="1" stop-color="${lo}"/></linearGradient></defs>`;
   /* under the cabinet: feet, legs or a plinth */
@@ -3098,7 +3207,7 @@ function mini(id){const s=S[id]||S.farm;id=S[id]?id:'farm';const [hi,mid,lo]=s.w
   o+=base;
   /* on top: a plant in a pot, and the Victorian's carved crest behind it */
   if(id==='victorian')o+=`<path d="M15 12.4c0-2.4 3-3.4 6-3.4 .8-2.4 2-3.6 3-3.6s2.2 1.2 3 3.6c3 0 6 1 6 3.4z" fill="${F}" stroke="${L}" stroke-width=".9"/><circle cx="24" cy="4.6" r="1.3" fill="${F}" stroke="${L}" stroke-width=".7"/>`;
-  o+=`<path d="M35.4 9c-1.6-1.4-1.8-4-1-5.6M37 9c0-2.6 1-4.8 2.4-5.8M38.4 9c1.2-1.8 3-2.6 4.4-2.4M36 9c-1.4-1-3.4-1.6-4.6-1" fill="none" stroke="#3f7d3e" stroke-width="1.3" stroke-linecap="round"/><path d="M33.6 8.4h7.6l-1 3.9h-5.6z" fill="#c4643a" stroke="${L}" stroke-width=".8"/>`+
+  if(!live)o+=`<path d="M35.4 9c-1.6-1.4-1.8-4-1-5.6M37 9c0-2.6 1-4.8 2.4-5.8M38.4 9c1.2-1.8 3-2.6 4.4-2.4M36 9c-1.4-1-3.4-1.6-4.6-1" fill="none" stroke="#3f7d3e" stroke-width="1.3" stroke-linecap="round"/><path d="M33.6 8.4h7.6l-1 3.9h-5.6z" fill="#c4643a" stroke="${L}" stroke-width=".8"/>`+
     `<path d="M9.3 12.3l.4-4.1h2.4l.4 4.1z" fill="#2f52b0" stroke="${L}" stroke-width=".7"/><rect x="10.2" y="4.2" width="1.4" height="4" fill="#f3ead6" stroke="#b9ab8a" stroke-width=".25"/><path d="M10.9 1.4c-.9 1-1 1.8-.4 2.5.2.2.6.2.8 0 .6-.7.5-1.5-.4-2.5z" fill="#ffc23c"/>`;
   /* the top */
   o+={farm:`<rect x="2" y="12.2" width="44" height="3.8" rx=".6" fill="${F}" stroke="${L}" stroke-width="1"/>`,
@@ -3115,8 +3224,8 @@ function mini(id){const s=S[id]||S.farm;id=S[id]?id:'farm';const [hi,mid,lo]=s.w
     `<rect x="7" y="18" width="34" height="8.4" fill="${shelfC}" stroke="${L}" stroke-width=".7"/>`+
     (id==='tansu'?'<path d="M15.5 18v8.4M24 18v8.4M32.5 18v8.4M7 22.2h34" stroke="#9a7a52" stroke-width=".5"/>':'')+
     (deco?`<rect x="5.3" y="17.2" width="37.4" height="25.6" fill="none" stroke="${G}" stroke-width=".6"/>`:'')+
-    BKS.map((c,i)=>{const h=[6.4,7.4,6.8,5.8,6.6][i];return`<rect x="${8.6+i*2.7}" y="${26.4-h}" width="2.3" height="${h}" fill="${c}"/><path d="M${8.6+i*2.7} ${27.6-h}h2.3" stroke="${G}" stroke-width=".45"/>`}).join('')+
-    `<circle cx="35.6" cy="24" r="2.5" fill="#f3a66a" stroke="${L}" stroke-width=".5"/><path d="M33.4 22.6l.3-2.2 1.6 1.2M37.8 22.6l-.3-2.2-1.6 1.2" fill="#f3a66a" stroke="${L}" stroke-width=".45" stroke-linejoin="round"/><circle cx="34.8" cy="23.8" r=".35" fill="${L}"/><circle cx="36.4" cy="23.8" r=".35" fill="${L}"/>`;
+    (live?liveShelf(live,k,id):BKS.map((c,i)=>{const h=[6.4,7.4,6.8,5.8,6.6][i];return`<rect x="${8.6+i*2.7}" y="${26.4-h}" width="2.3" height="${h}" fill="${c}"/><path d="M${8.6+i*2.7} ${27.6-h}h2.3" stroke="${G}" stroke-width=".45"/>`}).join('')+
+    `<circle cx="35.6" cy="24" r="2.5" fill="#f3a66a" stroke="${L}" stroke-width=".5"/><path d="M33.4 22.6l.3-2.2 1.6 1.2M37.8 22.6l-.3-2.2-1.6 1.2" fill="#f3a66a" stroke="${L}" stroke-width=".45" stroke-linejoin="round"/><circle cx="34.8" cy="23.8" r=".35" fill="${L}"/><circle cx="36.4" cy="23.8" r=".35" fill="${L}"/>`);
   for(let i=0;i<6;i++){const x=i&1?24.6:7,y=27.6+(i>>1)*5.4,w=16.4,h=4.8,cx=x+w/2,cy=y+h/2;
     o+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${id==='nordic'?.8:.3}" fill="${drC}" stroke="${deco?G:L}" stroke-width="${deco?.55:.7}"/>`;
     o+={farm:`<circle cx="${cx}" cy="${cy}" r="1" fill="#f6f3ec" stroke="#8a8478" stroke-width=".3"/>`,
@@ -3128,16 +3237,23 @@ function mini(id){const s=S[id]||S.farm;id=S[id]?id:'farm';const [hi,mid,lo]=s.w
       teak:`<path d="M${x+1.6} ${y+.9}h${w-3.2}" stroke="#2a1406" stroke-width="1" stroke-linecap="round"/>`,
       victorian:`<path d="M${cx-1.8} ${cy-.6}c0 2 .9 2.3 1.8 2.3s1.8-.3 1.8-2.3" fill="none" stroke="${G}" stroke-width=".6"/><circle cx="${cx-1.8}" cy="${cy-.6}" r=".45" fill="${G}"/><circle cx="${cx+1.8}" cy="${cy-.6}" r=".45" fill="${G}"/>`}[id]}
   if(id==='tansu')o+=`<path d="M4 15.8h3.4v1.2H5.2v2.2H4zM44 15.8h-3.4v1.2h2.2v2.2H44z" fill="#151416"/>`;
+  if(live)o+=liveTop(live,id);
   return o}
 /* the farmhouse walnut commode, simplified four ways (Design → Commode Shelf): flat colours, a chunky toy, ink on cream, pixel art */
 const ALT={"flat":{"label":"Farmhouse · Flat","svg":"<rect x=\"2\" y=\"11\" width=\"44\" height=\"5\" rx=\"1.2\" fill=\"#7a4a2c\" stroke=\"#24130a\" stroke-width=\"1.8\"/><rect x=\"4\" y=\"16\" width=\"40\" height=\"30\" fill=\"#4e2d19\" stroke=\"#24130a\" stroke-width=\"1.8\"/><rect x=\"7.5\" y=\"19\" width=\"33\" height=\"9\" fill=\"#1e100a\"/><rect x=\"10\" y=\"21\" width=\"3\" height=\"7\" fill=\"#b8323a\"/><rect x=\"13.6\" y=\"20\" width=\"3\" height=\"8\" fill=\"#2f6b55\"/><rect x=\"17.2\" y=\"21.6\" width=\"3\" height=\"6.4\" fill=\"#e9c46a\"/><rect x=\"7.5\" y=\"30.4\" width=\"16\" height=\"4.2\" fill=\"#5e3820\" stroke=\"#24130a\" stroke-width=\"1.1\"/><circle cx=\"15.5\" cy=\"32.5\" r=\"1.3\" fill=\"#f6f3ec\"/><rect x=\"24.5\" y=\"30.4\" width=\"16\" height=\"4.2\" fill=\"#5e3820\" stroke=\"#24130a\" stroke-width=\"1.1\"/><circle cx=\"32.5\" cy=\"32.5\" r=\"1.3\" fill=\"#f6f3ec\"/><rect x=\"7.5\" y=\"35.3\" width=\"16\" height=\"4.2\" fill=\"#5e3820\" stroke=\"#24130a\" stroke-width=\"1.1\"/><circle cx=\"15.5\" cy=\"37.4\" r=\"1.3\" fill=\"#f6f3ec\"/><rect x=\"24.5\" y=\"35.3\" width=\"16\" height=\"4.2\" fill=\"#5e3820\" stroke=\"#24130a\" stroke-width=\"1.1\"/><circle cx=\"32.5\" cy=\"37.4\" r=\"1.3\" fill=\"#f6f3ec\"/><rect x=\"7.5\" y=\"40.2\" width=\"16\" height=\"4.2\" fill=\"#5e3820\" stroke=\"#24130a\" stroke-width=\"1.1\"/><circle cx=\"15.5\" cy=\"42.3\" r=\"1.3\" fill=\"#f6f3ec\"/><rect x=\"24.5\" y=\"40.2\" width=\"16\" height=\"4.2\" fill=\"#5e3820\" stroke=\"#24130a\" stroke-width=\"1.1\"/><circle cx=\"32.5\" cy=\"42.3\" r=\"1.3\" fill=\"#f6f3ec\"/><rect x=\"3\" y=\"46\" width=\"42\" height=\"2.8\" fill=\"#6b4128\" stroke=\"#24130a\" stroke-width=\"1.6\"/><rect x=\"5.5\" y=\"48.8\" width=\"4.4\" height=\"2.8\" fill=\"#24130a\"/><rect x=\"38.1\" y=\"48.8\" width=\"4.4\" height=\"2.8\" fill=\"#24130a\"/>"},"toy":{"label":"Farmhouse · Toy","svg":"<path d=\"M33.5 9.6c-1.6 0-2.6-1.2-2.6-2.6s1.2-2.6 2.6-2.6c.2-1.6 1.4-2.8 3-2.8s2.8 1.2 3 2.8c1.4 0 2.6 1.2 2.6 2.6s-1 2.6-2.6 2.6z\" fill=\"#4f8f46\" stroke=\"#24130a\" stroke-width=\"1.2\"/><path d=\"M32.6 9h7.8l-1 4h-5.8z\" fill=\"#d07446\" stroke=\"#24130a\" stroke-width=\"1.2\"/><circle cx=\"10\" cy=\"47.8\" r=\"3.2\" fill=\"#3a2010\" stroke=\"#24130a\" stroke-width=\"1.2\"/><circle cx=\"38\" cy=\"47.8\" r=\"3.2\" fill=\"#3a2010\" stroke=\"#24130a\" stroke-width=\"1.2\"/><rect x=\"4.5\" y=\"15.6\" width=\"39\" height=\"30\" rx=\"4.5\" fill=\"#5a341d\" stroke=\"#24130a\" stroke-width=\"1.6\"/><rect x=\"2.5\" y=\"12\" width=\"43\" height=\"5.6\" rx=\"2.8\" fill=\"#8a5634\" stroke=\"#24130a\" stroke-width=\"1.6\"/><path d=\"M6 13.8h18\" stroke=\"#fff\" stroke-opacity=\".35\" stroke-width=\"1.2\" stroke-linecap=\"round\"/><rect x=\"8\" y=\"19.4\" width=\"32\" height=\"9.6\" rx=\"2.6\" fill=\"#23120a\"/><rect x=\"11\" y=\"21\" width=\"4\" height=\"8\" rx=\"1.2\" fill=\"#b8323a\"/><rect x=\"15.6\" y=\"22\" width=\"4\" height=\"7\" rx=\"1.2\" fill=\"#2f6b55\"/><path d=\"M27.6 23.4l.4-3 2 1.6M34.4 23.4l-.4-3-2 1.6\" fill=\"#f3a66a\" stroke=\"#24130a\" stroke-width=\".7\" stroke-linejoin=\"round\"/><circle cx=\"31\" cy=\"25.4\" r=\"3.8\" fill=\"#f3a66a\" stroke=\"#24130a\" stroke-width=\".8\"/><circle cx=\"29.7\" cy=\"25\" r=\".55\" fill=\"#24130a\"/><circle cx=\"32.3\" cy=\"25\" r=\".55\" fill=\"#24130a\"/><circle cx=\"28.8\" cy=\"26.6\" r=\".7\" fill=\"#e8576b\" opacity=\".5\"/><circle cx=\"33.2\" cy=\"26.6\" r=\".7\" fill=\"#e8576b\" opacity=\".5\"/><rect x=\"8\" y=\"30.6\" width=\"15.6\" height=\"4\" rx=\"1.6\" fill=\"#6b3e22\" stroke=\"#24130a\" stroke-width=\"1\"/><circle cx=\"15.8\" cy=\"32.6\" r=\"1.7\" fill=\"#f6f3ec\" stroke=\"#24130a\" stroke-width=\".6\"/><circle cx=\"15.3\" cy=\"32.1\" r=\".5\" fill=\"#fff\"/><rect x=\"24.4\" y=\"30.6\" width=\"15.6\" height=\"4\" rx=\"1.6\" fill=\"#6b3e22\" stroke=\"#24130a\" stroke-width=\"1\"/><circle cx=\"32.2\" cy=\"32.6\" r=\"1.7\" fill=\"#f6f3ec\" stroke=\"#24130a\" stroke-width=\".6\"/><circle cx=\"31.7\" cy=\"32.1\" r=\".5\" fill=\"#fff\"/><rect x=\"8\" y=\"35.2\" width=\"15.6\" height=\"4\" rx=\"1.6\" fill=\"#6b3e22\" stroke=\"#24130a\" stroke-width=\"1\"/><circle cx=\"15.8\" cy=\"37.2\" r=\"1.7\" fill=\"#f6f3ec\" stroke=\"#24130a\" stroke-width=\".6\"/><circle cx=\"15.3\" cy=\"36.7\" r=\".5\" fill=\"#fff\"/><rect x=\"24.4\" y=\"35.2\" width=\"15.6\" height=\"4\" rx=\"1.6\" fill=\"#6b3e22\" stroke=\"#24130a\" stroke-width=\"1\"/><circle cx=\"32.2\" cy=\"37.2\" r=\"1.7\" fill=\"#f6f3ec\" stroke=\"#24130a\" stroke-width=\".6\"/><circle cx=\"31.7\" cy=\"36.7\" r=\".5\" fill=\"#fff\"/><rect x=\"8\" y=\"39.8\" width=\"15.6\" height=\"4\" rx=\"1.6\" fill=\"#6b3e22\" stroke=\"#24130a\" stroke-width=\"1\"/><circle cx=\"15.8\" cy=\"41.8\" r=\"1.7\" fill=\"#f6f3ec\" stroke=\"#24130a\" stroke-width=\".6\"/><circle cx=\"15.3\" cy=\"41.3\" r=\".5\" fill=\"#fff\"/><rect x=\"24.4\" y=\"39.8\" width=\"15.6\" height=\"4\" rx=\"1.6\" fill=\"#6b3e22\" stroke=\"#24130a\" stroke-width=\"1\"/><circle cx=\"32.2\" cy=\"41.8\" r=\"1.7\" fill=\"#f6f3ec\" stroke=\"#24130a\" stroke-width=\".6\"/><circle cx=\"31.7\" cy=\"41.3\" r=\".5\" fill=\"#fff\"/>"},"ink":{"label":"Farmhouse · Ink","svg":"<path d=\"M35.4 9c-1.6-1.4-1.8-4-1-5.6M37 9c0-2.6 1-4.8 2.4-5.8M38.4 9c1.2-1.8 3-2.6 4.4-2.4\" fill=\"none\" stroke=\"#24130a\" stroke-width=\"1.3\" stroke-linecap=\"round\"/><path d=\"M33.6 8.4h7.6l-1 3.4h-5.6z\" fill=\"#fbf4e4\" stroke=\"#24130a\" stroke-width=\"1.2\"/><rect x=\"2\" y=\"11.6\" width=\"44\" height=\"4.4\" rx=\"1\" fill=\"#ecdcbc\" stroke=\"#24130a\" stroke-width=\"1.5\"/><path d=\"M5 13.8h16M27 13.8h9\" stroke=\"#24130a\" stroke-width=\".6\" opacity=\".55\"/><rect x=\"4\" y=\"16\" width=\"40\" height=\"29\" fill=\"#ecdcbc\" stroke=\"#24130a\" stroke-width=\"1.5\"/><rect x=\"7.5\" y=\"18.8\" width=\"33\" height=\"9\" fill=\"#fbf4e4\" stroke=\"#24130a\" stroke-width=\"1.2\"/><path d=\"M10.4 27.8v-7M12.9 27.8v-8M15.4 27.8v-6.4M20.4 27.8l2.6-6.4\" stroke=\"#24130a\" stroke-width=\"2\"/><path d=\"M17.9 27.8v-7.4\" stroke=\"#b8323a\" stroke-width=\"2\"/><path d=\"M30.6 24.6l.3-2.4 1.6 1.2M35.4 24.6l-.3-2.4-1.6 1.2\" fill=\"#fbf4e4\" stroke=\"#24130a\" stroke-width=\".8\" stroke-linejoin=\"round\"/><path d=\"M29.8 27.8a3.2 3 0 0 1 6.4 0z\" fill=\"#fbf4e4\" stroke=\"#24130a\" stroke-width=\".9\"/><circle cx=\"33\" cy=\"25\" r=\"2.4\" fill=\"#fbf4e4\" stroke=\"#24130a\" stroke-width=\".9\"/><rect x=\"7.5\" y=\"30\" width=\"16\" height=\"4.2\" fill=\"none\" stroke=\"#24130a\" stroke-width=\"1.1\"/><circle cx=\"15.5\" cy=\"32.1\" r=\"1.15\" fill=\"#fbf4e4\" stroke=\"#24130a\" stroke-width=\".9\"/><rect x=\"24.5\" y=\"30\" width=\"16\" height=\"4.2\" fill=\"none\" stroke=\"#24130a\" stroke-width=\"1.1\"/><circle cx=\"32.5\" cy=\"32.1\" r=\"1.15\" fill=\"#fbf4e4\" stroke=\"#24130a\" stroke-width=\".9\"/><rect x=\"7.5\" y=\"34.8\" width=\"16\" height=\"4.2\" fill=\"none\" stroke=\"#24130a\" stroke-width=\"1.1\"/><circle cx=\"15.5\" cy=\"36.9\" r=\"1.15\" fill=\"#fbf4e4\" stroke=\"#24130a\" stroke-width=\".9\"/><rect x=\"24.5\" y=\"34.8\" width=\"16\" height=\"4.2\" fill=\"none\" stroke=\"#24130a\" stroke-width=\"1.1\"/><circle cx=\"32.5\" cy=\"36.9\" r=\"1.15\" fill=\"#fbf4e4\" stroke=\"#24130a\" stroke-width=\".9\"/><rect x=\"7.5\" y=\"39.6\" width=\"16\" height=\"4.2\" fill=\"none\" stroke=\"#24130a\" stroke-width=\"1.1\"/><circle cx=\"15.5\" cy=\"41.7\" r=\"1.15\" fill=\"#fbf4e4\" stroke=\"#24130a\" stroke-width=\".9\"/><rect x=\"24.5\" y=\"39.6\" width=\"16\" height=\"4.2\" fill=\"none\" stroke=\"#24130a\" stroke-width=\"1.1\"/><circle cx=\"32.5\" cy=\"41.7\" r=\"1.15\" fill=\"#fbf4e4\" stroke=\"#24130a\" stroke-width=\".9\"/><rect x=\"3\" y=\"45\" width=\"42\" height=\"3\" fill=\"#24130a\"/><rect x=\"5.5\" y=\"48\" width=\"4.4\" height=\"3.4\" fill=\"#24130a\"/><rect x=\"38.1\" y=\"48\" width=\"4.4\" height=\"3.4\" fill=\"#24130a\"/>"},"pixel":{"label":"Farmhouse · Pixel","svg":"<g shape-rendering=\"crispEdges\"><rect x=\"33\" y=\"6.5\" width=\"3\" height=\"3\" fill=\"#3f7d3e\"/><rect x=\"39\" y=\"6.5\" width=\"6\" height=\"3\" fill=\"#3f7d3e\"/><rect x=\"36\" y=\"9.5\" width=\"9\" height=\"3\" fill=\"#c4643a\"/><rect x=\"0\" y=\"12.5\" width=\"48\" height=\"3\" fill=\"#7a4a2c\"/><rect x=\"3\" y=\"15.5\" width=\"42\" height=\"3\" fill=\"#2a160a\"/><rect x=\"3\" y=\"18.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"6\" y=\"18.5\" width=\"3\" height=\"3\" fill=\"#b8323a\"/><rect x=\"9\" y=\"18.5\" width=\"3\" height=\"3\" fill=\"#2f6b55\"/><rect x=\"12\" y=\"18.5\" width=\"3\" height=\"3\" fill=\"#2a3550\"/><rect x=\"15\" y=\"18.5\" width=\"3\" height=\"3\" fill=\"#e9c46a\"/><rect x=\"18\" y=\"18.5\" width=\"12\" height=\"3\" fill=\"#1e100a\"/><rect x=\"30\" y=\"18.5\" width=\"6\" height=\"3\" fill=\"#f3a66a\"/><rect x=\"36\" y=\"18.5\" width=\"6\" height=\"3\" fill=\"#1e100a\"/><rect x=\"42\" y=\"18.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"3\" y=\"21.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"6\" y=\"21.5\" width=\"3\" height=\"3\" fill=\"#b8323a\"/><rect x=\"9\" y=\"21.5\" width=\"3\" height=\"3\" fill=\"#2f6b55\"/><rect x=\"12\" y=\"21.5\" width=\"3\" height=\"3\" fill=\"#2a3550\"/><rect x=\"15\" y=\"21.5\" width=\"3\" height=\"3\" fill=\"#e9c46a\"/><rect x=\"18\" y=\"21.5\" width=\"9\" height=\"3\" fill=\"#1e100a\"/><rect x=\"27\" y=\"21.5\" width=\"9\" height=\"3\" fill=\"#f3a66a\"/><rect x=\"36\" y=\"21.5\" width=\"6\" height=\"3\" fill=\"#1e100a\"/><rect x=\"42\" y=\"21.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"3\" y=\"24.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"6\" y=\"24.5\" width=\"36\" height=\"3\" fill=\"#7a4a2c\"/><rect x=\"42\" y=\"24.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"3\" y=\"27.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"6\" y=\"27.5\" width=\"6\" height=\"3\" fill=\"#5e3820\"/><rect x=\"12\" y=\"27.5\" width=\"3\" height=\"3\" fill=\"#f6f3ec\"/><rect x=\"15\" y=\"27.5\" width=\"6\" height=\"3\" fill=\"#5e3820\"/><rect x=\"21\" y=\"27.5\" width=\"6\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"27\" y=\"27.5\" width=\"6\" height=\"3\" fill=\"#5e3820\"/><rect x=\"33\" y=\"27.5\" width=\"3\" height=\"3\" fill=\"#f6f3ec\"/><rect x=\"36\" y=\"27.5\" width=\"6\" height=\"3\" fill=\"#5e3820\"/><rect x=\"42\" y=\"27.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"3\" y=\"30.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"6\" y=\"30.5\" width=\"15\" height=\"3\" fill=\"#3e2312\"/><rect x=\"21\" y=\"30.5\" width=\"6\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"27\" y=\"30.5\" width=\"15\" height=\"3\" fill=\"#3e2312\"/><rect x=\"42\" y=\"30.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"3\" y=\"33.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"6\" y=\"33.5\" width=\"6\" height=\"3\" fill=\"#5e3820\"/><rect x=\"12\" y=\"33.5\" width=\"3\" height=\"3\" fill=\"#f6f3ec\"/><rect x=\"15\" y=\"33.5\" width=\"6\" height=\"3\" fill=\"#5e3820\"/><rect x=\"21\" y=\"33.5\" width=\"6\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"27\" y=\"33.5\" width=\"6\" height=\"3\" fill=\"#5e3820\"/><rect x=\"33\" y=\"33.5\" width=\"3\" height=\"3\" fill=\"#f6f3ec\"/><rect x=\"36\" y=\"33.5\" width=\"6\" height=\"3\" fill=\"#5e3820\"/><rect x=\"42\" y=\"33.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"3\" y=\"36.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"6\" y=\"36.5\" width=\"15\" height=\"3\" fill=\"#3e2312\"/><rect x=\"21\" y=\"36.5\" width=\"6\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"27\" y=\"36.5\" width=\"15\" height=\"3\" fill=\"#3e2312\"/><rect x=\"42\" y=\"36.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"3\" y=\"39.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"6\" y=\"39.5\" width=\"6\" height=\"3\" fill=\"#5e3820\"/><rect x=\"12\" y=\"39.5\" width=\"3\" height=\"3\" fill=\"#f6f3ec\"/><rect x=\"15\" y=\"39.5\" width=\"6\" height=\"3\" fill=\"#5e3820\"/><rect x=\"21\" y=\"39.5\" width=\"6\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"27\" y=\"39.5\" width=\"6\" height=\"3\" fill=\"#5e3820\"/><rect x=\"33\" y=\"39.5\" width=\"3\" height=\"3\" fill=\"#f6f3ec\"/><rect x=\"36\" y=\"39.5\" width=\"6\" height=\"3\" fill=\"#5e3820\"/><rect x=\"42\" y=\"39.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"3\" y=\"42.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"6\" y=\"42.5\" width=\"15\" height=\"3\" fill=\"#3e2312\"/><rect x=\"21\" y=\"42.5\" width=\"6\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"27\" y=\"42.5\" width=\"15\" height=\"3\" fill=\"#3e2312\"/><rect x=\"42\" y=\"42.5\" width=\"3\" height=\"3\" fill=\"#4e2d19\"/><rect x=\"0\" y=\"45.5\" width=\"48\" height=\"3\" fill=\"#6b4128\"/><rect x=\"3\" y=\"48.5\" width=\"6\" height=\"3\" fill=\"#2a160a\"/><rect x=\"39\" y=\"48.5\" width=\"6\" height=\"3\" fill=\"#2a160a\"/></g>"}};
-const miniSvg=id=>`<svg viewBox="0 0 48 52" aria-hidden="true">${mini(id)}</svg>`;
+/* the simplified farmhouse icons with what really stands on the shelf: the plant taken off, the shelf painted over and filled */
+const ALT_LIVE={flat:{sh:[7.5,19,33,9],fill:'#1e100a',top:11,strip:0},toy:{sh:[8,19.4,32,9.6],fill:'#23120a',rx:2.6,top:12,strip:2},ink:{sh:[7.5,18.8,33,9],fill:'#fbf4e4',line:1,top:11.6,strip:2,mono:'#fbf4e4'}};
+function altLive(k,live){const A=ALT_LIVE[k],[x,y,w,h]=A.sh;let svg=ALT[k].svg;for(let i=0;i<A.strip;i++)svg=svg.replace(/^<[^>]+\/>/,'');
+  return svg+`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${A.rx||0}" fill="${A.fill}"${A.line?' stroke="#24130a" stroke-width="1.2"':''}/>`+liveShelf(live,'alt-'+k,'farm',{x:x+.4,y:y+.4,w:w-.8,h:h-.4},A.mono)+liveTop(live,'farm',A.top)}
+const miniSvg=(id,live)=>`<svg viewBox="0 0 48 52" aria-hidden="true">${mini(id,live)}</svg>`;
 const P=id=>'cm-'+id+'-';
 const defsOf=id=>{const s=S[id];return woods(P(id),s.wood)+s.defs(P(id))};
 /* the whole cabinet, one svg */
-const body=id=>{const s=S[id]||S.farm;id=S[id]?id:'farm';return`<svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><defs>${defsOf(id)}</defs>${s.body(P(id))}</svg>`};
+/* a piece of board in a wood and a texture, for the choice in Design */
+const swatch=(id,tex)=>{const s=S[id]||S.farm;id=S[id]?id:'farm';TEX=TEXTURES[tex]?tex:'';const k='sw-'+id+'-'+(tex||'own')+'-';const o=`<svg viewBox="0 0 96 40" aria-hidden="true"><defs>${woods(k,s.wood)}</defs><rect x=".5" y=".5" width="95" height="39" rx="3" fill="url(#${k}f)" stroke="${s.line}"/>${grain(1,2,94,36,s.wood[2],.45,s.seed+9,7)}</svg>`;TEX='';return o};
+const body=(id,tex)=>{const s=S[id]||S.farm;id=S[id]?id:'farm';TEX=TEXTURES[tex]?tex:'';return`<svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><defs>${defsOf(id)}</defs>${s.body(P(id))}</svg>`};
 /* a drawer front: the gradients it needs are in the cabinet's svg, so it draws with its own copy only when asked (in the shop and in Design) */
-const front=(id,own)=>{const s=S[id]||S.farm;id=S[id]?id:'farm';return`<svg viewBox="0 0 132 44" preserveAspectRatio="none" aria-hidden="true">${own?`<defs>${defsOf(id)}</defs>`:''}${s.front(P(id))}</svg>`};
+const front=(id,own,tex)=>{const s=S[id]||S.farm;id=S[id]?id:'farm';TEX=TEXTURES[tex]?tex:'';return`<svg viewBox="0 0 132 44" preserveAspectRatio="none" aria-hidden="true">${own?`<defs>${defsOf(id)}</defs>`:''}${s.front(P(id))}</svg>`};
 const icon=id=>`<svg viewBox="0 0 40 34" aria-hidden="true">${(S[id]||S.farm).icon}</svg>`;
 
 /* ----- the ornaments ----- */
@@ -3173,7 +3289,7 @@ const ORN={
   <path d="M16 40h28l-3.5 23h-21z" fill="#c4643a" stroke="#6a2a12" stroke-width=".9"/><path d="M14.5 39h31v5h-31z" fill="#d07446" stroke="#6a2a12" stroke-width=".9"/><path d="M20 47l1.4 13" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>`},
 };
 const ornSvg=id=>{const o=ORN[id];return`<svg viewBox="${(60-o.w)/2} 0 ${o.w} 64" aria-hidden="true" overflow="visible">${o.svg}</svg>`};
-return{W,H,TOPY,SH,DR,S,ids,body,front,icon,mini:miniSvg,alts:Object.keys(ALT),altLabel:k=>ALT[k]?.label,miniAlt:k=>`<svg viewBox="0 0 48 52" aria-hidden="true">${ALT[k].svg}</svg>`,label:id=>(S[id]||S.farm).label,lab:id=>(S[id]||S.farm).lab,ORN,ornSvg};
+return{W,H,TOPY,SH,DR,S,ids,body,front,TEXTURES,swatch,icon,mini:miniSvg,alts:Object.keys(ALT),altLabel:k=>ALT[k]?.label,miniAlt:(k,live)=>`<svg viewBox="0 0 48 52" aria-hidden="true">${live&&ALT_LIVE[k]?altLive(k,live):ALT[k].svg}</svg>`,label:id=>(S[id]||S.farm).label,lab:id=>(S[id]||S.farm).lab,ORN,ornSvg};
 })();
 if(typeof module!=='undefined')module.exports=Commode;
 </script>
@@ -4099,6 +4215,9 @@ $('#emblem').innerHTML=spr('emblem');
 
 /* inked grid lines, slightly different on every page */
 function drawLines(p){
+  /* ruled straight (the default, it suits the pixel pictures), or inked by hand: a Design option, and always for pages the player made */
+  const hand=S.handGrid||(playMode==='book'&&(block().custom||!!S.pages?.[S.block]));
+  if(!hand){let h='';for(let k=0;k<=9;k++){const th=k%3===0,w=th?(k%9===0?3.2:2.6):1.1,o=th?.9:.45;h+=`<path d="M${k*100} 0V900M0 ${k*100}H900" stroke-width="${w}" opacity="${o}" stroke-linecap="square"/>`}$('#lines').innerHTML=h;return}
   const L=mulberry(p*7717+3),j=a=>(L()*2-1)*a;let h='';
   for(let k=0;k<=9;k++){
     const thick=k%3===0,w=thick?2.4:1;
@@ -4528,14 +4647,17 @@ const STK=[
 /* the page stickers (pagestk.js): earned, one for each page of the Book of Nines, never sold */
 if(typeof PAGE_STK!=='undefined')PAGE_STK.forEach((r,p)=>STK.push({id:'pg-'+p,name:r.n,price:0,page:p,raw:1,svg:r.svg}));
 const stickSVG=(st)=>st.raw?`<svg viewBox="0 0 64 64" aria-hidden="true">${st.svg}</svg>`:st.tape?`<span class="washi w-${st.tape}"></span>`:`<svg viewBox="0 0 64 64" aria-hidden="true"><g stroke="#fff" stroke-width="7" stroke-linejoin="round" paint-order="stroke">${st.svg.replace(/<(path|circle|ellipse|rect)/g,'<$1 stroke="#fff" stroke-width="7" paint-order="stroke"')}</g></svg>`;
+var VST_EL;function vst(){return VST_EL||(VST_EL=document.getElementById('vstickers'))}   /* the stickers layer of the quote sheet (it moves with the sheet shown) */
+let atFront=false,versoMoving=false,versoFlip=false,versoPage=1,versoGen=0;
 function stk(){if(!S.stk)S.stk={owned:{},placed:[],pages:{}};if(!S.stk.pages)S.stk.pages={};return S.stk}
 /* where a sticker goes right now: the cover while the book is shut, the page while it is open (the almanac's and a match's pages take none) */
-function stkKey(){return opened?(playMode==='book'?(S.block||'nines')+'/'+((S.page??1)):null):'cover'}
-function stkSurface(){const key=stkKey();if(!key)return null;const k=stk();return key==='cover'?{key,list:k.placed,box:$('#stickers')}:{key,list:k.pages[key]||(k.pages[key]=[]),box:$('#pstickers')}}
-function renderStickers(){const k=stk(),cur=stickering?stkSurface():null,pk=opened?stkKey():null;
+function stkKey(){if(atFront&&!$('#vSheet').hidden)return'q/'+versoPage;   /* the back of a page, with its quote */
+  return opened?(playMode==='book'?(S.block||'nines')+'/'+((S.page??1)):null):'cover'}
+function stkSurface(){const key=stkKey();if(!key)return null;const k=stk();return key==='cover'?{key,list:k.placed,box:$('#stickers')}:{key,list:k.pages[key]||(k.pages[key]=[]),box:key.startsWith('q/')?vst():$('#pstickers')}}
+function renderStickers(){const k=stk(),cur=stickering?stkSurface():null,pk=opened?(playMode==='book'?(S.block||'nines')+'/'+(S.page??1):null):null,qk=atFront?'q/'+versoPage:null;
   const paint=(box,list,live)=>{box.innerHTML='';list.forEach((p,i)=>{const st=STK.find(x=>x.id===p.id);if(!st)return;const e=document.createElement('div');e.className='sticker'+(st.tape?' tapebit':'');e.dataset.i=i;
     e.style.left=p.x+'%';e.style.top=p.y+'%';e.style.setProperty('--rot',p.r+'deg');e.innerHTML=stickSVG(st)+(live?HANDLE:'');if(live&&i===selSticker)e.classList.add('sel');box.appendChild(e)})};
-  paint($('#stickers'),k.placed,cur?.key==='cover');paint($('#pstickers'),pk&&k.pages[pk]||[],!!pk&&cur?.key===pk);renderHover();renderTray()}
+  paint($('#stickers'),k.placed,cur?.key==='cover');paint($('#pstickers'),pk&&k.pages[pk]||[],!!pk&&cur?.key===pk);paint(vst(),qk&&k.pages[qk]||[],!!qk&&cur?.key===qk);renderHover();renderTray()}
 let stickering=false,placing=null,selSticker=-1;
 function switchBlock(id){
   if(!getBlock(id)||!libraryHas(id)||id===(S.block||'nines'))return;if(playMode==='multi'){toast('Leave the multiplayer match before changing the pages.');return}
@@ -4633,7 +4755,7 @@ function cmFit(z,it,want,others){const A=CM_ZONE[z],[l,r]=cmExt(it.rows),lo=-l,h
 /* a book's spine: as thick as its pages, in its own leather (the one in the book wears the cover it has on) */
 function cmSpine(b,cur){const cs=getComputedStyle(b.id===cur?board:document.documentElement),cv=k=>(b.cover||'').match(new RegExp('--'+k+':([^;]+)'))?.[1]||cs.getPropertyValue('--'+k).trim();
   const nm=cmBookNm(b),w=cmBookW(b),h=cmBookH(b),bound=b.id===cur;
-  return`<button type="button" class="cm-book${bound?' bound':''}" data-block="${b.id}" aria-label="${escH(b.title)}${bound?', in the book now':''}" style="--bw:${w}px;width:${w}px;height:${h}px;--l:${b.id==='dell'&&!b.cover?'#8a2f2a':cv('leather')};--lh:${b.id==='dell'&&!b.cover?'#a8463f':cv('leatherHi')};--ll:${b.id==='dell'&&!b.cover?'#521915':cv('leatherLo')}"><span class="sp-t">${escH(nm)}</span></button>`}
+  return`<button type="button" class="cm-book${bound?' bound':''}" data-block="${b.id}" aria-label="${escH(b.title)}${bound?', in the book now':''}" style="--bw:${w}px;width:${w}px;height:${h}px;--l:${b.id==='dell'&&!b.cover?'#8a2f2a':cv('leather')};--lh:${b.id==='dell'&&!b.cover?'#a8463f':cv('leatherHi')};--ll:${b.id==='dell'&&!b.cover?'#521915':cv('leatherLo')}"><i class="bk3 t" aria-hidden="true"></i><i class="bk3 l" aria-hidden="true"></i><i class="bk3 r" aria-hidden="true"></i><span class="sp-t">${escH(nm)}</span></button>`}
 /* the vase on show, drawn with its flowers, trimmed to what is painted */
 function cmVase(cv){const fs=floraState(),v=fs.cur;if(!v)return;const N=240,o=document.createElement('canvas'),og=o.getContext('2d',{willReadFrequently:true});o.width=o.height=N;Flora.draw(og,v,fs.arr[v]||[],N,N,{seed:fs.seed[v]||1});
   const d=og.getImageData(0,0,N,N).data;let x0=N,y0=N,x1=-1,y1=-1;for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(d[(y*N+x)*4+3]>8){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}
@@ -4652,8 +4774,8 @@ function openCommode(back){
   const id=cmId(),L=Commode.lab(id),cur=S.block||'nines';
   const v=document.createElement('div');v.className='veil cm-veil';
   v.innerHTML=`<div class="cm-room" role="dialog" aria-label="The Commode Shelf"><div class="cm-head"><h2>The Commode Shelf</h2><p class="cm-hint">Tap a drawer, a book, a plushie or an ornament. Hold one to move it.</p></div>
-    <div class="cm-stage"><div class="cm" data-cm="${id}">${Commode.body(id)}<div class="cm-top"></div><div class="cm-shelf"></div>
-      ${CM_DRAWERS.map((d,i)=>{const r=Commode.DR[i];return`<button type="button" class="cm-dr" data-drawer="${d.id}" aria-label="The ${d.name.toLowerCase()} drawer" style="left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px"><span class="dr-box"><span class="dr-peek"></span></span><span class="dr-fr">${Commode.front(id)}<b class="dr-lab lab-${L.bg}" style="left:${L.x/1.32}%;top:${L.y/.44}%;width:${L.w/1.32}%;height:${L.h/.44}%;color:${L.col};font-family:${CM_FONT[L.font]||'var(--cap)'}">${d.name}</b></span></button>`}).join('')}
+    <div class="cm-stage"><div class="cm" data-cm="${id}">${Commode.body(id,S.cmTex)}<div class="cm-top"></div><div class="cm-shelf"></div>
+      ${CM_DRAWERS.map((d,i)=>{const r=Commode.DR[i];return`<button type="button" class="cm-dr" data-drawer="${d.id}" aria-label="The ${d.name.toLowerCase()} drawer" style="left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px"><span class="dr-box"><span class="dr-peek"></span></span><span class="dr-fr">${Commode.front(id,0,S.cmTex)}<b class="dr-lab lab-${L.bg}" style="left:${L.x/1.32}%;top:${L.y/.44}%;width:${L.w/1.32}%;height:${L.h/.44}%;color:${L.col};font-family:${CM_FONT[L.font]||'var(--cap)'}">${d.name}</b></span></button>`}).join('')}
     </div></div><div class="cm-foot"><button class="px close" data-cm-close>Back to the book</button></div></div>
     <div class="cm-sub paper" role="dialog" hidden><h3><span class="cm-sub-t"></span><b></b><em></em></h3><div class="cm-body"></div><div class="cm-pager" hidden><button type="button" class="px" data-pg="-1" aria-label="The page before">‹</button><span></span><button type="button" class="px" data-pg="1" aria-label="The next page">›</button></div><div class="cm-acts"></div></div>`;
   document.body.appendChild(v);
@@ -4690,19 +4812,44 @@ function openCommode(back){
      if(moved){save();paintZones()}};setTimeout(settle,60)}
   /* ----- the second window: what a drawer holds, a page at a time. It stays open while the shelf is used; only its own buttons, the drawer itself or Escape close it ----- */
   let open=null,items=[],cell=null,pg=0,per=1,detail=null;
-  const unpull=()=>cm.querySelector('.cm-book.pulled')?.classList.remove('pulled');
+  /* a book taken off the shelf: it flies out and hangs in the middle of the room, turned to show its cover, with its window below it;
+     a tap anywhere else puts it back where it stood */
+  let fly=null;
+  const flyGeo=()=>{const vh=v.clientHeight,vw=v.clientWidth;
+    if(vw>vh*1.25&&vw>=600){const sw=Math.min(540,Math.round(vw*.56)),room=vw-sw-24,H=Math.round(Math.max(100,Math.min(280,vh*.62,room*.62/.7))),W=Math.round(H*.7);return{wide:1,H,W,cx:Math.round(room/2+4),top:Math.round((vh-H)/2),sw,scx:Math.round(vw-12-sw/2)}}   /* wide: the book on the left, its window beside it */
+    const H=Math.round(Math.max(96,Math.min(210,vh*.3,vw*.5))),W=Math.round(H*.7);return{H,W,cx:Math.round(vw/2),top:Math.max(14,Math.round(vh*.06))}};
+  const flyOut=bk=>{landBook(true);const st=bk.style,g=flyGeo(),r=bk.getBoundingClientRect(),vr=v.getBoundingClientRect(),D=Math.max(10,Math.round(g.W*.2));
+    const bg=document.createElement('div');bg.className='cm-float-bg';const fl=document.createElement('div');fl.className='cm-float';
+    fl.style.cssText=`left:${g.cx-Math.round(g.W/2)}px;top:${g.top}px;width:${g.W}px;height:${g.H}px`;
+    const t=escH(bk.getAttribute('aria-label').replace(/, in the book now$/,'')),long=Math.max(...t.split(/\s+/).map(w=>w.length)),fs=Math.min(.19,.78/(long*.62));
+    fl.innerHTML=`<div class="obj book" style="--leather:${st.getPropertyValue('--l')};--leatherHi:${st.getPropertyValue('--lh')};--leatherLo:${st.getPropertyValue('--ll')};--w:${g.W}px;--h:${g.H}px;--d:${D}px"><div class="fc fr"><span class="bt" style="--fs:${fs.toFixed(3)}">${t}</span></div><div class="fc bk"></div><div class="fc sp"></div><div class="fc pgs t"></div><div class="fc pgs b"></div><div class="fc pgs r"></div></div>`;
+    v.appendChild(bg);v.appendChild(fl);v.classList.add('cm-floating');sub.classList.add('floating');
+    /* from the spine on the shelf: as tall as it, turned edge on, then round to the cover as it comes out */
+    const sc=r.height/g.H,dx=r.left+r.width/2-(vr.left+g.cx),dy=r.top+r.height/2-(vr.top+g.top+g.H/2);
+    fly={bk,bg,fl,g,from:`translate(${dx}px,${dy}px) scale(${sc}) rotateY(88deg)`};
+    if(!reduced)fl.firstElementChild.animate([{transform:fly.from},{transform:'translate(0,-14px) scale(1.04) rotateY(-30deg) rotateX(6deg)',offset:.7},{transform:'translate(0,0) scale(1) rotateY(-18deg) rotateX(4deg)'}],{duration:520,easing:'cubic-bezier(.25,.8,.3,1)'});
+    bg.animate?.([{opacity:0},{opacity:1}],{duration:reduced?0:260})};
+  /* back onto the shelf */
+  function landBook(now){if(!fly)return;const f=fly;fly=null;sub.style.width='';sub.style.left='';v.classList.remove('cm-floating');sub.classList.remove('floating');
+    const done=()=>{f.fl.remove();f.bg.remove();f.bk.classList.remove('pulled')};
+    if(now||reduced||!f.fl.firstElementChild.animate){done();return}
+    f.bg.animate([{opacity:1},{opacity:0}],{duration:300,fill:'forwards'});f.fl.classList.add('landing');
+    f.fl.firstElementChild.animate([{transform:getComputedStyle(f.fl.firstElementChild).transform},{transform:f.from}],{duration:380,easing:'cubic-bezier(.5,0,.6,1)',fill:'forwards'}).finished.then(done,done)}
+  const unpull=()=>{if(fly)landBook();else cm.querySelector('.cm-book.pulled')?.classList.remove('pulled')};
   const shut=(quiet)=>{const dr=cm.querySelector('.cm-dr.open'),bk=cm.querySelector('.cm-book.pulled');sub.hidden=true;foot.inert=false;open=null;detail=null;
-    if(dr){dr.classList.remove('open');if(!quiet)sfx.drawer(false)}if(bk)bk.classList.remove('pulled');(dr||bk)?.focus({preventScroll:true})};
+    if(dr){dr.classList.remove('open');if(!quiet)sfx.drawer(false)}if(fly)landBook();else if(bk)bk.classList.remove('pulled');(dr||bk)?.focus({preventScroll:true})};
   /* on a wide screen the window opens beside the commode, in the free wall to its left */
-  const side=()=>{sub.classList.remove('side');sub.style.width='';sub.style.left='';const vr=v.getBoundingClientRect(),cr=cm.getBoundingClientRect(),free=cr.left-vr.left-24;
+  const side=()=>{sub.classList.remove('side');sub.style.width='';sub.style.left='';if(fly)return;const vr=v.getBoundingClientRect(),cr=cm.getBoundingClientRect(),free=cr.left-vr.left-24;
     if(vr.width>vr.height*1.25&&free>=300){const w=Math.min(540,free);sub.classList.add('side');sub.style.width=w+'px';sub.style.left=Math.round((cr.left-vr.left)/2)+'px'}};
   /* otherwise below the open drawer, or else below the shelf: the top and the shelf stay in sight and in reach */
   const MINH=170;let need=0;   /* how tall the window would be with everything in it */
   const spot=()=>{const vr=v.getBoundingClientRect(),r=cm.getBoundingClientRect(),s=r.width/Commode.W,end=v.clientHeight-12,a=cm.querySelector('.cm-dr.open .dr-fr')?.getBoundingClientRect();
     const below=a?Math.round(a.bottom+8-vr.top):null,shelf=Math.round(r.top+(CM_ZONE.shelf.y+CM_ZONE.shelf.h+8)*s-vr.top);
     if(below!=null&&end-below>=Math.max(MINH,need))return{t:below,m:end-below,pin:true};if(end-shelf>=MINH)return{t:shelf,m:end-shelf,pin:below==null};return{t:12,m:v.clientHeight-24,pin:false}};
-  const maxH=()=>sub.classList.contains('side')?v.clientHeight-24:spot().m;
+  const maxH=()=>fly?(fly.g.wide?v.clientHeight-24:v.clientHeight-12-(fly.g.top+fly.g.H+22)):sub.classList.contains('side')?v.clientHeight-24:spot().m;
   const place=()=>{sub.style.top='';sub.style.maxHeight='';sub.style.removeProperty('--ty');if(sub.hidden||sub.classList.contains('side'))return;
+    if(fly&&fly.g.wide){const g=fly.g,h=sub.offsetHeight;sub.style.width=g.sw+'px';sub.style.left=g.scx+'px';sub.style.maxHeight=(v.clientHeight-24)+'px';sub.style.top=Math.max(12,Math.round((v.clientHeight-Math.min(h,v.clientHeight-24))/2))+'px';sub.style.setProperty('--ty','0px');return}
+    if(fly){const t=fly.g.top+fly.g.H+22;sub.style.top=t+'px';sub.style.maxHeight=(v.clientHeight-12-t)+'px';sub.style.setProperty('--ty','0px');return}
     const sp=spot(),h=sub.offsetHeight;sub.style.maxHeight=sp.m+'px';sub.style.top=(sp.pin?sp.t:Math.max(sp.t,v.clientHeight-12-h))+'px';sub.style.setProperty('--ty','0px')};
   const showSub=(title,em)=>{sub.querySelector('.cm-sub-t').textContent=title;sub.querySelector('em').textContent=em||'';sub.setAttribute('aria-label',title);sub.hidden=false;foot.inert=true;side()};
   /* how many cells fit in the window as it can be at most, and so how many pages */
@@ -4779,6 +4926,7 @@ function openCommode(back){
   const goBack=()=>{const b=detail?.back||(detail?.hid?'matches':null);detail=null;unpull();if(b&&open===b)fill(b,true);else shut()};
   v.addEventListener('click',e=>{let t=e.target;if(v.classList.contains('cm-out')||dragged)return;   /* the click that ends a drag does nothing */
     if(e.detail>0&&t.closest('.cm .cm-it')){const it=itemAt(e.clientX,e.clientY);if(!it)return;t=it.firstElementChild}   /* a tap goes to the thing truly under it */
+    if(t.closest('.cm-float-bg,.cm-float')){goBack();return}   /* a tap beside the book puts it back */
     if(t===v){if(sub.hidden&&!cm.querySelector('.cm-book.pulled'))leave();return}   /* with a window open, a tap beside it changes nothing */
     if(t.closest('[data-cm-close]')){leave();return}
     if(t.closest('[data-shut]')){shut();return}
@@ -4787,7 +4935,8 @@ function openCommode(back){
     const dr=t.closest('.cm-dr');if(dr){if(dr.classList.contains('open'))shut();else openDrawer(dr);return}
     const bk=t.closest('[data-block]');if(bk){sfx.tick();
       if(bk.classList.contains('cm-book')){if(bk.classList.contains('pulled')){goBack();return}unpull();bk.classList.add('pulled');const bid=bk.dataset.block,from=open;
-        setTimeout(()=>{if(v.isConnected&&bk.classList.contains('pulled'))showBook(bid,from)},reduced?0:260)}
+        if(from){const dr=cm.querySelector('.cm-dr.open');if(dr){dr.classList.remove('open');sfx.drawer(false)}open=null}   /* the book takes the room's middle: the drawer slides shut */
+        flyOut(bk);showBook(bid,null)}
       else showBook(bk.dataset.block,open);return}
     if(t.closest('#libBind')&&detail?.bid){const b=detail.bid;leave();sfx.flip();switchBlock(b);return}
     if(t.closest('#libShare')&&detail?.bid){if(S.pages?.[detail.bid]){leave(true);sharePage(S.pages[detail.bid])}return}
@@ -5009,7 +5158,7 @@ function openShop(tab,door){
       (inB?`<i class="inb-mark" aria-hidden="true">${spr('basket')}${it.many&&inB.n>1?`<b>${inB.n}</b>`:''}</i>`:'')+
       `<div class="stage">${obj3(it)}</div>${it.k3==='book'?'':`<span class="nm2">${it.name}</span>`}`+
       (own?it.use():`<span class="price">${d?`<s>${it.price}</s>`:''}<i class="coin"></i><b>${p}</b></span>${d?`<span class="ends">${d.left?d.left===1?'until tomorrow':`${d.left+1} days left`:'ends tonight'}</span>`:''}`)+
-      (it.many&&it.have?`<span class="have">you have ${it.have}</span>`:'')+'</div>'};
+      (it.many&&it.have?`<span class="have" title="You have ${it.have}" aria-label="you have ${it.have}">${it.have}</span>`:'')+'</div>'};
   const shelf=(list,D,extra)=>`<div class="shelf">${list.map(it=>card(it,D,extra)).join('')}</div>`;
   /* Commercials: one row of poster cards (named poster, never ad: ad blockers hide anything called .ad or .ads) the same size as the items; until real ads come, invented Art Deco ones, a different order each day */
   const adShelf=()=>{const R=mulberry(dayNo()*17+5),list=ADS.map(a=>[R(),a]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);
@@ -5198,6 +5347,13 @@ function plushCalm(A,C,t){if(!C.calm)return;if(A.calmAt==null)A.calmAt=t+8000;if
 function plushBox(cv,g){try{const w=cv.width,h=cv.height,d=g.getImageData(0,0,w,h).data;let x0=w,y0=h,x1=0,y1=0;
   for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2)if(d[(y*w+x)*4+3]>40){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}
   return x1>x0&&y1>y0?{x0,y0,x1,y1}:null}catch(e){return null}}
+/* a light buzz under the finger while a plushie is petted: each spot feels different, and the faster the strokes, the closer the buzzes */
+const PET_BUZZ={ears:[6],forehead:[9],cheeks:[5,40,5],chin:[7,30,7],belly:[5,24,5,24,5],paws:[4,30,4],back:[14]};
+let petBuzzAt=0;
+function petBuzz(spot,speed,held){if(reduced||!navigator.vibrate)return;const t=performance.now(),gap=Math.max(70,240-speed*90);if(t-petBuzzAt<gap)return;petBuzzAt=t;
+  let pat=(PET_BUZZ[spot]||PET_BUZZ.back).map((x,i)=>i%2?x:Math.round(x*(1+Math.min(1.2,speed*.5))));if(held)pat=pat.map((x,i)=>i%2?x:x+12);   /* a cuddle hums deeper */
+  try{navigator.vibrate(pat)}catch(e){}}
+function petTap(pat){if(reduced||!navigator.vibrate)return;try{navigator.vibrate(pat)}catch(e){}}
 function plushSpot(box,x,y,away){if(!box)return 'back';const nx=((x-box.x0)/(box.x1-box.x0)-.5)*2,ny=(y-box.y0)/(box.y1-box.y0),ax=Math.abs(nx);let z;
   if(ny<.3)z=ax>.45?'ears':'forehead';else if(ny<.42)z=ax>.3?'cheeks':'forehead';else if(ny<.56)z=ax>.3?'cheeks':'chin';else if(ny<.86)z=ax>.55?'back':'belly';else z='paws';
   if(away)z={cheeks:'ears',chin:'back',forehead:'ears',belly:'back'}[z]||z;return z}
@@ -5278,7 +5434,7 @@ function openPlush(want,from,back){   /* from 'shelf': held from the Commode She
     A.pokes=A.pokes.filter(t=>now()-t<4000);A.pokes.push(now());
     if(A.pokes.length>=5){A.pokes=[];A.cross=now()+2200;eyes('hmpf',2000);speak(PlushCast.say(id,'mad'),'mad');if(S.sound)tone({f:180,f2:120,type:'triangle',d:.18,g:.05,wet:.05})}
     else{eyes('wide',450);if(S.sound)tone({f:700+Math.random()*200,f2:1050,type:'sine',d:.09,g:.05,wet:.1});live(.25);if(!grow(.25))speak(PlushCast.say(id,'poke'),'poke')}};
-  const hug=()=>{learn(2);wake();A.sqT=0;A.sqv-=7;
+  const hug=()=>{learn(2);wake();A.sqT=0;A.sqv-=7;petTap([12,30,12,30,40]);
     if(id==='grump'&&bond()<20){eyes('hmpf',1600);speak(PlushCast.say(id,'mad'),'mad');live(.3);grow(.3);if(S.sound)noise({f:3200,f2:5200,q:.7,d:.3,g:.05});return}
     eyes('happy',1400);A.flapTo=now()+900;for(let k=0;k<3;k++)setTimeout(()=>{if(v.isConnected)fx('h','♥')},k*120);live(1);if(!grow(1))speak(PlushCast.say(id,'hug'),'hug');
     if(S.sound)tone({f:62,f2:52,type:'sawtooth',d:.8,g:.035,lp:300,wet:.05})};
@@ -5299,16 +5455,17 @@ function openPlush(want,from,back){   /* from 'shelf': held from the Commode She
   stage.addEventListener('pointerdown',e=>{if(e.button>0)return;if(S.sound)ac();const r=stage.getBoundingClientRect();P={id:e.pointerId,x:e.clientX,y:e.clientY,lx:e.clientX,ly:e.clientY,on:onPlush(e.clientX,e.clientY),moved:0,stroke:0,fxd:0,sq:false,spot:'back'};
     if(P.on)P.box=plushBox(cv,g);
     try{stage.setPointerCapture(e.pointerId)}catch(x){}
-    if(P.on)holdT=setTimeout(()=>{if(P&&P.moved<10){P.sq=true;A.held=true;A.sqT=.9;eyes('squeeze',99999);wake();if(S.sound)tone({f:950,f2:1350,type:'square',d:.12,g:.025,lp:2600,wet:.05})}},230)});
+    if(P.on)holdT=setTimeout(()=>{if(P&&P.moved<10){P.sq=true;A.held=true;A.sqT=.9;eyes('squeeze',99999);wake();petTap([22,40,30]);if(S.sound)tone({f:950,f2:1350,type:'square',d:.12,g:.025,lp:2600,wet:.05})}},230)});
   stage.addEventListener('pointermove',e=>{if(!P||e.pointerId!==P.id)return;const dx=e.clientX-P.lx,dy=e.clientY-P.ly,d=Math.hypot(dx,dy);P.lx=e.clientX;P.ly=e.clientY;P.moved+=d;
     if(P.on){const cr=cv.getBoundingClientRect();P.spot=plushSpot(P.box,(e.clientX-cr.left)/cr.width*cv.width,(e.clientY-cr.top)/cr.height*cv.height,S.p3&&Math.cos(A.yaw)<-.2)}
+    if(P.on&&d>0){const sp=d/Math.max(1,now()-(P.t||now()-16));P.t=now();if(P.sq||P.moved>10)petBuzz(P.spot,sp,P.sq)}
     if(P.sq){P.stroke+=d;A.wobv+=dx*.003;A.last=now();if(P.stroke>=150){P.stroke=0;const r=stage.getBoundingClientRect();pet(e.clientX-r.left,e.clientY-r.top-20,true)}return}   /* stroking while squeezed: a cuddle */
     if(P.moved>10)clearTimeout(holdT);
     if(P.on&&P.moved>10){P.stroke+=d;P.fxd+=d;A.wobv+=dx*.006;if(A.eyes==='open'||A.eyes==='wide')eyes('happy',500);A.last=now();
       if(P.stroke>=150){P.stroke=0;const r=stage.getBoundingClientRect();pet(e.clientX-r.left,e.clientY-r.top-20)}}
     else if(!P.on&&S.p3){A.yaw+=dx*.012;A.pitch=Math.max(-.3,Math.min(.55,A.pitch+dy*.005));A.last=now()}});
   const up=e=>{if(!P||e.pointerId!==P.id)return;clearTimeout(holdT);const r=stage.getBoundingClientRect();
-    if(P.sq){A.held=false;A.eyes='open';A.eyesTo=0;hug()}else if(P.on&&P.moved<10)poke(e.clientX-r.left);P=null};
+    if(P.sq){A.held=false;A.eyes='open';A.eyesTo=0;hug()}else if(P.on&&P.moved<10){petTap(8);poke(e.clientX-r.left)}P=null};
   stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',e=>{clearTimeout(holdT);if(P&&P.sq){A.held=false;A.sqT=0;A.eyes='open';A.eyesTo=0}P=null});
   const leave=()=>{if(v.classList.contains('pl-off'))return;save();v.classList.add('pl-off');setTimeout(()=>{v.remove();if(from==='shelf'&&!document.querySelector('.veil'))openCommode(back)},reduced?0:450)};
   {const rm=v.remove.bind(v);v.remove=()=>{if(!v.isConnected)return;rm();if(from==='shelf')document.querySelector('.cm-veil')?._refresh?.()}}   /* letting go: the shelf below shows where it now is */
@@ -5403,7 +5560,7 @@ function wireStickerLayer(box){const pts=new Map();let mv=null,drag=null,gest=nu
    if(placing){placing.r=tidyTurn(placing.r);renderHover()}
    if(drag){if(drag.turn){const p=list()[drag.i];if(p)p.r=tidyTurn(p.r)}if(drag.moved)lastTap={i:-1,t:0};drag=null;save();renderStickers()}};
  box.addEventListener('pointerup',lift);box.addEventListener('pointercancel',lift)}
-wireStickerLayer($('#stickers'));wireStickerLayer($('#pstickers'));
+wireStickerLayer($('#stickers'));wireStickerLayer($('#pstickers'));wireStickerLayer(vst());
 /* the shop is a miniature bookstore in the corner, in one of four designs (Design → Bookstore) */
 const STORES={corner:{label:"Corner shop",svg:"<defs><linearGradient id=\"sw-wood\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#8a5634\"/><stop offset=\"1\" stop-color=\"#4f2e18\"/></linearGradient></defs><rect x=\"5\" y=\"13\" width=\"50\" height=\"38\" rx=\"2\" fill=\"url(#sw-wood)\" stroke=\"#2a1708\" stroke-width=\"1.3\"/><rect x=\"2.5\" y=\"9.5\" width=\"55\" height=\"5\" rx=\"1\" fill=\"#3a2214\" stroke=\"#2a1708\" stroke-width=\"1\"/><rect x=\"15\" y=\"1.5\" width=\"30\" height=\"8.5\" rx=\"1.5\" fill=\"#1d2a36\" stroke=\"#e9c46a\" stroke-width=\"1\"/><path d=\"M19 5.8h3M23.5 5.8h3M28 5.8h3.5M33 5.8h3M37.5 5.8h3\" stroke=\"#e9c46a\" stroke-width=\"1.6\" stroke-linecap=\"round\"/><g><path d=\"M4 15h6.5v6.5a3.25 3.25 0 0 1-6.5 0z\" fill=\"#b8323a\" stroke=\"#2a1708\" stroke-width=\".6\"/><path d=\"M10.5 15h6.5v6.5a3.25 3.25 0 0 1-6.5 0z\" fill=\"#f6efe2\" stroke=\"#2a1708\" stroke-width=\".6\"/><path d=\"M17 15h6.5v6.5a3.25 3.25 0 0 1-6.5 0z\" fill=\"#b8323a\" stroke=\"#2a1708\" stroke-width=\".6\"/><path d=\"M23.5 15h6.5v6.5a3.25 3.25 0 0 1-6.5 0z\" fill=\"#f6efe2\" stroke=\"#2a1708\" stroke-width=\".6\"/><path d=\"M30 15h6.5v6.5a3.25 3.25 0 0 1-6.5 0z\" fill=\"#b8323a\" stroke=\"#2a1708\" stroke-width=\".6\"/><path d=\"M36.5 15h6.5v6.5a3.25 3.25 0 0 1-6.5 0z\" fill=\"#f6efe2\" stroke=\"#2a1708\" stroke-width=\".6\"/><path d=\"M43 15h6.5v6.5a3.25 3.25 0 0 1-6.5 0z\" fill=\"#b8323a\" stroke=\"#2a1708\" stroke-width=\".6\"/><path d=\"M49.5 15h6.5v6.5a3.25 3.25 0 0 1-6.5 0z\" fill=\"#f6efe2\" stroke=\"#2a1708\" stroke-width=\".6\"/></g><rect class=\"win\" x=\"9\" y=\"26.5\" width=\"27\" height=\"20\" rx=\"1\" fill=\"#f6d9a0\" stroke=\"#2a1708\" stroke-width=\"1.1\"/><g><rect x=\"10.50\" y=\"29.40\" width=\"2.30\" height=\"6.10\" fill=\"#2f5a8a\"/><rect x=\"13.15\" y=\"30.30\" width=\"3.00\" height=\"5.20\" fill=\"#e9c46a\"/><rect x=\"16.50\" y=\"31.20\" width=\"1.95\" height=\"4.30\" fill=\"#3d6e48\"/><rect x=\"18.80\" y=\"28.50\" width=\"2.65\" height=\"7.00\" fill=\"#7a4a8a\"/><rect x=\"21.80\" y=\"29.40\" width=\"1.60\" height=\"6.10\" fill=\"#d9773a\"/><rect x=\"23.75\" y=\"30.30\" width=\"2.30\" height=\"5.20\" fill=\"#f3ead6\"/><rect x=\"26.40\" y=\"31.20\" width=\"3.00\" height=\"4.30\" fill=\"#b8323a\"/><rect x=\"29.75\" y=\"28.50\" width=\"1.95\" height=\"7.00\" fill=\"#2f5a8a\"/><rect x=\"32.05\" y=\"29.40\" width=\"2.45\" height=\"6.10\" fill=\"#e9c46a\"/><rect x=\"10.50\" y=\"37.50\" width=\"2.65\" height=\"7.00\" fill=\"#7a4a8a\"/><rect x=\"13.50\" y=\"38.40\" width=\"1.60\" height=\"6.10\" fill=\"#d9773a\"/><rect x=\"15.45\" y=\"39.30\" width=\"2.30\" height=\"5.20\" fill=\"#f3ead6\"/><rect x=\"18.10\" y=\"40.20\" width=\"3.00\" height=\"4.30\" fill=\"#b8323a\"/><rect x=\"21.45\" y=\"37.50\" width=\"1.95\" height=\"7.00\" fill=\"#2f5a8a\"/><rect x=\"23.75\" y=\"38.40\" width=\"2.65\" height=\"6.10\" fill=\"#e9c46a\"/><rect x=\"26.75\" y=\"39.30\" width=\"1.60\" height=\"5.20\" fill=\"#3d6e48\"/><rect x=\"28.70\" y=\"40.20\" width=\"2.30\" height=\"4.30\" fill=\"#7a4a8a\"/><rect x=\"31.35\" y=\"37.50\" width=\"3.00\" height=\"7.00\" fill=\"#d9773a\"/></g><path d=\"M9.5 36.4h26\" stroke=\"#5a3a1e\" stroke-width=\"1.1\"/><rect x=\"40\" y=\"27\" width=\"11\" height=\"22\" rx=\"1\" fill=\"#2a1708\"/><rect class=\"inside\" x=\"40.8\" y=\"27.8\" width=\"9.4\" height=\"20.6\" fill=\"#f6d9a0\"/><rect x=\"44.6\" y=\"31\" width=\"1.6\" height=\"4.4\" fill=\"#b8323a\"/><rect x=\"46.5\" y=\"31.8\" width=\"1.4\" height=\"3.6\" fill=\"#2f5a8a\"/><rect x=\"48.2\" y=\"30.6\" width=\"1.5\" height=\"4.8\" fill=\"#3d6e48\"/><path d=\"M43.6 35.6h6.6\" stroke=\"#5a3a1e\" stroke-width=\".8\"/><g class=\"door\"><rect x=\"40\" y=\"27\" width=\"11\" height=\"22\" rx=\"1\" fill=\"#2c3d4a\" stroke=\"#2a1708\" stroke-width=\"1.1\"/><rect x=\"42\" y=\"29.5\" width=\"7\" height=\"8\" rx=\".8\" fill=\"#f6d9a0\" opacity=\".85\"/><circle cx=\"48.5\" cy=\"40\" r=\"1\" fill=\"#e9c46a\"/></g><g class=\"bell\"><path d=\"M53 22.8v1.6\" stroke=\"#2a1708\" stroke-width=\".6\"/><path d=\"M51.6 27.6c0-2 .6-3.3 1.4-3.3s1.4 1.3 1.4 3.3z\" fill=\"#e9c46a\" stroke=\"#7a5a1e\" stroke-width=\".45\"/><circle cx=\"53\" cy=\"28\" r=\".55\" fill=\"#7a5a1e\"/></g><rect x=\"2\" y=\"49.5\" width=\"56\" height=\"4.5\" rx=\"1\" fill=\"#3a2214\" stroke=\"#2a1708\" stroke-width=\"1\"/>"},
   bouquiniste:{label:"Bouquiniste",svg:"<rect x=\"1.5\" y=\"41\" width=\"57\" height=\"13\" rx=\"1.5\" fill=\"#cdbb98\" stroke=\"#5a4a32\" stroke-width=\"1.1\"/><path d=\"M1.5 47.5h57M15 41v6.5M33 41v6.5M48 41v6.5M8 47.5V54M24 47.5V54M41 47.5V54\" stroke=\"#9a8a6a\" stroke-width=\".8\"/><path d=\"M9 25 13 5h34l4 20z\" fill=\"#3d6e48\" stroke=\"#1a3020\" stroke-width=\"1.2\" stroke-linejoin=\"round\"/><path d=\"M12 22.5 15.2 7.5h29.6l3.2 15z\" fill=\"#4c8458\"/><rect x=\"17\" y=\"10\" width=\"9\" height=\"11\" fill=\"#f3ead6\" stroke=\"#5a4a32\" stroke-width=\".6\" transform=\"rotate(-3 21.5 15.5)\"/><path d=\"M18.5 13h6M18.5 15.5h5M18.5 18h6\" stroke=\"#8a6a4a\" stroke-width=\".7\" transform=\"rotate(-3 21.5 15.5)\"/><rect x=\"30\" y=\"9.5\" width=\"11\" height=\"8\" fill=\"#e9c46a\" stroke=\"#5a4a32\" stroke-width=\".6\" transform=\"rotate(4 35.5 13.5)\"/><circle cx=\"35.5\" cy=\"13.5\" r=\"2.4\" fill=\"#b8323a\" transform=\"rotate(4 35.5 13.5)\"/><circle cx=\"21.5\" cy=\"9.6\" r=\".9\" fill=\"#e9c46a\"/><circle cx=\"35.6\" cy=\"9.2\" r=\".9\" fill=\"#e9c46a\"/><g><rect x=\"10.00\" y=\"20.80\" width=\"3.00\" height=\"5.70\" fill=\"#e9c46a\"/><rect x=\"13.35\" y=\"21.70\" width=\"1.95\" height=\"4.80\" fill=\"#3d6e48\"/><rect x=\"15.65\" y=\"19.00\" width=\"2.65\" height=\"7.50\" fill=\"#7a4a8a\"/><rect x=\"18.65\" y=\"19.90\" width=\"1.60\" height=\"6.60\" fill=\"#d9773a\"/><rect x=\"20.60\" y=\"20.80\" width=\"2.30\" height=\"5.70\" fill=\"#f3ead6\"/><rect x=\"23.25\" y=\"21.70\" width=\"3.00\" height=\"4.80\" fill=\"#b8323a\"/><rect x=\"26.60\" y=\"19.00\" width=\"1.95\" height=\"7.50\" fill=\"#2f5a8a\"/><rect x=\"28.90\" y=\"19.90\" width=\"2.65\" height=\"6.60\" fill=\"#e9c46a\"/><rect x=\"31.90\" y=\"20.80\" width=\"1.60\" height=\"5.70\" fill=\"#3d6e48\"/><rect x=\"33.85\" y=\"21.70\" width=\"2.30\" height=\"4.80\" fill=\"#7a4a8a\"/><rect x=\"36.50\" y=\"19.00\" width=\"3.00\" height=\"7.50\" fill=\"#d9773a\"/><rect x=\"39.85\" y=\"19.90\" width=\"1.95\" height=\"6.60\" fill=\"#f3ead6\"/><rect x=\"42.15\" y=\"20.80\" width=\"2.65\" height=\"5.70\" fill=\"#b8323a\"/><rect x=\"45.15\" y=\"21.70\" width=\"1.60\" height=\"4.80\" fill=\"#2f5a8a\"/><rect x=\"47.10\" y=\"19.00\" width=\"2.30\" height=\"7.50\" fill=\"#e9c46a\"/></g><rect x=\"7\" y=\"25\" width=\"46\" height=\"17\" rx=\"1\" fill=\"#2f5a3a\" stroke=\"#1a3020\" stroke-width=\"1.2\"/><path d=\"M7 29h46\" stroke=\"#1a3020\" stroke-width=\".9\"/><path d=\"M12 33h14M34 33h14\" stroke=\"#4c8458\" stroke-width=\"1\" stroke-linecap=\"round\"/><rect x=\"27.5\" y=\"31\" width=\"5\" height=\"5\" rx=\"1\" fill=\"#e9c46a\" stroke=\"#7a5a1e\" stroke-width=\".6\"/>"},
@@ -5437,11 +5594,26 @@ function applyStore(){const id=STORES[S.store]?S.store:'corner-awning',b=$('#sho
   const row=$('#storeChoice');if(row&&!row.children.length)row.innerHTML=Object.entries(STORES).map(([k,st])=>`<button type="button" data-store="${k}" aria-label="${st.label}"><svg viewBox="0 0 60 56" aria-hidden="true">${st.svg.replace(/id="(s[wd]-[a-z]+)"/g,'id="$1-p"').replace(/url\(#(s[wd]-[a-z]+)\)/g,'url(#$1-p)')}</svg><span>${st.label}</span></button>`).join('');
   row?.querySelectorAll('[data-store]').forEach(x=>x.classList.toggle('selected',x.dataset.store===id))}
 /* the Commode Shelf's button: the commode chosen in Design, in miniature, like the television and the bookstore */
-function applyCommode(){const id=cmId(),ci=S.cmIcon===undefined?'flat':S.cmIcon,alt=id==='farm'&&Commode.alts.includes(ci)?ci:'',key=id+(alt?':'+alt:''),b=$('#libBtn');if(b.dataset.cm!==key){b.innerHTML=alt?Commode.miniAlt(alt):Commode.mini(id);b.dataset.cm=key;b.title='Commode Shelf · '+(alt?Commode.altLabel(alt):Commode.label(id))}
+/* what stands on the commode, for its corner button: books in their leathers, the plushies, the ornaments and the vase, where they really stand */
+function cmMiniLive(){try{const lay=cmLayout(),cur=S.block||'nines',out={shelf:[],top:[]};
+  for(const it of cmItems()){const at=lay[it.key];if(!at)continue;const t={x:at.x,w:at.w,o:at.o||0};
+    if(it.b){const cs=getComputedStyle(it.b.id===cur?board:document.documentElement),cv=k=>(it.b.cover||'').match(new RegExp('--'+k+':([^;]+)'))?.[1]||cs.getPropertyValue('--'+k).trim(),dell=it.b.id==='dell'&&!it.b.cover;
+      t.b=[dell?'#8a2f2a':cv('leather')||'#6a2a20',dell?'#a8463f':cv('leatherHi')||'#8a4a3a'];t.h=cmBookH(it.b)}
+    else if(it.p)t.p=plushArt(it.p);else if(it.o)t.orn=it.o;else t.v=1;
+    (out[at.z]||out.shelf).push(t)}
+  return out}catch(e){return null}}
+function applyCommode(){const id=cmId(),ci=S.cmIcon===undefined?'flat':S.cmIcon,alt=id==='farm'&&Commode.alts.includes(ci)?ci:'',b=$('#libBtn'),live=alt==='pixel'?null:cmMiniLive(),
+    key=id+(alt?':'+alt:''),sig=live?JSON.stringify(live).replace(/data:[^"]+/g,'')+(S.p3?'3':''):'';if(b.dataset.cm!==key||b.dataset.cmLive!==sig){b.innerHTML=alt?Commode.miniAlt(alt,live):Commode.mini(id,live);b.dataset.cm=key;b.dataset.cmLive=sig;b.title='Commode Shelf · '+(alt?Commode.altLabel(alt):Commode.label(id))}
   const row=$('#cmChoice');if(row&&!row.children.length)row.innerHTML=Commode.ids.map(k=>`<button type="button" data-cm="${k}" aria-label="${Commode.label(k)}">${Commode.mini(k)}<span>${Commode.label(k)}</span></button>`).join('')+
     Commode.alts.map(a=>`<button type="button" data-cm="farm" data-cmi="${a}" aria-label="${Commode.altLabel(a)}">${Commode.miniAlt(a)}<span>${Commode.altLabel(a)}</span></button>`).join('');   /* the simplified farmhouse icons keep the farmhouse commode */
-  row?.querySelectorAll('[data-cm]').forEach(x=>x.classList.toggle('selected',x.dataset.cm===id&&(x.dataset.cmi||'')===alt))}
+  row?.querySelectorAll('[data-cm]').forEach(x=>x.classList.toggle('selected',x.dataset.cm===id&&(x.dataset.cmi||'')===alt));
+  /* the wood's texture: the cabinet chosen above, in its own grain or one of five others */
+  const tr=$('#cmTexChoice'),tk=Commode.TEXTURES[S.cmTex]?S.cmTex:'';if(tr&&tr.dataset.cm!==id){tr.dataset.cm=id;tr.innerHTML=[['','Its own'],...Object.entries(Commode.TEXTURES)].map(([k,l])=>`<button type="button" data-cmtex="${k}" aria-label="${l}">${Commode.swatch(id,k)}<span>${l}</span></button>`).join('')}
+  tr?.querySelectorAll('[data-cmtex]').forEach(x=>x.classList.toggle('selected',x.dataset.cmtex===tk))}
 applyCommode();
+/* a window closing may have moved, bought or taken something: the corner button shows the shelf as it now is */
+new MutationObserver(ms=>{if(ms.some(m=>[...m.removedNodes].some(n=>n.nodeType===1&&(n.classList.contains('veil')||n.classList.contains('cm-veil')))))setTimeout(applyCommode,60)}).observe(document.body,{childList:true});
+$('#cmTexChoice').addEventListener('click',e=>{const b=e.target.closest('[data-cmtex]');if(!b)return;S.cmTex=b.dataset.cmtex||undefined;applyCommode();sfx.toggle();save()});
 $('#cmChoice').addEventListener('click',e=>{const b=e.target.closest('[data-cm]');if(!b)return;S.commode=b.dataset.cm;S.cmIcon=b.dataset.cmi||(b.dataset.cm==='farm'?'full':null);applyCommode();sfx.toggle();save()});
 applyStore();
 $('#storeChoice').addEventListener('click',e=>{const b=e.target.closest('[data-store]');if(!b)return;S.store=b.dataset.store;applyStore();sfx.toggle();save()});
@@ -5540,7 +5712,7 @@ function normaliseSave(d){
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
   n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(n.block==='nines'&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
-  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
+  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.mpUi==='window')n.mpUi='window';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
   n.flora={fl:{},vz:{},cur:null,arr:{},seed:{}};{const f=obj(d.flora),fid=Flora.FLOWERS.map(x=>x.id),vid=Flora.VASES.map(x=>x.id);
     for(const [id,c] of Object.entries(obj(f.fl)))if(fid.includes(id)&&Number.isInteger(+c)&&+c>0)n.flora.fl[id]=Math.min(999,+c);
     for(const id of Object.keys(obj(f.vz)))if(vid.includes(id))n.flora.vz[id]=1;
@@ -5672,7 +5844,6 @@ $('#saveBtn').addEventListener('click',e=>{e.stopPropagation();openSave()});
 /* the verso: the whole book slides to the right and fades away, the inside of its front cover comes in from the left,
    and the sheets of Volume I turn over onto it from the right, the last one showing the back of the page you were on */
 const verso=$('#verso'),vCover=$('#vCover'),vSheet=$('#vSheet'),versoBtn=$('#versoBtn'),VQ=typeof QUOTES!=='undefined'&&Array.isArray(QUOTES)?QUOTES:[];
-let atFront=false,versoMoving=false,versoFlip=false,versoPage=1,versoGen=0;
 const versoOK=()=>playMode==='book'&&(S.block||'nines')==='nines'&&VQ.length>=NP;
 const ninesSolved=()=>((S.block||'nines')==='nines'?S.solved:S.shelf?.nines?.solved)||{};
 const versoRead=()=>{const sv=ninesSolved();let n=0;for(let p=1;p<=NP;p++)if(sv[p])n++;return n};
@@ -5681,6 +5852,8 @@ function versoBadge(){versoBtn.hidden=!versoOK()||!S.qtab;   /* the bookmark is 
 const V_IN=[{transform:'rotateY(180deg)',opacity:0},{transform:'rotateY(132deg)',opacity:1,offset:.24},{transform:'rotateY(0deg)',opacity:1}];
 const V_OUT=[{transform:'rotateY(0deg)',opacity:1},{transform:'rotateY(132deg)',opacity:1,offset:.76},{transform:'rotateY(180deg)',opacity:0}];
 const V_EASE='cubic-bezier(.45,.05,.3,1)';
+/* the stickers on the back of a page, drawn still (for the sheets that turn) */
+function versoStk(p){const l=stk().pages['q/'+p]||[];return l.length?`<div class="pstickers">${l.map(x=>{const st=STK.find(y=>y.id===x.id);return st?`<div class="sticker${st.tape?' tapebit':''}" style="left:${x.x}%;top:${x.y}%;--rot:${x.r}deg">${stickSVG(st)}</div>`:''}).join('')}</div>`:''}
 function versoFace(p){const q=VQ[p-1]||['','',''];
   return`<i class="vgrid" aria-hidden="true"></i><p class="vrun">The Book of Nines</p><div class="vbody">${ninesSolved()[p]
     ?`<blockquote class="vq">${escH(q[0])}</blockquote><p class="vcite">${escH(q[1])}${q[2]?`<i>${escH(q[2])}</i>`:''}</p>`
@@ -5698,12 +5871,12 @@ function fitVerso(face){const body=face.querySelector('.vbody'),q=face.querySele
   const run=face.querySelector('.vrun'),no=face.querySelector('.vno'),room=()=>(no?no.getBoundingClientRect().top:face.getBoundingClientRect().bottom)-(run?run.getBoundingClientRect().bottom:face.getBoundingClientRect().top)-12;
   let px=parseFloat(getComputedStyle(q).fontSize);for(let k=0;k<14&&body.getBoundingClientRect().height>room()&&px>11;k++){px-=1;q.style.fontSize=px+'px'}}
 addEventListener('resize',()=>{if(!verso.hidden)document.querySelectorAll('#verso .vface').forEach(fitVerso)});
-function showSheet(p){vSheet.hidden=false;vSheet.innerHTML=versoFace(p);vSheet.setAttribute('aria-label',`The back of page ${p}`);requestAnimationFrame(()=>fitVerso(vSheet));
+function showSheet(p){vSheet.hidden=false;vSheet.innerHTML=versoFace(p);vSheet.appendChild(vst());versoPage=p;renderStickers();vSheet.setAttribute('aria-label',`The back of page ${p}`);requestAnimationFrame(()=>fitVerso(vSheet));
   const n=p<=1?0:Math.min(4,1+Math.floor(p/25)),edge=[];for(let i=1;i<=n;i++)edge.push(`${-1.6*i}px ${1.6*i}px 0 var(${i%2?'--paperLo':'--paper'})`);
   vSheet.style.setProperty('--stack',edge.join(',')||'0 0 0 transparent')}
 function pageClone(){const c=pageEl.cloneNode(true);c.removeAttribute('id');c.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));return c}
 function makeLeaf(p,recto){const lf=document.createElement('div');lf.className='vleaf';
-  const f=document.createElement('section');f.className='leaf paper vface face';f.innerHTML=versoFace(p);requestAnimationFrame(()=>fitVerso(f));
+  const f=document.createElement('section');f.className='leaf paper vface face';f.innerHTML=versoFace(p)+versoStk(p);requestAnimationFrame(()=>fitVerso(f));
   const b=recto||document.createElement('section');if(!recto){b.className='leaf paper vrecto';b.innerHTML=`<i class="vlines" aria-hidden="true"></i><span class="vno">- ${p} -</span>`}
   b.classList.add('face','back');lf.append(f,b);vCover.appendChild(lf);return lf}
 function versoReady(g){if(g!==versoGen)return;versoMoving=false;verso.classList.add('ready');try{verso.querySelector('[data-vclose]').focus({preventScroll:true})}catch(e){}}
@@ -5733,7 +5906,7 @@ function closeVerso(){
   if(!atFront||versoMoving)return;versoMoving=true;const g=++versoGen;
   if(document.activeElement&&verso.contains(document.activeElement))document.activeElement.blur();
   verso.classList.remove('ready');
-  const finish=()=>{if(g!==versoGen)return;ownAnims(board).forEach(a=>a.cancel());vCover.getAnimations().forEach(a=>a.cancel());vCover.querySelectorAll('.vleaf').forEach(n=>n.remove());verso.hidden=true;atFront=false;versoMoving=false};
+  const finish=()=>{if(g!==versoGen)return;ownAnims(board).forEach(a=>a.cancel());vCover.getAnimations().forEach(a=>a.cancel());vCover.querySelectorAll('.vleaf').forEach(n=>n.remove());verso.hidden=true;atFront=false;versoMoving=false;renderStickers()};
   if(reduced){board.classList.remove('at-front');finish();return}
   /* the sheets turn back to the right, then the book slides back in from the right as the cover goes off to the left */
   const top=versoPage,first=Math.max(1,top-2),gap=90,fd=560,W=board.offsetWidth,D=800;
@@ -5835,7 +6008,7 @@ $('#testRow').hidden=!/[?&]test\b/.test(location.search);$('#testCoins').addEven
 /* the back bookmark: the credits (the default), or the save page with its codes when switched on in Design */
 function applyEndPage(){const sv=!!S.savePage,b=$('#saveBtn');$('#optSavePage').checked=sv;b.querySelector('span').textContent=sv?'Save':'Credits';
   b.setAttribute('aria-label',sv?'Ex libris: the binder’s record':'Credits');b.title=sv?'The binder’s record':'Credits';$('#creditsPage').hidden=sv;$('#savePage').hidden=!sv}
-function applyShow(){applyEndPage();$('#optWide').checked=!!S.wide;document.body.classList.toggle('hide-foot',!S.showFoot);document.body.classList.toggle('hide-left',!S.showLeft);$('#optFoot').checked=!!S.showFoot;$('#optSndBtn').checked=!!S.sndbtn;$('#sndBtn').hidden=!S.sndbtn;$('#optFsBtn').checked=!!S.fsbtn;if(typeof fsShow==='function')fsShow();$('#optLeft').checked=!!S.showLeft;$('#optLoad').checked=S.loading!==false;$('#optLost').checked=!!S.lostStamp;$('#optMoon').checked=S.moon!==false;$('#optQtab').checked=!!S.qtab;$('#optPlHearts').checked=!!S.plhearts;$('#optPlLife').checked=!!S.pllife;$('#optPlSpots').checked=!!S.plspots;$('#optFlowers').checked=!!S.flowers;$('#optRadio').checked=!!S.radio;$('#optSprout').checked=!!S.sprout;applyTextures()}
+function applyShow(){applyEndPage();$('#optHandGrid').checked=!!S.handGrid;$('#optWide').checked=!!S.wide;document.body.classList.toggle('hide-foot',!S.showFoot);document.body.classList.toggle('hide-left',!S.showLeft);$('#optFoot').checked=!!S.showFoot;$('#optSndBtn').checked=!!S.sndbtn;$('#sndBtn').hidden=!S.sndbtn;$('#optFsBtn').checked=!!S.fsbtn;if(typeof fsShow==='function')fsShow();$('#optLeft').checked=!!S.showLeft;$('#optLoad').checked=S.loading!==false;$('#optLost').checked=!!S.lostStamp;$('#optMoon').checked=S.moon!==false;$('#optQtab').checked=!!S.qtab;$('#optPlHearts').checked=!!S.plhearts;$('#optPlLife').checked=!!S.pllife;$('#optPlSpots').checked=!!S.plspots;$('#optFlowers').checked=!!S.flowers;$('#optRadio').checked=!!S.radio;$('#optSprout').checked=!!S.sprout;applyTextures()}
 function applyTextures(){const lth=S.lth||'smooth',ppr=S.ppr||'vellum';board.classList.toggle('leather-grain',lth!=='smooth');board.dataset.lth=lth;document.body.dataset.ppr=ppr;document.querySelectorAll('#lthChoice button').forEach(b=>b.classList.toggle('selected',b.dataset.lth===lth));document.querySelectorAll('#pprChoice button').forEach(b=>b.classList.toggle('selected',b.dataset.ppr===ppr))}
 $('#openEditor').addEventListener('click',()=>{closePops();sfx.tick();openEditor()});
 /* ---- the editor: fill a grid, check it has one solution, keep it as a page ---- */
@@ -5859,6 +6032,7 @@ $('#lthChoice').addEventListener('click',e=>{const b=e.target.closest('[data-lth
 $('#pprChoice').addEventListener('click',e=>{const b=e.target.closest('[data-ppr]');if(!b)return;S.ppr=b.dataset.ppr;applyTextures();sfx.toggle();save()});
 $('#optLost').addEventListener('change',e=>{S.lostStamp=e.target.checked;if(!S.lostStamp)pageEl.querySelectorAll('.lost-stamp').forEach(n=>{if(!G.done)n.remove()});else if(G.failed&&!G.done)showLost();sfx.toggle();save()});
 $('#optMoon').addEventListener('change',e=>{S.moon=e.target.checked;sfx.toggle();save()});
+$('#optHandGrid').addEventListener('change',e=>{S.handGrid=e.target.checked;drawLines(S.page??1);sfx.toggle();save()});
 $('#optQtab').addEventListener('change',e=>{S.qtab=e.target.checked;versoBadge();sfx.toggle();save()});
 $('#optSndBtn').addEventListener('change',e=>{S.sndbtn=e.target.checked;applyShow();sfx.toggle();save()});
 $('#optFsBtn').addEventListener('change',e=>{S.fsbtn=e.target.checked;applyShow();sfx.toggle();save()});
@@ -5881,7 +6055,9 @@ $('#magChoice').addEventListener('click',e=>{const b=e.target.closest('[data-mag
 $('#dayNight').addEventListener('click',e=>{const b=e.target.closest('[data-dark]');if(!b)return;S.dark=b.dataset.dark==='1';applyDark();render();sfx.toggle();save()});
 function applyShape(){document.querySelectorAll('#shapeChoice button').forEach(b=>b.classList.toggle('selected',b.dataset.shape===(S.shape||'auto')));fit()}
 $('#shapeChoice').addEventListener('click',e=>{const b=e.target.closest('[data-shape]');if(!b)return;S.shape=b.dataset.shape;applyShape();sfx.toggle();save()});
-function applyBo3(){document.querySelectorAll('#bo3Choice button').forEach(b=>b.classList.toggle('selected',b.dataset.bo3===(S.bo3hud||'bomb')));if(MP.room)renderMatchHUD()}
+function applyMpUi(){document.querySelectorAll('#mpUiChoice button').forEach(b=>b.classList.toggle('selected',b.dataset.mpui===(S.mpUi==='window'?'window':'fax')))}
+$('#mpUiChoice').addEventListener('click',e=>{const b=e.target.closest('[data-mpui]');if(!b)return;S.mpUi=b.dataset.mpui==='window'?'window':undefined;applyMpUi();sfx.toggle();save()});
+function applyBo3(){applyMpUi();document.querySelectorAll('#bo3Choice button').forEach(b=>b.classList.toggle('selected',b.dataset.bo3===(S.bo3hud||'bomb')));if(MP.room)renderMatchHUD()}
 $('#bo3Choice').addEventListener('click',e=>{const b=e.target.closest('[data-bo3]');if(!b)return;S.bo3hud=b.dataset.bo3;applyBo3();sfx.toggle();save()});
 function closePops(){document.querySelectorAll('.popv').forEach(p=>p.hidden=true);document.querySelectorAll('[data-pop]').forEach(b=>b.setAttribute('aria-expanded','false'))}
 document.querySelectorAll('[data-pop]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const p=$('#pop-'+b.dataset.pop),was=!p.hidden;closePops();if(!was){p.hidden=false;b.setAttribute('aria-expanded','true');sfx.tick();if(b.dataset.pop==='set'){const n=$('#pidNote');if(n)n.textContent=S.pid?'Player ID '+S.pid:'No player ID yet: name the book first.'}}}));
@@ -7061,12 +7237,14 @@ function mpPutAway(){stashMulti();MP.away=true;MP.loaded='';MP.seen=mpDigest(MP.
 function mpContinue(){const r=MP.room;if(!r)return;MP.away=false;if(MP.overlay){MP.overlay.remove();MP.overlay=null}startMPLoop();if(r.status==='lobby'){mpLobby();return}if(r.status==='finished'){mpResult();return}
   const me=r.players.find(p=>p.id===MP.playerId);MP.loaded='';MP.seen=mpDigest(r);faxBadge();loadMultiPage(r.mode==='party'?(me?.page||0):MP.localPage,false);mpRemember()}
 async function mpGiveUp(){const r=MP.room;if(r?.status==='playing'){try{await Net.event('forfeit',{})}catch(e){}}leaveMatch();loadPage((S.page??1),true)}
-function mpDialog(html,cls=''){document.querySelectorAll('.veil').forEach(v=>v.remove());const v=document.createElement('div');v.className='veil';v.innerHTML=`<div class="toc paper mp-card ${cls}" role="dialog" aria-label="Multiplayer">${html}</div>`;document.body.appendChild(v);MP.overlay=v;v.addEventListener('click',e=>{if(e.target===v){v.remove();MP.overlay=null}});return v}
+const faxUi=()=>S.mpUi!=='window';
+const FAX_SCREEN=/id="mp(Create|Join|Start|Go|Resume|View|Leave|Later|CancelInvite|CancelJoin|HostDirect)"/;   /* only the multiplayer screens come out of the fax; the other windows that share this frame stay windows */
+function mpDialog(html,cls=''){if(faxUi()&&FAX_SCREEN.test(html))return faxDialog(html,cls);document.querySelectorAll('.veil').forEach(v=>v.remove());const v=document.createElement('div');v.className='veil';v.innerHTML=`<div class="toc paper mp-card ${cls}" role="dialog" aria-label="Multiplayer">${html}</div>`;document.body.appendChild(v);MP.overlay=v;v.addEventListener('click',e=>{if(e.target===v){v.remove();MP.overlay=null}});return v}
 function mpSetup(){
   const name=(S.owner||'Player').replace(/[<>"]/g,'').slice(0,18),party=MP.choice==='party';
   if(!devOn)MP.direct=false;if(window.NINES_APP&&!window.NINES_API)MP.direct=true;   /* a Play app built without a server address has direct play only */
   const v=mpDialog(`<div class="mp-title"><h2>Multiplayer</h2><button type="button" class="wifi-toggle ${MP.direct?'on':''}" id="mpWifi" ${(devOn&&!window.NINES_APP)||window.NINES_API?'':'hidden'} aria-pressed="${!!MP.direct}" aria-label="Direct play over Wi-Fi" title="Direct play (same Wi-Fi, no internet)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8.5a15 15 0 0 1 20 0M5.5 12a10 10 0 0 1 13 0M9 15.5a5 5 0 0 1 6 0"/><circle cx="12" cy="19" r="1.4" fill="currentColor"/><path d="M17 3l4 4-4 4M3 17l4 4 4-4" opacity=".7"/></svg></button></div><p class="mp-status" id="mpVia">${MP.direct?'Direct play: two phones on the same Wi-Fi, no internet needed. One hosts, the other joins by scanning a code.':'Create a room, then send its four-character code to another player.'}</p><div class="mp-modes">${[['duel','Duel','One puzzle. Boxes damage your rival.'],['bo3','Best of Three',S.bo3hud==='sword'?'Three sheets. Push the sword to their heart.':'Three sheets. Push the bomb to your opponent.'],['party','Party','2–4 players. Print as many sheets as time allows.']].map(([id,t,d])=>`<button class="mp-mode ${MP.choice===id?'selected':''}" data-mode="${id}"><b>${t}</b><span>${d}</span></button>`).join('')}</div><div class="mp-form"><label>Your name<input id="mpName" maxlength="18" value="${name}" autocomplete="nickname"></label><label id="mpMinutes" ${party?'':'hidden'}>Match length<select id="mpTime"><option value="3" ${MP.minutes!==5&&MP.minutes!==10?'selected':''}>3 minutes</option><option value="5" ${MP.minutes===5?'selected':''}>5 minutes</option><option value="10" ${MP.minutes===10?'selected':''}>10 minutes</option></select></label></div>${MP.direct?`<div class="mp-actions"><button class="px close" id="mpHostDirect">Host a match</button><button class="px close" id="mpJoinDirect">Join a match</button></div>`:`<div class="mp-actions"><button class="px close" id="mpCreate">Create room</button></div><div class="mp-form"><label>Or join with a room code<input id="mpCode" maxlength="4" autocapitalize="characters" autocomplete="one-time-code" spellcheck="false" placeholder="AB12" style="text-align:center;letter-spacing:.28em;text-transform:uppercase"></label></div><div class="mp-actions"><button class="px close" id="mpJoin">Join room</button></div>`}<div class="fax-print"><h3 class="lib-h">Print a page<b></b><em>from another player’s code</em></h3><label class="paste-label">Paste the page code (NP-PAGE.…)<textarea class="savecode" id="pgPaste" spellcheck="false" placeholder="NP-PAGE.…"></textarea></label><div class="mp-actions"><button type="button" class="px close" id="pgUse">Print it</button><button type="button" class="px close" id="pgScan">Scan with camera</button></div><video id="pgVideo" playsinline muted hidden></video></div><p class="mp-status mp-error" id="mpError" aria-live="polite"></p><p class="privacy-link"><button type="button" class="linkish" data-privacy>What your friends and the server see</button></p><div class="mp-foot"><button class="px close" id="mpClose">Back</button></div>`);
-  const printPage=code=>{try{const rec=readPageCode(code);const id=addPage(rec,'received');sfx.stamp();$('#faxBtn').classList.add('printing');setTimeout(()=>$('#faxBtn').classList.remove('printing'),800);v.remove();MP.overlay=null;toast(`“${rec.title}” from ${rec.by} is on the Pages shelf.`);switchBlock(id)}catch(e){v.querySelector('#mpError').textContent=e.message}};
+  const printPage=code=>{try{const rec=readPageCode(code);const id=addPage(rec,'received');try{faxPrint(rec.grid,rec.title)}catch(e){}sfx.stamp();$('#faxBtn').classList.add('printing');setTimeout(()=>$('#faxBtn').classList.remove('printing'),800);v.remove();MP.overlay=null;toast(`“${rec.title}” from ${rec.by} is on the Pages shelf.`);switchBlock(id)}catch(e){v.querySelector('#mpError').textContent=e.message}};
   v.querySelector('#pgUse').onclick=()=>printPage(v.querySelector('#pgPaste').value);
   v.querySelector('#pgScan').onclick=()=>{v.querySelector('#mpError').textContent='Point the camera at the page code.';scanQR(v.querySelector('#pgVideo'),printPage,m=>{v.querySelector('#mpError').textContent=m},/^NP-PAGE\./)};
   v.querySelector('#mpWifi').onclick=()=>{if(!Direct.supported()){v.querySelector('#mpError').textContent=window.claude?'Direct play needs the installed app; it cannot run inside Claude.':'This browser cannot make direct connections.';return}MP.direct=!MP.direct;sfx.toggle();mpSetup()};
@@ -7074,6 +7252,59 @@ function mpSetup(){
   if(MP.direct){v.querySelector('#mpHostDirect').onclick=()=>mpDirectHost(v);v.querySelector('#mpJoinDirect').onclick=()=>mpDirectJoin(v);v.querySelector('#mpClose').onclick=()=>{v.remove();MP.overlay=null};return}
   Net.useNet();Net.pick().then(k=>{const el=v.querySelector('#mpVia');if(el&&k==='room'&&!MP.direct)el.textContent='Create a room and read its four-character code to the other player. They open this same book from your shared link, tap the fax, and join with the code.'});v.querySelector('#mpClose').onclick=()=>{v.remove();MP.overlay=null};v.querySelector('#mpCreate').onclick=()=>mpCreate(v);v.querySelector('#mpJoin').onclick=()=>mpJoin(v);v.querySelector('#mpCode').addEventListener('keydown',e=>{if(e.key==='Enter')mpJoin(v)});
 }
+
+/* ---- the fax machine: the multiplayer window as a machine on the desk. Each screen prints out of it as a sheet;
+   its keypad types room codes (letters by tapping a key again, as on an old telephone), Start and Stop press the window's buttons ---- */
+const FAX_KEYS=[['1',''],['2','ABC'],['3','DEF'],['4','GHI'],['5','JKL'],['6','MNO'],['7','PQRS'],['8','TUV'],['9','WXYZ'],['*','⌫'],['0',''],['#','OK']];
+const DTMF={1:[697,1209],2:[697,1336],3:[697,1477],4:[770,1209],5:[770,1336],6:[770,1477],7:[852,1209],8:[852,1336],9:[852,1477],'*':[941,1209],0:[941,1336],'#':[941,1477]};
+function faxBeep(k){if(!S.sound)return;const f=DTMF[k];if(!f)return;ac();tone({f:f[0],d:.11,g:.022,a:.003,wet:.02});tone({f:f[1],d:.11,g:.018,a:.003,wet:.02})}
+function faxBody(){return`<div class="fax-feed" aria-hidden="true"><i></i></div><div class="fax-body"><div class="fax-left"><div class="fax-brand"><b>NINES</b><span>tele·fax</span></div>
+  <div class="fax-lcd" aria-live="polite"><span class="l1"></span><span class="l2"></span></div>
+  <div class="fax-fn"><button type="button" class="fk stop" data-fax="stop" aria-label="Stop">Stop</button><button type="button" class="fk start" data-fax="start" aria-label="Start">Start</button></div></div>
+  <div class="fax-pad" role="group" aria-label="Keypad">${FAX_KEYS.map(([k,l])=>`<button type="button" class="fkey" data-key="${k}" aria-label="${k}${l&&l!=='⌫'&&l!=='OK'?' '+l:''}"><b>${k}</b><small>${l}</small></button>`).join('')}</div></div><div class="fax-slot" aria-hidden="true"></div>`}
+function faxDialog(html,cls){const was=document.querySelector('.veil.fax-veil'),wasT=was?.querySelector('.fax-paper h2')?.textContent;
+  document.querySelectorAll('.veil').forEach(v=>v.remove());
+  const v=document.createElement('div');v.className='veil fax-veil';
+  v.innerHTML=`<div class="fax" role="dialog" aria-label="Multiplayer">${faxBody()}<div class="fax-out"><div class="fax-paper toc paper mp-card ${cls}">${html}</div></div></div>`;
+  document.body.appendChild(v);MP.overlay=v;v.addEventListener('click',e=>{if(e.target===v){v.remove();MP.overlay=null;stopScan()}});
+  const paper=v.querySelector('.fax-paper'),t=paper.querySelector('h2')?.textContent||'Multiplayer';
+  if(!was||wasT!==t){if(!reduced){paper.classList.add('printing');setTimeout(()=>paper.classList.remove('printing'),900)}if(S.sound){ac();for(let i=0;i<5;i++)noise({t:i*.13,d:.08,g:.03,f:2400,f2:1800,q:1.4})}}
+  faxWire(v);return v}
+function faxWire(v){const paper=v.querySelector('.fax-paper'),l1=v.querySelector('.l1'),l2=v.querySelector('.l2');let tap=null;
+  const code=()=>paper.querySelector('#mpCode'),err=()=>paper.querySelector('#mpError'),modes=()=>[...paper.querySelectorAll('.mp-mode')];
+  const lcd=()=>{const h=(paper.querySelector('h2')?.textContent||'Multiplayer').toUpperCase(),c=code(),rc=paper.querySelector('.roomcode')?.textContent,e=err()?.textContent?.trim(),sel=paper.querySelector('.mp-mode.selected b')?.textContent;
+    l1.textContent=h.slice(0,22);
+    l2.textContent=e?e.slice(0,40):c?('CODE '+(c.value+'____').slice(0,4).split('').join(' ')):rc?('ROOM '+rc.split('').join(' ')):sel?('MODE: '+sel.toUpperCase()):'READY'};
+  lcd();const mo=new MutationObserver(lcd);mo.observe(paper,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class']});
+  code()?.addEventListener('input',lcd);
+  const press=(sel)=>{for(const q of sel){const b=paper.querySelector(q);if(b&&!b.disabled&&!b.closest('[hidden]')){b.click();return true}}return false};
+  v.querySelector('.fax').addEventListener('click',e=>{const k=e.target.closest('[data-key]'),f=e.target.closest('[data-fax]');if(!k&&!f)return;e.stopPropagation();
+    if(f){sfx.tick();if(f.dataset.fax==='start'){const c=code();if(c&&MatchCore.isCode(MatchCore.normCode(c.value))&&press(['#mpJoin']))return;
+        if(!press(['#mpStart','#mpCreate','#mpHostDirect','#mpGo','#mpResume','#mpView','#replyUse','#hostUse','#pgUse']))sfx.tick()}
+      else if(!press(['#mpClose','#mpLater','#mpCancelInvite','#mpCancelJoin','#mpResume','#mpBack','#mpDone'])){stopScan();v.remove();MP.overlay=null}return}
+    const key=k.dataset.key;faxBeep(key);k.classList.remove('hit');void k.offsetWidth;k.classList.add('hit');
+    const c=code();
+    if(key==='#'){if(c&&MatchCore.isCode(MatchCore.normCode(c.value)))press(['#mpJoin']);else press(['#mpStart','#mpCreate','#mpGo','#mpResume']);return}
+    if(key==='*'){if(c&&c.value){c.value=c.value.slice(0,-1);tap=null;lcd()}else{const m=modes(),i=m.findIndex(x=>x.classList.contains('selected'));if(m.length)m[(i-1+m.length)%m.length].click()}return}
+    if(!c){const m=modes(),n=+key;if(m.length&&n>=1&&n<=m.length)m[n-1].click();return}   /* without a code to type: 1, 2, 3 choose the kind of match */
+    /* a room code: tap a key again within a second for its next letter */
+    const L=(FAX_KEYS.find(x=>x[0]===key)[1]+key).split('').filter(ch=>MatchCore.CODE_ALPHABET.includes(ch)),now=performance.now();if(!L.length)return;
+    if(tap&&tap.key===key&&now-tap.t<1000&&c.value.length){tap.i=(tap.i+1)%L.length;tap.t=now;c.value=c.value.slice(0,-1)+L[tap.i]}
+    else{if(c.value.length>=4)return;tap={key,i:0,t:now};c.value+=L[0]}
+    lcd()})}
+/* a fresh sheet for the book: the fax prints it out, then it flies into the book */
+function faxPrint(grid,label){if(!faxUi())return;const f=document.createElement('div');f.className='fax-incoming';
+  f.innerHTML=`<div class="fax">${faxBody()}<div class="fax-out"><div class="fax-sheet paper"><p>${escH(label||'Incoming page')}</p><span class="fx-grid">${[...grid].map((c,i)=>`<i class="${(i%9)%3===2&&i%9<8?'r ':''}${((i/9|0)%3===2&&i<72)?'b':''}">${c==="."?"":c}</i>`).join('')}</span></div></div></div>`;
+  document.body.appendChild(f);const l=f.querySelector('.l1'),l2=f.querySelector('.l2');l.textContent='RECEIVING';l2.textContent='PRINTING PAGE…';
+  if(S.sound){ac();for(let i=0;i<9;i++)noise({t:i*.14,d:.09,g:.035,f:2200,f2:1700,q:1.3})}
+  const sh=f.querySelector('.fax-sheet'),bd=$('#board')?.getBoundingClientRect();
+  if(reduced){setTimeout(()=>f.remove(),400);return}
+  sh.animate([{transform:'translateY(-100%)'},{transform:'translateY(0)'}],{duration:1300,easing:'steps(12,end)',fill:'both'});
+  setTimeout(()=>{l2.textContent='DONE';const r=sh.getBoundingClientRect();const dx=bd?bd.left+bd.width/2-(r.left+r.width/2):0,dy=bd?bd.top+bd.height/2-(r.top+r.height/2):0,k=bd?Math.min(1.6,bd.width/r.width):1;
+    const c=sh.cloneNode(true);c.classList.add('fax-fly');Object.assign(c.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});document.body.appendChild(c);sh.style.visibility='hidden';
+    f.animate([{opacity:1},{opacity:0}],{duration:420,delay:200,fill:'forwards'});
+    c.animate([{transform:'none',opacity:1},{transform:`translate(${dx*.5}px,${dy*.5-40}px) rotate(-6deg) scale(${(1+k)/2})`,opacity:1,offset:.5},{transform:`translate(${dx}px,${dy}px) rotate(0) scale(${k})`,opacity:0}],{duration:820,easing:'cubic-bezier(.4,0,.3,1)',fill:'forwards'}).finished.then(()=>c.remove(),()=>c.remove());
+    setTimeout(()=>f.remove(),700);if(S.sound)sfx.flip()},1450)}
 /* ---- direct play screens ---- */
 let scanStop=null;
 function stopScan(){if(scanStop){scanStop();scanStop=null}}
@@ -7131,7 +7362,7 @@ async function pollMP(){if(!MP.room||MP.busy||MP.polling)return;const sess=MP.se
 function acceptMP(data){const old=MP.room,r=data.room;if(data.playerId)MP.playerId=data.playerId;MP.offset=data.serverTime-Date.now();if(old)r.players.forEach(p=>{const q=old.players.find(x=>x.id===p.id);if(q&&(q.hearts!==p.hearts||q.damage!==p.damage)){MP.hit.add(p.id);if(p.id===MP.playerId)buzz(p.hearts<=0?'destroyed':q.hearts!==p.hearts?'heart':'damage')}});MP.room=r;{const d=JSON.stringify(r);if(d!==MP.lastDig){MP.lastDig=d;mpRemember()}}
   if(MP.away){faxBadge();return}   // a match put away for later: news shows on the fax, nothing opens by itself
   if(r.status==='lobby'){if(MP.overlay?.isConnected&&MP.overlay.dataset.lobby&&MP.overlay.dataset.lobby!==lobbySig(r))mpLobby();return}const me=r.players.find(p=>p.id===MP.playerId);if(!me)return;if(r.status==='playing'){
-    if(old?.status==='lobby'&&MP.overlay){MP.overlay.remove();MP.overlay=null}MP.result=false;MP.seen=mpDigest(r);faxBadge();const page=r.mode==='party'?me.page:MP.localPage;loadMultiPage(page,r.mode==='party');
+    if(old?.status==='lobby'){if(MP.overlay){MP.overlay.remove();MP.overlay=null}try{faxPrint(multiPuzzle(r.mode==='party'?me.page:0).puz.map(x=>x||'.').join(''),r.mode==='bo3'?'Best of Three · sheet 1':r.mode==='party'?'Party · first sheet':'Duel')}catch(e){}}MP.result=false;MP.seen=mpDigest(r);faxBadge();const page=r.mode==='party'?me.page:MP.localPage;loadMultiPage(page,r.mode==='party');
   }else{renderMatchHUD();if(!MP.result){MP.result=true;const same=r.code+':'+r.seed;setTimeout(()=>{const m=MP.room;if(m&&m.status==='finished'&&m.code+':'+m.seed===same&&!MP.away)mpResult()},reduced?40:650)}/* the same match, still over: a newer snapshot in between must not swallow the result */}renderMatchHUD();setTimeout(()=>MP.hit.clear(),500)}
 function loadMultiPage(page,print=false){const r=MP.room;if(!r||r.status!=='playing')return;if(playMode!=='multi')stash();if(r.mode!=='bo3')MP.localPage=page;else MP.localPage=Math.max(0,Math.min(2,page));const key=`${r.code}:${r.mode}:${MP.localPage}`;if(playMode==='multi'&&MP.loaded===key)return;MP.loaded=key;const go=()=>placeSpecial(()=>loadMultiNow(MP.localPage),print);if(flipping)setTimeout(go,850);else go()}
 function loadMultiNow(page){const r=MP.room;if(!r)return;G.circ=null;$('#circStrip').hidden=true;const z=multiPuzzle(page),me=r.players.find(p=>p.id===MP.playerId),pr=MP.pages[page];playMode='multi';dailyKey=null;currentTheme=null;G.puz=z.puz;G.sol=z.sol;G.giv=z.giv;G.vals=pr?pr.v.slice():z.puz.slice();G.notes=pr?pr.n.slice():new Array(81).fill(0);G.hint=pr&&pr.h?pr.h.slice():new Array(81).fill(0);G.hu=pr&&Number.isInteger(pr.u)?pr.u:G.hint.filter(Boolean).length;G.clean=pr?pr.c:true;G.lives=pr?pr.l:MAX_LIVES;G.boxes=pr?pr.b:0;G.combo=pr?pr.m||0:0;G.hist=[];G.fut=[];G.sel=-1;G.hl=0;G.arm=0;G.rub=false;G.notesMode=false;G.failed=G.lives<=0;G.done=pr?.done||r.status==='finished'||(r.mode==='bo3'&&!!me?.done[page]);pageEl.querySelectorAll('.stamp,.turn,.spark,.chip').forEach(n=>n.remove());pageEl.className='leaf puzzle paper multi-page';$('#dailyMotif').hidden=true;drawLines((r.seed+page*7919)>>>0);renderHead();render();renderMatchHUD();if(G.done)showMultiStamp(false)}
@@ -7236,7 +7467,7 @@ function tvPet(v){const el=v.querySelector('.tv-pet'),ps=plushState(),id=ps.cur;
   el.addEventListener('pointerdown',e=>{if(e.button>0)return;e.preventDefault();e.stopPropagation();if(S.sound)ac();P={id:e.pointerId,x:e.clientX,lx:e.clientX,ly:e.clientY,moved:0,stroke:0,box:plushBox(cv,g),spot:'back'};try{el.setPointerCapture(e.pointerId)}catch(x){}});
   el.addEventListener('pointermove',e=>{if(!P||e.pointerId!==P.id)return;const dx=e.clientX-P.lx,dy=e.clientY-P.ly,d=Math.hypot(dx,dy);P.lx=e.clientX;P.ly=e.clientY;P.moved+=d;
     const cr=cv.getBoundingClientRect();P.spot=plushSpot(P.box,(e.clientX-cr.left)/cr.width*cv.width,(e.clientY-cr.top)/cr.height*cv.height,false);
-    if(P.moved>10){P.stroke+=d;A.wobv+=dx*.006;if(A.eyes==='open'||A.eyes==='wide')eyes('happy',500);if(P.stroke>=150){P.stroke=0;pet(P.spot)}}});
+    if(P.moved>10){const sp=d/Math.max(1,now()-(P.t||now()-16));P.t=now();petBuzz(P.spot,sp,false);P.stroke+=d;A.wobv+=dx*.006;if(A.eyes==='open'||A.eyes==='wide')eyes('happy',500);if(P.stroke>=150){P.stroke=0;pet(P.spot)}}});
   const lift=e=>{if(!P||e.pointerId!==P.id)return;if(P.moved<10){const r=el.getBoundingClientRect();poke(Math.sign(e.clientX-r.left-r.width/2)||1)}P=null};
   el.addEventListener('pointerup',lift);el.addEventListener('pointercancel',()=>{P=null});
   let last=now(),odd=false;
@@ -7381,7 +7612,7 @@ $('#radioBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();openR
 
 /* ================= boot ================= */
 function start(data){
-  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
+  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},cmMiniLive,applyCommode,faxPrint,playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
     puzzleIn(id,p){const was=S.block;S.block=id;try{return puzzle(p)}finally{S.block=was}}};
   load();if(saveLost)setTimeout(()=>toast('The book’s record could not be read, so a fresh book was opened. The old record is kept aside.'+(S.savePage?' A save code from the Binder’s Record can bring a book back.':'')),2500);
   devUnlocked();
