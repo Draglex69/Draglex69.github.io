@@ -1767,40 +1767,51 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
 
 /* stickers on the backs of the pages (the quotes) */
 .vsheet>.vstickers{z-index:6}body.stickering .vsheet>.vstickers{pointer-events:auto;touch-action:none;z-index:9}body.placing .vsheet>.vstickers{cursor:crosshair}.vleaf .pstickers{pointer-events:none}
-/* ---- the fax machine (multiplayer) ---- */
+/* ---- the fax machine (multiplayer): everything on the machine; paper rises out of the slot on top ---- */
 .fax-veil{display:flex;align-items:center;justify-content:center;padding:max(10px,env(safe-area-inset-top,0px)) 8px max(10px,env(safe-area-inset-bottom,0px))}
-.fax{--fx:#e8dfcc;--fxd:#c9bea6;--fxk:#2b2925;position:relative;width:min(440px,calc(100vw - 16px));max-height:calc(100dvh - 20px);display:flex;flex-direction:column;align-items:stretch;filter:drop-shadow(0 18px 24px rgba(0,0,0,.55))}
-.fax-feed{position:relative;height:26px;margin:0 22%;background:linear-gradient(#3a3631,#24221f);border-radius:10px 10px 0 0;clip-path:polygon(4% 100%,0 0,100% 0,96% 100%)}
-.fax-feed i{position:absolute;left:14%;right:14%;bottom:4px;height:30px;background:#f6f1e4;border-radius:2px;box-shadow:inset 0 -6px 8px rgba(0,0,0,.18);transform:translateY(-8px)}
-.fax-body{position:relative;display:grid;grid-template-columns:1fr auto;gap:12px;padding:12px 14px 14px;border-radius:18px 18px 10px 10px;
-  background:linear-gradient(180deg,#f3ecdc,var(--fx) 40%,var(--fxd));box-shadow:inset 0 2px 0 rgba(255,255,255,.7),inset 0 -4px 0 rgba(0,0,0,.12),0 0 0 1.5px #8d7f63}
-.fax-body::after{content:"";position:absolute;left:14px;right:14px;top:6px;height:2px;border-radius:2px;background:repeating-linear-gradient(90deg,#b9ad92 0 6px,transparent 6px 9px);opacity:.7}
-.fax-left{display:flex;flex-direction:column;gap:9px;min-width:0;padding-top:6px}
-.fax-brand{display:flex;align-items:baseline;gap:6px;color:#5a4a2c}.fax-brand b{font:700 15px/1 var(--deco);letter-spacing:.18em;color:#9a7a33}.fax-brand span{font:italic 12px/1 var(--fell,serif)}
-.fax-lcd{display:flex;flex-direction:column;justify-content:center;gap:3px;min-height:46px;padding:6px 9px;border-radius:5px;background:linear-gradient(180deg,#9fb48a,#b8c99f);box-shadow:inset 0 2px 5px rgba(0,0,0,.45),0 0 0 3px #3b3833,0 0 0 4px #8d7f63;
-  font:700 13px/1.15 "Courier New",ui-monospace,monospace;color:#1d2a17;letter-spacing:.06em;text-shadow:1px 1px 0 rgba(29,42,23,.15);overflow:hidden}
-.fax-lcd span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fax-lcd .l2{font-size:12px;opacity:.85}
-.fax-fn{display:flex;gap:8px;margin-top:auto}
-.fk{flex:1;min-height:36px;border:0;border-radius:8px;font:700 12px/1 var(--cap,sans-serif);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;color:#fff;box-shadow:0 3px 0 rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.35)}
-.fk.start{background:linear-gradient(#4f9a5a,#2f7a3c)}.fk.stop{background:linear-gradient(#c8574a,#9c3328)}.fk:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.35)}
-.fax-pad{display:grid;grid-template-columns:repeat(3,var(--kk,40px));gap:6px;padding:7px;border-radius:9px;background:#3b3833;box-shadow:inset 0 2px 4px rgba(0,0,0,.5)}
-.fkey{--kk:40px;width:var(--kk,40px);height:calc(var(--kk,40px) * .82);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:0;border:0;border-radius:7px;cursor:pointer;
-  background:linear-gradient(#fbf7ec,#e2d8c2);box-shadow:0 3px 0 #8d7f63,inset 0 1px 0 #fff;color:#2b2925;transition:transform .06s}
+.fx2{--fx:#ece4d2;--fxd:#cfc4ab;--kk:44px;position:relative;width:min(460px,calc(100vw - 16px));max-height:calc(100dvh - 20px);display:flex;flex-direction:column;filter:drop-shadow(0 18px 24px rgba(0,0,0,.55))}
+.fax-veil.fresh .fx2{animation:fx2in .35s cubic-bezier(.3,1.3,.5,1)}@keyframes fx2in{from{transform:translateY(24px) scale(.96);opacity:0}}
+.fx2-out{position:relative;margin:0 26px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;min-height:0;flex:0 1 auto}
+.fx2-paper.mp-card{position:static;width:100%;max-width:none;margin:0;max-height:none;overflow:auto;border-radius:4px 4px 0 0;padding-bottom:16px;background:#fbf8ef repeating-linear-gradient(0deg,transparent 0 23px,rgba(120,110,90,.07) 23px 24px);box-shadow:0 -4px 12px rgba(0,0,0,.3);animation:fx2up .9s steps(10,end) both}
+.with-paper .fx2-out{flex:1 1 auto}@keyframes fx2up{from{transform:translateY(100%)}to{transform:none}}
+.fx2-slot{position:relative;z-index:2;height:14px;margin:0 14px -6px;border-radius:7px;background:linear-gradient(#0f0d0b,#3a352e);box-shadow:inset 0 2px 3px rgba(0,0,0,.8),0 1px 0 rgba(255,255,255,.4)}
+.fx2-slot i{position:absolute;left:8%;right:8%;top:5px;height:2px;background:#000;border-radius:2px}
+.fx2-body{position:relative;display:flex;flex-direction:column;gap:10px;padding:16px 14px 14px;border-radius:14px 14px 18px 18px;background:linear-gradient(180deg,#f6f0e2,var(--fx) 40%,var(--fxd));box-shadow:inset 0 2px 0 rgba(255,255,255,.7),inset 0 -5px 0 rgba(0,0,0,.12),0 0 0 1.5px #8d7f63}
+.fx2-head{display:flex;align-items:center;justify-content:space-between}.fx2-brand{display:flex;align-items:baseline;gap:6px}.fx2-brand b{font:700 15px/1 var(--deco);letter-spacing:.2em;color:#9a7a33}.fx2-brand em{font:italic 12px/1 var(--fell,serif);color:#5a4a2c}
+.fx2-led{width:9px;height:9px;border-radius:50%;background:#5a4a3a;box-shadow:inset 0 1px 2px rgba(0,0,0,.6)}.fx2-led.on{background:#7ee07e;box-shadow:0 0 6px #7ee07e}
+.fx2-lcd{display:flex;flex-direction:column;gap:2px;min-height:82px;max-height:30dvh;overflow:auto;padding:8px 10px;border-radius:6px;background:linear-gradient(180deg,#9fb48a,#b8c99f);box-shadow:inset 0 2px 6px rgba(0,0,0,.45),0 0 0 3px #3b3833,0 0 0 4.5px #8d7f63;
+  font:700 13px/1.25 "Courier New",ui-monospace,monospace;color:#1d2a17;letter-spacing:.05em;text-transform:uppercase}
+.fx2-lcd .ln{display:flex;gap:10px;min-width:0}.fx2-lcd .ln>b{flex:none;width:44px;opacity:.6}.fx2-lcd .ln.st{font-size:11.5px;opacity:.85;display:block}.fx2-lcd .ln.hd{letter-spacing:.12em}
+.fx2-lcd .lobby-player{justify-content:space-between}.fx2-lcd .lobby-player b{width:auto;opacity:.8}.fx2-lcd .lobby-players{display:flex;flex-direction:column}.fx2-lcd .roomcode{letter-spacing:.4em;font-size:15px;margin:0;padding:0;background:none;border:0;color:inherit;font-family:inherit}
+.fx2-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.fx2-mode{display:flex;align-items:center;justify-content:center;gap:6px;min-height:34px;padding:0 4px;border:0;border-radius:7px;cursor:pointer;background:linear-gradient(#4a4540,#2f2b27);color:#efe6cf;font:700 11px/1 var(--cap,sans-serif);letter-spacing:.08em;text-transform:uppercase;box-shadow:0 3px 0 #1c1a17,inset 0 1px 0 rgba(255,255,255,.15)}
+.fx2-mode i{width:7px;height:7px;border-radius:50%;background:#5a4a3a;flex:none}.fx2-mode.on i{background:#ffc94a;box-shadow:0 0 6px #ffc94a}.fx2-mode.on{color:#ffe3a0}
+.fx2-main{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:stretch}
+.fx2-pad{display:grid;grid-template-columns:repeat(3,var(--kk));gap:6px;padding:7px;border-radius:9px;background:#3b3833;box-shadow:inset 0 2px 4px rgba(0,0,0,.5);align-content:start}
+.fkey{width:var(--kk);height:calc(var(--kk) * .82);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;border:0;border-radius:7px;cursor:pointer;background:linear-gradient(#fbf7ec,#e2d8c2);box-shadow:0 3px 0 #8d7f63,inset 0 1px 0 #fff;color:#2b2925}
+.fkey:disabled{opacity:.55;cursor:default}
 .fkey b{font:700 16px/1 var(--deco,sans-serif);font-variant-numeric:lining-nums}.fkey small{font:600 7.5px/1 var(--cap,sans-serif);letter-spacing:.08em;color:#7a6a4a;min-height:7px}
-.fkey:active,.fkey.hit{animation:fkhit .14s}@keyframes fkhit{50%{transform:translateY(3px);box-shadow:0 0 0 #8d7f63,inset 0 1px 0 #fff}}
-.fax-slot{height:12px;margin:-4px 10px 0;border-radius:0 0 6px 6px;background:linear-gradient(#141210,#2e2a25);box-shadow:0 2px 0 #8d7f63;position:relative;z-index:2}
-.fax-out{position:relative;margin:-6px 18px 0;min-height:0;flex:1 1 auto;display:flex;overflow:hidden;border-radius:0 0 4px 4px}
-.fax-paper.mp-card{position:static;width:100%;max-width:none;margin:0;max-height:none;overflow:auto;border-radius:0 0 4px 4px;padding-top:18px;
-  background:#fbf8ef repeating-linear-gradient(0deg,transparent 0 23px,rgba(120,110,90,.07) 23px 24px);box-shadow:0 6px 14px rgba(0,0,0,.35);transform-origin:50% 0}
-.fax-paper.printing{animation:faxprint .85s steps(10,end) both}@keyframes faxprint{from{transform:translateY(-100%)}to{transform:none}}
-.fax-veil .fax-paper h2{letter-spacing:.06em}
-@media (max-width:380px){.fkey{--kk:34px}.fax-pad{grid-template-columns:repeat(3,34px)}.fax-body{padding:10px 10px 12px;gap:9px}}
-/* wide and short screens: the machine on the left, the sheet beside it */
-@media (min-aspect-ratio:4/3) and (max-height:620px){.fax{flex-direction:row;flex-wrap:wrap;width:min(900px,calc(100vw - 16px));align-items:flex-start}
-  .fax-feed{display:none}.fax-body{width:330px;flex:none}.fax-slot{display:none}.fax-out{margin:0 0 0 12px;flex:1 1 300px;max-height:calc(100dvh - 24px);border-radius:4px}.fax-paper.mp-card{max-height:calc(100dvh - 24px);border-radius:4px}}
+.fkey.hit,.fx2-k.hit,.fx2-mode.hit,.fx2-scanner.hit{animation:fkhit .14s}@keyframes fkhit{50%{transform:translateY(3px);box-shadow:0 0 0 rgba(0,0,0,0)}}
+.fx2-side{display:flex;flex-direction:column;gap:8px;min-width:0}.fx2-keys{display:flex;flex-direction:column;gap:7px}
+.fx2-k{min-height:38px;padding:0 8px;border:0;border-radius:8px;cursor:pointer;color:#fff;background:linear-gradient(#b38a3c,#8a6420);font:700 12px/1.1 var(--cap,sans-serif);letter-spacing:.1em;text-transform:uppercase;box-shadow:0 3px 0 rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.35);text-decoration:none;display:flex;align-items:center;justify-content:center;text-align:center}
+.fx2-k.create{background:linear-gradient(#4f9a5a,#2f7a3c)}.fx2-k.join{background:linear-gradient(#c79a3e,#9a7224)}.fx2-k.stop{background:linear-gradient(#c8574a,#9c3328)}
+.fx2-k.small{min-height:30px;font-size:10.5px;background:linear-gradient(#5a554e,#3b3732)}.fx2-k.wifi.on{background:linear-gradient(#3f7fb0,#265d88)}
+.fx2-k:disabled{opacity:.45;cursor:default}.fx2-k.print.ready{background:linear-gradient(#4f9a5a,#2f7a3c);animation:fx2ready 1.4s ease-in-out infinite}@keyframes fx2ready{50%{filter:brightness(1.18)}}
+.fx2-scan{display:flex;flex-direction:column;gap:6px;margin-top:auto}
+.fx2-scanner{position:relative;height:58px;border:0;border-radius:8px;padding:0;cursor:pointer;overflow:hidden;background:#141210;box-shadow:inset 0 0 0 3px #3b3833,0 3px 0 #8d7f63}
+.fx2-scanner .glass{position:absolute;inset:6px;border-radius:4px;background:linear-gradient(135deg,rgba(255,80,60,.25),rgba(120,10,10,.5));box-shadow:inset 0 0 12px rgba(255,60,40,.35)}
+.fx2-scanner .laser{position:absolute;left:10px;right:10px;top:50%;height:2px;background:#ff3b2f;box-shadow:0 0 8px #ff3b2f,0 0 2px #fff;animation:fx2laser 1.6s ease-in-out infinite}@keyframes fx2laser{0%,100%{transform:translateY(-14px)}50%{transform:translateY(14px)}}
+.fx2-scanner small{position:absolute;right:8px;bottom:5px;font:700 9px/1 var(--cap,sans-serif);letter-spacing:.14em;color:#ffb0a8;text-transform:uppercase}
+.fx2-scanner video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.fx2-scanner.live{height:120px}
+.fx2-pp{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+@media (max-width:380px){.fx2{--kk:36px}.fx2-body{padding:14px 10px 12px}.fx2-main{gap:9px}}
+/* wide and short: the display and mode keys on the left, keypad and keys on the right */
+@media (min-aspect-ratio:4/3) and (max-height:620px){.fx2{width:min(780px,calc(100vw - 16px));--kk:40px}.fx2-body{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto 1fr;column-gap:14px;row-gap:8px}
+  .fx2-head{grid-column:1}.fx2-lcd{grid-column:1;max-height:none}.fx2-modes{grid-column:1}.fx2-main{grid-column:2;grid-row:1/4}
+  .with-paper .fx2{flex-direction:row-reverse}.fax-veil.with-paper .fx2-out{margin:0 0 0 10px}}
 /* a page coming in: printed out, then into the book */
 .fax-incoming{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;pointer-events:none;background:rgba(10,6,3,.35)}
-.fax-incoming .fax-out{flex:none;height:min(46vh,300px)}
+.fax-incoming .fx2-out{flex:none;height:min(42vh,300px)}.fax-incoming .fx2{pointer-events:none}
 .fax-sheet{width:100%;padding:16px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#fbf8ef;box-shadow:0 6px 14px rgba(0,0,0,.35)}
 .fax-sheet p{margin:0;font:600 13px/1.2 var(--cap,sans-serif);letter-spacing:.08em;color:#3a2f22;text-transform:uppercase}
 .fx-grid{display:grid;grid-template-columns:repeat(9,1fr);width:min(56vw,210px);aspect-ratio:1;border:2px solid #2b241b;font:600 clamp(10px,3.2vw,15px)/1 var(--deco,serif);font-variant-numeric:lining-nums;color:#2b241b}
@@ -1812,6 +1823,10 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
 .shop .item:nth-child(3n+1) .stage{animation-duration:7.2s;animation-delay:-1.3s}.shop .item:nth-child(3n+2) .stage{animation-duration:5.8s;animation-delay:-3.1s}.shop .item:nth-child(4n) .stage{animation-delay:-4.6s}
 @keyframes shopsway{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-3px) rotate(-2.2deg)}50%{transform:translateY(-1px) rotate(.6deg)}75%{transform:translateY(-4px) rotate(2deg)}}
 @media (prefers-reduced-motion:reduce){.shop .item .stage{animation:none}}
+.fx2-lcd .lobby-player,.fx2-lcd .mp-status{all:unset;display:flex;gap:10px;font:inherit;color:inherit;letter-spacing:inherit;text-transform:inherit}.fx2-lcd .lobby-player{justify-content:space-between}.fx2-lcd .mp-status{display:block;font-size:11.5px;opacity:.85}
+.fx2-lcd .lobby-player>span{all:unset}.fx2-lcd .lobby-player>b{all:unset;opacity:.75}
+@media (min-aspect-ratio:4/3) and (max-height:620px){.fx2-modes{align-self:start}}
+.fx2-hr{display:flex;align-items:center;gap:10px}.fx2-priv{border:0;background:none;padding:2px 0;cursor:pointer;font:italic 11px/1 var(--fell,serif);color:#7a6a4a;text-decoration:underline;text-underline-offset:2px}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -2042,10 +2057,10 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
 (function(root,factory){const M=factory();if(typeof module==='object'&&module.exports)module.exports=M;else root.MatchCore=M})(this,function(){
   const LIMIT={duel:2,bo3:2,party:4};
   const MODES=Object.keys(LIMIT);
-  /* room codes: four characters from an alphabet without look-alikes (no 0/O, 1/I/L) */
-  const CODE_ALPHABET='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  /* room codes: four digits, typed on the fax machine's keypad (codes with letters from before still join) */
+  const CODE_ALPHABET='0123456789',OLD_ALPHABET='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
   const normCode=s=>String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,4);
-  const isCode=s=>/^[A-Z0-9]{4}$/.test(s)&&[...s].every(ch=>CODE_ALPHABET.includes(ch));
+  const isCode=s=>/^[A-Z0-9]{4}$/.test(s)&&(/^\d{4}$/.test(s)||[...s].every(ch=>OLD_ALPHABET.includes(ch)));
   const newCode=(rand=Math.random)=>Array.from({length:4},()=>CODE_ALPHABET[Math.floor(rand()*CODE_ALPHABET.length)]).join('');
   const clean=s=>String(s||'').replace(/[<>"&\u0000-\u001f]/g,'').replace(/\s+/g,' ').trim().slice(0,18)||'Player';
   const tagOf=t=>/^PL-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(String(t||''))?String(t):'';   // a player's ID travels with their name
@@ -7241,6 +7256,7 @@ const faxUi=()=>S.mpUi!=='window';
 const FAX_SCREEN=/id="mp(Create|Join|Start|Go|Resume|View|Leave|Later|CancelInvite|CancelJoin|HostDirect)"/;   /* only the multiplayer screens come out of the fax; the other windows that share this frame stay windows */
 function mpDialog(html,cls=''){if(faxUi()&&FAX_SCREEN.test(html))return faxDialog(html,cls);document.querySelectorAll('.veil').forEach(v=>v.remove());const v=document.createElement('div');v.className='veil';v.innerHTML=`<div class="toc paper mp-card ${cls}" role="dialog" aria-label="Multiplayer">${html}</div>`;document.body.appendChild(v);MP.overlay=v;v.addEventListener('click',e=>{if(e.target===v){v.remove();MP.overlay=null}});return v}
 function mpSetup(){
+  if(faxUi()){if(!devOn)MP.direct=false;if(window.NINES_APP&&!window.NINES_API)MP.direct=true;faxSetup();return}
   const name=(S.owner||'Player').replace(/[<>"]/g,'').slice(0,18),party=MP.choice==='party';
   if(!devOn)MP.direct=false;if(window.NINES_APP&&!window.NINES_API)MP.direct=true;   /* a Play app built without a server address has direct play only */
   const v=mpDialog(`<div class="mp-title"><h2>Multiplayer</h2><button type="button" class="wifi-toggle ${MP.direct?'on':''}" id="mpWifi" ${(devOn&&!window.NINES_APP)||window.NINES_API?'':'hidden'} aria-pressed="${!!MP.direct}" aria-label="Direct play over Wi-Fi" title="Direct play (same Wi-Fi, no internet)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8.5a15 15 0 0 1 20 0M5.5 12a10 10 0 0 1 13 0M9 15.5a5 5 0 0 1 6 0"/><circle cx="12" cy="19" r="1.4" fill="currentColor"/><path d="M17 3l4 4-4 4M3 17l4 4 4-4" opacity=".7"/></svg></button></div><p class="mp-status" id="mpVia">${MP.direct?'Direct play: two phones on the same Wi-Fi, no internet needed. One hosts, the other joins by scanning a code.':'Create a room, then send its four-character code to another player.'}</p><div class="mp-modes">${[['duel','Duel','One puzzle. Boxes damage your rival.'],['bo3','Best of Three',S.bo3hud==='sword'?'Three sheets. Push the sword to their heart.':'Three sheets. Push the bomb to your opponent.'],['party','Party','2–4 players. Print as many sheets as time allows.']].map(([id,t,d])=>`<button class="mp-mode ${MP.choice===id?'selected':''}" data-mode="${id}"><b>${t}</b><span>${d}</span></button>`).join('')}</div><div class="mp-form"><label>Your name<input id="mpName" maxlength="18" value="${name}" autocomplete="nickname"></label><label id="mpMinutes" ${party?'':'hidden'}>Match length<select id="mpTime"><option value="3" ${MP.minutes!==5&&MP.minutes!==10?'selected':''}>3 minutes</option><option value="5" ${MP.minutes===5?'selected':''}>5 minutes</option><option value="10" ${MP.minutes===10?'selected':''}>10 minutes</option></select></label></div>${MP.direct?`<div class="mp-actions"><button class="px close" id="mpHostDirect">Host a match</button><button class="px close" id="mpJoinDirect">Join a match</button></div>`:`<div class="mp-actions"><button class="px close" id="mpCreate">Create room</button></div><div class="mp-form"><label>Or join with a room code<input id="mpCode" maxlength="4" autocapitalize="characters" autocomplete="one-time-code" spellcheck="false" placeholder="AB12" style="text-align:center;letter-spacing:.28em;text-transform:uppercase"></label></div><div class="mp-actions"><button class="px close" id="mpJoin">Join room</button></div>`}<div class="fax-print"><h3 class="lib-h">Print a page<b></b><em>from another player’s code</em></h3><label class="paste-label">Paste the page code (NP-PAGE.…)<textarea class="savecode" id="pgPaste" spellcheck="false" placeholder="NP-PAGE.…"></textarea></label><div class="mp-actions"><button type="button" class="px close" id="pgUse">Print it</button><button type="button" class="px close" id="pgScan">Scan with camera</button></div><video id="pgVideo" playsinline muted hidden></video></div><p class="mp-status mp-error" id="mpError" aria-live="polite"></p><p class="privacy-link"><button type="button" class="linkish" data-privacy>What your friends and the server see</button></p><div class="mp-foot"><button class="px close" id="mpClose">Back</button></div>`);
@@ -7253,54 +7269,81 @@ function mpSetup(){
   Net.useNet();Net.pick().then(k=>{const el=v.querySelector('#mpVia');if(el&&k==='room'&&!MP.direct)el.textContent='Create a room and read its four-character code to the other player. They open this same book from your shared link, tap the fax, and join with the code.'});v.querySelector('#mpClose').onclick=()=>{v.remove();MP.overlay=null};v.querySelector('#mpCreate').onclick=()=>mpCreate(v);v.querySelector('#mpJoin').onclick=()=>mpJoin(v);v.querySelector('#mpCode').addEventListener('keydown',e=>{if(e.key==='Enter')mpJoin(v)});
 }
 
-/* ---- the fax machine: the multiplayer window as a machine on the desk. Each screen prints out of it as a sheet;
-   its keypad types room codes (letters by tapping a key again, as on an old telephone), Start and Stop press the window's buttons ---- */
+/* ---- the fax machine: multiplayer is a machine on the desk, everything on it. A screen for the name, the kind of match and the code,
+   three keys for the kinds of match, a keypad for the four-digit room code, Create and Join, a scanner and Paste and Print for a page code.
+   Paper comes up out of the slot on top. A tap beside the machine puts it away. ---- */
 const FAX_KEYS=[['1',''],['2','ABC'],['3','DEF'],['4','GHI'],['5','JKL'],['6','MNO'],['7','PQRS'],['8','TUV'],['9','WXYZ'],['*','⌫'],['0',''],['#','OK']];
 const DTMF={1:[697,1209],2:[697,1336],3:[697,1477],4:[770,1209],5:[770,1336],6:[770,1477],7:[852,1209],8:[852,1336],9:[852,1477],'*':[941,1209],0:[941,1336],'#':[941,1477]};
 function faxBeep(k){if(!S.sound)return;const f=DTMF[k];if(!f)return;ac();tone({f:f[0],d:.11,g:.022,a:.003,wet:.02});tone({f:f[1],d:.11,g:.018,a:.003,wet:.02})}
-function faxBody(){return`<div class="fax-feed" aria-hidden="true"><i></i></div><div class="fax-body"><div class="fax-left"><div class="fax-brand"><b>NINES</b><span>tele·fax</span></div>
-  <div class="fax-lcd" aria-live="polite"><span class="l1"></span><span class="l2"></span></div>
-  <div class="fax-fn"><button type="button" class="fk stop" data-fax="stop" aria-label="Stop">Stop</button><button type="button" class="fk start" data-fax="start" aria-label="Start">Start</button></div></div>
-  <div class="fax-pad" role="group" aria-label="Keypad">${FAX_KEYS.map(([k,l])=>`<button type="button" class="fkey" data-key="${k}" aria-label="${k}${l&&l!=='⌫'&&l!=='OK'?' '+l:''}"><b>${k}</b><small>${l}</small></button>`).join('')}</div></div><div class="fax-slot" aria-hidden="true"></div>`}
-function faxDialog(html,cls){const was=document.querySelector('.veil.fax-veil'),wasT=was?.querySelector('.fax-paper h2')?.textContent;
-  document.querySelectorAll('.veil').forEach(v=>v.remove());
-  const v=document.createElement('div');v.className='veil fax-veil';
-  v.innerHTML=`<div class="fax" role="dialog" aria-label="Multiplayer">${faxBody()}<div class="fax-out"><div class="fax-paper toc paper mp-card ${cls}">${html}</div></div></div>`;
-  document.body.appendChild(v);MP.overlay=v;v.addEventListener('click',e=>{if(e.target===v){v.remove();MP.overlay=null;stopScan()}});
-  const paper=v.querySelector('.fax-paper'),t=paper.querySelector('h2')?.textContent||'Multiplayer';
-  if(!was||wasT!==t){if(!reduced){paper.classList.add('printing');setTimeout(()=>paper.classList.remove('printing'),900)}if(S.sound){ac();for(let i=0;i<5;i++)noise({t:i*.13,d:.08,g:.03,f:2400,f2:1800,q:1.4})}}
-  faxWire(v);return v}
-function faxWire(v){const paper=v.querySelector('.fax-paper'),l1=v.querySelector('.l1'),l2=v.querySelector('.l2');let tap=null;
-  const code=()=>paper.querySelector('#mpCode'),err=()=>paper.querySelector('#mpError'),modes=()=>[...paper.querySelectorAll('.mp-mode')];
-  const lcd=()=>{const h=(paper.querySelector('h2')?.textContent||'Multiplayer').toUpperCase(),c=code(),rc=paper.querySelector('.roomcode')?.textContent,e=err()?.textContent?.trim(),sel=paper.querySelector('.mp-mode.selected b')?.textContent;
-    l1.textContent=h.slice(0,22);
-    l2.textContent=e?e.slice(0,40):c?('CODE '+(c.value+'____').slice(0,4).split('').join(' ')):rc?('ROOM '+rc.split('').join(' ')):sel?('MODE: '+sel.toUpperCase()):'READY'};
-  lcd();const mo=new MutationObserver(lcd);mo.observe(paper,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class']});
-  code()?.addEventListener('input',lcd);
-  const press=(sel)=>{for(const q of sel){const b=paper.querySelector(q);if(b&&!b.disabled&&!b.closest('[hidden]')){b.click();return true}}return false};
-  v.querySelector('.fax').addEventListener('click',e=>{const k=e.target.closest('[data-key]'),f=e.target.closest('[data-fax]');if(!k&&!f)return;e.stopPropagation();
-    if(f){sfx.tick();if(f.dataset.fax==='start'){const c=code();if(c&&MatchCore.isCode(MatchCore.normCode(c.value))&&press(['#mpJoin']))return;
-        if(!press(['#mpStart','#mpCreate','#mpHostDirect','#mpGo','#mpResume','#mpView','#replyUse','#hostUse','#pgUse']))sfx.tick()}
-      else if(!press(['#mpClose','#mpLater','#mpCancelInvite','#mpCancelJoin','#mpResume','#mpBack','#mpDone'])){stopScan();v.remove();MP.overlay=null}return}
-    const key=k.dataset.key;faxBeep(key);k.classList.remove('hit');void k.offsetWidth;k.classList.add('hit');
-    const c=code();
-    if(key==='#'){if(c&&MatchCore.isCode(MatchCore.normCode(c.value)))press(['#mpJoin']);else press(['#mpStart','#mpCreate','#mpGo','#mpResume']);return}
-    if(key==='*'){if(c&&c.value){c.value=c.value.slice(0,-1);tap=null;lcd()}else{const m=modes(),i=m.findIndex(x=>x.classList.contains('selected'));if(m.length)m[(i-1+m.length)%m.length].click()}return}
-    if(!c){const m=modes(),n=+key;if(m.length&&n>=1&&n<=m.length)m[n-1].click();return}   /* without a code to type: 1, 2, 3 choose the kind of match */
-    /* a room code: tap a key again within a second for its next letter */
-    const L=(FAX_KEYS.find(x=>x[0]===key)[1]+key).split('').filter(ch=>MatchCore.CODE_ALPHABET.includes(ch)),now=performance.now();if(!L.length)return;
-    if(tap&&tap.key===key&&now-tap.t<1000&&c.value.length){tap.i=(tap.i+1)%L.length;tap.t=now;c.value=c.value.slice(0,-1)+L[tap.i]}
-    else{if(c.value.length>=4)return;tap={key,i:0,t:now};c.value+=L[0]}
-    lcd()})}
-/* a fresh sheet for the book: the fax prints it out, then it flies into the book */
+function faxWhirr(n=5){if(!S.sound)return;ac();for(let i=0;i<n;i++)noise({t:i*.13,d:.08,g:.03,f:2400,f2:1800,q:1.4})}
+const faxName=()=>(S.owner||'').replace(/[<>"&]/g,'').trim().slice(0,18)||'Player';
+const FX_MODES=[['duel','Duel'],['bo3','Best of 3'],['party','Party']];
+/* the machine itself; keys = the big keys on the right ({id,label,cls}), pad = the keypad types a code */
+function faxShell({lcd,keys,setup}){
+  return`<div class="fx2" role="dialog" aria-label="Multiplayer"><div class="fx2-out" aria-hidden="true"></div><div class="fx2-slot" aria-hidden="true"><i></i></div>
+  <div class="fx2-body"><div class="fx2-head"><span class="fx2-brand"><b>NINES</b><em>tele·fax</em></span><span class="fx2-hr"><button type="button" class="fx2-priv" data-privacy>Privacy</button><i class="fx2-led${MP.room?' on':''}" aria-hidden="true"></i></span></div>
+  <div class="fx2-lcd" aria-live="polite">${lcd}</div>
+  ${setup?`<div class="fx2-modes" role="radiogroup" aria-label="Kind of match">${FX_MODES.map(([id,t])=>`<button type="button" class="fx2-mode${MP.choice===id?' on':''}" data-mode="${id}" role="radio" aria-checked="${MP.choice===id}"><i></i>${t}</button>`).join('')}</div>`:''}
+  <div class="fx2-main"><div class="fx2-pad" role="group" aria-label="Keypad">${FAX_KEYS.map(([k,l])=>`<button type="button" class="fkey" data-key="${k}" aria-label="${k}"${setup?'':' disabled'}><b>${k}</b><small>${l}</small></button>`).join('')}</div>
+   <div class="fx2-side"><div class="fx2-keys">${keys}</div>${setup?`<div class="fx2-scan"><button type="button" class="fx2-scanner" id="fxScan" aria-label="Scan a page code with the camera"><video id="pgVideo" playsinline muted hidden></video><span class="glass"></span><i class="laser"></i><small>Scan</small></button>
+     <div class="fx2-pp"><button type="button" class="fx2-k small" id="fxPaste">Paste</button><button type="button" class="fx2-k small print" id="fxPrint" disabled>Print</button></div></div>`:''}</div></div></div></div>`}
+function faxVeil(inner){const was=document.querySelector('.veil.fax-veil');document.querySelectorAll('.veil').forEach(v=>v.remove());
+  const v=document.createElement('div');v.className='veil fax-veil'+(was?'':' fresh');v.innerHTML=inner;document.body.appendChild(v);MP.overlay=v;
+  v.addEventListener('click',e=>{if(e.target===v){stopScan();v.remove();MP.overlay=null}});
+  v.addEventListener('pointerdown',e=>{const k=e.target.closest('.fkey,.fx2-k,.fx2-mode,.fx2-scanner');if(k&&!k.disabled){k.classList.remove('hit');void k.offsetWidth;k.classList.add('hit')}});
+  if(!was)faxWhirr(2);return v}
+/* the first screen: name (from the book), kind of match, code, create or join; a page code by scanner or paste */
+function faxSetup(){const name=faxName();if(!MP.minutes)MP.minutes=3;
+  const direct=!!MP.direct,wifiOK=(devOn&&!window.NINES_APP)||!!window.NINES_API;
+  const lcd=`<span class="ln"><b>NAME</b>${escH(name.toUpperCase())}</span><span class="ln"><b>MODE</b><span id="fxMode"></span></span><span class="ln"><b>CODE</b><span id="fxCode"></span></span><span class="ln st" id="mpError"></span>
+    <input type="hidden" id="mpName" value="${escH(name)}"><input type="hidden" id="mpCode" value=""><input type="hidden" id="mpTime" value="${MP.minutes}">`;
+  const keys=`<button type="button" class="fx2-k create" id="${direct?'mpHostDirect':'mpCreate'}">Create</button><button type="button" class="fx2-k join" id="${direct?'mpJoinDirect':'mpJoin'}">Join</button>`+
+    (wifiOK?`<button type="button" class="fx2-k small wifi${direct?' on':''}" id="mpWifi" aria-pressed="${direct}" title="Direct play: same Wi-Fi, no internet">Wi-Fi</button>`:'');
+  const v=faxVeil(faxShell({lcd,keys,setup:true}));
+  const code=v.querySelector('#mpCode'),err=v.querySelector('#mpError'),mode=v.querySelector('#fxMode'),codeEl=v.querySelector('#fxCode'),printB=v.querySelector('#fxPrint');let page=null;
+  const show=()=>{const m=FX_MODES.find(x=>x[0]===MP.choice)||FX_MODES[0];mode.textContent=m[1].toUpperCase()+(MP.choice==='party'?` · ${MP.minutes} MIN`:'');
+    codeEl.textContent=direct?'WI-FI DIRECT':(code.value+'____').slice(0,4).split('').join(' ');
+    if(!err.textContent)err.textContent=page?`PAGE: ${page.title.toUpperCase()}`:direct?'CREATE OR JOIN':code.value.length===4?'PRESS JOIN':'CREATE, OR TYPE A CODE'};
+  const say=t=>{err.textContent=t;show()};show();
+  new MutationObserver(()=>{if(!err.textContent)show()}).observe(err,{childList:true,characterData:true,subtree:true});
+  v.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{sfx.tick();if(MP.choice==='party'&&b.dataset.mode==='party'){MP.minutes=MP.minutes===3?5:MP.minutes===5?10:3;v.querySelector('#mpTime').value=MP.minutes}   /* Party again: the match length */
+    MP.choice=b.dataset.mode;v.querySelectorAll('[data-mode]').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-checked',x===b)});err.textContent='';show()}));
+  v.querySelector('.fx2-pad').addEventListener('click',e=>{const k=e.target.closest('[data-key]');if(!k)return;const key=k.dataset.key;faxBeep(key);err.textContent='';
+    if(key==='*')code.value=code.value.slice(0,-1);else if(key==='#'){if(code.value.length===4)v.querySelector('#mpJoin')?.click();else say('FOUR DIGITS, PLEASE')}
+    else if(/\d/.test(key)&&code.value.length<4&&!direct)code.value+=key;show()});
+  if(direct){v.querySelector('#mpHostDirect').onclick=()=>mpDirectHost(v);v.querySelector('#mpJoinDirect').onclick=()=>mpDirectJoin(v)}
+  else{Net.useNet();v.querySelector('#mpCreate').onclick=()=>{sfx.tick();mpCreate(v)};v.querySelector('#mpJoin').onclick=()=>{sfx.tick();if(code.value.length<4){say('TYPE THE 4-DIGIT CODE');return}mpJoin(v)}}
+  v.querySelector('#mpWifi')?.addEventListener('click',()=>{if(!Direct.supported()){say(window.claude?'NEEDS THE APP':'NOT IN THIS BROWSER');return}MP.direct=!MP.direct;sfx.toggle();faxSetup()});
+  /* a page code: scan it, or paste it, then print */
+  const take=c=>{try{const rec=readPageCode(String(c||'').trim());page={code:String(c).trim(),title:rec.title};printB.disabled=false;printB.classList.add('ready');err.textContent='';show();sfx.tick();return true}catch(e){say('NOT A PAGE CODE');return false}};
+  v.querySelector('#fxPaste').onclick=async()=>{sfx.tick();let t='';try{t=await navigator.clipboard.readText()}catch(e){}
+    if(!t){say('NOTHING TO PASTE');return}take(t)};
+  v.querySelector('#fxScan').onclick=()=>{const b=v.querySelector('#fxScan');if(b.classList.contains('live')){stopScan();b.classList.remove('live');show();return}sfx.tick();b.classList.add('live');say('POINT AT THE CODE');
+    scanQR(v.querySelector('#pgVideo'),c=>{b.classList.remove('live');if(take(c))faxBeep('#')},m=>{b.classList.remove('live');say(/not available/i.test(m)?'NO CAMERA HERE':'CAMERA WOULD NOT OPEN')},/^NP-PAGE\./)};
+  printB.onclick=()=>{if(!page)return;try{const rec=readPageCode(page.code),id=addPage(rec,'received');stopScan();v.remove();MP.overlay=null;faxPrint(rec.grid,rec.title);sfx.stamp();
+      setTimeout(()=>{toast(`“${rec.title}” from ${rec.by} is on the Pages shelf.`);switchBlock(id)},reduced?0:1900)}catch(e){say('NOT A PAGE CODE')}};
+  return v}
+/* every other multiplayer screen, on the same machine: what it says goes on the display, its buttons become the big keys */
+function faxScreen(html){const t=document.createElement('div');t.innerHTML=html;
+  const h=t.querySelector('h2')?.textContent||'Multiplayer',room=t.querySelector('.roomcode')?.textContent||'',pl=[...t.querySelectorAll('.lobby-player')],st=[...t.querySelectorAll('.mp-status:not(.mp-error)')].map(x=>x.textContent.trim()).filter(Boolean);
+  const lcd=`<span class="ln hd">${escH(h.toUpperCase())}</span>${room?`<span class="ln"><b>ROOM</b><span class="roomcode">${escH(room)}</span></span>`:''}`+
+    (pl.length?`<span class="lobby-players">${pl.map(p=>`<span class="ln lobby-player"><span>${escH(p.querySelector('span')?.textContent||'')}</span><b>${escH(p.querySelector('b')?.textContent||'')}</b></span>`).join('')}</span>`:'')+
+    st.map(s=>`<span class="ln st mp-status">${escH(s)}</span>`).join('')+`<span class="ln st mp-error" id="mpError"></span>`;
+  const v=faxVeil(faxShell({lcd,keys:'',setup:false})),k=v.querySelector('.fx2-keys');
+  t.querySelectorAll('.mp-actions button,.mp-actions a').forEach(b=>{b.className='fx2-k'+(/Start|Go|Resume|View|Again/i.test(b.id)?' create':/Leave|Quit/i.test(b.id)?' stop':'');k.appendChild(b)});   /* the window's own buttons, with their ids: the code that runs them does not change */
+  return v}
+function faxDialog(html,cls){return /class="(qr|scan)-wrap|<textarea|<video/.test(html)?faxPaper(html,cls):faxScreen(html)}
+/* screens with a QR code or a paste box (direct play's handshake) still come out on paper: it rises out of the slot on top */
+function faxPaper(html,cls){const v=faxVeil(faxShell({lcd:'<span class="ln hd">DIRECT PLAY</span><span class="ln st">SEE THE SHEET</span>',keys:'',setup:false}));
+  const out=v.querySelector('.fx2-out');out.innerHTML=`<div class="fx2-paper toc paper mp-card ${cls}">${html}</div>`;v.classList.add('with-paper');faxWhirr(5);return v}
+/* a fresh sheet for the book: up out of the fax, then into the book */
 function faxPrint(grid,label){if(!faxUi())return;const f=document.createElement('div');f.className='fax-incoming';
-  f.innerHTML=`<div class="fax">${faxBody()}<div class="fax-out"><div class="fax-sheet paper"><p>${escH(label||'Incoming page')}</p><span class="fx-grid">${[...grid].map((c,i)=>`<i class="${(i%9)%3===2&&i%9<8?'r ':''}${((i/9|0)%3===2&&i<72)?'b':''}">${c==="."?"":c}</i>`).join('')}</span></div></div></div>`;
-  document.body.appendChild(f);const l=f.querySelector('.l1'),l2=f.querySelector('.l2');l.textContent='RECEIVING';l2.textContent='PRINTING PAGE…';
-  if(S.sound){ac();for(let i=0;i<9;i++)noise({t:i*.14,d:.09,g:.035,f:2200,f2:1700,q:1.3})}
-  const sh=f.querySelector('.fax-sheet'),bd=$('#board')?.getBoundingClientRect();
+  f.innerHTML=faxShell({lcd:'<span class="ln hd">RECEIVING</span><span class="ln st">PRINTING PAGE…</span>',keys:'',setup:false});
+  const out=f.querySelector('.fx2-out');out.innerHTML=`<div class="fax-sheet paper"><p>${escH(label||'Incoming page')}</p><span class="fx-grid">${[...grid].map((c,i)=>`<i class="${(i%9)%3===2&&i%9<8?'r ':''}${((i/9|0)%3===2&&i<72)?'b':''}">${c==='.'?'':c}</i>`).join('')}</span></div>`;
+  document.body.appendChild(f);faxWhirr(9);const sh=out.firstElementChild,bd=$('#board')?.getBoundingClientRect();
   if(reduced){setTimeout(()=>f.remove(),400);return}
-  sh.animate([{transform:'translateY(-100%)'},{transform:'translateY(0)'}],{duration:1300,easing:'steps(12,end)',fill:'both'});
-  setTimeout(()=>{l2.textContent='DONE';const r=sh.getBoundingClientRect();const dx=bd?bd.left+bd.width/2-(r.left+r.width/2):0,dy=bd?bd.top+bd.height/2-(r.top+r.height/2):0,k=bd?Math.min(1.6,bd.width/r.width):1;
+  sh.animate([{transform:'translateY(100%)'},{transform:'translateY(0)'}],{duration:1300,easing:'steps(12,end)',fill:'both'});   /* up out of the slot */
+  setTimeout(()=>{const st=f.querySelector('.fx2-lcd .st');if(st)st.textContent='DONE';const r=sh.getBoundingClientRect();const dx=bd?bd.left+bd.width/2-(r.left+r.width/2):0,dy=bd?bd.top+bd.height/2-(r.top+r.height/2):0,k=bd?Math.min(1.6,bd.width/r.width):1;
     const c=sh.cloneNode(true);c.classList.add('fax-fly');Object.assign(c.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});document.body.appendChild(c);sh.style.visibility='hidden';
     f.animate([{opacity:1},{opacity:0}],{duration:420,delay:200,fill:'forwards'});
     c.animate([{transform:'none',opacity:1},{transform:`translate(${dx*.5}px,${dy*.5-40}px) rotate(-6deg) scale(${(1+k)/2})`,opacity:1,offset:.5},{transform:`translate(${dx}px,${dy}px) rotate(0) scale(${k})`,opacity:0}],{duration:820,easing:'cubic-bezier(.4,0,.3,1)',fill:'forwards'}).finished.then(()=>c.remove(),()=>c.remove());
