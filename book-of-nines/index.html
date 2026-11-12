@@ -4468,7 +4468,7 @@ function flipTo(p){
 /* ================= opening the book: the cover swings from right to left ================= */
 let opened=false;
 let bookGen=0;
-function openBook(){
+function openBook(){setTimeout(mediaPlace,1900);
   if(opened)return;opened=true;const gen=++bookGen;if(stickering)renderStickers();
   if(S.sound){ac();sfx.creak()}
   const dur=reduced?10:1100;
@@ -4483,7 +4483,7 @@ function openBook(){
   },dur);
 }
 coverEl.addEventListener('click',openBook);
-function closeBook(){
+function closeBook(){setTimeout(mediaPlace,1900);
   if(!opened||flipping)return;dropFront();if(immersed)setImmersed(false);if(playMode==='daily'){stash();loadPage((S.page??1),true)}else if(playMode==='multi'){leaveMatch();loadPage((S.page??1),true)}opened=false;closePops();const gen=++bookGen;if(stickering)renderStickers();
   if(S.sound){ac();sfx.creak()}
   const dur=reduced?10:1000;
@@ -6696,7 +6696,7 @@ const mediaWide=()=>innerWidth>innerHeight;
    tall screens: under the book; with room enough below, the bar grows and a little record turns around the play button. */
 function mediaPlace(){const b=$('#mediaBar'),big=$('#vinylBig'),bigBox=big?.querySelector('button');if(!b||b.hidden){if(big)big.hidden=true;return}
   const se=document.scrollingElement;if(se&&se.scrollLeft)se.scrollLeft=0;   /* nothing here may ever push the screen sideways */
-  const bd=$('#board').getBoundingClientRect(),sideL=bd.left,sideR=innerWidth-bd.right,below=innerHeight-bd.bottom;
+  const bd=$('#board').getBoundingClientRect(),cv=$('#cover')?.getBoundingClientRect(),sideL=bd.left,sideR=innerWidth-bd.right,below=innerHeight-Math.max(bd.bottom,cv&&cv.height?cv.bottom:0);   /* the shut cover stands a little proud of the book */
   const wide=mediaWide()&&!immersed&&Math.min(sideL,sideR)>=96;b.classList.toggle('split',wide);
   const L=b.querySelector('.mb-l'),R=b.querySelector('.mb-r'),pos=S.vinPos==='side'||S.vinPos==='in'?S.vinPos:'center';let bigOn=false;
   document.body.classList.toggle('vin3d',S.vin3d===1);
@@ -6711,8 +6711,8 @@ function mediaPlace(){const b=$('#mediaBar'),big=$('#vinylBig'),bigBox=big?.quer
     b.style.bottom='';b.classList.remove('tall-vin')}
   else{L.style.left=L.style.top=R.style.left=R.style.top='';b.classList.remove('vin-big','vin-side');
     const roomy=below>=100;b.classList.toggle('tall-vin',!immersed&&roomy);b.classList.toggle('tall-vin-left',!immersed&&!roomy);   /* room below the book: the record sits in the bar around play; little room: beside the bar, on its left */
-    /* under the book: in the middle of the room left below it, never closer than 14 px to the edge */
-    const h=b.offsetHeight||40,ins=parseFloat(getComputedStyle(root).getPropertyValue('--sa-b'))||0;b.style.bottom=Math.round(Math.max(14+ins,(below-h)/2))+'px'}
+    /* under the book: in the middle of the room left below it */
+    const h=b.offsetHeight||40,ins=parseFloat(getComputedStyle(root).getPropertyValue('--sa-b'))||0;b.style.bottom=Math.round(ins+Math.max(2,(below-ins-h)/2))+'px'}   /* exactly halfway between the book and the bottom edge */
   if(big){big.hidden=!bigOn;big.classList.toggle('playing',b.classList.contains('playing'))}
   vinylRun()}
 /* the records turn while the music plays (about 33 turns a minute) and stand still when it stops; a finger can turn them, like a DJ */
