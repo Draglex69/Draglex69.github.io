@@ -1830,6 +1830,12 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
 .fx2-wifi{width:34px;height:34px;padding:7px;border:0;border-radius:50%;cursor:pointer;color:#efe6cf;background:radial-gradient(circle at 35% 30%,#6a645c,#2f2b27);box-shadow:0 3px 0 #1c1a17,inset 0 1px 0 rgba(255,255,255,.2)}
 .fx2-wifi svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}.fx2-wifi.on{color:#fff;background:radial-gradient(circle at 35% 30%,#5a9ad0,#245a86);box-shadow:0 3px 0 #173d5c,0 0 10px rgba(90,154,208,.6)}
 .fx2-wifi:active,.fx2-wifi.hit{transform:translateY(2px);box-shadow:0 1px 0 #1c1a17}
+
+/* today's selection: something bought from it today stays on show, marked sold */
+.shop .badge.sold{background:#5a2a2a;color:#f6e2a8;transform:rotate(-8deg);letter-spacing:.12em;text-transform:uppercase;font-size:11px}.shop .item.sold .stage{opacity:.55;filter:grayscale(.5)}
+.shop .item .stage{rotate:calc(var(--sw,0) * var(--k,1) * 1deg);translate:0 calc(var(--sy,0) * var(--k,1) * 1px)}
+.shop .item:nth-child(3n+1) .stage{--k:.8}.shop .item:nth-child(3n+2) .stage{--k:1.2}.shop .item:nth-child(4n) .stage{--k:1.05}
+.tog.dim{opacity:.45}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -1958,7 +1964,7 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
    <div class="sgrp"><b>Ink</b><div class="row" id="pals"></div><span class="nm" id="nm-pal"></span>
      <div class="mag-choice daynight" id="dayNight"><button type="button" data-dark="0"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Day</button><button type="button" data-dark="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>Night</button></div></div>
    <div class="sgrp"><b>Book shape</b><div class="mag-choice" id="shapeChoice"><button type="button" data-shape="auto">Fit the screen</button><button type="button" data-shape="phone">Tall</button><button type="button" data-shape="tablet">Wide</button></div></div>
-   <div class="sgrp"><b>Multiplayer</b><div class="mag-choice" id="mpUiChoice"><button type="button" data-mpui="fax">Fax machine</button><button type="button" data-mpui="window">Window (archived)</button></div></div>
+   <div class="sgrp"><b>Multiplayer</b><div class="mag-choice" id="mpUiChoice"><button type="button" data-mpui="window">Window</button><button type="button" data-mpui="fax">Fax machine (prototype)</button></div></div>
    <div class="sgrp"><b>Best of three</b><div class="mag-choice" id="bo3Choice"><button type="button" data-bo3="bomb">Bomb</button><button type="button" data-bo3="sword">Sword &amp; hearts</button></div></div>
    <div class="sgrp"><b>Marks</b><div class="row" id="glyphs"></div><span class="nm" id="nm-marks"></span></div>
    <div class="sgrp"><b>Scene</b><div class="row wrap" id="scenes"></div><span class="nm" id="nm-scene"></span></div>
@@ -1976,6 +1982,7 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
      <label class="tog"><input type="checkbox" id="optSndBtn"><span class="sl"></span>Sound button</label>
      <div class="tog mbset"><span>Music controls panel</span><input type="range" id="optMbAlpha" min="0" max="100" step="5" aria-label="How solid the panel behind the music controls is"><b id="mbAlphaVal"></b></div>
      <div class="tog vinpos"><span>Pictures on solved pages</span><span class="mag-choice" id="pxStyleChoice"><button type="button" data-pxs="plain">Pixels</button><button type="button" data-pxs="chalk">Chalk</button><button type="button" data-pxs="pastel">Pastel</button></span></div>
+     <div class="tog vinpos"><span>Vinyl record</span><span class="mag-choice" id="vinOnChoice"><button type="button" data-vinon="0">Off</button><button type="button" data-vinon="1">On</button></span></div>
      <div class="tog vinpos"><span>Record behind the book</span><span class="mag-choice" id="vinPosChoice"><button type="button" data-vinpos="center">Centred</button><button type="button" data-vinpos="side">Beside it</button><button type="button" data-vinpos="in">Half inside</button></span></div>
      <div class="tog vinpos"><span>Records</span><span class="mag-choice" id="vin3dChoice"><button type="button" data-vin3d="0">Flat</button><button type="button" data-vin3d="1">3D</button></span></div>
      <label class="tog"><input type="checkbox" id="optMbPreview"><span class="sl"></span>Preview the music controls (as if music were playing)</label>
@@ -4957,7 +4964,7 @@ function openCommode(back){
   let fly=null;
   const flyGeo=()=>{const vh=v.clientHeight,vw=v.clientWidth;
     if(vw>vh*1.25&&vw>=600){const sw=Math.min(540,Math.round(vw*.56)),room=vw-sw-24,H=Math.round(Math.max(100,Math.min(280,vh*.62,room*.62/.7))),W=Math.round(H*.7);return{wide:1,H,W,cx:Math.round(room/2+4),top:Math.round((vh-H)/2),sw,scx:Math.round(vw-12-sw/2)}}   /* wide: the book on the left, its window beside it */
-    const H=Math.round(Math.max(96,Math.min(210,vh*.3,vw*.5))),W=Math.round(H*.7);return{H,W,cx:Math.round(vw/2),top:Math.max(14,Math.round(vh*.06))}};
+    const H=Math.round(Math.max(96,Math.min(210,vh*.3,vw*.5))),W=Math.round(H*.7),sh=sub.hidden?0:Math.min(sub.offsetHeight,vh-H-46);return{H,W,cx:Math.round(vw/2),top:Math.max(12,Math.round((vh-H-22-sh)/2))}};   /* the book and its window, together in the middle */
   const flyOut=bk=>{landBook(true);const st=bk.style,g=flyGeo(),r=bk.getBoundingClientRect(),vr=v.getBoundingClientRect(),D=Math.max(10,Math.round(g.W*.2));
     const bg=document.createElement('div');bg.className='cm-float-bg';const fl=document.createElement('div');fl.className='cm-float';
     fl.style.cssText=`left:${g.cx-Math.round(g.W/2)}px;top:${g.top}px;width:${g.W}px;height:${g.H}px`;
@@ -4968,7 +4975,7 @@ function openCommode(back){
     const sc=r.height/g.H,dx=r.left+r.width/2-(vr.left+g.cx),dy=r.top+r.height/2-(vr.top+g.top+g.H/2);
     fly={bk,bg,fl,g,from:`translate(${dx}px,${dy}px) scale(${sc}) rotateY(88deg)`};
     if(!reduced)fl.firstElementChild.animate([{transform:fly.from},{transform:'translate(0,-14px) scale(1.04) rotateY(-30deg) rotateX(6deg)',offset:.7},{transform:'translate(0,0) scale(1) rotateY(-18deg) rotateX(4deg)'}],{duration:520,easing:'cubic-bezier(.25,.8,.3,1)'});
-    bg.animate?.([{opacity:0},{opacity:1}],{duration:reduced?0:260})};
+    bg.animate?.([{opacity:0},{opacity:1}],{duration:reduced?0:260});side();place()};
   /* back onto the shelf */
   function landBook(now){if(!fly)return;const f=fly;fly=null;sub.style.width='';sub.style.left='';v.classList.remove('cm-floating');sub.classList.remove('floating');
     const done=()=>{f.fl.remove();f.bg.remove();f.bk.classList.remove('pulled')};
@@ -5076,7 +5083,7 @@ function openCommode(back){
     const bk=t.closest('[data-block]');if(bk){sfx.tick();
       if(bk.classList.contains('cm-book')){if(bk.classList.contains('pulled')){goBack();return}unpull();bk.classList.add('pulled');const bid=bk.dataset.block,from=open;
         if(from){const dr=cm.querySelector('.cm-dr.open');if(dr){dr.classList.remove('open');sfx.drawer(false)}open=null}   /* the book takes the room's middle: the drawer slides shut */
-        flyOut(bk);showBook(bid,null)}
+        showBook(bid,null);flyOut(bk)}
       else showBook(bk.dataset.block,open);return}
     if(t.closest('#libBind')&&detail?.bid){const b=detail.bid;leave();sfx.flip();switchBlock(b);return}
     if(t.closest('#libShare')&&detail?.bid){if(S.pages?.[detail.bid]){leave(true);sharePage(S.pages[detail.bid])}return}
@@ -5239,9 +5246,13 @@ const OPEN_SCENES=['cloth','heraldry','confetti'];   /* the scenes players can c
 /* a scene's small picture: the bookstore ones show a piece of the scene, the others their icon on a tile */
 const sceneArt=id=>id==='heraldry'?`<span class="scene-swatch" style="background-image:url(${HERALDRY_TILE})"></span>`:DRAFTS.scenes?.[id]||id==='cloth'?`<span class="scene-swatch" style="background-image:url(${sceneSwatch(id)});background-size:cover;image-rendering:auto"></span>`:`<span class="scene-tile">${SCN.find(g=>g.id===id)?.icon||''}</span>`;   /* scenes that are bought in the bookstore; the rest come with the book */
 const sceneOwned=id=>!SCENE_SHOP.includes(id)||!!S.scenes?.[id];
-function shopSelection(L,D){return shopSelectionAll(L,D).sort((a,b)=>(a.tab==='books'?0:D[a.key]?1:2)-(b.tab==='books'?0:D[b.key]?1:2)).slice(0,4)}   /* four: a Sudoku book first, then what is on sale */
+/* today's selection is chosen once a day from what the player has not got; something bought from it stays on show, marked sold, until tomorrow */
+function shopSelection(L,D){const today=dayNo(),sel=S.selDay;
+  if(sel&&sel.d===today&&Array.isArray(sel.k)){const m=new Map(L.map(it=>[it.key,it])),kept=sel.k.map(k=>m.get(k)).filter(Boolean);if(kept.length)return kept}
+  const pick=shopSelectionFresh(L,D);S.selDay={d:today,k:pick.map(it=>it.key)};return pick}
+function shopSelectionFresh(L,D){return shopSelectionAll(L,D).sort((a,b)=>(a.tab==='books'?0:D[a.key]?1:2)-(b.tab==='books'?0:D[b.key]?1:2)).slice(0,4)}   /* four: a Sudoku book first, then what is on sale */
 function shopSelectionAll(L,D){const out=[];SEL_ORDER.forEach((t,ti)=>{const all=L.filter(it=>it.tab===t);if(!all.length)return;const can=all.filter(canHave),sale=can.filter(it=>D[it.key]);
-  if(sale.length){out.push(...sale);return}const pool=can.length?can:all,R=mulberry(dayNo()*31+ti*977);out.push(pool[Math.floor(R()*pool.length)])});return out}
+  if(sale.length){out.push(...sale);return}if(!can.length)return;const R=mulberry(dayNo()*31+ti*977);out.push(can[Math.floor(R()*can.length)])});return out}   /* nothing already owned (a shelf that is all owned sits out) */
 const priceOf=(it,D=shopDeals())=>{const d=D[it.key];return d?Math.max(1,Math.round(it.price*(1-d.off))):it.price};
 const basket=()=>S.basket||(S.basket=[]);
 const canHave=it=>!!it&&!it.hid&&(it.many||!it.own);
@@ -5269,6 +5280,14 @@ function openShop(tab,door){
   document.body.appendChild(v);
   const body=v.querySelector('.shop-body'),row=v.querySelector('.tabs-row'),shopEl=v.querySelector('.toc.shop');
   /* a tapped item tells about itself in a small window beside it, with Buy and the basket (or, once it is yours, what it does) */
+  /* the things on the shelves feel the shop move: a little rumble as the door opens, and they swing and bob with the speed of a scroll or a swipe */
+  {let sy=body.scrollTop,sx=null,a=0,av=0,y=0,yv=0,last=performance.now();
+    const step=t=>{if(!v.isConnected)return;const dt=Math.min(50,t-last)/16.7;last=t;const f=body.firstElementChild,x=f?f.getBoundingClientRect().left:0;
+      let vy=body.scrollTop-sy,vx=sx==null?0:x-sx;sy=body.scrollTop;sx=x;if(Math.abs(vx)>160)vx=0;if(Math.abs(vy)>220)vy=0;   /* a tab changing is a jump, not a swing */
+      if(!reduced){av+=(-vx*.09+vy*.03-a*.16)*dt;av*=Math.pow(.8,dt);a+=av*dt;yv+=(vy*.06-y*.18)*dt;yv*=Math.pow(.78,dt);y+=yv*dt}   /* springs: the faster the move, the bigger the swing; they settle on their own */
+      a=Math.max(-14,Math.min(14,a));y=Math.max(-10,Math.min(10,y));shopEl.style.setProperty('--sw',a.toFixed(2));shopEl.style.setProperty('--sy',y.toFixed(2));requestAnimationFrame(step)};
+    requestAnimationFrame(step);
+    if(!reduced)setTimeout(()=>{body.querySelectorAll('.item .stage').forEach((st,i)=>st.animate([{rotate:'0deg',translate:'0 0'},{rotate:'-5deg',translate:'0 -4px'},{rotate:'4deg',translate:'0 1px'},{rotate:'-2.5deg',translate:'0 -2px'},{rotate:'1.2deg',translate:'0 0'},{rotate:'0deg',translate:'0 0'}],{duration:620,delay:Math.min(10,i)*35,easing:'ease-out'}));try{navigator.vibrate?.([12,40,10])}catch(e){}},door?950:180)}   /* the rumble, as the bell rings */
   const dEl=document.createElement('div');dEl.className='shop-desc';dEl.setAttribute('role','dialog');dEl.hidden=true;shopEl.querySelector('h2').after(dEl);
   let desc=null,dIdx=0;
   const descHTML=it=>{const D=shopDeals(),d=D[it.key],p=priceOf(it,D),own=!it.many&&it.own,short=Math.max(0,p-S.coins),inB=basket().some(l=>l.k===it.key);
@@ -5292,9 +5311,10 @@ function openShop(tab,door){
     if(e.key==='Escape'&&rcEnd&&v.querySelector('.rc-wrap')){e.preventDefault();e.stopPropagation();rcEnd();return}
     if(e.key==='Escape'&&desc){e.preventDefault();e.stopPropagation();closeDesc()}},true);
   const card=(it,D,extra='')=>{const d=D[it.key],p=priceOf(it,D),own=!it.many&&it.own,short=Math.max(0,p-S.coins),inB=basket().find(l=>l.k===it.key);
-    const badge=d?`<i class="badge sale">−${Math.round(d.off*100)}%</i>`:shopIsNew(it.key)?'<i class="badge new">New!</i>':'';
+    const sold=extra==='sel'&&!it.many&&it.own;   /* bought today from today's selection */
+    const badge=sold?'<i class="badge sold">Sold</i>':d?`<i class="badge sale">−${Math.round(d.off*100)}%</i>`:shopIsNew(it.key)?'<i class="badge new">New!</i>':'';
     const lab=own?`${it.name}: yours. Hold for more`:inB&&!it.many?`${it.name}: in the basket. Hold for more`:`${it.name}, ${p} coins: tap to put it in the basket, hold for more`;
-    return`<div class="item${own?' owned':''}${d&&!own?' sale':''}${short&&!own?' unaffordable':''}${inB?' inb':''}${it.k3?' k3-'+it.k3:''}" data-key="${it.key}" ${own?'':it.legacy} role="button" tabindex="0" aria-label="${lab}">${badge}`+
+    return`<div class="item${own?' owned':''}${sold?' sold':''}${d&&!own?' sale':''}${short&&!own?' unaffordable':''}${inB?' inb':''}${it.k3?' k3-'+it.k3:''}" data-key="${it.key}" ${own?'':it.legacy} role="button" tabindex="0" aria-label="${lab}">${badge}`+
       (inB?`<i class="inb-mark" aria-hidden="true">${spr('basket')}${it.many&&inB.n>1?`<b>${inB.n}</b>`:''}</i>`:'')+
       `<div class="stage">${obj3(it)}</div>${it.k3==='book'?'':`<span class="nm2">${it.name}</span>`}`+
       (own?it.use():`<span class="price">${d?`<s>${it.price}</s>`:''}<i class="coin"></i><b>${p}</b></span>${d?`<span class="ends">${d.left?d.left===1?'until tomorrow':`${d.left+1} days left`:'ends tonight'}</span>`:''}`)+
@@ -5314,7 +5334,7 @@ function openShop(tab,door){
       /* a peek at every shelf: what is on sale there first, then what the player has not got, four at most; the sign goes to the whole shelf */
       const peek=t=>{const all=by(t),R=mulberry(dayNo()*53+t.length*101),mix=all.map(it=>[(D[it.key]?0:canHave(it)?1:2)+R()*.9,it]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);return mix.filter(it=>!shown.has(it.key)).slice(0,4)};
       return`<p class="offer-note"><b>${m}</b> · ${SEASON_NOTE[new Date().getMonth()]} · the Year of the ${ya[0].toUpperCase()+ya.slice(1)}</p>`+
-        sec('Today’s selection','',shelf(pick,D))+sec('Commercials','',adShelf())+
+        sec('Today’s selection','',shelf(pick,D,'sel'))+sec('Commercials','',adShelf())+
         (fresh.length?secTo('New arrivals','just in','new',shelf(fresh4,D)):'')+
         tabs().filter(([id])=>id!=='offer'&&id!=='new').map(([id,label])=>{const list=peek(id);return list.length?secTo(label,'','',shelf(list,D),id):''}).join('')}
     if(cur==='new'){const fresh=L.filter(it=>shopIsNew(it.key));
@@ -5852,7 +5872,7 @@ function normaliseSave(d){
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
   n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(isVol(n.block)&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
-  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.mpUi==='window')n.mpUi='window';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
+  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
   n.flora={fl:{},vz:{},cur:null,arr:{},seed:{}};{const f=obj(d.flora),fid=Flora.FLOWERS.map(x=>x.id),vid=Flora.VASES.map(x=>x.id);
     for(const [id,c] of Object.entries(obj(f.fl)))if(fid.includes(id)&&Number.isInteger(+c)&&+c>0)n.flora.fl[id]=Math.min(999,+c);
     for(const id of Object.keys(obj(f.vz)))if(vid.includes(id))n.flora.vz[id]=1;
@@ -6196,8 +6216,8 @@ $('#magChoice').addEventListener('click',e=>{const b=e.target.closest('[data-mag
 $('#dayNight').addEventListener('click',e=>{const b=e.target.closest('[data-dark]');if(!b)return;S.dark=b.dataset.dark==='1';applyDark();render();sfx.toggle();save()});
 function applyShape(){document.querySelectorAll('#shapeChoice button').forEach(b=>b.classList.toggle('selected',b.dataset.shape===(S.shape||'auto')));fit()}
 $('#shapeChoice').addEventListener('click',e=>{const b=e.target.closest('[data-shape]');if(!b)return;S.shape=b.dataset.shape;applyShape();sfx.toggle();save()});
-function applyMpUi(){document.querySelectorAll('#mpUiChoice button').forEach(b=>b.classList.toggle('selected',b.dataset.mpui===(S.mpUi==='window'?'window':'fax')))}
-$('#mpUiChoice').addEventListener('click',e=>{const b=e.target.closest('[data-mpui]');if(!b)return;S.mpUi=b.dataset.mpui==='window'?'window':undefined;applyMpUi();sfx.toggle();save()});
+function applyMpUi(){document.querySelectorAll('#mpUiChoice button').forEach(b=>b.classList.toggle('selected',b.dataset.mpui===(S.mpUi==='fax'?'fax':'window')))}
+$('#mpUiChoice').addEventListener('click',e=>{const b=e.target.closest('[data-mpui]');if(!b)return;S.mpUi=b.dataset.mpui==='fax'?'fax':undefined;applyMpUi();sfx.toggle();save()});
 function applyBo3(){applyMpUi();document.querySelectorAll('#bo3Choice button').forEach(b=>b.classList.toggle('selected',b.dataset.bo3===(S.bo3hud||'bomb')));if(MP.room)renderMatchHUD()}
 $('#bo3Choice').addEventListener('click',e=>{const b=e.target.closest('[data-bo3]');if(!b)return;S.bo3hud=b.dataset.bo3;applyBo3();sfx.toggle();save()});
 function closePops(){document.querySelectorAll('.popv').forEach(p=>p.hidden=true);document.querySelectorAll('[data-pop]').forEach(b=>b.setAttribute('aria-expanded','false'))}
@@ -7102,19 +7122,19 @@ function mediaPlace(){const b=$('#mediaBar'),big=$('#vinylBig'),bigBox=big?.quer
   const se=document.scrollingElement;if(se&&se.scrollLeft)se.scrollLeft=0;   /* nothing here may ever push the screen sideways */
   const bd=$('#board').getBoundingClientRect(),cv=$('#cover')?.getBoundingClientRect(),sideL=bd.left,sideR=innerWidth-bd.right,below=innerHeight-Math.max(bd.bottom,cv&&cv.height?cv.bottom:0);   /* the shut cover stands a little proud of the book */
   const wide=mediaWide()&&!immersed&&Math.min(sideL,sideR)>=96;b.classList.toggle('split',wide);
-  const L=b.querySelector('.mb-l'),R=b.querySelector('.mb-r'),pos=S.vinPos==='side'||S.vinPos==='in'?S.vinPos:'center';let bigOn=false;
+  const L=b.querySelector('.mb-l'),R=b.querySelector('.mb-r'),pos=S.vinPos==='side'||S.vinPos==='in'?S.vinPos:'center',vin=S.vinOn===1;let bigOn=false;   /* the record is a Design option, off unless chosen */
   document.body.classList.toggle('vin3d',S.vin3d===1);
   if(wide){const y=Math.round(bd.top+bd.height/2),band=74;
     /* the controls stand in the middle of the room on either side of the book (the bookmarks are left out of the count: they sit higher up) */
     L.style.left=Math.round(sideL/2)+'px';L.style.top=y+'px';R.style.left=Math.round(bd.right+sideR/2)+'px';R.style.top=y+'px';
     let D,cx;
-    if(pos==='center'){D=Math.round(bd.height*.9);cx=Math.round(bd.left+bd.width/2);bigOn=D>bd.width*1.05}   /* centred behind the book, a little smaller than its height, out on both sides */
-    else{const tuck=pos==='in'?.55:.12;D=Math.round(Math.min(bd.height*.86,innerHeight-2*band,bd.width*.95,380,(sideR-10)/(1-tuck)));cx=Math.round(bd.right-D*tuck+D/2);bigOn=D>=(pos==='in'?170:150)}
-    b.classList.toggle('vin-big',bigOn);b.classList.toggle('vin-side',!bigOn);
+    if(!vin){}else if(pos==='center'){D=Math.round(bd.height*.9);cx=Math.round(bd.left+bd.width/2);bigOn=D>bd.width*1.05}   /* centred behind the book, a little smaller than its height, out on both sides */
+    else if(vin){const tuck=pos==='in'?.55:.12;D=Math.round(Math.min(bd.height*.86,innerHeight-2*band,bd.width*.95,380,(sideR-10)/(1-tuck)));cx=Math.round(bd.right-D*tuck+D/2);bigOn=D>=(pos==='in'?170:150)}
+    b.classList.toggle('vin-big',bigOn);b.classList.toggle('vin-side',vin&&!bigOn);
     if(bigOn)bigBox.style.cssText=`left:${cx-D/2}px;top:${y-D/2}px;width:${D}px;height:${D}px`;
     b.style.bottom='';b.classList.remove('tall-vin')}
   else{L.style.left=L.style.top=R.style.left=R.style.top='';b.classList.remove('vin-big','vin-side');
-    const roomy=below>=100;b.classList.toggle('tall-vin',!immersed&&roomy);b.classList.toggle('tall-vin-left',!immersed&&!roomy);   /* room below the book: the record sits in the bar around play; little room: beside the bar, on its left */
+    const roomy=below>=100;b.classList.toggle('tall-vin',vin&&!immersed&&roomy);b.classList.toggle('tall-vin-left',vin&&!immersed&&!roomy);   /* room below the book: the record sits in the bar around play; little room: beside the bar, on its left */
     /* under the book: in the middle of the room left below it */
     const h=b.offsetHeight||40,ins=parseFloat(getComputedStyle(root).getPropertyValue('--sa-b'))||0;b.style.bottom=Math.round(ins+Math.max(2,(below-ins-h)/2))+'px'}   /* exactly halfway between the book and the bottom edge */
   if(big){big.hidden=!bigOn;big.classList.toggle('playing',b.classList.contains('playing'))}
@@ -7143,8 +7163,9 @@ const mediaClick=e=>{const btn=e.target.closest('[data-media]'),k=btn?.dataset.m
 $('#mediaBar')?.addEventListener('click',mediaClick);$('#vinylBig')?.addEventListener('click',mediaClick);
 $('#pxStyleChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-pxs]');if(!b)return;S.pxStyle=b.dataset.pxs;applyMediaPanel();if(G.done&&!G.failed&&gridEl.querySelector('.cell.pxl'))showArt(false);save();sfx.tick?.()});
 $('#vin3dChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-vin3d]');if(!b)return;S.vin3d=+b.dataset.vin3d;applyMediaPanel();mediaPlace();save();sfx.tick?.()});
+$('#vinOnChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-vinon]');if(!b)return;if(b.dataset.vinon==='1')S.vinOn=1;else delete S.vinOn;applyMediaPanel();mediaPlace();save();sfx.tick?.()});
 $('#vinPosChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-vinpos]');if(!b)return;S.vinPos=b.dataset.vinpos;applyMediaPanel();mediaPlace();save();sfx.tick?.()});
-function applyMediaPanel(){document.querySelectorAll('#pxStyleChoice [data-pxs]').forEach(x=>x.classList.toggle('selected',x.dataset.pxs===pxStyle()));const vp=S.vinPos==='side'||S.vinPos==='in'?S.vinPos:'center';document.querySelectorAll('#vinPosChoice [data-vinpos]').forEach(x=>x.classList.toggle('selected',x.dataset.vinpos===vp));document.querySelectorAll('#vin3dChoice [data-vin3d]').forEach(x=>x.classList.toggle('selected',+x.dataset.vin3d===(S.vin3d===1?1:0)));document.body.classList.toggle('vin3d',S.vin3d===1);const a=Number.isFinite(S.mbAlpha)?S.mbAlpha:50;root.style.setProperty('--mb-a',(a/100*.62).toFixed(3));const r=$('#optMbAlpha');if(r){r.value=a;$('#mbAlphaVal').textContent=a+'%'}}
+function applyMediaPanel(){document.querySelectorAll('#vinOnChoice [data-vinon]').forEach(x=>x.classList.toggle('selected',x.dataset.vinon===(S.vinOn===1?'1':'0')));document.querySelectorAll('#vinPosChoice,#vin3dChoice').forEach(x=>x.closest('.tog')?.classList.toggle('dim',S.vinOn!==1));document.querySelectorAll('#pxStyleChoice [data-pxs]').forEach(x=>x.classList.toggle('selected',x.dataset.pxs===pxStyle()));const vp=S.vinPos==='side'||S.vinPos==='in'?S.vinPos:'center';document.querySelectorAll('#vinPosChoice [data-vinpos]').forEach(x=>x.classList.toggle('selected',x.dataset.vinpos===vp));document.querySelectorAll('#vin3dChoice [data-vin3d]').forEach(x=>x.classList.toggle('selected',+x.dataset.vin3d===(S.vin3d===1?1:0)));document.body.classList.toggle('vin3d',S.vin3d===1);const a=Number.isFinite(S.mbAlpha)?S.mbAlpha:50;root.style.setProperty('--mb-a',(a/100*.62).toFixed(3));const r=$('#optMbAlpha');if(r){r.value=a;$('#mbAlphaVal').textContent=a+'%'}}
 const mediaApp=()=>!!(window.NINES_APP&&window.NinesApp&&typeof NinesApp.mediaState==='function');
 /* the music permission: asked as soon as the book is open, until it is given or the player says no.
    The card keeps the purpose folded away as a surprise; one tap on "What is it for?" shows all of it. */
@@ -7465,7 +7486,7 @@ function mpPutAway(){stashMulti();MP.away=true;MP.loaded='';MP.seen=mpDigest(MP.
 function mpContinue(){const r=MP.room;if(!r)return;MP.away=false;if(MP.overlay){MP.overlay.remove();MP.overlay=null}startMPLoop();if(r.status==='lobby'){mpLobby();return}if(r.status==='finished'){mpResult();return}
   const me=r.players.find(p=>p.id===MP.playerId);MP.loaded='';MP.seen=mpDigest(r);faxBadge();loadMultiPage(r.mode==='party'?(me?.page||0):MP.localPage,false);mpRemember()}
 async function mpGiveUp(){const r=MP.room;if(r?.status==='playing'){try{await Net.event('forfeit',{})}catch(e){}}leaveMatch();loadPage((S.page??1),true)}
-const faxUi=()=>S.mpUi!=='window';
+const faxUi=()=>S.mpUi==='fax';   /* the window by default; the fax machine is a prototype, chosen in Design */
 const FAX_SCREEN=/id="mp(Create|Join|Start|Go|Resume|View|Leave|Later|CancelInvite|CancelJoin|HostDirect)"/;   /* only the multiplayer screens come out of the fax; the other windows that share this frame stay windows */
 function mpDialog(html,cls=''){if(faxUi()&&FAX_SCREEN.test(html))return faxDialog(html,cls);document.querySelectorAll('.veil').forEach(v=>v.remove());const v=document.createElement('div');v.className='veil';v.innerHTML=`<div class="toc paper mp-card ${cls}" role="dialog" aria-label="Multiplayer">${html}</div>`;document.body.appendChild(v);MP.overlay=v;v.addEventListener('click',e=>{if(e.target===v){v.remove();MP.overlay=null}});return v}
 function mpSetup(){
