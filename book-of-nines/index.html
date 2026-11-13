@@ -1627,7 +1627,7 @@ body.immersed .mediabar{display:none!important}
 .shop .item.poster,.shop .shelf:not(.mine)>.item.poster{aspect-ratio:1/1.618;padding:0;gap:0}
 /* the stage: each thing stands in a little 3D space and can be turned */
 .stage{flex:1 1 0;min-height:0;width:100%;display:grid;place-items:center;perspective:340px;container-type:size;touch-action:pan-y;cursor:grab}
-.obj{position:relative;transform-style:preserve-3d;transform:rotateX(-6deg) rotateY(-16deg);will-change:transform}
+.obj{position:relative;transform-style:preserve-3d;transform:rotateX(-6deg) rotateY(-16deg)}   /* no will-change: dozens of layers on a phone run out of memory, and cards lose their paper */
 .obj .fc,.obj .ly{position:absolute;inset:0;backface-visibility:hidden}
 /* a die-cut sticker on layers of paper: the front is the printed picture, behind it the white card shows at the edges and on the back */
 .obj.cut{width:min(78cqmin,112px);height:min(78cqmin,112px)}
@@ -1818,11 +1818,15 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
 .fx-grid i{display:flex;align-items:center;justify-content:center;font-style:normal;border-right:1px solid rgba(43,36,27,.35);border-bottom:1px solid rgba(43,36,27,.35)}.fx-grid i.r{border-right:2px solid #2b241b}.fx-grid i.b{border-bottom:2px solid #2b241b}.fx-grid i:nth-child(9n){border-right:0}.fx-grid i:nth-child(n+73){border-bottom:0}
 .fax-fly{position:fixed;z-index:301;pointer-events:none;margin:0;box-sizing:border-box}
 
-/* the things on the shelves stir a little, as if in a draught: each at its own pace */
-.shop .item .stage{animation:shopsway 6.4s ease-in-out infinite;transform-origin:50% 85%}
-.shop .item:nth-child(3n+1) .stage{animation-duration:7.2s;animation-delay:-1.3s}.shop .item:nth-child(3n+2) .stage{animation-duration:5.8s;animation-delay:-3.1s}.shop .item:nth-child(4n) .stage{animation-delay:-4.6s}
-@keyframes shopsway{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-3px) rotate(-2.2deg)}50%{transform:translateY(-1px) rotate(.6deg)}75%{transform:translateY(-4px) rotate(2deg)}}
-@media (prefers-reduced-motion:reduce){.shop .item .stage{animation:none}}
+/* the things on the shelves come alive only now and then: they settle onto the shelf as they come into view, and every few seconds
+   one of them stirs in a draught. Nothing moves all the time, so the shop stays light on the phone */
+.shop .item{isolation:isolate}
+.shop .item .stage{transform-origin:50% 85%}
+.shop .item .stage.arrive{animation:shoparrive .5s cubic-bezier(.3,1.5,.5,1) both;animation-delay:var(--ad,0s)}
+@keyframes shoparrive{from{translate:0 14px;scale:.9;opacity:.35}to{translate:0 0;scale:1;opacity:1}}
+.shop .item .stage.stir{animation:shopstir 1.8s ease-in-out}
+@keyframes shopstir{0%,100%{rotate:0deg;translate:0 0}25%{rotate:-3deg;translate:0 -3px}55%{rotate:2.2deg;translate:0 -1px}80%{rotate:-.8deg;translate:0 -2px}}
+@media (prefers-reduced-motion:reduce){.shop .item .stage.arrive,.shop .item .stage.stir{animation:none}}
 .fx2-lcd .lobby-player,.fx2-lcd .mp-status{all:unset;display:flex;gap:10px;font:inherit;color:inherit;letter-spacing:inherit;text-transform:inherit}.fx2-lcd .lobby-player{justify-content:space-between}.fx2-lcd .mp-status{display:block;font-size:11.5px;opacity:.85}
 .fx2-lcd .lobby-player>span{all:unset}.fx2-lcd .lobby-player>b{all:unset;opacity:.75}
 @media (min-aspect-ratio:4/3) and (max-height:620px){.fx2-modes{align-self:start}}
@@ -1833,8 +1837,6 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
 
 /* today's selection: something bought from it today stays on show, marked sold */
 .shop .badge.sold{background:#5a2a2a;color:#f6e2a8;transform:rotate(-8deg);letter-spacing:.12em;text-transform:uppercase;font-size:11px}.shop .item.sold .stage{opacity:.55;filter:grayscale(.5)}
-.shop .item .stage{rotate:calc(var(--sw,0) * var(--k,1) * 1deg);translate:0 calc(var(--sy,0) * var(--k,1) * 1px)}
-.shop .item:nth-child(3n+1) .stage{--k:.8}.shop .item:nth-child(3n+2) .stage{--k:1.2}.shop .item:nth-child(4n) .stage{--k:1.05}
 .tog.dim{opacity:.45}
 </style>
 
@@ -5280,14 +5282,17 @@ function openShop(tab,door){
   document.body.appendChild(v);
   const body=v.querySelector('.shop-body'),row=v.querySelector('.tabs-row'),shopEl=v.querySelector('.toc.shop');
   /* a tapped item tells about itself in a small window beside it, with Buy and the basket (or, once it is yours, what it does) */
-  /* the things on the shelves feel the shop move: a little rumble as the door opens, and they swing and bob with the speed of a scroll or a swipe */
-  {let sy=body.scrollTop,sx=null,a=0,av=0,y=0,yv=0,last=performance.now();
-    const step=t=>{if(!v.isConnected)return;const dt=Math.min(50,t-last)/16.7;last=t;const f=body.firstElementChild,x=f?f.getBoundingClientRect().left:0;
-      let vy=body.scrollTop-sy,vx=sx==null?0:x-sx;sy=body.scrollTop;sx=x;if(Math.abs(vx)>160)vx=0;if(Math.abs(vy)>220)vy=0;   /* a tab changing is a jump, not a swing */
-      if(!reduced){av+=(-vx*.09+vy*.03-a*.16)*dt;av*=Math.pow(.8,dt);a+=av*dt;yv+=(vy*.06-y*.18)*dt;yv*=Math.pow(.78,dt);y+=yv*dt}   /* springs: the faster the move, the bigger the swing; they settle on their own */
-      a=Math.max(-14,Math.min(14,a));y=Math.max(-10,Math.min(10,y));shopEl.style.setProperty('--sw',a.toFixed(2));shopEl.style.setProperty('--sy',y.toFixed(2));requestAnimationFrame(step)};
-    requestAnimationFrame(step);
-    if(!reduced)setTimeout(()=>{body.querySelectorAll('.item .stage').forEach((st,i)=>st.animate([{rotate:'0deg',translate:'0 0'},{rotate:'-5deg',translate:'0 -4px'},{rotate:'4deg',translate:'0 1px'},{rotate:'-2.5deg',translate:'0 -2px'},{rotate:'1.2deg',translate:'0 0'},{rotate:'0deg',translate:'0 0'}],{duration:620,delay:Math.min(10,i)*35,easing:'ease-out'}));try{navigator.vibrate?.([12,40,10])}catch(e){}},door?950:180)}   /* the rumble, as the bell rings */
+  /* the things on the shelves: they settle onto the shelf as they come into view (a scroll or a new tab brings them), give a little
+     rumble as the door opens, and now and then one stirs in a draught. All one-off animations, only on what is on screen */
+  {const seen=new WeakSet(),vis=new Set();let batch=0,bt=0;
+    const io=new IntersectionObserver(es=>{const now=performance.now();if(now-bt>120){batch=0;bt=now}
+      for(const e of es){const st=e.target;if(e.isIntersecting){vis.add(st);if(!seen.has(st)){seen.add(st);if(!reduced){st.style.setProperty('--ad',Math.min(8,batch++)*45+'ms');st.classList.remove('arrive');void st.offsetWidth;st.classList.add('arrive')}}}else vis.delete(st)}},{root:body,threshold:.25});
+    const watch=()=>{vis.clear();body.querySelectorAll('.item .stage').forEach(st=>{if(!seen.has(st))io.observe(st)})};
+    new MutationObserver(watch).observe(body,{childList:true});watch();
+    body.addEventListener('animationend',e=>{if(e.animationName==='shoparrive'||e.animationName==='shopstir')e.target.classList.remove('arrive','stir')});
+    const breeze=setInterval(()=>{if(!v.isConnected){clearInterval(breeze);io.disconnect();return}if(reduced||document.hidden||!vis.size)return;
+      const l=[...vis].filter(st=>!st.classList.contains('arrive')),st=l[Math.floor(Math.random()*l.length)];if(st){st.classList.remove('stir');void st.offsetWidth;st.classList.add('stir')}},2600);
+    if(!reduced)setTimeout(()=>{[...vis].slice(0,10).forEach((st,i)=>st.animate([{rotate:'0deg',translate:'0 0'},{rotate:'-4deg',translate:'0 -3px'},{rotate:'3deg',translate:'0 1px'},{rotate:'-1.5deg',translate:'0 -1px'},{rotate:'0deg',translate:'0 0'}],{duration:520,delay:i*35,easing:'ease-out'}));try{navigator.vibrate?.([12,40,10])}catch(e){}},door?1350:620)}   /* the rumble, as the bell rings (after they have settled) */
   const dEl=document.createElement('div');dEl.className='shop-desc';dEl.setAttribute('role','dialog');dEl.hidden=true;shopEl.querySelector('h2').after(dEl);
   let desc=null,dIdx=0;
   const descHTML=it=>{const D=shopDeals(),d=D[it.key],p=priceOf(it,D),own=!it.many&&it.own,short=Math.max(0,p-S.coins),inB=basket().some(l=>l.k===it.key);
