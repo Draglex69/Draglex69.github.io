@@ -5322,9 +5322,16 @@ function openShop(tab,door){
   const shelf=(list,D,extra)=>`<div class="shelf">${list.map(it=>card(it,D,extra)).join('')}</div>`;
   /* Commercials: one row of poster cards (named poster, never ad: ad blockers hide anything called .ad or .ads) the same size as the items; until real ads come, invented Art Deco ones, a different order each day */
   const adShelf=()=>{const R=mulberry(dayNo()*17+5),list=ADS.map(a=>[R(),a]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);
-    return`<div class="shelf posters">${list.map(a=>`<div class="item poster" data-poster="${a.id}" role="img" aria-label="Poster for ${a.name}: ${a.tag} (an advertisement)"><span class="poster-art" style="background:${a.bg};--pl:${a.line}"><svg viewBox="0 0 60 60" aria-hidden="true">${a.svg}</svg><span class="p-t1" style="--n:${a.t1.length}">${a.t1}</span><span class="p-t2" style="--m:${a.t2.length}">${a.t2}</span></span><span class="p-strip"><b>${a.tag}</b><span class="p-who"><i style="background:${a.bg};color:${a.line}">${a.name[0]}</i><span>${a.name}</span><small>Ad</small></span></span></div>`).join('')}</div>`};
+    return`<div class="shelf posters">${list.map(a=>posterHTML(a)).join('')}</div>`};
+  const posterHTML=(a,cls='')=>`<div class="item poster${cls}" data-poster="${a.id}" role="img" aria-label="Poster for ${a.name}: ${a.tag} (an advertisement)"><span class="poster-art" style="background:${a.bg};--pl:${a.line}"><svg viewBox="0 0 60 60" aria-hidden="true">${a.svg}</svg><span class="p-t1" style="--n:${a.t1.length}">${a.t1}</span><span class="p-t2" style="--m:${a.t2.length}">${a.t2}</span></span><span class="p-strip"><b>${a.tag}</b><span class="p-who"><i style="background:${a.bg};color:${a.line}">${a.name[0]}</i><span>${a.name}</span><small>Ad</small></span></span></div>`;
+  /* outside the daily offer, a shelf whose last line is not full is made up with posters: never a new line just for them */
+  const fillAds=()=>{body.querySelectorAll('.item.poster.fill').forEach(x=>x.remove());if(cur==='offer'||view!=='shelf'||!ADS.length)return;
+    const R=mulberry(dayNo()*29+cur.length*7),pool=ADS.map(a=>[R(),a]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);let k=0;
+    body.querySelectorAll('.shelf:not(.posters)').forEach(sh=>{const n=sh.children.length;if(!n)return;const cols=getComputedStyle(sh).gridTemplateColumns.split(' ').filter(Boolean).length||1,gap=(cols-n%cols)%cols;
+      const lastTop=Math.max(...[...sh.children].map(c=>c.offsetTop));for(let i=0;i<gap;i++)sh.insertAdjacentHTML('beforeend',posterHTML(pool[k++%pool.length],' fill'));
+      sh.querySelectorAll('.poster.fill').forEach(x=>{if(x.offsetTop>lastTop+2)x.remove()})})};   /* a wide card takes two places: anything pushed onto a new line goes again */
   /* only as many as fit on one line */
-  const fitAds=()=>{const row=body.querySelector('.shelf.posters');if(!row)return;const c=[...row.children],ref=body.querySelector('.shelf:not(.posters) .item');c.forEach(x=>{x.style.display=''});const t=c[0]?.offsetTop;c.forEach(x=>{if(x.offsetTop>t+2)x.style.display='none'})};
+  const fitAds=()=>{fillAds();const row=body.querySelector('.shelf.posters');if(!row)return;const c=[...row.children],ref=body.querySelector('.shelf:not(.posters) .item');c.forEach(x=>{x.style.display=''});const t=c[0]?.offsetTop;c.forEach(x=>{if(x.offsetTop>t+2)x.style.display='none'})};
   const sec=(t,em,inner)=>`<h3>${t}<b></b>${em?`<em>${em}</em>`:''}</h3>${inner}`;
   /* a section with a little wooden sign pointing to its whole shelf */
   const secTo=(t,em,_,inner,to)=>`<h3>${t}<b></b>${em?`<em>${em}</em>`:''}<button type="button" class="see-all" data-tab="${to||'new'}" aria-label="All of ${t}">See all</button></h3>${inner}`;
