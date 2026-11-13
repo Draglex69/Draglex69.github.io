@@ -1838,6 +1838,14 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
 /* today's selection: something bought from it today stays on show, marked sold */
 .shop .badge.sold{background:#5a2a2a;color:#f6e2a8;transform:rotate(-8deg);letter-spacing:.12em;text-transform:uppercase;font-size:11px}.shop .item.sold .stage{opacity:.55;filter:grayscale(.5)}
 .tog.dim{opacity:.45}
+
+/* tearing posters down: the poster stays put under the finger (the shop does not scroll from it), pieces fall, a strip stays under the pin */
+.shop .item.poster{touch-action:none;cursor:grab}.shop .item.poster.ripped{touch-action:pan-y;cursor:default;background:#efe4cc;box-shadow:inset 0 0 0 1px rgba(80,50,20,.18)}
+.item.poster.ripped .rip-top{position:absolute;left:8%;right:8%;top:0;height:16%;background:var(--rb);clip-path:polygon(0 0,100% 0,100% 62%,92% 88%,84% 58%,75% 100%,66% 64%,57% 86%,48% 55%,38% 96%,29% 60%,20% 84%,11% 52%,0 78%);box-shadow:0 2px 3px rgba(0,0,0,.2)}
+.item.poster.ripped .rip-bl,.item.poster.ripped .rip-br{position:absolute;bottom:0;width:20%;height:10%;background:#fffdf7;clip-path:polygon(0 100%,0 30%,30% 50%,55% 0,80% 45%,100% 100%)}.item.poster.ripped .rip-bl{left:0}.item.poster.ripped .rip-br{right:0;transform:scaleX(-1)}
+.rip-piece{position:fixed;z-index:400;margin:0;pointer-events:none;box-sizing:border-box;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
+.rip-bit{position:fixed;z-index:401;pointer-events:none;display:block;clip-path:polygon(0 20%,40% 0,100% 30%,85% 100%,20% 80%)}
+.item.poster.ripped{overflow:hidden}.item.poster.ripped .wall-art{position:absolute;inset:0;width:100%;height:100%;display:block}.item.poster.ripped .rip-top,.item.poster.ripped .rip-bl,.item.poster.ripped .rip-br{z-index:1}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -5250,6 +5258,28 @@ const OPEN_SCENES=['cloth','heraldry','confetti'];   /* the scenes players can c
 const sceneArt=id=>id==='heraldry'?`<span class="scene-swatch" style="background-image:url(${HERALDRY_TILE})"></span>`:DRAFTS.scenes?.[id]||id==='cloth'?`<span class="scene-swatch" style="background-image:url(${sceneSwatch(id)});background-size:cover;image-rendering:auto"></span>`:`<span class="scene-tile">${SCN.find(g=>g.id===id)?.icon||''}</span>`;   /* scenes that are bought in the bookstore; the rest come with the book */
 const sceneOwned=id=>!SCENE_SHOP.includes(id)||!!S.scenes?.[id];
 /* today's selection is chosen once a day from what the player has not got; something bought from it stays on show, marked sold, until tomorrow */
+/* what is under a torn-down poster: something painted straight on the wall (no frame). Original little murals, one per poster */
+const WALL_ART=[
+ /* a sprayed heart with drips */
+ `<rect width="100" height="162" fill="#8f8a84"/><g opacity=".18" fill="#000"><rect y="40" width="100" height="1"/><rect y="81" width="100" height="1"/><rect y="122" width="100" height="1"/></g><path d="M50 108C24 88 18 70 26 58c7-10 20-9 24 2 4-11 17-12 24-2 8 12 2 30-24 50z" fill="#e2557a"/><path d="M38 96v24M56 100v14M64 92v30" stroke="#e2557a" stroke-width="2.4" stroke-linecap="round"/><circle cx="38" cy="121" r="1.8" fill="#e2557a"/><circle cx="64" cy="123" r="1.8" fill="#e2557a"/><text x="50" y="146" text-anchor="middle" font-family="Limelight,serif" font-size="11" fill="#f5efe2" opacity=".85">nines</text>`,
+ /* a deco sunrise */
+ `<rect width="100" height="162" fill="#1e4a4f"/><g fill="#e9c46a">${Array.from({length:13},(_,i)=>{const a=Math.PI*(i/12);return`<path d="M50 112L${50+Math.cos(a)*70} ${112-Math.sin(a)*70}L${50+Math.cos(a+.12)*70} ${112-Math.sin(a+.12)*70}z" opacity=".55"/>`}).join('')}</g><circle cx="50" cy="112" r="24" fill="#f2a65a"/><circle cx="50" cy="112" r="17" fill="#f6c945"/><rect y="112" width="100" height="50" fill="#163a3e"/><path d="M0 124h100M0 134h100M0 146h100" stroke="#e9c46a" stroke-width="1.5" opacity=".7"/>`,
+ /* a portrait: a woman with her eyes closed, in big brush patches */
+ `<rect width="100" height="162" fill="#e8d8bd"/><circle cx="50" cy="66" r="38" fill="#d7a64a" opacity=".55"/><path d="M50 26c-22 0-32 18-30 40 1 16-4 30-8 40h76c-4-10-9-24-8-40 2-22-8-40-30-40z" fill="#3c2a4a"/><path d="M40 92h20v20H40z" fill="#e6b48c"/><ellipse cx="50" cy="70" rx="17" ry="23" fill="#f0c9a0"/><path d="M34 54c6-10 26-12 32 0-8-4-24-4-32 0z" fill="#3c2a4a"/><path d="M40 66q4 3 8 0M52 66q4 3 8 0" stroke="#3c2a4a" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M50 68v8l-2 2" stroke="#c48c64" stroke-width="1.2" fill="none"/><path d="M44 84q6 4 12 0q-6 -3 -12 0z" fill="#b5476b"/><circle cx="40" cy="76" r="3.5" fill="#e88f8a" opacity=".45"/><circle cx="60" cy="76" r="3.5" fill="#e88f8a" opacity=".45"/><path d="M10 162c2-26 18-44 40-44s38 18 40 44z" fill="#1e6f6a"/><path d="M40 122l10 12 10-12" stroke="#e9c46a" stroke-width="2" fill="none"/>`,
+ /* a cat on bricks */
+ `<rect width="100" height="162" fill="#a4553d"/><g stroke="#7e3c2a" stroke-width="1.4">${Array.from({length:14},(_,r)=>`<path d="M0 ${r*12}h100"/>`+Array.from({length:5},(_,c)=>`<path d="M${c*24+(r%2?12:0)} ${r*12}v12"/>`).join('')).join('')}</g><path d="M22 112L26 58l14 18h20l14-18 4 54c0 18-14 28-28 28S22 130 22 112z" fill="#1d1a22"/><ellipse cx="38" cy="98" rx="6" ry="7" fill="#f6c945"/><ellipse cx="62" cy="98" rx="6" ry="7" fill="#f6c945"/><path d="M38 93v10M62 93v10" stroke="#1d1a22" stroke-width="2.4"/><path d="M47 112l3 3 3-3" stroke="#e2557a" stroke-width="2" fill="none"/><path d="M14 110h14M14 118h14M72 110h14M72 118h14" stroke="#f5efe2" stroke-width="1.2" opacity=".8"/>`,
+ /* flowers in a jug */
+ `<rect width="100" height="162" fill="#2c3550"/><path d="M50 74c-2 20-4 30-2 40M50 74c8 14 16 22 18 34M50 74c-10 12-18 20-20 32" stroke="#5e8a4a" stroke-width="2.6" fill="none"/><circle cx="50" cy="66" r="12" fill="#e2557a"/><circle cx="72" cy="80" r="10" fill="#f6c945"/><circle cx="28" cy="82" r="10" fill="#f5efe2"/><circle cx="50" cy="66" r="4" fill="#8a1f3a"/><circle cx="72" cy="80" r="3.5" fill="#b07a12"/><circle cx="28" cy="82" r="3.5" fill="#c9b27a"/><path d="M34 112h32l-4 34H38z" fill="#4f8ab0"/><path d="M36 122h28" stroke="#f5efe2" stroke-width="2" opacity=".7"/>`,
+ /* hills under a moon */
+ `<rect width="100" height="162" fill="#2a1f3d"/><circle cx="70" cy="40" r="13" fill="#f5efe2"/><circle cx="64" cy="37" r="12" fill="#2a1f3d"/><g fill="#f5efe2"><circle cx="20" cy="30" r="1"/><circle cx="34" cy="56" r="1"/><circle cx="86" cy="70" r="1"/><circle cx="14" cy="76" r="1"/></g><path d="M0 110c20-20 40-18 60-4s30 10 40 0v56H0z" fill="#4b3b6b"/><path d="M0 126c24-14 46-10 66 2s26 6 34 0v34H0z" fill="#6b4e8f"/><path d="M0 144c20-8 50-8 100 0v18H0z" fill="#9b6fc0"/>`,
+ /* shapes in a dance */
+ `<rect width="100" height="162" fill="#f2e8d4"/><circle cx="36" cy="50" r="22" fill="#e9c46a"/><circle cx="36" cy="50" r="12" fill="#d7263d"/><path d="M58 70l30 50H28z" fill="#1f3c88" opacity=".9"/><path d="M10 120l80-60" stroke="#2b2118" stroke-width="2"/><path d="M14 30l70 100" stroke="#2b2118" stroke-width="1"/><rect x="62" y="20" width="22" height="22" fill="#5cb85c" transform="rotate(14 73 31)"/><circle cx="70" cy="138" r="8" fill="none" stroke="#2b2118" stroke-width="2"/><path d="M20 140q10-14 20 0t20 0" stroke="#d7263d" stroke-width="2.4" fill="none"/>`,
+ /* a whale among stars */
+ `<rect width="100" height="162" fill="#13304f"/><g fill="#f5efe2" opacity=".85"><circle cx="16" cy="24" r="1.2"/><circle cx="78" cy="18" r="1"/><circle cx="60" cy="40" r="1.4"/><circle cx="24" cy="132" r="1"/><circle cx="84" cy="140" r="1.2"/><circle cx="46" cy="150" r="1"/></g><path d="M14 92c4-20 26-30 48-26 14 2 22 10 26 18l8-8-2 16 4 10-12-4c-8 12-24 18-40 16C24 112 12 104 14 92z" fill="#4f8ab0"/><path d="M18 98c14 8 36 10 56 2" stroke="#cfe3ef" stroke-width="5" stroke-linecap="round" opacity=".8"/><circle cx="30" cy="86" r="2.2" fill="#13304f"/><path d="M40 62c2-8 0-14-4-18M44 62c4-6 8-8 12-8" stroke="#cfe3ef" stroke-width="1.8" fill="none" stroke-linecap="round"/>`];
+let WALL_N=0;
+function wallArt(id){let h=0;for(const ch of id)h=(h*31+ch.charCodeAt(0))>>>0;const k='wa'+(WALL_N++);   /* the paint is a little rough at the edges, as on a wall */
+  return`<svg class="wall-art" viewBox="0 0 100 162" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="${k}"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="${h%97}"/><feDisplacementMap in="SourceGraphic" scale="1.6"/></filter></defs><g filter="url(#${k})">${WALL_ART[h%WALL_ART.length]}</g></svg>`}
+const adRipped=id=>!!(S.ripped&&S.ripped.d===dayNo()&&S.ripped.ids.includes(id));   /* posters torn down today */
 function shopSelection(L,D){const today=dayNo(),sel=S.selDay;
   if(sel&&sel.d===today&&Array.isArray(sel.k)){const m=new Map(L.map(it=>[it.key,it])),kept=sel.k.map(k=>m.get(k)).filter(Boolean);if(kept.length)return kept}
   const pick=shopSelectionFresh(L,D);S.selDay={d:today,k:pick.map(it=>it.key)};return pick}
@@ -5329,7 +5359,7 @@ function openShop(tab,door){
   /* Commercials: one row of poster cards (named poster, never ad: ad blockers hide anything called .ad or .ads) the same size as the items; until real ads come, invented Art Deco ones, a different order each day */
   const adShelf=()=>{const R=mulberry(dayNo()*17+5),list=ADS.map(a=>[R(),a]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);
     return`<div class="shelf posters">${list.map(a=>posterHTML(a)).join('')}</div>`};
-  const posterHTML=(a,cls='')=>`<div class="item poster${cls}" data-poster="${a.id}" role="img" aria-label="Poster for ${a.name}: ${a.tag} (an advertisement)"><span class="poster-art" style="background:${a.bg};--pl:${a.line}"><svg viewBox="0 0 60 60" aria-hidden="true">${a.svg}</svg><span class="p-t1" style="--n:${a.t1.length}">${a.t1}</span><span class="p-t2" style="--m:${a.t2.length}">${a.t2}</span></span><span class="p-strip"><b>${a.tag}</b><span class="p-who"><i style="background:${a.bg};color:${a.line}">${a.name[0]}</i><span>${a.name}</span><small>Ad</small></span></span></div>`;
+  const posterHTML=(a,cls='')=>adRipped(a.id)?ripRem(a,cls):`<div class="item poster${cls}" data-poster="${a.id}" role="img" aria-label="Poster for ${a.name}: ${a.tag} (an advertisement)"><span class="poster-art" style="background:${a.bg};--pl:${a.line}"><svg viewBox="0 0 60 60" aria-hidden="true">${a.svg}</svg><span class="p-t1" style="--n:${a.t1.length}">${a.t1}</span><span class="p-t2" style="--m:${a.t2.length}">${a.t2}</span></span><span class="p-strip"><b>${a.tag}</b><span class="p-who"><i style="background:${a.bg};color:${a.line}">${a.name[0]}</i><span>${a.name}</span><small>Ad</small></span></span></div>`;
   /* outside the daily offer, a shelf whose last line is not full is made up with posters: never a new line just for them */
   const fillAds=()=>{body.querySelectorAll('.item.poster.fill').forEach(x=>x.remove());if(cur==='offer'||view!=='shelf'||!ADS.length)return;
     const R=mulberry(dayNo()*29+cur.length*7),pool=ADS.map(a=>[R(),a]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);let k=0;
@@ -5338,6 +5368,20 @@ function openShop(tab,door){
       sh.querySelectorAll('.poster.fill').forEach(x=>{if(x.offsetTop>lastTop+2)x.remove()})})};   /* a wide card takes two places: anything pushed onto a new line goes again */
   /* only as many as fit on one line */
   const fitAds=()=>{fillAds();const row=body.querySelector('.shelf.posters');if(!row)return;const c=[...row.children],ref=body.querySelector('.shelf:not(.posters) .item');c.forEach(x=>{x.style.display=''});const t=c[0]?.offsetTop;c.forEach(x=>{if(x.offsetTop>t+2)x.style.display='none'})};
+  const ripRem=(a,cls)=>`<div class="item poster ripped${cls}" data-poster="${a.id}" style="--rb:${a.bg};--rl:${a.line}" aria-label="A torn-down poster, and a painting on the wall behind it">${wallArt(a.id)}<i class="rip-top"></i><i class="rip-bl"></i><i class="rip-br"></i></div>`;
+  /* tearing a poster down: a finger on it drags and peels it (the shop stays put), and far enough rips it in two */
+  const jag=(n,R)=>{const o=[];for(let i=0;i<=n;i++)o.push([i/n*100,50+(R()-.5)*(i%2?18:9)]);return o};
+  const ripPoster=(el,dx,dy)=>{const a=ADS.find(x=>x.id===el.dataset.poster);if(!a)return;const r=el.getBoundingClientRect(),R=Math.random,line=jag(9,R),vert=Math.abs(dx)>Math.abs(dy);
+    const pts=line.map(([u,w])=>vert?`${w}% ${u}%`:`${u}% ${w}%`),A=vert?`polygon(0 0,${pts.join(',')},0 100%)`:`polygon(0 0,100% 0,${[...pts].reverse().join(',')})`,B=vert?`polygon(100% 0,${pts.join(',')},100% 100%)`:`polygon(0 100%,100% 100%,${[...pts].reverse().join(',')})`;
+    const sx=Math.sign(dx)||1,sy=Math.sign(dy)||1;
+    [[A,-1],[B,1]].forEach(([clip,side],i)=>{const c=el.cloneNode(true);c.classList.add('rip-piece');c.removeAttribute('data-poster');Object.assign(c.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',clipPath:clip,transform:el.style.transform||'none'});document.body.appendChild(c);
+      const fx=(vert?side*40:0)+dx*1.4+sx*60*(i+.5),fy=(vert?0:side*40)+dy*1.4+260+R()*120,rot=(side*(18+R()*30))+dx*.05;
+      c.animate([{transform:el.style.transform||'none',opacity:1},{transform:`translate(${fx*.5}px,${fy*.25-30}px) rotate(${rot*.5}deg)`,opacity:1,offset:.35},{transform:`translate(${fx}px,${fy}px) rotate(${rot}deg)`,opacity:0}],{duration:900+R()*250,easing:'cubic-bezier(.3,.1,.6,1)',fill:'forwards'}).finished.then(()=>c.remove(),()=>c.remove())});
+    for(let i=0;i<9;i++){const b=document.createElement('i');b.className='rip-bit';const w=6+R()*10;Object.assign(b.style,{left:r.left+r.width*(.2+R()*.6)+'px',top:r.top+r.height*(.3+R()*.4)+'px',width:w+'px',height:w*(.6+R()*.6)+'px',background:R()<.5?a.bg:'#fffdf7'});document.body.appendChild(b);
+      b.animate([{transform:'none',opacity:1},{transform:`translate(${(R()-.5)*160+dx*.6}px,${120+R()*200}px) rotate(${(R()-.5)*720}deg)`,opacity:0}],{duration:700+R()*500,easing:'cubic-bezier(.2,.6,.5,1)',fill:'forwards'}).finished.then(()=>b.remove(),()=>b.remove())}
+    const rip=document.createElement('div');rip.innerHTML=ripRem(a,el.classList.contains('fill')?' fill':'');el.replaceWith(rip.firstElementChild);
+    const day=dayNo();if(!S.ripped||S.ripped.d!==day)S.ripped={d:day,ids:[]};if(!S.ripped.ids.includes(a.id))S.ripped.ids.push(a.id);save();   /* torn down for the rest of the day */
+    if(S.sound){ac();noise({d:.22,g:.07,f:3200,f2:900,q:.7});noise({t:.08,d:.16,g:.05,f:2200,f2:700,q:.9})}try{navigator.vibrate?.([8,25,16])}catch(e){}};
   const sec=(t,em,inner)=>`<h3>${t}<b></b>${em?`<em>${em}</em>`:''}</h3>${inner}`;
   /* a section with a little wooden sign pointing to its whole shelf */
   const secTo=(t,em,_,inner,to)=>`<h3>${t}<b></b>${em?`<em>${em}</em>`:''}<button type="button" class="see-all" data-tab="${to||'new'}" aria-label="All of ${t}">See all</button></h3>${inner}`;
@@ -5422,12 +5466,13 @@ function openShop(tab,door){
      cancelAnimationFrame(st._raf);const draw=(y,x)=>{st._ry=y;st._rx=x;PlushCast.render3D(cv,id,{yaw:.45+y*Math.PI/180,pitch:.1+x*Math.PI/360})};
      if(!ease){draw(ry,rx);return}
      const y0=st._ry||0,x0=st._rx||0,t0=performance.now(),go=t=>{const k=Math.min(1,(t-t0)/650),e=1-Math.pow(1-k,3);draw(y0*(1-e),x0*(1-e));if(k<1)st._raf=requestAnimationFrame(go);else{cv.remove();o.classList.remove('live')}};st._raf=requestAnimationFrame(go)};
-   let g=null;
+   let g=null;const G_onCard=g=>!!g.it;
    const slide=d=>{const w=body.clientWidth;if(reduced){body.style.transform='';v._step(d);return}
      body.style.transition='transform .14s ease-in,opacity .14s';body.style.transform=`translateX(${-d*w*.55}px)`;body.style.opacity='0';
      setTimeout(()=>{body.style.transition='none';body.style.transform='';body.style.opacity='';v._step(d,w*.45)},140)};
    const settle=()=>{body.style.transition='transform .32s cubic-bezier(.3,1.4,.5,1),opacity .3s';body.style.transform='';body.style.opacity=''};
    body.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;
+     const pz=e.target.closest('.item.poster:not(.ripped)');if(pz){g={id:e.pointerId,sx:e.clientX,sy:e.clientY,pz,mode:'p'};try{body.setPointerCapture(e.pointerId)}catch(err){}pz.style.transition='none';return}
      const it=e.target.closest('.item[data-key]'),st=e.target.closest('.stage');if(e.target.closest('button'))return;
      g={id:e.pointerId,sx:e.clientX,sy:e.clientY,t0:performance.now(),it,st:st&&st.querySelector('.obj')?st:null,mode:null,off:0,lx:e.clientX,lt:performance.now(),vx:0,mouse:e.pointerType==='mouse'};
      if(it)g.lp=setTimeout(()=>{if(!g||g.mode)return;g.held=true;v._swiped=performance.now();openDesc(it.dataset.key,it);sfx.tick();try{navigator.vibrate?.(12)}catch(err){}},480)});
@@ -5435,14 +5480,19 @@ function openShop(tab,door){
      if(!g||e.pointerId!==g.id){const st=e.target.closest?.('.stage');if(e.pointerType==='mouse'&&!e.buttons){   /* leaning towards the mouse */
          if(body._hov&&body._hov!==st){turnTo(body._hov,rest(body._hov).x,rest(body._hov).y,true);body._hov=null}
          if(st&&st.querySelector('.obj')&&!st.querySelector('.obj.plush')){const r=st.getBoundingClientRect(),fx=(e.clientX-r.left)/r.width-.5,fy=(e.clientY-r.top)/r.height-.5;body._hov=st;turnTo(st,-fy*22,fx*34,false)}}return}
+     if(g.mode==='p'){const dx=e.clientX-g.sx,dy=e.clientY-g.sy,d=Math.hypot(dx,dy),w=g.pz.offsetWidth;   /* peeling: it lifts towards the finger, and tears past half its width */
+       if(d>w*.6){const pz=g.pz;g=null;v._swiped=performance.now();ripPoster(pz,dx,dy);return}
+       g.pz.style.transform=`translate(${dx*.35}px,${dy*.35}px) rotate(${dx*.04}deg) skew(${-dx*.02}deg,${dy*.02}deg)`;g.pz.style.zIndex='3';return}
      const dx=e.clientX-g.sx,dy=e.clientY-g.sy,now=performance.now();g.vx=(e.clientX-g.lx)/Math.max(1,now-g.lt);g.lx=e.clientX;g.lt=now;
      if(!g.mode){if(Math.hypot(dx,dy)<8)return;clearTimeout(g.lp);if(g.held)return;g.mode=Math.abs(dx)>Math.abs(dy)*1.1?'h':'v';if(g.mode==='h')try{body.setPointerCapture(g.id)}catch(err){}}
      if(g.mode!=='h')return;
      let over=dx;
      if(g.st){const plush=!!g.st.querySelector('.obj.plush'),k=plush?1.6:1.1,max=plush?180:65,r0=rest(g.st),turn=Math.max(-max,Math.min(max,dx*k));
        over=Math.abs(dx*k)>max?dx-Math.sign(dx)*max/k:0;turnTo(g.st,g.mouse?Math.max(-30,Math.min(30,r0.x-dy*.5)):r0.x,r0.y+turn,false)}
+     if(G_onCard(g))over=0;   /* a drag that starts on a card turns it, never the shop */
      g.off=over;body.style.transition='none';body.style.transform=over?`translateX(${over*.85}px)`:'';body.style.opacity=over?String(1-Math.min(.5,Math.abs(over)/700)):''});
-   const end=e=>{if(!g||e.pointerId!==g.id)return;clearTimeout(g.lp);const G=g;g=null;if(G.held)v._swiped=performance.now();
+   const end=e=>{if(!g||e.pointerId!==g.id)return;if(g.mode==='p'){const pz=g.pz;g=null;pz.style.transition='transform .35s cubic-bezier(.3,1.6,.5,1)';pz.style.transform='';setTimeout(()=>{pz.style.zIndex='';pz.style.transition=''},360);return}
+     clearTimeout(g.lp);const G=g;g=null;if(G.held)v._swiped=performance.now();
      if(G.st){const r0=rest(G.st);turnTo(G.st,r0.x,r0.y,true)}
      if(G.mode==='h'){v._swiped=performance.now();const fast=Math.abs(G.vx)>.55&&Math.abs(G.off)>24;
        if(e.type==='pointerup'&&(Math.abs(G.off)>80||fast)&&Math.sign(G.vx||G.off)===Math.sign(G.off))slide(G.off<0?1:-1);else settle()}};
@@ -5885,7 +5935,7 @@ function normaliseSave(d){
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
   n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(isVol(n.block)&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
-  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.shopMotion===1)n.shopMotion=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
+  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.ripped&&Number.isInteger(+d.ripped.d)&&Array.isArray(d.ripped.ids))n.ripped={d:+d.ripped.d,ids:d.ripped.ids.filter(x=>typeof x==='string'&&x.length<40).slice(0,40)};if(d.shopMotion===1)n.shopMotion=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
   n.flora={fl:{},vz:{},cur:null,arr:{},seed:{}};{const f=obj(d.flora),fid=Flora.FLOWERS.map(x=>x.id),vid=Flora.VASES.map(x=>x.id);
     for(const [id,c] of Object.entries(obj(f.fl)))if(fid.includes(id)&&Number.isInteger(+c)&&+c>0)n.flora.fl[id]=Math.min(999,+c);
     for(const id of Object.keys(obj(f.vz)))if(vid.includes(id))n.flora.vz[id]=1;
@@ -7906,7 +7956,7 @@ $('#radioBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();openR
 
 /* ================= boot ================= */
 function start(data){
-  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
+  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},wallArt,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
     puzzleIn(id,p){const was=S.block;S.block=id;try{return puzzle(p)}finally{S.block=was}}};
   load();if(saveLost)setTimeout(()=>toast('The book’s record could not be read, so a fresh book was opened. The old record is kept aside.'+(S.savePage?' A save code from the Binder’s Record can bring a book back.':'')),2500);
   devUnlocked();
