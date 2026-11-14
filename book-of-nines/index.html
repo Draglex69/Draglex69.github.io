@@ -1872,6 +1872,21 @@ body.vin3d .mediabar.tall-vin-left .v-left{transform:perspective(200px) rotateX(
 .gift3d.again{background:radial-gradient(circle at 50% 45%,rgba(40,26,10,.55),rgba(20,12,4,.82))}
 /* at night the sheet is dark: a thin warm rim keeps dark pictures (the blue π, the night scenes) readable */
 :root[data-dark="1"] .vpx{filter:drop-shadow(0 0 1px rgba(255,238,200,.85)) drop-shadow(0 0 2px rgba(255,238,200,.45))}
+
+/* a quiet page: the numbers written after the hearts flew are in pencil grey, neither right nor wrong until the page is done */
+:root{--quiet:#6b6579}:root[data-dark="1"]{--quiet:#bdb6cf}
+.cell.blind{color:var(--quiet)}
+.lives{touch-action:none;-webkit-touch-callout:none}.lives:not(.flown){cursor:grab}.lives.lifted i{visibility:hidden}.lives.flown{min-width:1px}
+.fly-heart{position:fixed;left:0;top:0;z-index:420;pointer-events:none;font:700 18px/1 var(--deco);font-style:normal;color:var(--err);text-shadow:0 0 6px rgba(255,120,120,.55),0 1px 0 rgba(255,255,255,.3);will-change:transform}
+.heart-spark{position:fixed;z-index:419;pointer-events:none;font:700 8px/1 var(--deco);font-style:normal;color:#ff9a9a;transform:translate(-50%,-50%);animation:heartspark .85s ease-out forwards}
+@keyframes heartspark{from{opacity:.9}to{opacity:0;transform:translate(calc(-50% + var(--dx,0px)),calc(-50% + var(--dy,20px))) scale(.4) rotate(40deg)}}
+/* a number gliding over the grid: shown faintly where it would be written */
+.grid.stamping{touch-action:none}
+.slide-ghost{position:absolute;z-index:6;display:grid;place-items:center;pointer-events:none;color:var(--pen);border-radius:3px;background:rgba(120,120,160,.12);box-shadow:inset 0 0 0 2px rgba(90,90,140,.45)}
+.slide-ghost[hidden]{display:none}.slide-ghost .g{opacity:.55;animation:ghostin .12s ease-out}.slide-ghost.quiet{color:var(--quiet)}.slide-ghost.note .g{font-size:.55em}
+@keyframes ghostin{from{transform:scale(.6);opacity:0}}
+.cell.under .g,.cell.under .nts{opacity:.16}.cell.aim-off{box-shadow:inset 0 0 0 2px rgba(120,60,40,.22)}
+@media (prefers-reduced-motion:reduce){.slide-ghost .g{animation:none}}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -4022,7 +4037,7 @@ function save(){clearTimeout(saveT);saveT=setTimeout(put,150)}
 function saveNow(){clearTimeout(saveT);put()}
 addEventListener('pagehide',saveNow);document.addEventListener('visibilitychange',()=>{if(document.hidden)saveNow()});
 let swapping=false;
-function stash(){if(!G.puz||swapping)return;const rec={v:G.vals.slice(),n:G.notes.slice(),h:G.hint.slice(),u:G.hu|0,c:G.clean,l:G.lives,b:G.boxes,m:G.combo,s:G.sh|0};if(playMode==='daily'&&dailyKey){if(!S.daily)S.daily={};S.daily[dailyKey]={...rec,d:S.daily[dailyKey]?.d||0}}else if(playMode==='book')S.prog[S.page]=rec;else if(playMode==='multi')stashMulti()}
+function stash(){if(!G.puz||swapping)return;const rec={v:G.vals.slice(),n:G.notes.slice(),h:G.hint.slice(),u:G.hu|0,c:G.clean,l:G.lives,b:G.boxes,m:G.combo,s:G.sh|0};if(G.blind){rec.z=1;rec.q=G.bl.slice()}if(playMode==='daily'&&dailyKey){if(!S.daily)S.daily={};S.daily[dailyKey]={...rec,d:S.daily[dailyKey]?.d||0}}else if(playMode==='book')S.prog[S.page]=rec;else if(playMode==='multi')stashMulti()}
 
 /* ================= audio ================= */
 let AC=null,master,verb,nbuf;
@@ -4258,6 +4273,10 @@ const sfx={
   place(v){if(!this.ok())return;const f=SCALE[v-1];
     tone({f,type:'triangle',g:.2,d:.5,lp:2800,wet:.3});tone({f:f*2,g:.05,d:.28,wet:.2});noise({f:1100,q:2.5,d:.035,g:.14,wet:0})},
   pencil(){if(!this.ok())return;noise({type:'highpass',f:3800,d:.045,g:.08,wet:0});noise({f:6000,q:2,t:.05,d:.03,g:.05,wet:0})},
+  /* a number set down on a quiet page: the same soft stamp whether it is right or wrong */
+  ink(){if(!this.ok())return;noise({f:1700,q:.8,d:.05,g:.1,wet:.04});tone({f:196,f2:147,type:'sine',g:.06,d:.09,wet:.05})},
+  /* the pen touching the paper as a number starts to glide over the squares */
+  touch(){if(!this.ok())return;noise({type:'highpass',f:5200,d:.022,g:.05,wet:0});tone({f:660,type:'sine',g:.02,d:.04,wet:.05})},
   erase(){if(!this.ok())return;noise({f:700,f2:2600,q:.7,d:.17,g:.12,a:.02,wet:.05})},
   bad(){if(!this.ok())return;tone({f:165,f2:96,g:.26,d:.26,wet:.05});tone({f:88,type:'triangle',g:.12,d:.2,wet:0})},
   undo(){if(!this.ok())return;tone({f:660,f2:420,type:'triangle',g:.1,d:.16,wet:.15,lp:2000});noise({f:1800,f2:600,q:.8,d:.12,g:.05})},
@@ -4435,7 +4454,8 @@ function render(){
   for(let i=0;i<81;i++){
     const v=G.vals[i],c=cells[i],given=!!G.puz[i];
     c.classList.toggle('given',given);c.classList.toggle('user',!given&&!!v&&!G.hint[i]);c.classList.toggle('hint',!given&&!!G.hint[i]);c.classList.toggle('circ',!!(G.circ&&G.circ.includes(i)));
-    c.classList.toggle('bad',!given&&(!!bad[i]||!!v&&v!==G.sol[i]));
+    const quiet=G.blind&&!G.done&&!given&&!!v&&!!G.bl[i]&&!G.hint[i];c.classList.toggle('blind',quiet);   /* a quiet page: its new numbers are neither right nor wrong until the page is done */
+    c.classList.toggle('bad',!given&&(G.blind?!quiet&&!!v&&v!==G.sol[i]:(!!bad[i]||!!v&&v!==G.sol[i])));
     c.classList.toggle('sel',i===sel);
     c.classList.toggle('peer',sel>=0&&i!==sel&&(RW[i]===RW[sel]||CL[i]===CL[sel]||BX[i]===BX[sel]));
     c.classList.toggle('same',!!hv&&v===hv&&i!==sel);
@@ -4453,7 +4473,7 @@ function render(){
   $('#notesBtn').setAttribute('aria-pressed',G.notesMode);
   $('#undoBtn').disabled=!G.hist.length||G.done;$('#redoBtn').disabled=!G.fut.length||G.done;
   $('#eraseBtn').disabled=G.done;$('#eraseBtn').setAttribute('aria-pressed',!!G.rub);$('#hintBtn').disabled=G.done;{const hc=hintCost(),hb=$('#hintBtn'),t=hb.querySelector('.hint-tag b');if(t&&t.textContent!==String(hc)){t.textContent=hc>=10000?Math.round(hc/1000)+'k':hc;hb.querySelector('.hint-tag').classList.toggle('dear',hc>S.coins);hb.setAttribute('aria-label',`Hint, costs ${hc} coin${hc>1?'s':''}`);hb.title=`Hint · ${hc} coin${hc>1?'s':''}`}else if(t)hb.querySelector('.hint-tag').classList.toggle('dear',hc>S.coins)}$('#hintBtn').classList.toggle('armed',!!G.bulb);gridEl.classList.toggle('hinting',!!G.bulb);
-  const lives=$('#lives');lives.hidden=playMode==='book'&&!!block().noLives;lives.innerHTML=Array.from({length:MAX_LIVES},(_,i)=>`<i class="${i<G.lives?'':'lost'}">♥</i>`).join('');lives.setAttribute('aria-label',`${G.lives} ${G.lives===1?'life':'lives'} left`);
+  const lives=$('#lives');lives.hidden=playMode==='book'&&!!block().noLives;lives.classList.toggle('flown',!!G.blind);if(!HEARTS_UP)lives.innerHTML=G.blind?'':Array.from({length:MAX_LIVES},(_,i)=>`<i class="${i<G.lives?'':'lost'}">♥</i>`).join('');lives.setAttribute('aria-label',G.blind?'A quiet page: the hearts have flown':`${G.lives} ${G.lives===1?'life':'lives'} left`);
   const mult=Math.max(1,G.combo),combo=$('#combo');{const off=!(G.combo>=1);if(combo.hidden!==off){combo.hidden=off;if(!off&&!reduced)combo.animate([{transform:'scale(.2) rotate(-20deg)',opacity:0},{transform:'scale(1.25) rotate(6deg)',opacity:1,offset:.6},{transform:'rotate(3deg)'}],{duration:380,easing:'ease-out'})}}   /* the combo shows from the first right number and goes at the first mistake */
   combo.textContent=`×${mult}`;combo.setAttribute('aria-label',`Combo ×${mult}`);combo.classList.toggle('hot',mult>1);
   const empties=G.vals.filter(v=>!v).length;
@@ -4494,7 +4514,8 @@ function loadPage(p,skipStash=false){
   G.hint=pr&&pr.h?pr.h.slice():new Array(81).fill(0);G.hu=pr&&Number.isInteger(pr.u)?pr.u:G.hint.filter(Boolean).length;G.clean=pr?pr.c:true;
   G.lives=pr&&Number.isInteger(pr.l)?Math.max(0,Math.min(MAX_LIVES,pr.l)):MAX_LIVES;G.boxes=pr&&Number.isInteger(pr.b)?pr.b&511:0;
   G.combo=pr&&Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0;G.sh=pr&&Number.isInteger(pr.s)?Math.max(0,pr.s):0;
-  G.hist=[];G.fut=[];G.sel=-1;G.hl=0;G.arm=0;G.rub=false;G.bulb=false;G.done=false;G.failed=G.lives<=0&&!spareHearts();
+  G.blind=!!pr?.z;G.bl=pr&&Array.isArray(pr.q)&&pr.q.length===81?pr.q.slice():new Array(81).fill(0);
+  G.hist=[];G.fut=[];G.sel=-1;G.hl=0;G.arm=0;G.rub=false;G.bulb=false;G.done=false;G.failed=!G.blind&&G.lives<=0&&!spareHearts();
   pageEl.querySelectorAll('.stamp,.turn,.spark,.chip,.out').forEach(n=>n.remove());clearArt();
   cells.forEach(c=>c.classList.remove('wave','flash','pop'));
   drawLines(p);renderHead();render();renderStickers();
@@ -4549,8 +4570,17 @@ function heartStuck(){if(playMode!=='book'||!G.puz||!spareHearts())return;
   if(G.failed){G.failed=false;$('#gridwrap').querySelectorAll('.lost-stamp,.px-cap').forEach(n=>n.remove());render();save();sfx.coin?.();
     if(G.done){showArt(true,'brought back to life');toast('The heart sticker brought this page back to life.')}else toast('The heart sticker brought this page back to life: one more mistake is allowed.',4000)}
   else toast('A heart sticker: the next mistake on this page costs no heart.',3600)}
+/* a quiet page (its hearts have flown): nothing says whether a number is right. No hearts lost, no combo, no coins on the way;
+   every number sounds and looks the same, and the page pays in one go when it is finished */
+let HEARTS_UP=false;
+const quietCount=()=>{let n=0;for(let k=0;k<81;k++)if(G.bl[k]&&!G.hint[k]&&!G.puz[k])n++;return n};
+const quietPay=bonus=>3*quietCount()+bonus;   /* three coins for every square filled in without help, plus the page's own bonus: more empty squares, more coins */
+function goQuiet(){if(G.blind||G.done||G.failed||playMode==='multi'||!G.puz)return false;G.blind=true;G.bl=new Array(81).fill(0);G.combo=0;render();save();
+  toast('The hearts have flown: this page keeps quiet now. Nothing is marked right or wrong until it is finished, and the coins come at the end.',6200);return true}
 function afterPlace(i,v,hinted){
   popCell(i);
+  if(G.blind){if(!hinted)G.bl[i]=1;hinted?sfx.coin():sfx.ink();render();save();
+    if(isSolved())solved();else if(G.vals.every(x=>x))toast('Every square is full, but the page is not finished: something is not right yet.');return}
   if(v!==G.sol[i]){
     if(spareHearts()&&!(playMode==='book'&&block().noLives)){G.sh=(G.sh|0)+1;G.clean=false;G.combo=0;buzz('saved');sfx.bad();render();save();return}   /* a heart sticker takes the mistake */
     G.clean=false;G.combo=0;if(!(playMode==='book'&&block().noLives)){G.lives=Math.max(0,G.lives-1);if(!G.lives)G.failed=true}
@@ -4586,7 +4616,7 @@ function hint(){
   let i=G.sel;
   if(!editable(i)||G.hint[i]){                                   // nothing useful selected: the bulb waits for a tap on a square
     G.sel=-1;G.rub=false;G.arm=0;G.hl=0;G.bulb=!G.bulb;sfx.tick();render();return}
-  if(G.vals[i]===G.sol[i]&&!G.hint[i]){G.bulb=false;toast('That square is already right.');render();return}
+  if(G.vals[i]===G.sol[i]&&!G.hint[i]&&!(G.blind&&G.bl[i])){G.bulb=false;toast('That square is already right.');render();return}   /* a quiet page does not say so: the hint is simply written in */
   hintAt(i);
 }
 function hintAt(i){
@@ -4631,7 +4661,7 @@ function solved(){
   if(playMode==='multi'){solveMulti();return}
   G.done=true;G.sel=-1;
   const first=!S.solved[S.page],{c}=chapterOf(S.page);
-  const reward=G.failed?0:(first?(2+c)+(G.clean?2:0):1);
+  const reward=G.failed?0:G.blind?(first?quietPay(2+c):1):(first?(2+c)+(G.clean?2:0):1);
   const zeroWas=zeroOpen();S.solved[S.page]=1;if((S.block||'nines')==='nines'&&!S.v2told&&vol1Done()){S.v2told=1;setTimeout(()=>toast('Volume I is complete. 99 Sheets + 1 Vol. 2 has arrived at the bookstore.'),4200)}   /* the second volume goes on sale */
   S.maxPage=Math.max(S.maxPage,S.page+1);versoBadge();
   if(!zeroWas&&zeroOpen())setTimeout(()=>toast('All ninety-nine pages solved. Page 0 has opened at the front of the book.',6000),2600);
@@ -4642,7 +4672,7 @@ function solved(){
   setTimeout(()=>{if(playMode!==here[0]||S.block!==here[1]||S.page!==here[2]||!G.done)return;showSolved(true,reward)},700);
   if(!S.owner&&!S.askedName)setTimeout(()=>{if(!S.owner&&!document.querySelector('.veil,.gift3d')&&!atBack)askName()},3200);   // asked again after a later page if a window was open
   const start=S.coins;S.coins+=reward;save();
-  const coinStep=Math.max(35,130*4/Math.max(4,reward));for(let k=1;k<=reward;k++)setTimeout(()=>{setCoins(start+k);const p=$('#purse');p.classList.remove('gain');void p.offsetWidth;p.classList.add('gain');sfx.coin()},1250+k*coinStep);
+  const steps=Math.min(reward,36),coinStep=Math.max(35,130*4/Math.max(4,steps));for(let j=1;j<=steps;j++){const k=Math.round(reward*j/steps);setTimeout(()=>{setCoins(start+k);const p=$('#purse');p.classList.remove('gain');void p.offsetWidth;p.classList.add('gain');sfx.coin()},1250+j*coinStep)}
 }
 /* the picture behind the numbers: the Book of Nines has one for each page; other books and the almanac show a flower */
 function artFor(){if(playMode==='book'&&isVol(S.block||'nines'))return(S.block==='nines2'?PixArt.get2:PixArt.get)(S.page??1);const F=PixArt.FLOWERS,key=playMode==='daily'?'d'+dailyKey:(S.block||'')+'/'+S.page;let h=7;for(const ch of key)h=(h*31+ch.charCodeAt(0))>>>0;return PixArt.get(F[h%F.length])}
@@ -4688,13 +4718,13 @@ function showSolved(anim,reward){
   if(playMode==='daily'){
     pageEl.querySelectorAll('.stamp,.turn').forEach(n=>n.remove());
     if(lost){const st=document.createElement('div');st.className='stamp lost-stamp'+(anim?' land':'');st.innerHTML='<b>Lost</b><small>solved without reward</small>';$('#gridwrap').appendChild(st)}
-    else if(!G.failed)showArt(anim,anim&&reward?`+${reward} coins${G.clean?' · clean page':''}`:'');
+    else if(!G.failed)showArt(anim,anim&&reward?`+${reward} coins${G.blind?' · quiet page':G.clean?' · clean page':''}`:'');
     const b=document.createElement('button');b.className='turn';b.textContent='Back to calendar';b.setAttribute('aria-label','Back to the daily calendar');b.addEventListener('click',e=>{e.stopPropagation();openCalendar()});pageEl.appendChild(b);return;
   }
   if(G.failed)$('#gridwrap').querySelectorAll('.lost-stamp').forEach(n=>n.remove());
   /* no stamp any more: a living page shows its picture; a dead one stays bare (a heart sticker brings it back) */
   if(lost){const st=document.createElement('div');st.className='stamp lost-stamp'+(anim?' land':'');st.innerHTML=`<b>Lost</b><small>page ${S.page} · solved without reward</small>`;$('#gridwrap').appendChild(st)}
-  else if(!G.failed)showArt(anim,anim&&reward?`+${reward} coins${G.clean?' · clean page':''}`:'');
+  else if(!G.failed)showArt(anim,anim&&reward?`+${reward} coins${G.blind?' · quiet page':G.clean?' · clean page':''}`:'');
   else if(anim){const cap=document.createElement('div');cap.className='px-cap dead';cap.innerHTML='<b>A dead page</b><i>no picture, no reward. A heart sticker brings it back to life.</i>';$('#gridwrap').appendChild(cap);setTimeout(()=>{cap.classList.add('out');setTimeout(()=>cap.remove(),700)},6000)}
   const b=document.createElement('button');b.className='px turn';
   b.innerHTML=`page ${S.page+1} <span class="arr">&rarr;</span>`;b.setAttribute('aria-label','Turn to page '+(S.page+1));b.className='turn';
@@ -6057,7 +6087,7 @@ function normaliseSave(d){
   /* the books bought for the library. For a few hours on 6 Nov 2026 the library icon's choice was saved under the same name and wrote over them;
      every book the player had put on the shelf (and the one open) is given back */
   n.lib={};for(const id of Object.keys(typeof d.lib==='string'?Object.assign({},obj(d.shelf),d.block?{[d.block]:1}:{}):obj(d.lib)))if(BLOCKS[id]?.shop)n.lib[id]=1;n.styles={};for(const id0 of Object.keys(obj(d.styles))){const id=id0==='ember'?'onyx':id0;if(STYLES.some(x=>x.id===id))n.styles[id]=1}n.wear={};{const w=Object.fromEntries(Object.entries(obj(d.wear)).map(([c,v])=>[c,v==='ember'?'onyx':v]));for(const[c] of STYLE_CATS){const id=w[c]??(styleOf(d.style)?.cat===c?d.style:null);n.wear[c]=id&&n.styles[id]&&styleOf(id)?.cat===c?id:'none'}}
-  n.block=(BLOCKS[d.block]&&(!BLOCKS[d.block].shop||n.lib[d.block]))||n.pages[d.block]?d.block:'nines';n.shelf={};for(const[id,sh]of Object.entries(obj(d.shelf))){if((!BLOCKS[id]&&!n.pages[id])||!sh||typeof sh!=='object')continue;const lim=isVol(id)?NP+999:(BLOCKS[id]?.pages||1),solved={};for(const[q,v]of Object.entries(obj(sh.solved)))if(/^\d+$/.test(q)&&(+q>0||(isVol(id)&&+q===0))&&+q<=lim&&v)solved[q]=1;const pg=Number.isInteger(+sh.page)?Math.max(isVol(id)?0:1,Math.min(lim,+sh.page)):1;n.shelf[id]={page:pg,maxPage:Number.isInteger(+sh.maxPage)?Math.max(pg,Math.min(lim+1,+sh.maxPage)):pg,solved,prog:{}};for(const[q,pr]of Object.entries(obj(sh.prog)))if(/^\d+$/.test(q)&&pr&&Array.isArray(pr.v)&&pr.v.length===81&&Array.isArray(pr.n)&&pr.n.length===81)n.shelf[id].prog[q]={v:pr.v.map(x=>+x|0),n:pr.n.map(x=>+x|0),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(x=>x?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(x=>x).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?pr.l:MAX_LIVES,b:pr.b|0,m:pr.m|0,done:!!pr.done}}
+  n.block=(BLOCKS[d.block]&&(!BLOCKS[d.block].shop||n.lib[d.block]))||n.pages[d.block]?d.block:'nines';n.shelf={};for(const[id,sh]of Object.entries(obj(d.shelf))){if((!BLOCKS[id]&&!n.pages[id])||!sh||typeof sh!=='object')continue;const lim=isVol(id)?NP+999:(BLOCKS[id]?.pages||1),solved={};for(const[q,v]of Object.entries(obj(sh.solved)))if(/^\d+$/.test(q)&&(+q>0||(isVol(id)&&+q===0))&&+q<=lim&&v)solved[q]=1;const pg=Number.isInteger(+sh.page)?Math.max(isVol(id)?0:1,Math.min(lim,+sh.page)):1;n.shelf[id]={page:pg,maxPage:Number.isInteger(+sh.maxPage)?Math.max(pg,Math.min(lim+1,+sh.maxPage)):pg,solved,prog:{}};for(const[q,pr]of Object.entries(obj(sh.prog)))if(/^\d+$/.test(q)&&pr&&Array.isArray(pr.v)&&pr.v.length===81&&Array.isArray(pr.n)&&pr.n.length===81)n.shelf[id].prog[q]={v:pr.v.map(x=>+x|0),n:pr.n.map(x=>+x|0),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(x=>x?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(x=>x).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?pr.l:MAX_LIVES,b:pr.b|0,m:pr.m|0,done:!!pr.done,...(pr.z?{z:1,q:Array.isArray(pr.q)&&pr.q.length===81?pr.q.map(x=>x?1:0):new Array(81).fill(0)}:{})}}
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
   n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(isVol(n.block)&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
@@ -6085,12 +6115,12 @@ function normaliseSave(d){
   for(const[p,pr]of Object.entries(obj(top.prog))){
     if(!/^\d+$/.test(p)||(+p<1&&!(isVol(n.block)&&+p===0))||!pr||!Array.isArray(pr.v)||!Array.isArray(pr.n)||pr.v.length!==81||pr.n.length!==81)continue;
     if(!pr.v.every(v=>Number.isInteger(v)&&v>=0&&v<=9)||!pr.n.every(v=>Number.isInteger(v)&&v>=0&&v<=1022))continue;
-    n.prog[p]={v:pr.v.slice(),n:pr.n.slice(),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(v=>v?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(Boolean).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?Math.max(0,Math.min(MAX_LIVES,pr.l)):MAX_LIVES,b:Number.isInteger(pr.b)?pr.b&511:0,m:Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0,s:Number.isInteger(pr.s)?Math.max(0,Math.min(99,pr.s)):0};
+    n.prog[p]={v:pr.v.slice(),n:pr.n.slice(),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(v=>v?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(Boolean).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?Math.max(0,Math.min(MAX_LIVES,pr.l)):MAX_LIVES,b:Number.isInteger(pr.b)?pr.b&511:0,m:Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0,s:Number.isInteger(pr.s)?Math.max(0,Math.min(99,pr.s)):0};if(pr.z){n.prog[p].z=1;n.prog[p].q=Array.isArray(pr.q)&&pr.q.length===81?pr.q.map(v=>v?1:0):new Array(81).fill(0)}
   }
   n.daily={};for(const[key,pr]of Object.entries(obj(d.daily)).sort((a,b)=>a[0]<b[0]?1:-1).slice(0,400)){
     if(!/^\d{4}-\d{2}-\d{2}$/.test(key)||!pr||!Array.isArray(pr.v)||!Array.isArray(pr.n)||pr.v.length!==81||pr.n.length!==81)continue;
     if(!pr.v.every(v=>Number.isInteger(v)&&v>=0&&v<=9)||!pr.n.every(v=>Number.isInteger(v)&&v>=0&&v<=1022))continue;
-    n.daily[key]={v:pr.v.slice(),n:pr.n.slice(),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(v=>v?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(Boolean).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?Math.max(0,Math.min(MAX_LIVES,pr.l)):MAX_LIVES,b:Number.isInteger(pr.b)?pr.b&511:0,m:Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0,d:pr.d?1:0};
+    n.daily[key]={v:pr.v.slice(),n:pr.n.slice(),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(v=>v?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(Boolean).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?Math.max(0,Math.min(MAX_LIVES,pr.l)):MAX_LIVES,b:Number.isInteger(pr.b)?pr.b&511:0,m:Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0,d:pr.d?1:0};if(pr.z){n.daily[key].z=1;n.daily[key].q=Array.isArray(pr.q)&&pr.q.length===81?pr.q.map(v=>v?1:0):new Array(81).fill(0)}
   }
   // a match kept for later: plain data of a sane size, names cleaned; anything odd and the book simply has no match
   n.mp=null;{const m=obj(d.mp),r=obj(m.room);if((m.t==='http'||m.t==='room')&&MatchCore.isCode(String(m.code||''))&&typeof m.pid==='string'&&m.pid.length<=64&&['lobby','playing','finished'].includes(r.status)&&MatchCore.MODES.includes(r.mode)&&Array.isArray(r.players)&&r.players.length>=1&&r.players.length<=4){
@@ -6300,7 +6330,57 @@ verso.addEventListener('click',e=>{if(e.target.closest('[data-vclose]'))closeVer
 
 /* ================= events ================= */
 gridEl.addEventListener('pointerdown',e=>{e._inside=true;const c=e.target.closest('.cell');if(!c)return;if(S.sound&&!G.failed)ac();
-  const i=+c.dataset.i;if(G.bulb&&!G.done){if(editable(i)&&!G.hint[i])hintAt(i);else sfx.tick();return}if(G.rub&&!G.done){eraseAt(i);return}if(G.arm&&!G.done){if(editable(i))placeAt(i,G.arm);else{sfx.tick()}return}select(i)});
+  const i=+c.dataset.i;if(G.bulb&&!G.done){if(editable(i)&&!G.hint[i])hintAt(i);else sfx.tick();return}if(G.rub&&!G.done){eraseAt(i);return}if(G.arm&&!G.done){slideStart(e,i);return}select(i)});
+/* a picked-up number glides: a finger on the grid shows it faintly in the square underneath, it follows the finger from square
+   to square, and it is only written where the finger lets go. Letting go off the grid (or on a printed number) writes nothing */
+let SLIDE=null;
+const slideGhost=()=>{let g=$('#slideGhost');if(!g){g=document.createElement('div');g.id='slideGhost';g.className='slide-ghost';g.setAttribute('aria-hidden','true');$('#gridwrap').appendChild(g)}return g};
+function slideShow(i){const g=slideGhost(),s=SLIDE;cells.forEach(c=>c.classList.remove('aim','aim-off','under'));
+  if(i<0||!s){g.hidden=true;return}const c=cells[i],ok=editable(i),same=ok&&!G.notesMode&&G.vals[i]===s.v;c.classList.add(ok?'aim':'aim-off');
+  if(!ok||same||(G.notesMode&&G.vals[i])){g.hidden=true;if(same)c.classList.add('under');return}   /* the same number again rubs it out: the square just fades */
+  if(G.vals[i]||(!G.notesMode&&G.notes[i]))c.classList.add('under');
+  const r=c.getBoundingClientRect(),w=$('#gridwrap').getBoundingClientRect();g.hidden=false;g.className='slide-ghost'+(G.notesMode?' note':'')+(G.blind?' quiet':'');
+  Object.assign(g.style,{left:r.left-w.left+'px',top:r.top-w.top+'px',width:r.width+'px',height:r.height+'px',font:getComputedStyle(c).font});g.innerHTML=`<span class="g">${pg(s.v)}</span>`}
+function slideStart(e,i){SLIDE={id:e.pointerId,v:G.arm,i};try{gridEl.setPointerCapture(e.pointerId)}catch(err){}sfx.touch();slideShow(i)}
+function slideCell(e){const t=document.elementFromPoint(e.clientX,e.clientY),c=t&&gridEl.contains(t)?t.closest('.cell'):null;return c?+c.dataset.i:-1}
+function slideEnd(put){const s=SLIDE;if(!s)return;SLIDE=null;slideShow(-1);try{gridEl.releasePointerCapture(s.id)}catch(err){}
+  if(!put||s.i<0||G.done||G.arm!==s.v)return;if(editable(s.i))placeAt(s.i,s.v);else sfx.tick()}
+gridEl.addEventListener('pointermove',e=>{const s=SLIDE;if(!s||e.pointerId!==s.id)return;const i=slideCell(e);if(i!==s.i){s.i=i;slideShow(i)}});
+gridEl.addEventListener('pointerup',e=>{const s=SLIDE;if(!s||e.pointerId!==s.id)return;s.i=slideCell(e);slideEnd(true)});
+gridEl.addEventListener('pointercancel',e=>{if(SLIDE&&e.pointerId===SLIDE.id)slideEnd(false)});
+gridEl.addEventListener('lostpointercapture',e=>{if(SLIDE&&e.pointerId===SLIDE.id)slideEnd(false)});
+/* hold the hearts and they lift off the page and circle the finger. Let go over the page and they settle back; carry them off the
+   page, or flick them, and they fly away for good: the page becomes a quiet one (see goQuiet) */
+{const lv=$('#lives');let hold=0,H=null,sx=0,sy=0;
+ const can=()=>opened&&!swapping&&!G.blind&&!G.done&&!G.failed&&G.lives>0&&playMode!=='multi'&&!lv.hidden&&!HEARTS_UP&&!stickering;
+ const put=h=>{h.el.style.transform=`translate(${h.x.toFixed(1)}px,${h.y.toFixed(1)}px) translate(-50%,-50%) scale(${h.s.toFixed(3)}) rotate(${h.r.toFixed(1)}deg)`;h.el.style.opacity=h.o.toFixed(2)};
+ const spark=(x,y)=>{const d=document.createElement('i');d.className='heart-spark';d.textContent='♥';d.style.left=x+'px';d.style.top=y+'px';d.style.setProperty('--dx',((Math.random()-.5)*26).toFixed(0)+'px');d.style.setProperty('--dy',(8+Math.random()*26).toFixed(0)+'px');d.style.fontSize=(6+Math.random()*6).toFixed(0)+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),900)};
+ const finish=flown=>{const h=H;H=null;if(!h)return;cancelAnimationFrame(h.raf);h.hs.forEach(x=>x.el.remove());lv.classList.remove('lifted');HEARTS_UP=false;if(!(flown&&goQuiet()))render()};
+ const step=now=>{const h=H;if(!h)return;const dt=Math.min(.05,(now-h.lt)/1000);h.lt=now;const n=h.hs.length,t=(now-h.t0)/1000;
+   if(h.mode==='orbit'){h.a+=dt*(reduced?0:3.4);const R=30+4*Math.sin(t*2.2);
+     h.hs.forEach((x,k)=>{const an=h.a+k*Math.PI*2/n,tx=h.px+Math.cos(an)*R,ty=h.py-18+Math.sin(an)*R*.72,f=Math.min(1,dt*13);x.x+=(tx-x.x)*f;x.y+=(ty-x.y)*f;x.s+=(1.25+.12*Math.sin(t*5+k)-x.s)*f;x.r=Math.sin(an)*14;put(x)})}
+   else if(h.mode==='back'){let far=0;h.hs.forEach(x=>{const f=Math.min(1,dt*14);x.x+=(x.ox-x.x)*f;x.y+=(x.oy-x.y)*f;x.s+=(1-x.s)*f;x.r*=1-f;far=Math.max(far,Math.hypot(x.ox-x.x,x.oy-x.y));put(x)});if(far<.8||now-h.t1>600){finish(false);return}}
+   else{const u=(now-h.t1)/1000;h.a+=dt*(4+u*9);h.R+=dt*(46+h.R*1.9);h.cx+=h.vx*dt*1000;h.cy+=h.vy*dt*1000;h.vy-=dt*.55;h.vx*=1-dt*.6;   /* away: the ring widens as it spins, drifts the way it was thrown and floats up */
+     h.hs.forEach((x,k)=>{const an=h.a+k*Math.PI*2/n;x.x=h.cx+Math.cos(an)*h.R;x.y=h.cy+Math.sin(an)*h.R*.8;x.s=1.25+u*.9;x.r=an*57.3;x.o=Math.max(0,1-Math.max(0,u-.7)/.8);put(x);if(!reduced&&x.o>.15&&Math.random()<dt*26)spark(x.x,x.y)});
+     if(u>1.5){finish(true);return}}
+   h.raf=requestAnimationFrame(step)};
+ const lift=e=>{const its=[...lv.querySelectorAll('i:not(.lost)')];if(!its.length||!can())return;HEARTS_UP=true;
+   const hs=its.map(el=>{const r=el.getBoundingClientRect(),c=document.createElement('i');c.className='fly-heart';c.textContent='♥';c.style.fontSize=getComputedStyle(el).fontSize;document.body.appendChild(c);const x={el:c,x:r.left+r.width/2,y:r.top+r.height/2,s:1,r:0,o:1};x.ox=x.x;x.oy=x.y;put(x);return x});
+   lv.classList.add('lifted');const now=performance.now();H={id:e.pointerId,hs,px:e.clientX,py:e.clientY,vx:0,vy:0,mt:now,lt:now,t0:now,a:-Math.PI/2,mode:'orbit',raf:0};
+   try{lv.setPointerCapture(e.pointerId)}catch(err){}try{navigator.vibrate?.(14)}catch(err){}
+   if(sfx.ok()){tone({f:523,f2:784,type:'sine',g:.05,d:.16,wet:.2});tone({f:1046,type:'sine',t:.09,g:.03,d:.14,wet:.25})}
+   H.raf=requestAnimationFrame(step)};
+ lv.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;clearTimeout(hold);if(!can())return;sx=e.clientX;sy=e.clientY;hold=setTimeout(()=>lift(e),430)});
+ lv.addEventListener('pointermove',e=>{const h=H;if(!h){if(Math.hypot(e.clientX-sx,e.clientY-sy)>12)clearTimeout(hold);return}if(e.pointerId!==h.id||h.mode!=='orbit')return;
+   const now=performance.now(),dt=Math.max(1,now-h.mt);h.vx=h.vx*.6+(e.clientX-h.px)/dt*.4;h.vy=h.vy*.6+(e.clientY-h.py)/dt*.4;h.mt=now;h.px=e.clientX;h.py=e.clientY});
+ const drop=(e,cancelled)=>{clearTimeout(hold);const h=H;if(!h||e.pointerId!==h.id||h.mode!=='orbit')return;const now=performance.now();if(now-h.mt>90){h.vx=0;h.vy=0}   /* a finger that stopped before letting go did not flick */
+   const pg=pageEl.getBoundingClientRect(),out=e.clientX<pg.left||e.clientX>pg.right||e.clientY<pg.top||e.clientY>pg.bottom,sp=Math.hypot(h.vx,h.vy);h.t1=now;
+   if(cancelled||!(out||sp>.75)){h.mode='back';sfx.tick();return}
+   h.mode='away';h.cx=h.px;h.cy=h.py-18;h.R=30;const k=sp>.2?Math.min(1,1.1/sp):0;h.vx=sp>.2?h.vx*k*.55:.12;h.vy=sp>.2?h.vy*k*.55:-.3;
+   try{navigator.vibrate?.([10,30,18])}catch(err){}
+   if(sfx.ok()){noise({d:.55,g:.05,f:500,f2:2600,q:.8,wet:.25});[1318.5,1568,2093,2637].forEach((f,i)=>tone({f,type:'sine',t:.08+i*.09,g:.035,d:.3,wet:.35}))}};
+ lv.addEventListener('pointerup',e=>drop(e,false));lv.addEventListener('pointercancel',e=>drop(e,true));
+ lv.addEventListener('pointerleave',()=>{if(!H)clearTimeout(hold)});lv.addEventListener('contextmenu',e=>e.preventDefault())}
 /* tap outside the grid and the keys to let go of the selection or the picked-up number */
 document.addEventListener('pointerdown',e=>{if(!opened||e._inside)return;
   if(e.target.closest('.grid,.hand,.tools-g,.popv,.cu,.libbtn,.veil,.shopbtn,.setbtn,.tab,.ribbon,.turn,.placebar,.toast'))return;
@@ -7455,7 +7535,7 @@ function placeSpecial(loader,print=false){
 function loadDailyNow(key){
   G.circ=null;$('#circStrip').hidden=true;
   const z=dailyPuzzle(key),info=dailyInfo(key);if(!S.daily)S.daily={};const pr=S.daily[key];playMode='daily';dailyKey=key;currentTheme=info;
-  G.puz=z.puz;G.sol=z.sol;G.giv=z.giv;G.vals=pr?pr.v.slice():z.puz.slice();G.notes=pr?pr.n.slice():new Array(81).fill(0);G.hint=pr&&pr.h?pr.h.slice():new Array(81).fill(0);G.hu=pr&&Number.isInteger(pr.u)?pr.u:G.hint.filter(Boolean).length;G.clean=pr?pr.c:true;G.lives=pr?pr.l:MAX_LIVES;G.boxes=pr?pr.b:0;G.combo=pr?pr.m||0:0;G.hist=[];G.fut=[];G.sel=-1;G.hl=0;G.arm=0;G.rub=false;G.notesMode=false;G.failed=G.lives<=0;G.done=!!pr?.d&&G.vals.every((v,k)=>v===G.sol[k]);
+  G.puz=z.puz;G.sol=z.sol;G.giv=z.giv;G.vals=pr?pr.v.slice():z.puz.slice();G.notes=pr?pr.n.slice():new Array(81).fill(0);G.hint=pr&&pr.h?pr.h.slice():new Array(81).fill(0);G.hu=pr&&Number.isInteger(pr.u)?pr.u:G.hint.filter(Boolean).length;G.clean=pr?pr.c:true;G.lives=pr?pr.l:MAX_LIVES;G.boxes=pr?pr.b:0;G.combo=pr?pr.m||0:0;G.blind=!!pr?.z;G.bl=pr&&Array.isArray(pr.q)&&pr.q.length===81?pr.q.slice():new Array(81).fill(0);G.hist=[];G.fut=[];G.sel=-1;G.hl=0;G.arm=0;G.rub=false;G.notesMode=false;G.failed=G.lives<=0;G.done=!!pr?.d&&G.vals.every((v,k)=>v===G.sol[k]);
   pageEl.querySelectorAll('.stamp,.turn,.spark,.chip').forEach(n=>n.remove());$('#pstickers').innerHTML='';pageEl.className=`leaf puzzle paper daily-page daily-${info.cls}`;const motif=$('#dailyMotif');motif.innerHTML=motifSVG(info.motif);motif.hidden=false;drawLines(info.seed);renderHead();render();if(G.done)showSolved(false);else if(G.failed)showLost();save();
 }
 function startDaily(key){
@@ -7474,7 +7554,7 @@ function leaveDaily(calendar=true){
   if(calendar)setTimeout(()=>openCalendar(key),reduced?0:180)
 }
 function solveDaily(){
-  G.done=true;G.sel=-1;if(!S.daily)S.daily={};const old=S.daily[dailyKey]?.d||0,reward=G.failed?0:(old?0:3+(G.clean?2:0));stash();S.daily[dailyKey].d=1;S.coins+=reward;sfx.solve();render();save();steam(12);const key=dailyKey;setTimeout(()=>{if(playMode!=='daily'||dailyKey!==key||!G.done)return;showSolved(true,reward)},reduced?20:650);
+  G.done=true;G.sel=-1;if(!S.daily)S.daily={};const old=S.daily[dailyKey]?.d||0,reward=G.failed?0:(old?0:G.blind?quietPay(3):3+(G.clean?2:0));stash();S.daily[dailyKey].d=1;S.coins+=reward;sfx.solve();render();save();steam(12);const key=dailyKey;setTimeout(()=>{if(playMode!=='daily'||dailyKey!==key||!G.done)return;showSolved(true,reward)},reduced?20:650);
 }
 let calView=new Date(midDate().getFullYear(),midDate().getMonth(),1),calSelected=dateKey(midDate());
 function openCalendar(preferred=null){
@@ -7846,7 +7926,7 @@ function acceptMP(data){const old=MP.room,r=data.room;if(data.playerId)MP.player
     if(old?.status==='lobby'){if(MP.overlay){MP.overlay.remove();MP.overlay=null}try{faxPrint(multiPuzzle(r.mode==='party'?me.page:0).puz.map(x=>x||'.').join(''),r.mode==='bo3'?'Best of Three · sheet 1':r.mode==='party'?'Party · first sheet':'Duel')}catch(e){}}MP.result=false;MP.seen=mpDigest(r);faxBadge();const page=r.mode==='party'?me.page:MP.localPage;loadMultiPage(page,r.mode==='party');
   }else{renderMatchHUD();if(!MP.result){MP.result=true;const same=r.code+':'+r.seed;setTimeout(()=>{const m=MP.room;if(m&&m.status==='finished'&&m.code+':'+m.seed===same&&!MP.away)mpResult()},reduced?40:650)}/* the same match, still over: a newer snapshot in between must not swallow the result */}renderMatchHUD();setTimeout(()=>MP.hit.clear(),500)}
 function loadMultiPage(page,print=false){const r=MP.room;if(!r||r.status!=='playing')return;if(playMode!=='multi')stash();if(r.mode!=='bo3')MP.localPage=page;else MP.localPage=Math.max(0,Math.min(2,page));const key=`${r.code}:${r.mode}:${MP.localPage}`;if(playMode==='multi'&&MP.loaded===key)return;MP.loaded=key;const go=()=>placeSpecial(()=>loadMultiNow(MP.localPage),print);if(flipping)setTimeout(go,850);else go()}
-function loadMultiNow(page){const r=MP.room;if(!r)return;G.circ=null;$('#circStrip').hidden=true;const z=multiPuzzle(page),me=r.players.find(p=>p.id===MP.playerId),pr=MP.pages[page];playMode='multi';dailyKey=null;currentTheme=null;G.puz=z.puz;G.sol=z.sol;G.giv=z.giv;G.vals=pr?pr.v.slice():z.puz.slice();G.notes=pr?pr.n.slice():new Array(81).fill(0);G.hint=pr&&pr.h?pr.h.slice():new Array(81).fill(0);G.hu=pr&&Number.isInteger(pr.u)?pr.u:G.hint.filter(Boolean).length;G.clean=pr?pr.c:true;G.lives=pr?pr.l:MAX_LIVES;G.boxes=pr?pr.b:0;G.combo=pr?pr.m||0:0;G.hist=[];G.fut=[];G.sel=-1;G.hl=0;G.arm=0;G.rub=false;G.notesMode=false;G.failed=G.lives<=0;G.done=pr?.done||r.status==='finished'||(r.mode==='bo3'&&!!me?.done[page]);pageEl.querySelectorAll('.stamp,.turn,.spark,.chip').forEach(n=>n.remove());pageEl.className='leaf puzzle paper multi-page';$('#dailyMotif').hidden=true;drawLines((r.seed+page*7919)>>>0);renderHead();render();renderMatchHUD();if(G.done)showMultiStamp(false)}
+function loadMultiNow(page){const r=MP.room;if(!r)return;G.circ=null;$('#circStrip').hidden=true;const z=multiPuzzle(page),me=r.players.find(p=>p.id===MP.playerId),pr=MP.pages[page];playMode='multi';dailyKey=null;currentTheme=null;G.puz=z.puz;G.sol=z.sol;G.giv=z.giv;G.vals=pr?pr.v.slice():z.puz.slice();G.notes=pr?pr.n.slice():new Array(81).fill(0);G.hint=pr&&pr.h?pr.h.slice():new Array(81).fill(0);G.hu=pr&&Number.isInteger(pr.u)?pr.u:G.hint.filter(Boolean).length;G.clean=pr?pr.c:true;G.lives=pr?pr.l:MAX_LIVES;G.boxes=pr?pr.b:0;G.combo=pr?pr.m||0:0;G.blind=!!pr?.z;G.bl=pr&&Array.isArray(pr.q)&&pr.q.length===81?pr.q.slice():new Array(81).fill(0);G.hist=[];G.fut=[];G.sel=-1;G.hl=0;G.arm=0;G.rub=false;G.notesMode=false;G.failed=G.lives<=0;G.done=pr?.done||r.status==='finished'||(r.mode==='bo3'&&!!me?.done[page]);pageEl.querySelectorAll('.stamp,.turn,.spark,.chip').forEach(n=>n.remove());pageEl.className='leaf puzzle paper multi-page';$('#dailyMotif').hidden=true;drawLines((r.seed+page*7919)>>>0);renderHead();render();renderMatchHUD();if(G.done)showMultiStamp(false)}
 function showMultiStamp(anim=true){pageEl.querySelectorAll('.stamp,.turn').forEach(n=>n.remove());const st=document.createElement('div');st.className='stamp'+(G.failed&&S.lostStamp?' lost-stamp':'')+(anim?' land':'');st.innerHTML=G.failed&&S.lostStamp?'<b>Lost</b><small>dead page · filed without coins</small>':G.failed?'<b>Filed</b><small>dead page · without coins</small>':'<b>Filed</b><small>received by your rival</small>';$('#gridwrap').appendChild(st);if(MP.room?.mode==='bo3'&&MP.room.status==='playing'){const next=MP.room.players.find(p=>p.id===MP.playerId)?.done.findIndex((d,i)=>!d&&i!==MP.localPage);if(next>=0){const b=document.createElement('button');b.className='turn';b.textContent=`Sheet ${next+1} →`;b.setAttribute('aria-label',`Open sheet ${next+1}`);b.onclick=e=>{e.stopPropagation();multiSwipe(-1,next)};pageEl.appendChild(b)}}}
 async function mpEvent(type,extra={}){if(!MP.room||MP.room.status!=='playing')return;const sent=Net.event(type,extra);mpRemember();try{acceptMP(await sent)}catch(e){toast(e.message)}finally{mpRemember()}}
 function solveMulti(){if(G.done)return;G.done=true;G.sel=-1;stashMulti();sfx.solve();render();steam(10);showMultiStamp(true);const page=MP.localPage;mpEvent('solve',{page})}
@@ -8093,7 +8173,7 @@ $('#radioBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();openR
 
 /* ================= boot ================= */
 function start(data){
-  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
+  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
     puzzleIn(id,p){const was=S.block;S.block=id;try{return puzzle(p)}finally{S.block=was}}};
   load();if(saveLost)setTimeout(()=>toast('The book’s record could not be read, so a fresh book was opened. The old record is kept aside.'+(S.savePage?' A save code from the Binder’s Record can bring a book back.':'')),2500);
   devUnlocked();
