@@ -1,0 +1,217 @@
+The typefaces in this folder are free software, used unmodified as served by Google Fonts. Most are under the
+SIL Open Font License, Version 1.1 (https://openfontlicense.org); a few are under the Apache License, Version 2.0
+(https://www.apache.org/licenses/LICENSE-2.0). Each file carries its own copyright notice and licence in its name table;
+they are repeated here.
+
+Tinos
+  Copyright 2026 The Tinos Project Authors (https://github.com/googlefonts/tinos)
+  
+  https://openfontlicense.org
+
+Old Standard TT
+  Copyright 2011 The Old Standard Project Authors (amkryukov@gmail.com)
+  
+  http://scripts.sil.org/OFL
+
+Libre Caslon Text
+  Copyright 2012 The Libre Caslon Text Project Authors (https://github.com/impallari/Libre-Caslon-Text)
+  
+  http://scripts.sil.org/OFL
+
+Libre Baskerville
+  Copyright 2012 The Libre Baskerville Project Authors (https://github.com/impallari/Libre-Baskerville)
+  
+  https://openfontlicense.org
+
+Bodoni Moda
+  Copyright 2020 The Bodoni Moda Project Authors (https://github.com/indestructible-type/Bodoni)
+  
+  https://scripts.sil.org/OFL
+
+Playfair Display
+  Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name "Playfair Display".
+  
+  http://scripts.sil.org/OFL
+
+Newsreader
+  Copyright 2020 The Newsreader Project Authors (http://github.com/productiontype/Newsreader)
+  
+  http://scripts.sil.org/OFL
+
+Domine
+  Copyright 2020 The Domine Project Authors (https://github.com/googlefonts/domine)
+  
+  http://scripts.sil.org/OFL
+
+Besley
+  Copyright 2020 The Besley Project Authors (https://github.com/indestructible-type/Besley)
+  
+  https://scripts.sil.org/OFL
+
+Sorts Mill Goudy
+  Copyright (c) 2010, Barry Schwartz (chemoelectric@chemoelectric.org)
+  
+  http://scripts.sil.org/OFL
+
+Goudy Bookletter 1911
+  Copyright (c) 2010, Barry Schwartz (crudfactory.com)
+  
+  http://scripts.sil.org/OFL
+
+Libre Franklin
+  Copyright 2020 The Libre Franklin Project Authors (https://github.com/googlefonts/Libre-Franklin)
+  
+  https://openfontlicense.org
+
+News Cycle
+  Copyright (c) 2010-2011, Nathan Willis (nwillis@glyphography.com), with Reserved Font Name "News Cycle."
+  
+  http://scripts.sil.org/OFL
+
+League Gothic
+  Copyright 2020 The League Gothic Project Authors (https://github.com/theleagueof/league-gothic)
+  
+  https://scripts.sil.org/OFL
+
+Oswald
+  Copyright 2016 The Oswald Project Authors (https://github.com/googlefonts/OswaldFont)
+  
+  https://scripts.sil.org/OFL
+
+Chivo
+  Copyright 2019 The Chivo Project Authors (https://github.com/Omnibus-Type/Chivo)
+  
+  https://scripts.sil.org/OFL
+
+Arimo
+  Copyright 2020 The Arimo Project Authors (https://github.com/googlefonts/arimo)
+  
+  https://openfontlicense.org
+
+Abril Fatface
+  Copyright (c) 2011, Copyright (c) 2011, TypeTogether (www.type-together.com), with Reserved Font Names "Abril" and "Abril Fatface"
+  
+  http://scripts.sil.org/OFL
+
+Ultra
+  Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence.http://www.apache.org/licenses/LICENSE-2.0.html
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Rokkitt
+  Copyright 2016 The Rokkit Project Authors (https://github.com/googlefonts/RokkittFont)
+  
+  https://scripts.sil.org/OFL
+
+Manufacturing Consent
+  Copyright 2019 The Manufacturing Consent Project Authors (https://github.com/googlefonts/manufacturing-consent-font)
+  
+  https://openfontlicense.org
+
+UnifrakturMaguntia
+  Copyright (c) 2010 j. 'mach' wust with Reserved Font Name UnifrakturMaguntia.
+Copyright (c) 2009 Peter Wiegel.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+  
+  http://scripts.sil.org/OFL
+
+Courier Prime
+  Copyright 2015 The Courier Prime Project Authors (https://github.com/quoteunquoteapps/CourierPrime).
+  
+  http://scripts.sil.org/OFL
+
+Special Elite
+  Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved. Available under the Apache 2.0 licence.http://www.apache.org/licenses/LICENSE-2.0.html
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Shippori Mincho
+  Copyright 2021 The Shippori Mincho Project Authors (https://github.com/fontdasu/ShipporiMincho)
+  
+  https://scripts.sil.org/OFL
+
+Klee One
+  Copyright 2020 The Klee Project Authors (https://github.com/fontworks-fonts/Klee)
+  
+  https://scripts.sil.org/OFL
+
+Zen Maru Gothic
+  Copyright 2021 The Zen Maru Gothic Authors (https://github.com/googlefonts/zen-marugothic)
+  
+  https://scripts.sil.org/OFL
+
+DotGothic16
+  Copyright 2020 The DotGothic16 Project Authors (https://github.com/fontworks-fonts/DotGothic16/)
+  
+  https://scripts.sil.org/OFL
+
+Rye
+  Copyright (c) 2010 by Sorkin Type Co with Reserved Font Name Rye.This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
+  
+  http://scripts.sil.org/OFL
+
+Sancreek
+  Copyright (c) 2011 by vernon adams (vern@newtypography.co.uk), with Reserved Font Names "Sancreek"
+  
+  http://scripts.sil.org/OFL
+
+Ewert
+  Copyright (c) 2011, Johan Kallas (johankallas@gmail.com), Copyright (c) 2011 Mihkel Virkus (mihkelvirkus@gmail.com) with Reserved Font Name Ewert.
+  
+  http://scripts.sil.org/OFL
+
+Fredericka the Great
+  Copyright (c) 2011 by Font Diner, Inc DBA Tart Workshop (diner@fontdiner.com) with Reseved Font Name "Fredericka the Great"
+  
+  http://scripts.sil.org/OFL
+
+Nixie One
+  Copyright (c) 2011, Jovanny Lemonad (lemonad@jovanny.ru), with Reserved Font Name "Nixie"
+  
+  http://scripts.sil.org/OFL
+
+Cinzel
+  Copyright 2020 The Cinzel Project Authors (https://github.com/NDISCOVER/Cinzel)
+  
+  https://scripts.sil.org/OFL
+
+IM Fell Double Pica
+  © 2007 Igino Marini (www.iginomarini.com) with reserved name IM FELL Double Pica Italic
+  
+  http://scripts.sil.org/OFL
+
+Poiret One
+  Copyright (c) 2011, Denis Masharov (denis.masharov@gmail.com)
+  
+  http://scripts.sil.org/OFL
+
+Federo
+  Copyright (c) 2011 by Olexa M. Volochay | Cyreal.org. All rights reserved.
+  
+  http://scripts.sil.org/OFL
+
+Jacquard 24
+  Copyright 2023 The Soft Type Project Authors (https://github.com/scfried/soft-type-jacquard)
+  
+  https://openfontlicense.org
+
+VT323
+  Copyright 2011, The VT323 Project Authors (peter.hull@oikoi.com)
+  
+  http://scripts.sil.org/OFL
+
+Press Start 2P
+  Copyright 2012 The Press Start 2P Project Authors (cody@zone38.net), with Reserved Font Name "Press Start 2P"
+  
+  http://scripts.sil.org/OFL
+
+Architects Daughter
+  Copyright (c) 2010, Kimberly Geswein (kimberlygeswein.com)
+  
+   http://scripts.sil.org/OFL
+
+Patrick Hand
+  Copyright (c) 2012 Patrick Wagesreiter (mail@patrickwagesreiter.at)
+  
+  http://scripts.sil.org/OFL
