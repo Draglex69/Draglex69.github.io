@@ -6216,7 +6216,7 @@ const STK=[
 if(typeof PAGE_STK!=='undefined')PAGE_STK.forEach((r,p)=>STK.push({id:'pg-'+p,name:r.n,price:0,page:p,raw:1,svg:r.svg}));
 const stickSVG=(st)=>st.raw?`<svg viewBox="0 0 64 64" aria-hidden="true">${st.svg}</svg>`:st.tape?`<span class="washi w-${st.tape}"></span>`:`<svg viewBox="0 0 64 64" aria-hidden="true"><g stroke="#fff" stroke-width="7" stroke-linejoin="round" paint-order="stroke">${st.svg.replace(/<(path|circle|ellipse|rect)/g,'<$1 stroke="#fff" stroke-width="7" paint-order="stroke"')}</g></svg>`;
 var VST_EL;function vst(){return VST_EL||(VST_EL=document.getElementById('vstickers'))}   /* the stickers layer of the quote sheet (it moves with the sheet shown) */
-let atFront=false,versoMoving=false,versoFlip=false,versoPage=1,versoGen=0;
+let atFront=false,versoMoving=false,versoFlip=false,versoPage=1,versoGen=0,versoT=0;
 function stk(){if(!S.stk)S.stk={owned:{},placed:[],pages:{}};if(!S.stk.pages)S.stk.pages={};return S.stk}
 /* where a sticker goes right now: the cover while the book is shut, the page while it is open (the almanac's and a match's pages take none) */
 function stkKey(){if(atFront&&!$('#vSheet').hidden)return'q/'+versoPage;   /* the back of a page, with its quote */
@@ -7634,7 +7634,7 @@ function openVerso(){
   if(atFront||versoMoving||atBack||saveFlipping||flipping||!opened||!versoOK())return;
   closePops();document.querySelectorAll('.toast').forEach(t=>t.remove());
   versoPage=Math.max(1,Math.min(NP,S.page));S[VSEEN()]=versoRead();versoBadge();save();
-  atFront=true;versoMoving=true;const g=++versoGen;
+  atFront=true;versoMoving=true;versoT=performance.now();const g=++versoGen;
   vCover.querySelectorAll('.vleaf').forEach(n=>n.remove());vSheet.hidden=true;verso.classList.remove('ready');
   placeVerso();verso.hidden=false;
   if(reduced){board.classList.add('at-front');showSheet(versoPage);versoReady(g);return}
@@ -7652,7 +7652,7 @@ function openVerso(){
     setTimeout(()=>versoReady(g),(versoPage-first)*gap+fd+20)},GONE+320);
 }
 function closeVerso(){
-  if(!atFront||versoMoving)return;versoMoving=true;const g=++versoGen;
+  if(!atFront||versoMoving)return;versoMoving=true;versoT=performance.now();const g=++versoGen;
   if(document.activeElement&&verso.contains(document.activeElement))document.activeElement.blur();
   verso.classList.remove('ready');
   const finish=()=>{if(g!==versoGen)return;ownAnims(board).forEach(a=>a.cancel());vCover.getAnimations().forEach(a=>a.cancel());vCover.querySelectorAll('.vleaf').forEach(n=>n.remove());verso.hidden=true;atFront=false;versoMoving=false;renderStickers()};
@@ -7676,6 +7676,16 @@ function stepVerso(d){const n=versoPage+d;if(!atFront||versoMoving||versoFlip||n
   if(d>0){const lf=makeLeaf(n,null);lf.animate(V_IN,{duration:fd,easing:V_EASE,fill:'both'}).onfinish=()=>{if(g!==versoGen)return;showSheet(n);lf.remove();versoFlip=false}}
   else{const lf=makeLeaf(versoPage,null);showSheet(n);lf.animate(V_OUT,{duration:fd,easing:V_EASE,fill:'both'}).onfinish=()=>{lf.remove();if(g===versoGen)versoFlip=false}}
   versoPage=n}
+/* a watch on the book's place: the slide to the quotes and back is a chain of timed steps, and on a phone a step can be lost
+   (the app sent to the background mid-slide, its timers paused). Whatever happened, the book never stays pushed aside:
+   with the quotes shut, nothing may hold it off its place; a slide that has not ended after a few seconds is ended */
+function bookSane(){if(typeof board==='undefined'||!board)return;const now=performance.now();
+  if(versoMoving&&now-versoT>4500){if(atFront&&!verso.hidden&&board.classList.contains('at-front')&&!vCover.querySelector('.vleaf')){versoMoving=false;versoFlip=false;verso.classList.add('ready')}else dropFront();return}
+  if(atFront||versoMoving)return;
+  const held=ownAnims(board).filter(a=>!(window.CSSTransition&&a instanceof CSSTransition));if(held.length)held.forEach(a=>a.cancel());
+  if(board.classList.contains('at-front'))board.classList.remove('at-front');
+  if(!verso.hidden){verso.hidden=true;verso.classList.remove('ready');vCover.querySelectorAll('.vleaf').forEach(n=>n.remove())}}
+setInterval(bookSane,800);document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(bookSane,60)});addEventListener('pageshow',()=>setTimeout(bookSane,60));addEventListener('focus',()=>setTimeout(bookSane,60));
 function dropFront(){if(!atFront&&!versoMoving)return;versoGen++;ownAnims(board).forEach(a=>a.cancel());vCover.getAnimations().forEach(a=>a.cancel());vCover.querySelectorAll('.vleaf').forEach(n=>n.remove());
   verso.hidden=true;verso.classList.remove('ready');board.classList.remove('at-front');atFront=false;versoMoving=false;versoFlip=false}
 versoBtn.addEventListener('click',e=>{e.stopPropagation();openVerso()});
@@ -9583,7 +9593,7 @@ $('#radioBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();openR
 
 /* ================= boot ================= */
 function start(data){
-  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
+  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
     puzzleIn(id,p){const was=S.block;S.block=id;try{return puzzle(p)}finally{S.block=was}}};
   load();if(saveLost)setTimeout(()=>toast('The book’s record could not be read, so a fresh book was opened. The old record is kept aside.'+(S.savePage?' A save code from the Binder’s Record can bring a book back.':'')),2500);
   devUnlocked();
