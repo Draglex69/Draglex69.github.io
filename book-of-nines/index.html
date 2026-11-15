@@ -1677,7 +1677,6 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
 
 /* the intro: an empty page first, then the name fades in once its typeface has loaded */
 .publisher-intro .pub-name{opacity:0;transition:opacity 1.4s ease}.publisher-intro.ready .pub-name{opacity:1}
-.publisher-intro.hurry,.quiet-loader.hurry{transition:opacity .34s ease!important;opacity:0!important;pointer-events:none}.publisher-intro.hurry .pub-name{transition:none}
 @media (prefers-reduced-motion:reduce){.publisher-intro .pub-name{transition:none}}
 
 /* the draft scenes in Design: one row of five small previews per family */
@@ -10410,31 +10409,26 @@ function start(data){
 window.claude?.hot?.snapshot?.(()=>{stash();return{S:JSON.parse(JSON.stringify(S)),opened}});
 window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
 function runEntrance(){
-  const intro=$('#publisherIntro'),loader=$('#quietLoader'),introTime=reduced?1200:2600,introFade=reduced?30:1600,loaderFade=reduced?30:700;
-  /* the impatient: a tap anywhere during the intro (or the loading pen) ends it at once, with a short fade */
-  let skipped=false;
-  const hurry=e=>{if(skipped)return;skipped=true;e?.preventDefault?.();e?.stopPropagation?.();removeEventListener('pointerdown',hurry,true);removeEventListener('keydown',hurry,true);
-    for(const el of [intro,loader]){if(!el.isConnected)continue;el.classList.add('ready','leaving','hurry');setTimeout(()=>el.remove(),reduced?0:360)}};
-  addEventListener('pointerdown',hurry,true);addEventListener('keydown',hurry,true);
-  const done=()=>{if(!skipped){skipped=true;removeEventListener('pointerdown',hurry,true);removeEventListener('keydown',hurry,true)}};
+  const intro=$('#publisherIntro'),loader=$('#quietLoader'),introTime=reduced?1200:2600,introFade=reduced?30:1600,loaderFade=reduced?30:700,SOON=reduced?30:1000;
+  /* the impatient: once the name has fully shown, a tap (or a key) starts the fade at once instead of waiting; the loading pen,
+     if it is switched on, likewise fades as soon as it is tapped */
+  let left=false,canTap=false,loaderOn=false,timer=0;
+  const listen=on=>{for(const t of ['pointerdown','keydown'])(on?addEventListener:removeEventListener)(t,tap,true)};
+  const tap=e=>{if(loaderOn){e.preventDefault();e.stopPropagation();fadeLoader();return}if(!canTap||left)return;e.preventDefault();e.stopPropagation();clearTimeout(timer);leave(SOON)};
+  const fadeLoader=()=>{if(!loaderOn)return;loaderOn=false;listen(false);loader.classList.add('leaving');setTimeout(()=>loader.remove(),loaderFade)};
+  const leave=fade=>{if(left)return;left=true;canTap=false;
+    intro.style.transitionDuration=fade+'ms';intro.classList.add('leaving');
+    const early=reduced?0:Math.min(500,fade/3);   // the pen shows through the intro's last moments
+    setTimeout(()=>intro.remove(),fade);
+    if(S.loading!==true){setTimeout(()=>listen(false),fade);return}
+    setTimeout(()=>{loader.hidden=false;loaderOn=true;const began=performance.now();
+      Promise.resolve(document.fonts?.ready).catch(()=>{}).then(()=>{const wait=Math.max(0,1400-(performance.now()-began));setTimeout(fadeLoader,wait)})},Math.max(0,fade-early))};
+  listen(true);
   /* the name waits on the empty paper until its typeface is really there (a second at least, never more than three), then fades in */
   const t0=performance.now(),face=document.fonts?.load?Promise.race([document.fonts.load('700 42px "Cinzel Decorative"','Tea Story').catch(()=>{}),new Promise(r=>setTimeout(r,3000))]):Promise.resolve();
-  face.then(()=>new Promise(r=>setTimeout(r,Math.max(0,(reduced?0:1000)-(performance.now()-t0))))).then(()=>{if(skipped)return;intro.classList.add('ready');
-  setTimeout(()=>{if(skipped)return;
-    intro.classList.add('leaving');
-    const early=reduced?0:500;                      // the pen shows through the intro's last half second
-    setTimeout(()=>intro.remove(),introFade);
-    if(S.loading!==true)setTimeout(done,introFade);
-    setTimeout(()=>{
-      if(S.loading!==true||skipped)return;
-      loader.hidden=false;
-      const began=performance.now();
-      Promise.resolve(document.fonts?.ready).catch(()=>{}).then(()=>{
-        const wait=Math.max(0,1400-(performance.now()-began));
-        setTimeout(()=>{if(skipped)return;loader.classList.add('leaving');setTimeout(()=>{loader.remove();done()},loaderFade)},wait)
-      })
-    },Math.max(0,introFade-early))
-  },introTime)})
+  face.then(()=>new Promise(r=>setTimeout(r,Math.max(0,(reduced?0:1000)-(performance.now()-t0))))).then(()=>{intro.classList.add('ready');
+    setTimeout(()=>{canTap=true},reduced?0:1400);   /* taps count only once the name stands there in full */
+    timer=setTimeout(()=>leave(introFade),introTime)})
 }
 runEntrance();
 })();
