@@ -287,6 +287,8 @@ body.kbd button:focus-visible,body.kbd .cover:focus-visible{outline:3px solid va
 .board.row .tcell{padding-right:3px}
 .board.col .tcell{padding-top:6px}
 .pcell{position:relative;perspective:2200px}
+/* a page being turned rises off the book: it passes over the instrument, not under it */
+.board>.pcell.turning,.board>.pcell:has(>.turn-stage,>.flipper){z-index:5}
 .board.shake{animation:bump .5s}
 @keyframes bump{20%{transform:rotate(-1deg) scale(1.015)}45%{transform:rotate(.8deg)}70%{transform:rotate(-.4deg)}}
 .paper{background:var(--paper)}
@@ -6424,12 +6426,12 @@ function turnOpen(fwd,target,style){const W=pageEl.offsetWidth,H=pageEl.offsetHe
   if(fwd){T.cb=turnCells();T.src=turnCopy();loadPage(target)}
   else{T.under=turnCopy();T.under.classList.add('turn-under');pcell.appendChild(T.under);loadPage(target);T.cb=turnCells();T.src=turnCopy();pageEl.style.visibility='hidden'}
   T.stage=tdiv('turn-stage '+style);T.stage.style.cssText=`left:${pageEl.offsetLeft}px;top:${pageEl.offsetTop}px;width:${W}px;height:${H}px`;pcell.appendChild(T.stage);
-  TURN=T;TURN_ENG[style].build(T);return T}
+  pcell.classList.add('turning');TURN=T;TURN_ENG[style].build(T);return T}
 function turnClose(T,commit,page){if(T.done)return;T.done=true;cancelAnimationFrame(T.raf);
   if(!commit){loadPage(T.keep.page);G.hist=T.keep.hist;G.fut=T.keep.fut;G.sel=T.keep.sel;G.hl=T.keep.hl;render()}else if(page&&page!==S.page)loadPage(page);
   T.under?.remove();pageEl.style.visibility='';T.chip?.remove();
   if(commit&&page){T.stage.classList.add('out');setTimeout(()=>T.stage.remove(),200)}else T.stage.remove();
-  TURN=null;flipping=false}
+  pcell.classList.remove('turning');TURN=null;flipping=false}
 /* run a value from a to b over ms, eased */
 function turnRun(T,ms,step,then){const t0=performance.now();const f=now=>{if(T.done)return;const s=tclamp((now-t0)/ms,0,1);step(s);if(s<1)T.raf=requestAnimationFrame(f);else then&&then()};T.raf=requestAnimationFrame(f)}
 const easeOut=s=>1-Math.pow(1-s,3),easeIO=s=>s<.5?4*s*s*s:1-Math.pow(-2*s+2,3)/2;
