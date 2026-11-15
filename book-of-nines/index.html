@@ -1677,6 +1677,7 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
 
 /* the intro: an empty page first, then the name fades in once its typeface has loaded */
 .publisher-intro .pub-name{opacity:0;transition:opacity 1.4s ease}.publisher-intro.ready .pub-name{opacity:1}
+.publisher-intro.hurry,.quiet-loader.hurry{transition:opacity .34s ease!important;opacity:0!important;pointer-events:none}.publisher-intro.hurry .pub-name{transition:none}
 @media (prefers-reduced-motion:reduce){.publisher-intro .pub-name{transition:none}}
 
 /* the draft scenes in Design: one row of five small previews per family */
@@ -5594,7 +5595,7 @@ function prefetchNext(){const bk=block(),n=S.page+1;if(playMode!=='book'||bk.gri
 
 /* ================= state ================= */
 const KEY='bookOfNines.v1',MAX_LIVES=3;
-const DEFAULTS={stkBox:'bottom',pal:2,ui:'press',press:'oak',glyph:'num',scene:'cloth',sound:true,loading:true,leather:false,coins:5,maxPage:1,solved:{},prog:{},daily:{},page:1};
+const DEFAULTS={stkBox:'bottom',pal:2,ui:'press',press:'oak',glyph:'num',scene:'cloth',sound:true,loading:false,leather:false,coins:5,maxPage:1,solved:{},prog:{},daily:{},page:1};
 let S={...DEFAULTS};
 let G={puz:null,sol:null,vals:[],notes:[],hint:[],clean:true,hist:[],fut:[],sel:-1,hl:0,notesMode:false,done:false,failed:false,lives:MAX_LIVES,boxes:0,combo:0};
 let playMode='book',dailyKey=null,currentTheme=null,immersed=false;
@@ -7856,7 +7857,7 @@ function normaliseSave(d){
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
   n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(isVol(n.block)&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
-  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.ripped&&Number.isInteger(+d.ripped.d)&&d.ripped.s&&typeof d.ripped.s==='object'&&!Array.isArray(d.ripped.s)){n.ripped={d:+d.ripped.d,s:{}};for(const [k,v] of Object.entries(d.ripped.s).slice(0,80))if(/^[a-z0-9:]{1,40}$/i.test(k)&&Number.isInteger(v)&&v>=0&&v<WALL_ART.length)n.ripped.s[k]=v}if(d.shopMotion===1)n.shopMotion=1;if(d.type&&typeof d.type==='object')n.type=typeClean(d.type);if(Array.isArray(d.typeP)){n.typeP=d.typeP.filter(p=>p&&typeof p.n==='string'&&p.t&&typeof p.t==='object').slice(0,12).map(p=>({n:p.n.slice(0,28),t:typeClean(p.t)}));if(!n.typeP.length)delete n.typeP}if(d.typeUI&&typeof d.typeUI==='object'){n.typeUI={};if(/^[tblrf]$/.test(d.typeUI.d))n.typeUI.d=d.typeUI.d;for(const k of ['sv','sh','x','y','w','h'])if(Number.isFinite(+d.typeUI[k])&&d.typeUI[k]!==null)n.typeUI[k]=Math.round(+d.typeUI[k]*10)/10;if(d.typeUI.m)n.typeUI.m=1}if(d.mig43)n.mig43=1;if(/^(curl|bend|ear|heavy|riffle)$/.test(d.turn))n.turn=d.turn;if(d.koiMsg===1)n.koiMsg=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
+  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.ripped&&Number.isInteger(+d.ripped.d)&&d.ripped.s&&typeof d.ripped.s==='object'&&!Array.isArray(d.ripped.s)){n.ripped={d:+d.ripped.d,s:{}};for(const [k,v] of Object.entries(d.ripped.s).slice(0,80))if(/^[a-z0-9:]{1,40}$/i.test(k)&&Number.isInteger(v)&&v>=0&&v<WALL_ART.length)n.ripped.s[k]=v}if(d.shopMotion===1)n.shopMotion=1;if(d.type&&typeof d.type==='object')n.type=typeClean(d.type);if(Array.isArray(d.typeP)){n.typeP=d.typeP.filter(p=>p&&typeof p.n==='string'&&p.t&&typeof p.t==='object').slice(0,12).map(p=>({n:p.n.slice(0,28),t:typeClean(p.t)}));if(!n.typeP.length)delete n.typeP}if(d.typeUI&&typeof d.typeUI==='object'){n.typeUI={};if(/^[tblrf]$/.test(d.typeUI.d))n.typeUI.d=d.typeUI.d;for(const k of ['sv','sh','x','y','w','h'])if(Number.isFinite(+d.typeUI[k])&&d.typeUI[k]!==null)n.typeUI[k]=Math.round(+d.typeUI[k]*10)/10;if(d.typeUI.m)n.typeUI.m=1}if(d.mig43)n.mig43=1;if(d.mig48)n.mig48=1;if(/^(curl|bend|ear|heavy|riffle)$/.test(d.turn))n.turn=d.turn;if(d.koiMsg===1)n.koiMsg=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
   n.flora={fl:{},vz:{},cur:null,arr:{},seed:{}};{const f=obj(d.flora),fid=Flora.FLOWERS.map(x=>x.id),vid=Flora.VASES.map(x=>x.id);
     for(const [id,c] of Object.entries(obj(f.fl)))if(fid.includes(id)&&Number.isInteger(+c)&&+c>0)n.flora.fl[id]=Math.min(999,+c);
     for(const id of Object.keys(obj(f.vz)))if(vid.includes(id))n.flora.vz[id]=1;
@@ -8224,7 +8225,7 @@ $('#testRow').hidden=!/[?&]test\b/.test(location.search);$('#testCoins').addEven
 /* the back bookmark: the credits (the default), or the save page with its codes when switched on in Design */
 function applyEndPage(){const sv=!!S.savePage,b=$('#saveBtn');$('#optSavePage').checked=sv;b.querySelector('span').textContent=sv?'Save':'Credits';
   b.setAttribute('aria-label',sv?'Ex libris: the binder’s record':'Credits');b.title=sv?'The binder’s record':'Credits';$('#creditsPage').hidden=sv;$('#savePage').hidden=!sv}
-function applyShow(){applyEndPage();$('#optHandGrid').checked=!!S.handGrid;$('#optWide').checked=!!S.wide;document.body.classList.toggle('hide-foot',!S.showFoot);document.body.classList.toggle('hide-left',!S.showLeft);$('#optFoot').checked=!!S.showFoot;$('#optSndBtn').checked=!!S.sndbtn;$('#sndBtn').hidden=!S.sndbtn;$('#optFsBtn').checked=!!S.fsbtn;if(typeof fsShow==='function')fsShow();$('#optLeft').checked=!!S.showLeft;$('#optLoad').checked=S.loading!==false;$('#optLost').checked=!!S.lostStamp;$('#optMoon').checked=S.moon!==false;$('#optQtab').checked=!!S.qtab;$('#optPlHearts').checked=!!S.plhearts;$('#optPlLife').checked=!!S.pllife;$('#optPlSpots').checked=!!S.plspots;$('#optFlowers').checked=!!S.flowers;$('#optRadio').checked=!!S.radio;$('#optSprout').checked=!!S.sprout;applyTextures()}
+function applyShow(){applyEndPage();$('#optHandGrid').checked=!!S.handGrid;$('#optWide').checked=!!S.wide;document.body.classList.toggle('hide-foot',!S.showFoot);document.body.classList.toggle('hide-left',!S.showLeft);$('#optFoot').checked=!!S.showFoot;$('#optSndBtn').checked=!!S.sndbtn;$('#sndBtn').hidden=!S.sndbtn;$('#optFsBtn').checked=!!S.fsbtn;if(typeof fsShow==='function')fsShow();$('#optLeft').checked=!!S.showLeft;$('#optLoad').checked=S.loading===true;$('#optLost').checked=!!S.lostStamp;$('#optMoon').checked=S.moon!==false;$('#optQtab').checked=!!S.qtab;$('#optPlHearts').checked=!!S.plhearts;$('#optPlLife').checked=!!S.pllife;$('#optPlSpots').checked=!!S.plspots;$('#optFlowers').checked=!!S.flowers;$('#optRadio').checked=!!S.radio;$('#optSprout').checked=!!S.sprout;applyTextures()}
 function applyTextures(){const lth=S.lth||'smooth',ppr=S.ppr||'vellum';board.classList.toggle('leather-grain',lth!=='smooth');board.dataset.lth=lth;document.body.dataset.ppr=ppr;document.querySelectorAll('#lthChoice button').forEach(b=>b.classList.toggle('selected',b.dataset.lth===lth));document.querySelectorAll('#pprChoice button').forEach(b=>b.classList.toggle('selected',b.dataset.ppr===ppr))}
 $('#openEditor').addEventListener('click',()=>{closePops();sfx.tick();openEditor()});
 /* ---- the editor: fill a grid, check it has one solution, keep it as a page ---- */
@@ -10385,6 +10386,8 @@ function start(data){
   devUnlocked();
   if(!S.mig23){S.pal=2;S.ui='press';S.mig23=1}
   /* 1.0.43: the house style is the new look. What a player had set in the type case before is kept as a profile of their own. */
+  /* 1.0.48: the pen loading screen is off for now; it can be switched back on in Design */
+  if(!S.mig48){S.loading=false;S.mig48=1}
   if(!S.mig43){if(S.type){const t=typeClean(S.type);if(Object.keys(t.h).length||Object.keys(t.r).length){S.typeP=Array.isArray(S.typeP)?S.typeP:[];S.typeP.unshift({n:'Mine (before 1.0.43)',t})}delete S.type}S.mig43=1}
   if(!S.mig24){S.scene='cloth';S.mig24=1}
   if(!S.mig25){if(S.pal===3)S.dark=true;S.mig25=1}
@@ -10408,20 +10411,27 @@ window.claude?.hot?.snapshot?.(()=>{stash();return{S:JSON.parse(JSON.stringify(S
 window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
 function runEntrance(){
   const intro=$('#publisherIntro'),loader=$('#quietLoader'),introTime=reduced?1200:2600,introFade=reduced?30:1600,loaderFade=reduced?30:700;
+  /* the impatient: a tap anywhere during the intro (or the loading pen) ends it at once, with a short fade */
+  let skipped=false;
+  const hurry=e=>{if(skipped)return;skipped=true;e?.preventDefault?.();e?.stopPropagation?.();removeEventListener('pointerdown',hurry,true);removeEventListener('keydown',hurry,true);
+    for(const el of [intro,loader]){if(!el.isConnected)continue;el.classList.add('ready','leaving','hurry');setTimeout(()=>el.remove(),reduced?0:360)}};
+  addEventListener('pointerdown',hurry,true);addEventListener('keydown',hurry,true);
+  const done=()=>{if(!skipped){skipped=true;removeEventListener('pointerdown',hurry,true);removeEventListener('keydown',hurry,true)}};
   /* the name waits on the empty paper until its typeface is really there (a second at least, never more than three), then fades in */
   const t0=performance.now(),face=document.fonts?.load?Promise.race([document.fonts.load('700 42px "Cinzel Decorative"','Tea Story').catch(()=>{}),new Promise(r=>setTimeout(r,3000))]):Promise.resolve();
-  face.then(()=>new Promise(r=>setTimeout(r,Math.max(0,(reduced?0:1000)-(performance.now()-t0))))).then(()=>{intro.classList.add('ready');
-  setTimeout(()=>{
+  face.then(()=>new Promise(r=>setTimeout(r,Math.max(0,(reduced?0:1000)-(performance.now()-t0))))).then(()=>{if(skipped)return;intro.classList.add('ready');
+  setTimeout(()=>{if(skipped)return;
     intro.classList.add('leaving');
     const early=reduced?0:500;                      // the pen shows through the intro's last half second
     setTimeout(()=>intro.remove(),introFade);
+    if(S.loading!==true)setTimeout(done,introFade);
     setTimeout(()=>{
-      if(S.loading===false)return;
+      if(S.loading!==true||skipped)return;
       loader.hidden=false;
       const began=performance.now();
       Promise.resolve(document.fonts?.ready).catch(()=>{}).then(()=>{
         const wait=Math.max(0,1400-(performance.now()-began));
-        setTimeout(()=>{loader.classList.add('leaving');setTimeout(()=>loader.remove(),loaderFade)},wait)
+        setTimeout(()=>{if(skipped)return;loader.classList.add('leaving');setTimeout(()=>{loader.remove();done()},loaderFade)},wait)
       })
     },Math.max(0,introFade-early))
   },introTime)})
