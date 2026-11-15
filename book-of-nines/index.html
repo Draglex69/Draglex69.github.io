@@ -1984,7 +1984,11 @@ canvas.scene-swatch.koi-live{background:#24382c;image-rendering:auto}canvas.scen
 .tcase[data-dock="l"]{left:0;top:0;bottom:0;width:var(--tc-s,50vw);border-radius:0 14px 14px 0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 .tcase[data-dock="r"]{right:0;top:0;bottom:0;width:var(--tc-s,50vw);border-radius:14px 0 0 14px;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 .tcase[data-dock="f"]{left:var(--tc-x,8px);top:var(--tc-y,80px);width:var(--tc-w,320px);height:var(--tc-h,400px);border-radius:12px}
-.tcase.min{height:auto}.tcase.min[data-dock="l"],.tcase.min[data-dock="r"]{bottom:auto}.tcase.min>.tc-body,.tcase.min>.tc-rs{display:none}
+.tcase.min{height:auto}.tcase.min[data-dock="l"],.tcase.min[data-dock="r"]{bottom:auto}.tcase.min>.tc-body,.tcase.min>.tc-rs,.tcase.min>.tc-hist{display:none}
+.tc-hist{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:6px 8px;background:#3a2916;color:#f6efdf;border-top:1px solid rgba(246,239,223,.12)}
+.tc-hist button{display:inline-flex;align-items:center;gap:5px;height:32px;padding:0 10px;border-radius:6px;background:#4a3620;color:#f6efdf;font:600 13px/1 system-ui,sans-serif;box-shadow:inset 0 0 0 1px rgba(246,239,223,.25);cursor:pointer}.tc-hist button svg{width:15px;height:15px}
+.tc-hist button:disabled{opacity:.38;cursor:default}.tc-state{flex:1 1 auto;min-width:0;text-align:right;font:italic 13px/1.1 Georgia,serif;color:#cdbb95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tc-hist.dirty .tc-state{color:#f3c75a}
+.tc-hist .tc-save{background:#e2a21c;color:#2a1c10;box-shadow:none;font-weight:700;padding:0 16px}.tc-hist .tc-save:disabled{background:#4a3620;color:#f6efdf;opacity:.38}
 .tc-bar{flex:0 0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding:6px 8px;background:#2a1c10;color:#f6efdf;cursor:grab;touch-action:none}.tc-bar:active{cursor:grabbing}
 .tc-title{flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;font:700 14px/1 Georgia,serif;letter-spacing:.04em;white-space:nowrap;padding:6px 2px}
 .tc-bar button{flex:0 0 auto;min-width:30px;height:30px;padding:0 7px;border-radius:6px;background:#4a3620;color:#f6efdf;font:700 13px/1 system-ui,sans-serif;box-shadow:inset 0 0 0 1px rgba(246,239,223,.25);cursor:pointer}
@@ -9139,9 +9143,12 @@ const TYPE_DEFAULT={h:{fell:'EB Garamond',cap:'Cormorant SC',title:'Limelight'},
   'b:hard':{gn:{f:'Chivo',w:700,s:92},chapter:{f:'Chivo',w:700},diff:{f:'Chivo',w:700},foot:{f:'Domine'},turn:{f:'Domine',i:0},chips:{f:'Domine'},books:{f:'Chivo',w:700,s:84}},
   'b:nikoli':{gn:{f:'Zen Maru Gothic',w:700,s:88},notes:{f:'Klee One',w:600},chapter:{f:'Shippori Mincho',w:700,ls:3,s:84},diff:{f:'Shippori Mincho',w:700},foot:{f:'Shippori Mincho'},turn:{f:'Shippori Mincho',i:0},chips:{f:'Shippori Mincho'},books:{f:'Shippori Mincho',w:700,s:86}},
   'b:times':{gn:{f:'Tinos',w:700},chapter:{f:'Tinos',w:700},diff:{f:'Tinos',i:1},foot:{f:'Tinos'},turn:{f:'Tinos',i:1},chips:{f:'Tinos'},books:{f:'Tinos',w:700}}}};
-const typeNow=()=>S.type||TYPE_DEFAULT;
+/* While the type case is open its changes are a draft: they show at once but are kept only when Save is pressed.
+   TYPE_DRAFT.t is the draft setting (null: the house style). */
+let TYPE_DRAFT=null;
+const typeNow=()=>TYPE_DRAFT?(TYPE_DRAFT.t||TYPE_DEFAULT):(S.type||TYPE_DEFAULT);
 /* the setting to change: the house style becomes the player's own the moment one thing in it is changed */
-const typeSet=()=>{if(!S.type)S.type=JSON.parse(JSON.stringify(TYPE_DEFAULT));S.type.h=S.type.h||{};S.type.r=S.type.r||{};S.type.c=S.type.c||{};return S.type};
+const typeSet=()=>{const D=TYPE_DRAFT||(TYPE_DRAFT={t:S.type?JSON.parse(JSON.stringify(S.type)):null});if(!D.t)D.t=JSON.parse(JSON.stringify(TYPE_DEFAULT));const t=D.t;t.h=t.h||{};t.r=t.r||{};t.c=t.c||{};return t};
 function typeApply(){typeInit();const T=typeNow(),h=T.h||{},r=T.r||{},c=T.c||{};let root0='',css='';document.documentElement.dataset.book=typeBook();
   for(const H of TYPE_HOUSE){const f=h[H.id];if(!f||!TYPEFACES[f])continue;typeNeed(f);root0+=`${H.v}:"${f}",${H.fb};`;const sel=[...(TYPE_VSEL[H.id]||[])];if(!sel.length)continue;
     if(H.id==='cap'&&!/ SC$/.test(f))css+=sel.join(',')+'{font-variant-caps:small-caps}\n';   /* a face without small capitals of its own: the screen cuts them from its capitals */
@@ -9177,7 +9184,7 @@ function typeRead(text){const m=String(text||'').match(/\{[\s\S]*\}/);if(!m)thro
 const typeKey=t=>JSON.stringify(typeClean(t));
 const typeProfiles=()=>[{id:'house',n:'House style',x:'One plan for the whole patchwork: every world in the type of its own time.',t:TYPE_DEFAULT},{id:'orig',n:'Original',x:'The book as it looked until version 1.0.42.',t:TYPE_ORIG},...(Array.isArray(S.typeP)?S.typeP:[]).map((p,i)=>({id:'u'+i,n:p.n,t:p.t,mine:1}))];
 const typeCurrent=()=>{const k=typeKey(typeNow());return typeProfiles().find(p=>typeKey(p.t)===k)?.id||''};
-function typeUse(id){const p=typeProfiles().find(x=>x.id===id);if(!p)return false;if(id==='house')delete S.type;else S.type=typeClean(p.t);typeApply();save();return true}
+function typeUse(id){const p=typeProfiles().find(x=>x.id===id);if(!p)return false;if(id==='house')delete S.type;else S.type=typeClean(p.t);if(TYPE_DRAFT)TYPE_DRAFT={t:S.type?JSON.parse(JSON.stringify(S.type)):null};typeApply();save();return true}
 function typeSaveAs(name){name=String(name||'').replace(/\s+/g,' ').trim().slice(0,28)||'My setting';if(/^(house style|original)$/i.test(name))name+=' (mine)';S.typeP=Array.isArray(S.typeP)?S.typeP:[];const t=typeClean(typeNow()),i=S.typeP.findIndex(p=>p.n===name);
   if(i>=0)S.typeP[i].t=t;else{if(S.typeP.length>=12)return false;S.typeP.push({n:name,t})}save();return true}
 function typeProfilesPaint(){const el=document.getElementById('typeProfiles');if(!el)return;const cur=typeCurrent();
@@ -9194,13 +9201,21 @@ function typeRoleAt(el){if(!el||el.nodeType!==1)return null;
   return el.closest('button')?{id:'buttons',el}:{id:'o-pix',el}}
 /* ---- the tool: a panel beside the game, not over it. It docks to an edge (or floats), is dragged by its bar and resized
    by its inner edge; "Pick" makes a tap on any lettering in the game open that lettering's setting. ---- */
-function openTypeCase(){document.getElementById('typeCase')?.remove();typeInit();closePops();
+function openTypeCase(){document.getElementById('typeCase')?.remove();typeInit();closePops();TYPE_DRAFT={t:S.type?JSON.parse(JSON.stringify(S.type)):null};
   const ui=S.typeUI=S.typeUI&&typeof S.typeUI==='object'?S.typeUI:{};
   const ico=d=>`<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect fill="currentColor" ${({t:'x="3" y="3" width="10" height="4.5"',b:'x="3" y="8.5" width="10" height="4.5"',l:'x="3" y="3" width="4.5" height="10"',r:'x="8.5" y="3" width="4.5" height="10"',f:'x="5" y="5" width="6" height="6"'})[d]} rx="1"/></svg>`;
   const v=document.createElement('div');v.className='tcase';v.id='typeCase';v.setAttribute('role','dialog');v.setAttribute('aria-label','The type case: typography');
-  v.innerHTML=`<div class="tc-rs" title="Drag to resize"><i></i></div><div class="tc-bar"><b class="tc-title">Type Case</b><button type="button" class="tc-pk" data-bar="pick" aria-pressed="false" title="Then tap any lettering in the game">Pick</button><span class="tc-docks" role="group" aria-label="Where the panel sits">${[['t','Top'],['b','Bottom'],['l','Left'],['r','Right'],['f','Floating']].map(([d,n])=>`<button type="button" data-dock="${d}" aria-label="${n}" title="${n}">${ico(d)}</button>`).join('')}</span><button type="button" data-bar="min" aria-label="Fold the panel" title="Fold">&ndash;</button><button type="button" data-bar="close" aria-label="Close the type case" title="Close">&times;</button></div><div class="tc-body"></div>`;
+  v.innerHTML=`<div class="tc-rs" title="Drag to resize"><i></i></div><div class="tc-bar"><b class="tc-title">Type Case</b><button type="button" class="tc-pk" data-bar="pick" aria-pressed="false" title="Then tap any lettering in the game">Pick</button><span class="tc-docks" role="group" aria-label="Where the panel sits">${[['t','Top'],['b','Bottom'],['l','Left'],['r','Right'],['f','Floating']].map(([d,n])=>`<button type="button" data-dock="${d}" aria-label="${n}" title="${n}">${ico(d)}</button>`).join('')}</span><button type="button" data-bar="min" aria-label="Fold the panel" title="Fold">&ndash;</button><button type="button" data-bar="close" aria-label="Close the type case" title="Close">&times;</button></div><div class="tc-hist"><button type="button" data-h="undo" aria-label="Undo" title="Undo"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 3 2 6.5 5.5 10M2.5 6.5h7a4 4 0 0 1 0 8H7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Undo</button><button type="button" data-h="redo" aria-label="Redo" title="Redo"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.5 3 14 6.5 10.5 10M13.5 6.5h-7a4 4 0 0 0 0 8H9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>Redo</button><span class="tc-state" role="status"></span><button type="button" data-h="save" class="tc-save">Save</button></div><div class="tc-body"></div>`;
   document.body.appendChild(v);
   const body=v.querySelector('.tc-body'),bar=v.querySelector('.tc-bar');let view={k:'list'},cat='all',picking=false;
+  /* undo and redo: each change keeps the setting as it was before it; Save keeps the draft for good */
+  const UNDO=[],REDO=[];const snap=()=>JSON.stringify(TYPE_DRAFT.t);
+  const dirty=()=>typeKey(TYPE_DRAFT.t||TYPE_DEFAULT)!==typeKey(S.type||TYPE_DEFAULT);
+  const hist=()=>{UNDO.push(snap());if(UNDO.length>200)UNDO.shift();REDO.length=0};
+  const paintHist=()=>{const hb=v.querySelector('.tc-hist'),d=dirty();hb.querySelector('[data-h="undo"]').disabled=!UNDO.length;hb.querySelector('[data-h="redo"]').disabled=!REDO.length;hb.querySelector('[data-h="save"]').disabled=!d;hb.classList.toggle('dirty',d);hb.querySelector('.tc-state').textContent=d?'Not saved':'Saved'};
+  const step=(from,to)=>{if(!from.length)return;to.push(snap());TYPE_DRAFT.t=JSON.parse(from.pop());typeApply();typeProfilesPaint();paintHist();show()};
+  const saveDraft=()=>{const t=TYPE_DRAFT.t;if(t&&typeKey(t)!==typeKey(TYPE_DEFAULT))S.type=typeClean(t);else delete S.type;save();typeProfilesPaint();paintHist()};
+  const discard=()=>{TYPE_DRAFT=null;typeApply();typeProfilesPaint()};
   const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
   const place=()=>{const d=ui.d||(innerWidth>innerHeight*1.15?'r':'b');v.dataset.dock=d;v.classList.toggle('min',!!ui.m);const st=v.style;for(const k of ['--tc-s','--tc-x','--tc-y','--tc-w','--tc-h'])st.removeProperty(k);
     if(d==='f'){const w=clamp(ui.w||Math.min(340,innerWidth-24),200,innerWidth-8),hh=clamp(ui.h||Math.min(420,innerHeight*.6),160,innerHeight-8);st.setProperty('--tc-w',w+'px');st.setProperty('--tc-h',hh+'px');st.setProperty('--tc-x',clamp(ui.x??(innerWidth-w)/2,0,Math.max(0,innerWidth-w))+'px');st.setProperty('--tc-y',clamp(ui.y??(innerHeight-hh)/2,0,Math.max(0,innerHeight-60))+'px')}
@@ -9210,10 +9225,10 @@ function openTypeCase(){document.getElementById('typeCase')?.remove();typeInit()
   const T=()=>typeSet(),RO=()=>view.k==='house'?TYPE_HOUSE.find(x=>x.id===view.id):TYPE_BY[view.id];
   const cur=()=>view.k==='house'?{f:typeNow().h?.[view.id]}:((view.cx?typeNow().c?.[view.cx]?.[view.id]:typeNow().r?.[view.id])||{});
   const eff=(id,cx)=>({...(typeNow().r?.[id]||{}),...(cx?typeNow().c?.[cx]?.[id]||{}:{})});
-  const commit=()=>{typeApply();typeProfilesPaint();save()};
+  const commit=()=>{typeApply();typeProfilesPaint();paintHist()};
   const slot=()=>{const t=T();if(view.cx){t.c[view.cx]=t.c[view.cx]||{};return t.c[view.cx]}return t.r};
-  const tidy=()=>{const t=S.type;if(!t)return;for(const k of Object.keys(t.c||{}))if(!Object.keys(t.c[k]).length)delete t.c[k]};
-  const put=(k,val)=>{if(view.k==='house'){if(val===undefined)delete T().h[view.id];else T().h[view.id]=val}else{const s=slot(),o=s[view.id]=s[view.id]||{};if(val===undefined)delete o[k];else o[k]=val;if(!Object.keys(o).length)delete s[view.id];tidy()}commit()};
+  const tidy=()=>{const t=TYPE_DRAFT?.t;if(!t)return;for(const k of Object.keys(t.c||{}))if(!Object.keys(t.c[k]).length)delete t.c[k]};
+  const put=(k,val,quiet)=>{if(!quiet)hist();if(view.k==='house'){if(val===undefined)delete T().h[view.id];else T().h[view.id]=val}else{const s=slot(),o=s[view.id]=s[view.id]||{};if(val===undefined)delete o[k];else o[k]=val;if(!Object.keys(o).length)delete s[view.id];tidy()}commit()};
   const sampleStyle=o=>{let st='';if(o.f){typeNeed(o.f);st+=`font-family:${typeFam(o.f).replace(/"/g,'&quot;')};`;if(!o.w&&typeOneW(o.f))st+=`font-weight:${typeOneW(o.f)};`}if(o.w)st+=`font-weight:${o.w};`;if(o.i===1)st+='font-style:italic;';if(o.i===0)st+='font-style:normal;';if(Number.isFinite(o.ls))st+=`letter-spacing:${o.ls/100}em;`;if(o.tt==='u')st+='text-transform:uppercase;';if(o.tt==='l')st+='text-transform:lowercase;';if(o.tt==='sc')st+='font-variant-caps:small-caps;';if(o.fg==='o')st+='font-variant-numeric:oldstyle-nums;';if(o.fg==='l')st+='font-variant-numeric:lining-nums;';return st};
   const said=o=>{const p=[];if(o.f)p.push(o.f);if(Number.isFinite(o.s)&&o.s!==100)p.push(o.s+'%');if(o.w)p.push(o.w);if(o.i===1)p.push('italic');if(o.i===0)p.push('upright');if(Number.isFinite(o.ls))p.push('spacing '+o.ls);if(o.tt)p.push({u:'capitals',l:'small letters',n:'as written',sc:'small caps'}[o.tt]);if(o.fg)p.push(o.fg==='o'?'old-style figures':'lining figures');return p.join(' · ')};
   const row=(R,o,small,extra='')=>`<button type="button" class="tc-row${Object.keys(o).length?' set':''}" data-role="${R.id}"${extra}><span class="tc-n">${escH(R.n)}</span><span class="tc-x" style="${sampleStyle(o)}">${escH(R.x)}</span><small>${small}</small></button>`;
@@ -9288,7 +9303,12 @@ function openTypeCase(){document.getElementById('typeCase')?.remove();typeInit()
   const share=mode=>{const copy=mode==='copy';body.innerHTML=`<div class="tc-top"><button type="button" class="tc-up" data-tc="up">← All settings</button><h2 class="tc-h">${copy?'Copy the type setting':'Paste a type setting'}</h2><p class="tc-p">${copy?'This is the whole setting in use. Copy it and send it; it can be pasted into another book, or made the book’s own.':'Paste a type setting here. It replaces the one in use.'}</p></div>
     <textarea class="tc-code" spellcheck="false" ${copy?'readonly':''} aria-label="Type setting">${copy?escH(typeCode()):''}</textarea><p class="tc-status" role="status"></p>
     <div class="tc-acts">${copy?'<button type="button" data-tc="docopy">Copy</button>':'<button type="button" data-tc="clip">Paste from clipboard</button><button type="button" data-tc="dopaste">Use it</button>'}<button type="button" data-tc="up">Done</button></div>`;body.scrollTop=0;if(copy&&!ui.m){const ta=body.querySelector('.tc-code');ta.focus({preventScroll:true});ta.select()}};
-  const show=()=>({list,ctx:ctxView,edit,pick,story,profiles,copy:()=>share('copy'),paste:()=>share('paste')}[view.k==='house'||view.k==='role'?(view.p?'pick':'edit'):view.k])();
+  let shown='';
+  const show=()=>{const key=[view.k,view.id,view.p?1:0,view.p?cat:''].join('|'),same=key===shown,top=body.scrollTop;shown=key;
+    ({list,ctx:ctxView,edit,pick,story,profiles,leave,copy:()=>share('copy'),paste:()=>share('paste')}[view.k==='house'||view.k==='role'?(view.p?'pick':'edit'):view.k])();
+    if(same)body.scrollTop=top;paintHist()};
+  /* closing with changes not saved asks first */
+  const leave=()=>{body.innerHTML=`<div class="tc-top"><h2 class="tc-h">Keep the changes?</h2><p class="tc-p">The changes to the type are not saved yet. Without Save they are undone when the type case closes.</p></div><div class="tc-acts"><button type="button" data-tc="savequit" class="tc-dark">Save and close</button><button type="button" data-tc="dropquit">Close without saving</button><button type="button" data-tc="stay">Keep editing</button></div>`;body.scrollTop=0};
   const up=()=>{if(view.from&&(view.k==='role')){view={k:'ctx',id:view.from,top:view.top,top2:view.top2}}else view={k:'list',top:view.top};show()};
   /* where a thing is to be seen */
   const go=(at,cx)=>{if(!opened){toast('Open the book first.');return}document.querySelectorAll('.veil .close').forEach(c=>c.click());
@@ -9304,7 +9324,8 @@ function openTypeCase(){document.getElementById('typeCase')?.remove();typeInit()
     if(ui.m){ui.m=0;place()}view={k:'role',id:hit.id,cx,top:view.k==='list'?body.scrollTop:view.top};sfx.tick();show()};
   const EV=['pointerdown','pointerup','mousedown','mouseup','touchstart','touchend','click','dblclick','contextmenu'];
   const setPick=on=>{picking=on;document.body.classList.toggle('tc-picking',on);v.querySelector('.tc-pk').setAttribute('aria-pressed',on);v.querySelector('.tc-pk').textContent=on?'Picking':'Pick';for(const t of EV)(on?addEventListener:removeEventListener)(t,swallow,true)};
-  const close=()=>{setPick(false);removeEventListener('resize',place);v.remove();keep();render()};
+  const quit=()=>{setPick(false);removeEventListener('resize',place);v.remove();if(TYPE_DRAFT&&!dirty())TYPE_DRAFT=null;else discard();keep();render()};
+  const close=()=>{if(dirty()&&view.k!=='leave'){setPick(false);if(ui.m){ui.m=0;place()}view={k:'leave',back:view};show()}else quit()};
   /* the bar drags the panel (dropped at an edge it docks there), the inner edge resizes it */
   let drag=null;const zone=document.createElement('div');zone.className='tc-zone';zone.hidden=true;
   const edgeOf=e=>{const m=Math.min(64,innerHeight*.12),mx=Math.min(48,innerWidth*.1);return e.clientY<m?'t':e.clientY>innerHeight-m?'b':e.clientX<mx?'l':e.clientX>innerWidth-mx?'r':''};
@@ -9322,7 +9343,8 @@ function openTypeCase(){document.getElementById('typeCase')?.remove();typeInit()
   /* nothing done in the panel reaches the game beneath it */
   for(const t of ['pointerdown','pointerup','mousedown','mouseup','touchstart','touchend','wheel','keyup','keypress','contextmenu'])v.addEventListener(t,e=>e.stopPropagation());
   v.addEventListener('click',async e=>{e.stopPropagation();const t=e.target;
-    const bb=t.closest('[data-bar]')?.dataset.bar;if(bb){sfx.tick();if(bb==='close')close();else if(bb==='min'){ui.m=ui.m?0:1;place();keep()}else if(bb==='pick')setPick(!picking);return}
+    const bb=t.closest('[data-bar]')?.dataset.bar;if(bb){sfx.tick();if(bb==='close'){if(view.k==='leave')quit();else close()}else if(bb==='min'){ui.m=ui.m?0:1;place();keep()}else if(bb==='pick')setPick(!picking);return}
+    const hb=t.closest('[data-h]')?.dataset.h;if(hb){sfx.tick();if(hb==='undo')step(UNDO,REDO);else if(hb==='redo')step(REDO,UNDO);else{saveDraft();toast('The type setting is saved.')}return}
     const dk=t.closest('.tc-docks [data-dock]');if(dk){sfx.tick();ui.d=dk.dataset.dock;ui.m=0;place();keep();return}
     const ho=t.closest('[data-house]');if(ho){view={k:'house',id:ho.dataset.house,top:body.scrollTop};sfx.tick();show();return}
     const ro=t.closest('[data-role]');if(ro){const cx=ro.dataset.cx||'';view=cx?{k:'role',id:ro.dataset.role,cx,from:cx,top:view.top,top2:body.scrollTop}:{k:'role',id:ro.dataset.role,cx:'',top:body.scrollTop};sfx.tick();show();return}
@@ -9330,26 +9352,29 @@ function openTypeCase(){document.getElementById('typeCase')?.remove();typeInit()
     const cxv=t.closest('[data-cxv]');if(cxv){view.cx=cxv.dataset.cxv;sfx.tick();show();return}
     const ct=t.closest('[data-cat]');if(ct){cat=ct.dataset.cat;show();return}
     const inf=t.closest('[data-info]');if(inf){const F=TYPEFACES[inf.dataset.info],m=inf.parentElement.querySelector('.tc-more');m.hidden=!m.hidden;if(!m.hidden)m.innerHTML=`<p>${escH(F.d)}</p><p class="tc-src"><b>By</b> ${escH(F.by)} · digital font ${escH(F.y)} · carries ${escH(F.w.replace(/,/g,', '))}${F.it?' and italic':''}<br><b>Source</b> ${escH(F.s)}<br><b>Licence</b> ${escH(F.l)}</p>`;return}
-    const us=t.closest('[data-use]');if(us){put('f',us.dataset.use);sfx.toggle();view.p=0;show();return}
+    const us=t.closest('[data-use]');if(us){put('f',us.dataset.use);sfx.toggle();view.p=0;show();body.scrollTop=view.etop||0;return}
     const cl=t.closest('[data-clear]');if(cl){put(cl.dataset.clear,undefined);show();return}
-    const upP=t.closest('[data-usep]');if(upP){typeUse(upP.dataset.usep);typeProfilesPaint();sfx.toggle();show();return}
+    const upP=t.closest('[data-usep]');if(upP){const pr=typeProfiles().find(x=>x.id===upP.dataset.usep);if(pr){hist();TYPE_DRAFT.t=pr.id==='house'?null:typeClean(pr.t);commit()}sfx.toggle();show();return}
     const dlP=t.closest('[data-delp]');if(dlP){if(!dlP.dataset.sure){dlP.dataset.sure=1;dlP.textContent='Tap again';setTimeout(()=>{if(dlP.isConnected){delete dlP.dataset.sure;dlP.textContent='Delete'}},3000);return}S.typeP.splice(+dlP.dataset.delp.slice(1),1);save();typeProfilesPaint();show();return}
     const ch=t.closest('.tc-chips:not(.tc-cx) button');if(ch){const k=ch.parentElement.dataset.k,raw=ch.dataset.v;put(k,raw===''?undefined:/^\d+$/.test(raw)?+raw:raw);sfx.tick();show();return}
     const a=t.closest('[data-tc]')?.dataset.tc;if(!a)return;sfx.tick();
-    if(a==='up'){up();return}if(a==='back'){view.p=0;show();return}if(a==='pick'){view.p=1;show();return}
+    if(a==='up'){up();return}if(a==='back'){view.p=0;show();body.scrollTop=view.etop||0;return}if(a==='pick'){view.etop=body.scrollTop;view.p=1;show();return}
     if(a==='show'){go(RO().at,view.cx);return}if(a==='showctx'){go('page',view.id);return}
-    if(a==='clear'){if(view.k==='house')delete T().h[view.id];else{delete slot()[view.id];tidy()}commit();show();return}
-    if(a==='house1'){const D=TYPE_DEFAULT;if(view.k==='house'){if(D.h[view.id])T().h[view.id]=D.h[view.id];else delete T().h[view.id]}else{const d=view.cx?D.c[view.cx]?.[view.id]:D.r[view.id],s=slot();if(d)s[view.id]={...d};else delete s[view.id];tidy()}commit();show();return}
-    if(a==='housectx'||a==='clearctx'){const t2=T(),d=a==='housectx'?TYPE_DEFAULT.c[view.id]:null;if(d)t2.c[view.id]=JSON.parse(JSON.stringify(d));else delete t2.c[view.id];commit();show();return}
+    if(a==='clear'){hist();if(view.k==='house')delete T().h[view.id];else{delete slot()[view.id];tidy()}commit();show();return}
+    if(a==='house1'){hist();const D=TYPE_DEFAULT;if(view.k==='house'){if(D.h[view.id])T().h[view.id]=D.h[view.id];else delete T().h[view.id]}else{const d=view.cx?D.c[view.cx]?.[view.id]:D.r[view.id],s=slot();if(d)s[view.id]={...d};else delete s[view.id];tidy()}commit();show();return}
+    if(a==='housectx'||a==='clearctx'){hist();const t2=T(),d=a==='housectx'?TYPE_DEFAULT.c[view.id]:null;if(d)t2.c[view.id]=JSON.parse(JSON.stringify(d));else delete t2.c[view.id];commit();show();return}
     if(a==='story'||a==='copy'||a==='paste'||a==='profiles'){view={k:a,top:body.scrollTop};show();return}
     const st=body.querySelector('.tc-status'),ta=body.querySelector('.tc-code');
-    if(a==='savep'){const inp=body.querySelector('.tc-name'),ok=typeSaveAs(inp.value);typeProfilesPaint();show();body.querySelector('.tc-status').textContent=ok?'Saved. It is in the list above and in Design.':'Twelve profiles are the most: delete one first.';return}
+    if(a==='savep'){const inp=body.querySelector('.tc-name'),ok=typeSaveAs(inp.value);if(ok)saveDraft();typeProfilesPaint();show();body.querySelector('.tc-status').textContent=ok?'Saved as a profile and in use. It is in the list above and in Design.':'Twelve profiles are the most: delete one first.';return}
     if(a==='docopy'){ta.focus();ta.select();let ok=false;try{await navigator.clipboard.writeText(ta.value);ok=true}catch(err){try{ok=document.execCommand('copy')}catch(e2){}}st.textContent=ok?'Copied. Paste it into a message.':'Select the text and copy it by hand.';return}
     if(a==='clip'){try{ta.value=await navigator.clipboard.readText()}catch(err){st.textContent='The clipboard cannot be read here: paste into the box by hand.'}return}
-    if(a==='dopaste'){try{S.type=typeRead(ta.value);commit();view={k:'list'};show();toast('The type setting is in use.')}catch(err){st.textContent=err.message}return}});
-  body.addEventListener('input',e=>{const r=e.target.closest('[data-range]');if(!r)return;const k=r.dataset.range,val=+r.value;r.nextElementSibling.textContent=k==='s'?val+'%':val;put(k,(k==='s'&&val===100)||(k==='ls'&&val===0)?undefined:val);
+    if(a==='savequit'){saveDraft();quit();toast('The type setting is saved.');return}if(a==='dropquit'){quit();return}if(a==='stay'){view=view.back||{k:'list'};show();return}
+    if(a==='dopaste'){try{const t=typeRead(ta.value);hist();TYPE_DRAFT.t=t;commit();view={k:'list'};show();toast('Pasted. Press Save to keep it.')}catch(err){st.textContent=err.message}return}});
+  let sliding=false;body.addEventListener('change',e=>{if(e.target.closest('[data-range]'))sliding=false});
+  body.addEventListener('input',e=>{const r=e.target.closest('[data-range]');if(!r)return;const k=r.dataset.range,val=+r.value;r.nextElementSibling.textContent=k==='s'?val+'%':val;if(!sliding){hist();sliding=true}put(k,(k==='s'&&val===100)||(k==='ls'&&val===0)?undefined:val,true);
     const pv=body.querySelector('.tc-prev');if(pv)pv.setAttribute('style',prevStyle())});
-  v.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape'){if(picking)setPick(false);else if(view.k!=='list'){if(view.p){view.p=0;show()}else up()}else close()}});
+  v.addEventListener('keydown',e=>{e.stopPropagation();if((e.ctrlKey||e.metaKey)&&!/^(INPUT|TEXTAREA)$/.test(e.target.tagName)&&/^[zy]$/i.test(e.key)){e.preventDefault();if(e.key.toLowerCase()==='y'||e.shiftKey)step(REDO,UNDO);else step(UNDO,REDO);return}if(e.key==='Escape'){if(view.k==='leave'){view=view.back||{k:'list'};show()}else if(picking)setPick(false);else if(view.k!=='list'){if(view.p){view.p=0;show()}else up()}else close()}});
+  v.tcDirty=dirty;v.tcSave=saveDraft;
   v.tcPick=setPick;v.tcGo=(id,cx)=>{view={k:'role',id,cx:cx||''};show()};
   place();show()}
 
@@ -10141,7 +10166,7 @@ $('#radioBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();openR
 
 /* ================= boot ================= */
 function start(data){
-  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},openTypeCase,typeApply,typeCode,typeRead,typeClean,typeUse,typeSaveAs,typeCurrent,typeProfiles,typeRoleAt,typeNow,typeBook,TYPE_DEFAULT,TYPE_ROLES,TYPE_SEL,TYPE_HOUSE,openCommode,openTV,openToc,openVerso,bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
+  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},get typeDraft(){return TYPE_DRAFT},openTypeCase,typeApply,typeCode,typeRead,typeClean,typeUse,typeSaveAs,typeCurrent,typeProfiles,typeRoleAt,typeNow,typeBook,TYPE_DEFAULT,TYPE_ROLES,TYPE_SEL,TYPE_HOUSE,openCommode,openTV,openToc,openVerso,bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
     puzzleIn(id,p){const was=S.block;S.block=id;try{return puzzle(p)}finally{S.block=was}}};
   load();if(saveLost)setTimeout(()=>toast('The book’s record could not be read, so a fresh book was opened. The old record is kept aside.'+(S.savePage?' A save code from the Binder’s Record can bring a book back.':'')),2500);
   devUnlocked();
