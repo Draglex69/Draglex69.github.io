@@ -289,6 +289,8 @@ body.kbd button:focus-visible,body.kbd .cover:focus-visible{outline:3px solid va
 .pcell{position:relative;perspective:2200px}
 /* a page being turned rises off the book: it passes over the instrument, not under it */
 .board>.pcell.turning,.board>.pcell:has(>.turn-stage,>.flipper){z-index:5}
+/* the book clips itself 60px beyond its edge (for the cover's swing); a page being turned may reach further, over the background */
+.board:has(>.pcell.turning),.board:has(>.pcell>.turn-stage),.board:has(>.pcell>.flipper){clip-path:none!important}
 .board.shake{animation:bump .5s}
 @keyframes bump{20%{transform:rotate(-1deg) scale(1.015)}45%{transform:rotate(.8deg)}70%{transform:rotate(-.4deg)}}
 .paper{background:var(--paper)}
