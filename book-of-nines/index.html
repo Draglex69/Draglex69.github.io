@@ -1028,6 +1028,8 @@ body.radio-side .radiobtn{left:auto;margin-left:0;right:max(11px,env(safe-area-i
 .turn-sf>i,.turn-sb>i{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
 .turn-cast{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,rgba(15,8,0,.42),rgba(15,8,0,.2) 62%,transparent)}
 .turn-blank{position:absolute!important;left:0;top:0;margin:0}.turn-floor{z-index:0}
+.turn-vf{position:absolute!important;left:0;top:0;margin:0;box-sizing:border-box}.turn-bf{z-index:0}
+.turn-stage.vturn{transform:scaleX(-1);perspective:2200px;z-index:8}
 .tb-grid{position:absolute;box-sizing:border-box;border:2px solid var(--ink);opacity:.2;background:linear-gradient(var(--ink),var(--ink)) 33.333% 0/2px 100% no-repeat,linear-gradient(var(--ink),var(--ink)) 66.666% 0/2px 100% no-repeat,linear-gradient(var(--ink),var(--ink)) 0 33.333%/100% 2px no-repeat,linear-gradient(var(--ink),var(--ink)) 0 66.666%/100% 2px no-repeat}
 .tb-no{position:absolute;left:0;right:0;bottom:9px;text-align:center;font:12px var(--cap);letter-spacing:.1em;color:var(--ink);opacity:.6}
 .turn-chip{position:absolute;z-index:30;left:50%;top:12px;transform:translateX(-50%);padding:5px 12px;border-radius:99px;background:var(--ink);color:var(--paper);font:600 13px var(--deco);letter-spacing:.08em;pointer-events:none;white-space:nowrap}
@@ -1331,6 +1333,9 @@ body.immersed #plushBtn{display:none!important}
 .vcite i{display:block;margin-top:4px;font:italic clamp(12px,3.2cqw,17px)/1.35 var(--fell);letter-spacing:.01em;text-transform:none;color:var(--ink);opacity:.72}
 .vseal{width:clamp(54px,16cqw,84px);height:clamp(54px,16cqw,84px);margin:0 auto clamp(10px,3cqh,18px);display:grid;place-items:center;border-radius:47% 53% 50% 48%/52% 47% 53% 48%;background:radial-gradient(circle at 36% 30%,#d0544a,#9a2620 55%,#5e1210);color:#f6cfae;font:900 clamp(24px,7cqw,36px)/1 var(--title);text-shadow:0 1px 0 rgba(0,0,0,.4);box-shadow:0 2px 0 rgba(0,0,0,.3),inset 0 0 0 5px rgba(0,0,0,.14),inset 0 0 0 6px rgba(255,200,170,.18);transform:rotate(-8deg)}
 .vsealed{margin:0 auto;max-width:24ch;font:italic clamp(15px,4.6cqw,22px)/1.4 var(--fell);opacity:.75}
+/* a back not read yet: one large question mark over the grid */
+.vmark{display:block;font:400 clamp(120px,56cqw,300px)/1 var(--pix);color:var(--ink);opacity:.55;margin-top:-.04em}
+.vhide{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .vctl{position:absolute;z-index:2;left:var(--cl);top:var(--ct);width:var(--cw);height:var(--ch);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(10px,2.2vh,18px);text-align:center;opacity:0;transition:opacity .3s;pointer-events:none}
 .verso.ready .vctl{opacity:1;pointer-events:auto}
 .vctl .close{margin:0;background:var(--gold);color:#2a1a0c;border:0}
@@ -6422,18 +6427,28 @@ const RAD=Math.PI/180,tclamp=(x,a,b)=>Math.max(a,Math.min(b,x)),tdiv=(c,p)=>{con
 const turnCopy=()=>{const n=pageEl.cloneNode(true);n.removeAttribute('id');n.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));n.style.visibility='';n.classList.add('turn-page');return n};
 /* where the grid's cells stand on the page (for cutting a copy into strips without copying every cell every time) */
 function turnCells(){const pr=pageEl.getBoundingClientRect(),sc=pr.width/pageEl.offsetWidth||1;return cells.map(c=>{const r=c.getBoundingClientRect();return[(r.left-pr.left)/sc,(r.right-pr.left)/sc]})}
+/* a face seen through a mirror is drawn mirrored, so that it reads the right way round */
+const tmir=(n,m)=>{n.style.transform=m?'scaleX(-1)':'';return n};
+/* the back of a leaf of the Sudoku book: its quotation (a question mark while the page is unsolved), fitted to the page */
+function turnQuote(T,no){T.faces=T.faces||{};if(T.faces[no])return T.faces[no];const el=document.createElement('section');el.className='leaf paper vface turn-vf';el.style.cssText=`width:${T.W}px;height:${T.H}px`;
+  el.innerHTML=versoFace(no)+versoStk(no);el.style.visibility='hidden';T.stage.appendChild(el);try{fitVerso(el)}catch(e){}el.remove();el.style.visibility='';return T.faces[no]=el}
+/* a page not yet read, for the riffle: paper, the frame of a grid and its page number */
+function turnBlank(T,no){const g=gridEl.getBoundingClientRect(),pr=pageEl.getBoundingClientRect(),sc=pr.width/pageEl.offsetWidth||1,bl=document.createElement('div');bl.className='turn-blank paper leaf';bl.style.cssText=`width:${T.W}px;height:${T.H}px`;
+  bl.innerHTML=`<i class="tb-grid" style="left:${(g.left-pr.left)/sc}px;top:${(g.top-pr.top)/sc}px;width:${g.width/sc}px;height:${g.height/sc}px"></i><span class="tb-no">- ${no} -</span>`;return bl}
 function turnOpen(fwd,target,style){const W=pageEl.offsetWidth,H=pageEl.offsetHeight;
   const keep={page:S.page,hist:G.hist,fut:G.fut,sel:G.sel,hl:G.hl};flipping=true;closePops();
-  const T={fwd,target,style,W,H,keep,t:fwd?0:1,under:null,done:false};
+  const T={fwd,target,style,W,H,keep,t:fwd?0:1,under:null,done:false,host:pcell,mir:false,leafNo:fwd?S.page:target};
+  T.faceOf=no=>turnBlank(T,no);if(versoOK())T.backOf=no=>turnQuote(T,no);
+  T.close=(commit,page)=>{if(!commit){loadPage(T.keep.page);G.hist=T.keep.hist;G.fut=T.keep.fut;G.sel=T.keep.sel;G.hl=T.keep.hl;render()}else if(page&&page!==S.page)loadPage(page);
+    T.under?.remove();pageEl.style.visibility='';pcell.classList.remove('turning');flipping=false};
   if(fwd){T.cb=turnCells();T.src=turnCopy();loadPage(target)}
   else{T.under=turnCopy();T.under.classList.add('turn-under');pcell.appendChild(T.under);loadPage(target);T.cb=turnCells();T.src=turnCopy();pageEl.style.visibility='hidden'}
   T.stage=tdiv('turn-stage '+style);T.stage.style.cssText=`left:${pageEl.offsetLeft}px;top:${pageEl.offsetTop}px;width:${W}px;height:${H}px`;pcell.appendChild(T.stage);
   pcell.classList.add('turning');TURN=T;TURN_ENG[style].build(T);return T}
-function turnClose(T,commit,page){if(T.done)return;T.done=true;cancelAnimationFrame(T.raf);
-  if(!commit){loadPage(T.keep.page);G.hist=T.keep.hist;G.fut=T.keep.fut;G.sel=T.keep.sel;G.hl=T.keep.hl;render()}else if(page&&page!==S.page)loadPage(page);
-  T.under?.remove();pageEl.style.visibility='';T.chip?.remove();
+function turnClose(T,commit,page){if(T.done)return;T.done=true;cancelAnimationFrame(T.raf);T.chip?.remove();
+  T.close(commit,page);
   if(commit&&page){T.stage.classList.add('out');setTimeout(()=>T.stage.remove(),200)}else T.stage.remove();
-  pcell.classList.remove('turning');TURN=null;flipping=false}
+  if(TURN===T)TURN=null}
 /* run a value from a to b over ms, eased */
 function turnRun(T,ms,step,then){const t0=performance.now();const f=now=>{if(T.done)return;const s=tclamp((now-t0)/ms,0,1);step(s);if(s<1)T.raf=requestAnimationFrame(f);else then&&then()};T.raf=requestAnimationFrame(f)}
 const easeOut=s=>1-Math.pow(1-s,3),easeIO=s=>s<.5?4*s*s*s:1-Math.pow(-2*s+2,3)/2;
@@ -6441,11 +6456,12 @@ const easeOut=s=>1-Math.pow(1-s,3),easeIO=s=>s<.5?4*s*s*s:1-Math.pow(-2*s+2,3)/2
 /* ---- the fold (curl, ear) ---- */
 function foldBuild(T){const {W,H,stage}=T,D=T.D=2*(W+H);
   T.rect=tdiv('turn-rect',stage);T.band=tdiv('turn-band',T.rect);T.band.style.height=2*D+'px';
-  T.clipA=tdiv('turn-hp',stage);T.clipA.style.cssText=`width:${D}px;height:${2*D}px`;T.innA=tdiv('turn-in',T.clipA);T.innA.appendChild(T.src);
+  T.clipA=tdiv('turn-hp',stage);T.clipA.style.cssText=`width:${D}px;height:${2*D}px`;T.innA=tdiv('turn-in',T.clipA);T.innA.appendChild(tmir(T.src,T.mir));
   /* the shadow the folded part throws on the page it lies over: mirrored like the fold, kept inside the page */
   T.rect2=tdiv('turn-rect',stage);T.shf=tdiv('turn-flap',T.rect2);T.clipS=tdiv('turn-hp',T.shf);T.clipS.style.cssText=`width:${D}px;height:${2*D}px`;T.innS=tdiv('turn-in',T.clipS);
   T.flap=tdiv('turn-flap',stage);T.clipF=tdiv('turn-hp',T.flap);T.clipF.style.cssText=`width:${D}px;height:${2*D}px`;T.innF=tdiv('turn-in',T.clipF);
   const back=tdiv('turn-back paper leaf',T.innF);back.style.cssText=`width:${W}px;height:${H}px`;
+  {const bf=T.backOf?.(T.leafNo);if(bf){const n=bf.cloneNode(true);n.classList.add('turn-bf');back.appendChild(tmir(n,!T.mir))}}   /* the fold shows the back mirrored: drawn mirrored it reads */
   T.roll=tdiv('turn-roll',back);T.roll.style.height=2*D+'px';
   T.esr=tdiv('turn-es r',T.innS);T.esr.style.cssText=`left:${W}px;top:-36px;width:36px;height:${H+72}px`;T.esh=tdiv('turn-es h',T.innS);
   foldCorner(T,H)}
@@ -6480,22 +6496,24 @@ const foldWants=(T,vx)=>T.fwd?(vx<-.45&&T.t>.03)||(vx<=.45&&T.t>(T.peek?.3:.25))
 
 /* ---- a sheet in strips (bend, heavy, riffle) ---- */
 /* make(k,x0,x1) gives what strip k shows (already shifted so that x0 is its left edge) */
-function leafMake(T,N,make){const {W,H}=T,w=W/N,root=tdiv('turn-leaf');root.style.cssText=`width:${W}px;height:${H}px`;const strips=[];let par=root;
+const tslice=(T,el,m)=>(k,x0)=>{const n=el.cloneNode(true);n.style.left=-x0+'px';return tmir(n,m)};
+/* the back of strip k shows the part of the back that lies over it once the leaf is turned: counted from the other edge */
+const tsliceB=(T,el,m)=>(k,x0,x1)=>{const n=el.cloneNode(true);n.classList.add('turn-bf');n.style.left=-(T.W-x1)+'px';return tmir(n,m)};
+function leafMake(T,N,make,back){const {W,H}=T,w=W/N,root=tdiv('turn-leaf');root.style.cssText=`width:${W}px;height:${H}px`;const strips=[];let par=root;
   for(let k=0;k<N;k++){const s=tdiv('turn-strip',par);s.style.cssText=`left:${k?w:0}px;width:${w+.7}px`;const f=tdiv('turn-sf',s);f.appendChild(make(k,k*w,(k+1)*w+.7));const fs=document.createElement('i');f.appendChild(fs);
-    const b=tdiv('turn-sb paper',s),bs=document.createElement('i');b.appendChild(bs);strips.push({s,f,b,fs,bs});par=s}
+    const b=tdiv('turn-sb paper',s),bs=document.createElement('i');if(back)b.appendChild(back(k,k*w,(k+1)*w+.7));b.appendChild(bs);strips.push({s,f,b,fs,bs});par=s}
   return{el:root,N,strips,th:0,
     /* th: the turn at the spine; lag: how far the free edge trails it; flut: a flutter of the free edge */
     set(th,lag=0,flut=0){this.th=th;let prev=0;for(let k=0;k<N;k++){const x=(k+.5)/N,st=strips[k],ph=tclamp(th-lag*Math.pow(x,1.7)+flut*x*x,0,180);
       st.s.style.transform=`rotateY(${(prev-ph).toFixed(2)}deg)`;prev=ph;const sn=Math.sin(ph*RAD),al=ph>112?Math.max(0,1-(ph-112)/62):1;
       st.fs.style.opacity=ph<90?(.5*Math.pow(sn,1.5)).toFixed(3):0;st.bs.style.opacity=ph>=90?(.05+.3*sn).toFixed(3):0;st.f.style.opacity=st.b.style.opacity=al.toFixed(3)}}}}
 /* a copy of the page for each strip, holding only the cells that strip shows */
-function leafOfPage(T,src,N){const cs=[...src.querySelectorAll('.grid .cell')],html=cs.map(c=>c.innerHTML),ok=cs.length===T.cb.length;if(ok)cs.forEach(c=>{c.textContent=''});
-  const leaf=leafMake(T,N,(k,x0,x1)=>{const n=src.cloneNode(true);if(ok){const q=n.querySelectorAll('.grid .cell');for(let i=0;i<q.length;i++)if(T.cb[i][1]>x0-3&&T.cb[i][0]<x1+3)q[i].innerHTML=html[i]}n.style.left=-x0+'px';return n});
+function leafOfPage(T,src,N,no){const cs=[...src.querySelectorAll('.grid .cell')],html=cs.map(c=>c.innerHTML),ok=cs.length===(T.cb||[]).length;if(ok)cs.forEach(c=>{c.textContent=''});
+  const bf=T.backOf?.(no??T.leafNo);
+  const leaf=leafMake(T,N,(k,x0,x1)=>{const n=src.cloneNode(true);if(ok){const q=n.querySelectorAll('.grid .cell');for(let i=0;i<q.length;i++)if(T.cb[i][1]>x0-3&&T.cb[i][0]<x1+3)q[i].innerHTML=html[i]}n.style.left=-x0+'px';return tmir(n,T.mir)},bf?tsliceB(T,bf,T.mir):null);
   if(ok)cs.forEach((c,i)=>{c.innerHTML=html[i]});return leaf}
-/* a leaf not yet read: paper, the frame of a grid and its page number */
-function leafBlank(T,no,N){const g=gridEl.getBoundingClientRect(),pr=pageEl.getBoundingClientRect(),sc=pr.width/pageEl.offsetWidth||1,bl=document.createElement('div');bl.className='turn-blank paper leaf';bl.style.cssText=`width:${T.W}px;height:${T.H}px`;
-  bl.innerHTML=`<i class="tb-grid" style="left:${(g.left-pr.left)/sc}px;top:${(g.top-pr.top)/sc}px;width:${g.width/sc}px;height:${g.height/sc}px"></i><span class="tb-no">- ${no} -</span>`;
-  if(!N)return bl;return leafMake(T,N,(k,x0)=>{const n=bl.cloneNode(true);n.style.left=-x0+'px';return n})}
+/* a further leaf for the riffle: the face of page no (a blank page in the book, a quotation among the backs), and its back */
+function leafBlank(T,no,N){const el=T.faceOf(no);if(!N)return tmir(el,T.mir);const bf=T.backOf?.(no);return leafMake(T,N,tslice(T,el,T.mir),bf?tsliceB(T,bf,T.mir):null)}
 function bendBuild(T){T.rect=tdiv('turn-rect',T.stage);T.cast=tdiv('turn-cast',T.rect);T.leaf=leafOfPage(T,T.src,T.style==='riffle'?7:10);T.stage.appendChild(T.leaf.el);
   T.B0=T.style==='heavy'?46:30;T.kv=T.style==='heavy'?70:46;T.th=T.fwd?0:180;T.om=0;bendDraw(T,T.th,0)}
 /* th in degrees, om in degrees a millisecond */
@@ -6523,13 +6541,14 @@ function bendAuto(T){const a=T.fwd?0:180,b=T.fwd?180:0;
   sfx.leaf('bend');let prev=a,pt=performance.now();turnRun(T,T.style==='riffle'?560:760,s=>{const th=a+(b-a)*easeIO(s),n=performance.now(),om=(th-prev)/Math.max(8,n-pt);prev=th;pt=n;bendDraw(T,th,om)},()=>bendSettle(T,b,true))}
 
 /* ---- riffle: the first leaf is the real page; more leaves follow it as the drag goes on ---- */
-function rifBuild(T){bendBuild(T);const n=T.keep.page,seq=[T.target];
+function rifBuild(T){bendBuild(T);let seq=[T.target];
   /* the pages a riffle can pass, in order: forward while they are unlocked, back over every unlocked one */
-  if(T.fwd){for(let p=T.target+1;seq.length<24&&unlocked(p);p++)seq.push(p)}else{for(let p=previousUnlocked(T.target);p&&seq.length<24;p=previousUnlocked(p))seq.push(p)}
+  if(T.seqOf)seq=T.seqOf();else if(T.fwd){for(let p=T.target+1;seq.length<24&&unlocked(p);p++)seq.push(p)}else{for(let p=previousUnlocked(T.target);p&&seq.length<24;p=previousUnlocked(p))seq.push(p)}
   T.seq=seq;T.max=seq.length;T.leaves=[{leaf:T.leaf,p:0}];T.count=0}
 function rifLeaf(T,j){let leaf;
-  if(T.fwd){if(j===1){const src=turnCopy();T.cb=turnCells();leaf=leafOfPage(T,src,7)}else leaf=leafBlank(T,T.seq[j-1],5);
-    if(!T.floor){T.floor=leafBlank(T,T.seq[j],0);T.floor.classList.add('turn-floor');T.stage.insertBefore(T.floor,T.rect.nextSibling)}T.floor.querySelector('.tb-no').textContent=`- ${T.seq[j]} -`;
+  if(T.fwd){if(j===1&&!T.verso){const src=turnCopy();T.cb=turnCells();leaf=leafOfPage(T,src,7,T.seq[0])}else leaf=leafBlank(T,T.seq[j-1],5);
+    /* the floor: the page the fan has uncovered so far */
+    const fl=leafBlank(T,T.seq[j],0);fl.classList.add('turn-floor');if(T.floor)T.floor.replaceWith(fl);else T.stage.insertBefore(fl,T.rect.nextSibling);T.floor=fl;
     T.stage.insertBefore(leaf.el,T.leaves[j-1].leaf.el);leaf.set(0)}
   else{leaf=leafBlank(T,T.seq[j],5);T.stage.appendChild(leaf.el);leaf.set(180)}
   T.leaves[j]={leaf,p:0}}
@@ -6540,7 +6559,7 @@ function rifSet(T,ps){let over=0;for(let j=0;j<T.leaves.length;j++){const L=T.le
     if((was<.5)!==(p<.5))sfx.rif();if(p>.5)over++}
   if(over!==T.count){T.count=over;rifChip(T)}}
 function rifDraw(T,u){T.u=u;const ps=[];for(let j=0;j<T.max;j++){const p=tclamp(u-j*.55,0,1);if(p<=0&&!T.leaves[j])break;if(!T.leaves[j])rifLeaf(T,j);ps[j]=p}rifSet(T,ps)}
-function rifChip(T){if(T.count<2){T.chip?.remove();T.chip=null;return}if(!T.chip)T.chip=tdiv('turn-chip',pcell);T.chip.textContent=`to page ${T.seq[T.count-1]}`}
+function rifChip(T){if(T.count<2){T.chip?.remove();T.chip=null;return}if(!T.chip)T.chip=tdiv('turn-chip',T.host);T.chip.textContent=T.verso?`to the back of page ${T.seq[T.count-1]}`:`to page ${T.seq[T.count-1]}`}
 const rifAim=(T,dx)=>Math.max(0,(T.fwd?-dx:dx)/(T.W*.5));
 function rifEnd(T,vx){const flick=T.fwd?vx<-.45:vx>.45,back=T.fwd?vx>.45:vx<-.45;let c=T.count;const lead=T.leaves.findIndex(L=>L.p>0&&L.p<=.5);
   if(flick&&lead>=0)c=lead+1;if(back&&c>0&&T.leaves[c-1].p<1)c--;if(Math.abs(vx)>8)c=0;const p0=T.leaves.map(L=>L.p);
@@ -6555,6 +6574,20 @@ const TURN_ENG={
   riffle:{build:rifBuild,grab:(T,g)=>{T.g=g;rifDraw(T,0)},move:(T,p)=>rifDraw(T,rifAim(T,p.x-T.g.x)),end:rifEnd,auto:bendAuto}};
 /* a turn that plays by itself (a tap on "next page", a swipe over the grid, the controller) */
 function turnAuto(fwd,p){if(flipping)return;const st=turnStyle(),T=turnOpen(fwd,p,st);TURN_ENG[st].auto(T)}
+/* the backs (the quote pages) turn in the same styles. Their spine is on the right of the sheet and a leaf comes over from
+   the right, so the turn is the book's own turn seen in a mirror: the stage is mirrored, every face on it is drawn mirrored
+   so that it reads, and the finger is measured from the spine. The next back arrives as a turn towards the spine side
+   (the book's turn back); the one before is uncovered as the top sheet turns away (the book's turn forward). */
+function vRecto(T,no){const el=document.createElement('section');el.className='leaf paper vrecto turn-vf';el.style.cssText=`width:${T.W}px;height:${T.H}px`;el.innerHTML=`<i class="vlines" aria-hidden="true"></i><span class="vno">- ${no} -</span>`;return el}
+function vturnOpen(next,style){const W=vSheet.offsetWidth,H=vSheet.offsetHeight,from=versoPage,to=next?from+1:from-1;versoFlip=true;
+  const T={fwd:!next,style,W,H,t:next?1:0,done:false,mir:true,verso:true,host:vSheet.parentElement,keep:{page:from},target:to,leafNo:next?to:from,cb:[]};
+  T.stage=tdiv('turn-stage vturn '+style);T.stage.style.cssText=`left:${vSheet.offsetLeft}px;top:${vSheet.offsetTop}px;width:${W}px;height:${H}px`;T.host.appendChild(T.stage);
+  T.faceOf=no=>turnQuote(T,no).cloneNode(true);T.backOf=no=>vRecto(T,no);
+  T.seqOf=()=>{const q=[to];if(next)for(let p=to+1;p<=NP&&q.length<24;p++)q.push(p);else for(let p=to-1;p>=1&&q.length<24;p--)q.push(p);return q};
+  T.src=T.faceOf(T.leafNo);T.src.classList.add('turn-page');
+  if(!next)showSheet(to);   /* the back before lies under the sheet that turns away */
+  T.close=(commit,page)=>{if(commit)showSheet(page||to);else if(!next)showSheet(from);versoFlip=false};
+  TURN=T;TURN_ENG[style].build(T);return T}
 /* the page under the finger, in the page's own measure */
 const turnPt=e=>{const r=pageEl.getBoundingClientRect(),sc=r.width/pageEl.offsetWidth||1;return{x:(e.clientX-r.left)/sc,y:(e.clientY-r.top)/sc}};
 /* dog-ear: a corner held folds up for a look underneath */
@@ -8008,7 +8041,7 @@ function versoStk(p){const l=stk().pages['q/'+p]||[];return l.length?`<div class
 function versoFace(p){const q=vq()[p-1]||['','',''];
   return`<i class="vgrid" aria-hidden="true"></i><p class="vrun">The Book of Nines</p><div class="vbody">${(isVol(S.block||'nines')?S.solved:ninesSolved())[p]
     ?`<blockquote class="vq">${escH(q[0])}</blockquote><p class="vcite">${escH(q[1])}${q[2]?`<i>${escH(q[2])}</i>`:''}</p>`
-    :`<span class="vseal" aria-hidden="true">9</span><p class="vsealed">Sealed. Solve page ${p} to read what is written on its back.</p>`}</div><span class="vno">- ${p} -</span>${versoPx(p)}`}
+    :`<span class="vmark" aria-hidden="true">?</span><span class="vhide">Not read yet: solve page ${p} to read what is written on its back.</span>`}</div><span class="vno">- ${p} -</span>${versoPx(p)}`}
 /* the page's picture in the corner of its back, at a pixel game's own size; a tap shows its sticker (or the picture) again, with what it says */
 const versoArt=p=>isVol(S.block||'nines')?(S.block==='nines2'?PixArt.get2:PixArt.get)(p):null;
 function pxMini(a){let d='';PixArt.cells(a).forEach((c,i)=>{if(c)d+=`<rect x="${i%9}" y="${i/9|0}" width="1.02" height="1.02" fill="${pxTint(c)}"/>`});return`<svg viewBox="0 0 9 9" shape-rendering="crispEdges" aria-hidden="true">${d}</svg>`}
@@ -8064,7 +8097,7 @@ function openVerso(){
     setTimeout(()=>versoReady(g),(versoPage-first)*gap+fd+20)},GONE+320);
 }
 function closeVerso(){
-  if(!atFront||versoMoving)return;versoMoving=true;versoT=performance.now();const g=++versoGen;
+  if(!atFront||versoMoving)return;if(TURN?.verso)turnClose(TURN,false);versoMoving=true;versoT=performance.now();const g=++versoGen;
   if(document.activeElement&&verso.contains(document.activeElement))document.activeElement.blur();
   verso.classList.remove('ready');
   const finish=()=>{if(g!==versoGen)return;ownAnims(board).forEach(a=>a.cancel());vCover.getAnimations().forEach(a=>a.cancel());vCover.querySelectorAll('.vleaf').forEach(n=>n.remove());verso.hidden=true;atFront=false;versoMoving=false;renderStickers()};
@@ -8084,7 +8117,9 @@ function closeVerso(){
       setTimeout(finish,D+60+280)},280)},(top-first)*gap+fd*.8);
 }
 /* leafing: the next back arrives over the top from the right; the one before is uncovered as the top sheet turns back */
-function stepVerso(d){const n=versoPage+d;if(!atFront||versoMoving||versoFlip||n<1||n>NP)return;versoFlip=true;const g=versoGen,fd=reduced?10:520;sfx.flip();
+function stepVerso(d){const n=versoPage+d;if(!atFront||versoMoving||versoFlip||n<1||n>NP)return;
+  if(turnStyle()!=='classic'&&!reduced){const T=vturnOpen(d>0,turnStyle());TURN_ENG[T.style].auto(T);return}
+  versoFlip=true;const g=versoGen,fd=reduced?10:520;sfx.flip();
   if(d>0){const lf=makeLeaf(n,null);lf.animate(V_IN,{duration:fd,easing:V_EASE,fill:'both'}).onfinish=()=>{if(g!==versoGen)return;showSheet(n);lf.remove();versoFlip=false}}
   else{const lf=makeLeaf(versoPage,null);showSheet(n);lf.animate(V_OUT,{duration:fd,easing:V_EASE,fill:'both'}).onfinish=()=>{lf.remove();if(g===versoGen)versoFlip=false}}
   versoPage=n}
@@ -8098,15 +8133,25 @@ function bookSane(){if(typeof board==='undefined'||!board)return;const now=perfo
   if(board.classList.contains('at-front'))board.classList.remove('at-front');
   if(!verso.hidden){verso.hidden=true;verso.classList.remove('ready');vCover.querySelectorAll('.vleaf').forEach(n=>n.remove())}}
 setInterval(bookSane,800);document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(bookSane,60)});addEventListener('pageshow',()=>setTimeout(bookSane,60));addEventListener('focus',()=>setTimeout(bookSane,60));
-function dropFront(){if(!atFront&&!versoMoving)return;versoGen++;ownAnims(board).forEach(a=>a.cancel());vCover.getAnimations().forEach(a=>a.cancel());vCover.querySelectorAll('.vleaf').forEach(n=>n.remove());
+function dropFront(){if(!atFront&&!versoMoving)return;if(TURN?.verso)turnClose(TURN,false);versoGen++;ownAnims(board).forEach(a=>a.cancel());vCover.getAnimations().forEach(a=>a.cancel());vCover.querySelectorAll('.vleaf').forEach(n=>n.remove());
   verso.hidden=true;verso.classList.remove('ready');board.classList.remove('at-front');atFront=false;versoMoving=false;versoFlip=false}
 versoBtn.addEventListener('click',e=>{e.stopPropagation();openVerso()});
 verso.addEventListener('click',e=>{if(e.target.closest('[data-vclose]'))closeVerso();const px=e.target.closest('[data-vpx]');if(px&&!stickering){e.stopPropagation();pageCard(+px.dataset.vpx)}});
 /* swipes leaf through the backs like the pages of the book: to the left for the next, to the right for the one before */
-{let sx=0,sy=0,on=false;
- verso.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;on=true;sx=e.clientX;sy=e.clientY;try{verso.setPointerCapture(e.pointerId)}catch(x){}});
- verso.addEventListener('pointerup',e=>{if(!on)return;on=false;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>=50&&Math.abs(dy)<Math.abs(dx)*.6)stepVerso(dx<0?1:-1)});
- verso.addEventListener('pointercancel',()=>{on=false})}
+{let sx=0,sy=0,on=false,T=null,e0=null,vs=[];
+ /* with a page turn other than Classic the back follows the finger, measured in the mirror (from the spine) */
+ const live=()=>atFront&&!versoMoving&&!versoFlip&&!reduced&&turnStyle()!=='classic'&&!stickering&&!TURN&&!document.querySelector('.gift3d');
+ const sc=()=>{const r=vSheet.getBoundingClientRect();return{r,k:r.width/vSheet.offsetWidth||1}};
+ const pt=e=>{const {r,k}=sc();return{x:vSheet.offsetWidth-(e.clientX-r.left)/k,y:(e.clientY-r.top)/k}};
+ const vel=()=>{const b=vs[vs.length-1];if(!b||performance.now()-b[0]>90)return 0;let a=vs[0];for(const v of vs)if(b[0]-v[0]<=110){a=v;break}return b[0]>a[0]?-(b[1]-a[1])/(b[0]-a[0])/sc().k:0};
+ const drop=cancel=>{if(!T)return false;const t=T;T=null;on=false;TURN_ENG[t.style].end(t,cancel?(t.fwd?9:-9):vel());return true};
+ verso.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;on=true;sx=e.clientX;sy=e.clientY;e0=e;vs=[[performance.now(),e.clientX]];try{verso.setPointerCapture(e.pointerId)}catch(x){}});
+ verso.addEventListener('pointermove',e=>{if(!on)return;vs.push([performance.now(),e.clientX]);if(vs.length>8)vs.shift();const dx=e.clientX-sx,dy=e.clientY-sy;
+   if(!T){if(!live()||Math.abs(dx)<14||Math.abs(dx)<Math.abs(dy)*1.3)return;const next=dx<0,n=versoPage+(next?1:-1);if(n<1||n>NP)return;
+     T=vturnOpen(next,turnStyle());TURN_ENG[T.style].grab(T,pt(e0));sfx.leaf('lift')}else T.moved=true;
+   TURN_ENG[T.style].move(T,pt(e))});
+ verso.addEventListener('pointerup',e=>{if(drop(false))return;if(!on)return;on=false;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>=50&&Math.abs(dy)<Math.abs(dx)*.6)stepVerso(dx<0?1:-1)});
+ verso.addEventListener('pointercancel',()=>{if(!drop(true))on=false})}
 {const again=()=>{if(atFront&&!versoMoving)requestAnimationFrame(()=>requestAnimationFrame(()=>{if(atFront&&!versoMoving)placeVerso()}))};addEventListener('resize',again);if(window.ResizeObserver)new ResizeObserver(again).observe($('#stage'))}
 
 /* ================= events ================= */
@@ -9264,7 +9309,7 @@ const TYPE_ROLES=[
  {id:'toc',at:'toc',n:'Contents: the list of pages',m:[/^\.pg\b/,/toc-credit/,/\.toc \.lede/],x:'12 · Chapter II'},
  {g:'Quote pages',e:'the backs of the pages',at:'verso',id:'quote',cx:'b',n:'The quote',m:[/^\.vq$/],x:'“The digits must stay single.”'},
  {id:'cite',cx:'b',n:'Who said it',m:[/^\.vcite/],x:'Maki Kaji, 1984'},
- {id:'vsmall',cx:'b',n:'Running head, page number, seal',m:[/^\.vrun$/,/^\.vno$/,/\.vsealed/,/\.vseal/,/save-leaf-no/],x:'The Book of Nines · - 1 -'},
+ {id:'vsmall',cx:'b',n:'Running head, page number, question mark',m:[/^\.vrun$/,/^\.vno$/,/\.vmark/,/\.vsealed/,/\.vseal/,/save-leaf-no/],x:'The Book of Nines · - 1 -'},
  {g:'Bookstore',e:'an Art Deco shop',at:'shop',id:'shoptitle',n:'Shop sign and slogan',m:[/^\.shop h2$/,/\.shop \.slogan/,/\.shop \.lede/],x:'Bookstore'},
  {id:'shoptabs',n:'Shop tabs',m:[/shop-tab/],x:'Daily offer'},
  {id:'posters',n:'Posters',m:[/\.item\.poster/,/\.p-who/],x:'Lumière · Club · Cocktails'},
