@@ -6447,7 +6447,7 @@ function turnOpen(fwd,target,style){const W=pageEl.offsetWidth,H=pageEl.offsetHe
   pcell.classList.add('turning');TURN=T;TURN_ENG[style].build(T);return T}
 function turnClose(T,commit,page){if(T.done)return;T.done=true;cancelAnimationFrame(T.raf);T.chip?.remove();
   T.close(commit,page);
-  if(commit&&page){T.stage.classList.add('out');setTimeout(()=>T.stage.remove(),200)}else T.stage.remove();
+  if(commit){T.stage.classList.add('out');setTimeout(()=>T.stage.remove(),220)}else T.stage.remove();
   if(TURN===T)TURN=null}
 /* run a value from a to b over ms, eased */
 function turnRun(T,ms,step,then){const t0=performance.now();const f=now=>{if(T.done)return;const s=tclamp((now-t0)/ms,0,1);step(s);if(s<1)T.raf=requestAnimationFrame(f);else then&&then()};T.raf=requestAnimationFrame(f)}
@@ -6479,7 +6479,7 @@ function foldDraw(T,P){const {W,H,C,D}=T;
   T.roll.style.transform=hp(b);T.roll.style.width=dep.toFixed(1)+'px';
   T.band.style.transform=hp(b);T.band.style.width=tclamp(dep*.75,10,120).toFixed(1)+'px';
   const t=T.t=tclamp((W-P.x)/(2*W),0,1),lift=tclamp(dep/26,0,1);
-  T.flap.style.opacity=T.shf.style.opacity=(lift*(t<.66?1:Math.max(0,1-(t-.66)/.34))).toFixed(3);T.band.style.opacity=(lift*(1-t*.55)).toFixed(3)}
+  T.flap.style.opacity=T.shf.style.opacity=(lift*(t>.93?Math.max(0,(1-t)/.07):1)).toFixed(3);T.band.style.opacity=(lift*(1-t*.55)).toFixed(3)}
 /* the path the corner takes when the turn plays by itself */
 function foldPath(T,t){const up=T.C.y?-1:1,k=T.style==='ear'?.34:.2,s=Math.sin(Math.PI*Math.pow(t,T.style==='ear'?.62:.85));return{x:T.W-2*T.W*t,y:T.C.y+up*T.H*k*s}}
 function foldEnd(T,commit){const P0={...T.P},over=T.fwd?commit:!commit,P1=over?{x:-T.W,y:T.C.y}:{x:T.C.x,y:T.C.y},d=Math.hypot(P1.x-P0.x,P1.y-P0.y);
@@ -6504,8 +6504,9 @@ function leafMake(T,N,make,back){const {W,H}=T,w=W/N,root=tdiv('turn-leaf');root
     const b=tdiv('turn-sb paper',s),bs=document.createElement('i');if(back)b.appendChild(back(k,k*w,(k+1)*w+.7));b.appendChild(bs);strips.push({s,f,b,fs,bs});par=s}
   return{el:root,N,strips,th:0,
     /* th: the turn at the spine; lag: how far the free edge trails it; flut: a flutter of the free edge */
-    set(th,lag=0,flut=0){this.th=th;let prev=0;for(let k=0;k<N;k++){const x=(k+.5)/N,st=strips[k],ph=tclamp(th-lag*Math.pow(x,1.7)+flut*x*x,0,180);
-      st.s.style.transform=`rotateY(${(prev-ph).toFixed(2)}deg)`;prev=ph;const sn=Math.sin(ph*RAD),al=ph>112?Math.max(0,1-(ph-112)/62):1;
+    set(th,lag=0,flut=0){this.th=th;let prev=0;root.style.opacity=th>171?Math.max(0,(180-th)/9).toFixed(3):'';   /* a leaf lying flat beyond the spine fades as a whole: never cut */
+      for(let k=0;k<N;k++){const x=(k+.5)/N,st=strips[k],ph=tclamp(th-lag*Math.pow(x,1.7)+flut*x*x,0,180);
+      st.s.style.transform=`rotateY(${(prev-ph).toFixed(2)}deg)`;prev=ph;const sn=Math.sin(ph*RAD),al=1;
       st.fs.style.opacity=ph<90?(.5*Math.pow(sn,1.5)).toFixed(3):0;st.bs.style.opacity=ph>=90?(.05+.3*sn).toFixed(3):0;st.f.style.opacity=st.b.style.opacity=al.toFixed(3)}}}}
 /* a copy of the page for each strip, holding only the cells that strip shows */
 function leafOfPage(T,src,N,no){const cs=[...src.querySelectorAll('.grid .cell')],html=cs.map(c=>c.innerHTML),ok=cs.length===(T.cb||[]).length;if(ok)cs.forEach(c=>{c.textContent=''});
@@ -6578,7 +6579,9 @@ function turnAuto(fwd,p){if(flipping)return;const st=turnStyle(),T=turnOpen(fwd,
    the right, so the turn is the book's own turn seen in a mirror: the stage is mirrored, every face on it is drawn mirrored
    so that it reads, and the finger is measured from the spine. The next back arrives as a turn towards the spine side
    (the book's turn back); the one before is uncovered as the top sheet turns away (the book's turn forward). */
-function vRecto(T,no){const el=document.createElement('section');el.className='leaf paper vrecto turn-vf';el.style.cssText=`width:${T.W}px;height:${T.H}px`;el.innerHTML=`<i class="vlines" aria-hidden="true"></i><span class="vno">- ${no} -</span>`;return el}
+function vRecto(T,no){T.rectos=T.rectos||{};if(T.rectos[no])return T.rectos[no];const pg=versoPageOf(no);
+  if(pg){pg.classList.add('turn-vf');pg.style.width=T.W+'px';pg.style.height=T.H+'px';return T.rectos[no]=pg}
+  const el=document.createElement('section');el.className='leaf paper vrecto turn-vf';el.style.cssText=`width:${T.W}px;height:${T.H}px`;el.innerHTML=`<i class="vlines" aria-hidden="true"></i><span class="vno">- ${no} -</span>`;return T.rectos[no]=el}
 function vturnOpen(next,style){const W=vSheet.offsetWidth,H=vSheet.offsetHeight,from=versoPage,to=next?from+1:from-1;versoFlip=true;
   const T={fwd:!next,style,W,H,t:next?1:0,done:false,mir:true,verso:true,host:vSheet.parentElement,keep:{page:from},target:to,leafNo:next?to:from,cb:[]};
   T.stage=tdiv('turn-stage vturn '+style);T.stage.style.cssText=`left:${vSheet.offsetLeft}px;top:${vSheet.offsetTop}px;width:${W}px;height:${H}px`;T.host.appendChild(T.stage);
@@ -8069,9 +8072,15 @@ function showSheet(p){vSheet.hidden=false;vSheet.innerHTML=versoFace(p);vSheet.a
   const n=p<=1?0:Math.min(4,1+Math.floor(p/25)),edge=[];for(let i=1;i<=n;i++)edge.push(`${-1.6*i}px ${1.6*i}px 0 var(${i%2?'--paperLo':'--paper'})`);
   vSheet.style.setProperty('--stack',edge.join(',')||'0 0 0 transparent')}
 function pageClone(){const c=pageEl.cloneNode(true);c.removeAttribute('id');c.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));return c}
+/* the front of a back is its Sudoku page, as the player left it (filled in, half done or still empty). The page is set up
+   for a moment to be copied, then the page in play is put back with its undo history. A page not yet open stays a blank grid. */
+function versoPageOf(no){if(playMode!=='book'||no<1||no>NP)return null;if(!unlocked(no)&&!S.prog[no]&&!S.solved[no])return null;if(no===S.page)return pageClone();
+  const keep={page:S.page,hist:G.hist,fut:G.fut,sel:G.sel,hl:G.hl};let c=null;
+  try{loadPage(no);G.sel=-1;G.hl=0;render();c=pageClone()}catch(e){}
+  try{loadPage(keep.page);G.hist=keep.hist;G.fut=keep.fut;G.sel=keep.sel;G.hl=keep.hl;render()}catch(e){}return c}
 function makeLeaf(p,recto){const lf=document.createElement('div');lf.className='vleaf';
   const f=document.createElement('section');f.className='leaf paper vface face';f.innerHTML=versoFace(p)+versoStk(p);requestAnimationFrame(()=>fitVerso(f));
-  const b=recto||document.createElement('section');if(!recto){b.className='leaf paper vrecto';b.innerHTML=`<i class="vlines" aria-hidden="true"></i><span class="vno">- ${p} -</span>`}
+  const b=recto||versoPageOf(p)||document.createElement('section');if(!b.classList.contains('leaf')){b.className='leaf paper vrecto';b.innerHTML=`<i class="vlines" aria-hidden="true"></i><span class="vno">- ${p} -</span>`}
   b.classList.add('face','back');lf.append(f,b);vCover.appendChild(lf);return lf}
 function versoReady(g){if(g!==versoGen)return;versoMoving=false;verso.classList.add('ready');try{verso.querySelector('[data-vclose]').focus({preventScroll:true})}catch(e){}}
 const ownAnims=el=>el.getAnimations().filter(a=>!(window.CSSAnimation&&a instanceof CSSAnimation));
