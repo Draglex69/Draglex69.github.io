@@ -7091,7 +7091,8 @@ const dayNo=(t=Date.now())=>{const d=new Date(t);return Math.floor(Date.UTC(d.ge
 const adDay=()=>dayNo(Date.now()-5*36e5);   /* posters go up at five in the morning, with the post: before that it is still yesterday's wall */
 /* what came in when: new arrivals for a month after */
 const shopAdded=key=>/^stk:a-/.test(key)||/^sty:(onyx|midnight|oxblood|jade|tassel|buckle)$/.test(key)||/^ink:/.test(key)?'2026-11-06':/^(or|sc):/.test(key)?'2026-11-07':null;
-const shopIsNew=key=>{const a=shopAdded(key);return!!a&&dayNo()-dayNo(Date.parse(a+'T12:00:00'))<30};
+const shopIsNew=key=>{const r=S.relSeen?.[key];if(r!=null)return adDay()-r<14;if(releaseOn&&REL_SLOT[key]!=null&&!S.relKnown)return false;   /* a new book's first stock is not news */
+  const a=shopAdded(key);return!!a&&dayNo()-dayNo(Date.parse(a+'T12:00:00'))<30};
 /* the month's line at the top of the daily offer */
 const SEASON_NOTE=['Long nights: moons and midnight blue','Valentine’s month: hearts and roses','Spring comes: tulips and daisies','Cherry blossom time','Peonies and irises','Lavender and long days',
   'High summer: sunflowers and lotus','Late summer: lotus and gold','Chrysanthemums and rose ink','Black cats and Onyx','Chrysanthemums and oxblood','Stars and crowns for the holidays'];
@@ -7130,7 +7131,60 @@ function shopCat(){const L=[],k=stk(),ps=plushState(),fs=floraState(),btn=(a,t,d
       use:()=>btn(`data-use-scene="${id}"`,S.scene===id?'In use':'Use it')});
   Object.values(BLOCKS).filter(b=>b.shop).forEach(b=>L.push({key:'bk:'+b.id,tab:'books',hid:b.id==='nines2'&&!vol1Done()&&!S.lib?.nines2,name:b.title,price:b.price,blurb:`${b.sub} · ${b.pages} pages`,own:!!S.lib?.[b.id],legacy:`data-buy-block="${b.id}"`,book:b.title,k3:'book',cover:b.cover,
     art:`<div class="art"><div class="style-swatch" style="${b.cover}"></div></div>`,give:()=>{S.lib=S.lib||{};S.lib[b.id]=1},use:()=>btn('','On the shelf',1)}));
+  return relApply(L)}
+
+/* ================= the shop's calendar: what comes in when =================
+   Nothing arrives all at once. A new book opens with a small first stock; after that one new thing comes in about
+   every three and a half days, at five in the morning with the post, in the order of RELEASES: the shelves take
+   turns, and a set (the twelve animals, the plushies, the koi ponds, the flowers) comes one piece at a time.
+   Two clocks decide together. The shop's own calendar is the same for everyone (from RELEASE_FROM on), so all
+   players are roughly in step; and each player's own book: the days since it was begun and the pages solved in it.
+   A thing comes in when both clocks have reached it, and some also wait for a page count of their own (need).
+   A book begun late runs its own clock faster (a day less per arrival, and a step for every eight pages), so it
+   catches up with the shop over time without getting everything at once.
+   Prices: the first stock and the first six seasons (48 arrivals, about five sixths of the shop) keep their old prices; after that
+   each season of eight arrivals costs about 15% more than the one before (RELEASE_RISE is the one number to turn). A thing never gets dearer once it is in the shop. Books begun before this
+   calendar keep everything they could see, at the old prices. */
+const RELEASE_FROM=dayNo(Date.parse('2026-11-19T12:00:00')),RELEASE_EVERY=3.5,RELEASE_SEASON=8,RELEASE_RISE=1.15,RELEASE_KEEP=48;
+const RELEASE_START=['stk:star','stk:heart','stk:moon','stk:cloud','stk:t-dots','stk:a-horse','ink:1','sty:velvet','or:fern','or:hourglass','sc:heraldry','bk:hard','pl:pookie'];
+const RELEASES=[['stk:bolt'],['or:clock'],['stk:a-goat'],['sc:confetti'],['sty:oxblood'],['stk:t-stripes'],['pl:grump',5],['stk:flower'],
+  ['ink:4'],['stk:a-monkey'],['or:globe'],['fl:daisy'],['vz:fan'],['stk:planet'],['sc:koi',10],['stk:a-rooster'],
+  ['sty:midnight'],['stk:t-gingham'],['fl:tulip'],['bk:nikoli',20],['stk:crown'],['or:lamp'],['stk:a-dog'],['pl:cloud',15],
+  ['fl:poppy'],['ink:3'],['stk:t-waves'],['vz:lacquer'],['stk:a-pig'],['sty:onyx'],['fl:lavender'],['sc:koipx',30],
+  ['stk:cat'],['or:phono',25],['stk:a-rat'],['fl:rose'],['sty:jade'],['pl:awa',30],['stk:a-ox'],['vz:ziggurat'],
+  ['fl:sunflower'],['bk:times',40],['stk:t-gold'],['stk:a-tiger'],['fl:iris'],['sc:koiink',45],['vz:urn'],['stk:a-rabbit'],
+  ['fl:calla'],['pl:barnaby',50],['fl:mum'],['stk:a-dragon'],['vz:skyline'],['fl:peony'],['stk:a-snake'],['fl:sakura'],
+  ['vz:ming'],['fl:lotus'],['pl:pengu'],['bk:nines2']];
+/* Volume II and Pengu have gates of their own (finishing Volume I; Pengu's story) and keep their prices */
+const RELEASE_FIXED=new Set(['bk:nines2','pl:pengu']);
+const REL_SLOT={};RELEASE_START.forEach(k=>REL_SLOT[k]=0);RELEASES.forEach(([k],i)=>REL_SLOT[k]=i+1);
+const REL_NEED={};RELEASES.forEach(([k,n])=>{if(n)REL_NEED[k]=n});
+let releaseOn=!SHOP_TEST;   /* the tests see the whole shop unless they ask for the calendar */
+const relSolved=()=>{const cur=S.block||'nines',cnt=o=>Object.keys(o||{}).length;let n=cnt(S.solved);for(const [b,v] of Object.entries(S.shelf||{}))if(b!==cur)n+=cnt(v?.solved);return n};
+const relToday=()=>adDay();
+/* how many arrivals have come in: the shop's calendar, and this book's own clock */
+const relShopSlots=(d=relToday())=>Math.max(0,Math.floor((d-RELEASE_FROM)/RELEASE_EVERY));
+const relOwnSlots=(d=relToday())=>{const t0=S.relT0??d;return Math.floor((d-t0)/(RELEASE_EVERY-1))+Math.floor(relSolved()/8)};
+const relSlots=()=>Math.min(relShopSlots(),relOwnSlots());
+const relSeason=slot=>slot>RELEASE_KEEP?Math.ceil((slot-RELEASE_KEEP)/RELEASE_SEASON):0;   /* 0: the old price */
+const relFriendly=v=>v<20?Math.round(v):v<100?Math.round(v/5)*5:v<1000?Math.round(v/10)*10:Math.round(v/50)*50;
+function relPrice(key,base){const slot=REL_SLOT[key];if(!releaseOn||slot==null||RELEASE_FIXED.has(key)||(S.relKnown&&slot<=S.relKnown))return base;const se=relSeason(slot);return se?relFriendly(base*Math.pow(RELEASE_RISE,se)):base}
+function relIn(key){if(!releaseOn)return true;const slot=REL_SLOT[key];if(slot==null)return true;if(S.relKnown&&slot<=S.relKnown)return true;if(S.relSeen?.[key]!=null)return true;
+  return slot<=relSlots()&&relSolved()>=(REL_NEED[key]||0)}
+/* the shop's stock for this book: unreleased things stay in the back room (a thing already owned is always shown) */
+function relApply(L){const today=relToday(),fresh=[];
+  for(const it of L){it.price=relPrice(it.key,it.price);const owned=it.own||(it.have|0)>0;
+    if(!relIn(it.key)&&!owned){it.hid=true;it.soon=true;continue}
+    if(releaseOn&&REL_SLOT[it.key]&&!(S.relKnown&&REL_SLOT[it.key]<=S.relKnown)&&S.relSeen?.[it.key]==null){S.relSeen=S.relSeen||{};S.relSeen[it.key]=today;fresh.push(it)}}
+  if(fresh.length){S.relNews=[...new Set([...(S.relNews||[]),...fresh.map(it=>it.key)])];try{save()}catch(e){}}
   return L}
+/* the next arrival: when (in days), or the pages it waits for */
+function relNext(){const L=shopCat(),hidden=new Set(L.filter(it=>it.soon).map(it=>it.key)),d=relToday(),have=relSolved(),due=relSlots();let days=null,wait=null;
+  for(const [k] of RELEASES){if(!hidden.has(k))continue;const slot=REL_SLOT[k],pages=Math.max(0,(REL_NEED[k]||0)-have);
+    if(pages){if(!wait&&slot<=due)wait={key:k,name:L.find(it=>it.key===k).name,pages};continue}
+    if(days==null){days=0;for(;days<400&&!(slot<=Math.min(relShopSlots(d+days),relOwnSlots(d+days)));days++);}
+    if(days!=null&&wait)break}
+  return days==null&&!wait?null:{days,wait}}
 const shopItem=key=>shopCat().find(it=>it.key===key);
 /* the shelf shows each thing as a small object that can be turned: the picture stays flat, on a body with some thickness, like a cartridge or a card.
    cut: a die-cut sticker (or flower, vase, tape) on a few layers of paper; slab: a square swatch on a thin board; book: a little book with the title on its cover;
@@ -7150,7 +7204,7 @@ function shopDesc(it){const k=it.key.split(':')[0],id=it.key.slice(k.length+1);
   if(k==='bk'){const cr=(BLOCKS[id]?.credit||'').replace(/<[^>]+>/g,'').trim();return`${it.blurb}.${cr?' '+cr:''}`}
   return it.blurb||''}
 /* today's sales: each of the last three days put three things on sale for one to three days, so some sales end tonight while others have just begun */
-function shopDeals(){if(!shopDealsOn)return{};const keys=shopCat().map(it=>it.key).sort(),today=dayNo(),out={};
+function shopDeals(){if(!shopDealsOn)return{};const keys=shopCat().filter(it=>!it.hid).map(it=>it.key).sort(),today=dayNo(),out={};
   for(let d=today-2;d<=today;d++){const R=mulberry(d*7919+131);for(let n=0;n<3;n++){const key=keys[Math.floor(R()*keys.length)],dur=1+Math.floor(R()*3),off=[.2,.25,.3,.4][Math.floor(R()*4)];
     if(d+dur>today&&!out[key])out[key]={off,left:d+dur-1-today}}}
   return out}
@@ -7301,7 +7355,9 @@ function shopGive(lines){const D=shopDeals(),L=lines.map(([key,n])=>[shopItem(ke
 function openShop(tab,door){koiLive();
   if(!door)storeDoor();closePops();if(stickering)endEdit();   /* the sticker box floats above everything: it is put away rather than left lying over the shop's tabs */
   const tabs=()=>SHOP_TABS.filter(t=>!t[3]||S.flowers);
-  let cur=tabs().some(t=>t[0]===tab)?tab:'offer',view='shelf';
+  shopCat();const news=releaseOn?(S.relNews||[]).map(shopItem).filter(it=>it&&!it.hid):[];
+  if(news.length){S.relNews=[];save();setTimeout(()=>toast('New in the shop: '+news.map(it=>it.name).join(', ')+'.',4200),door?1500:700)}
+  let cur=tabs().some(t=>t[0]===tab)?tab:news.length?'new':'offer',view='shelf';
   const v=document.createElement('div');v.className='veil';{const rm=v.remove.bind(v);v.remove=()=>{if(!v.isConnected)return;rm();ShopTunes.stop(.9);storeDoor()}}
   if(S.shopTune!=='off')ShopTunes.play(ShopTunes.TUNES[S.shopTune]?S.shopTune:'waltz',{delay:door?1.1:.9,fade:1.6});   /* the music comes up once the bell has rung */
   v.innerHTML=`<div class="toc shop" role="dialog" aria-label="Bookstore"><div class="awning" aria-hidden="true"></div><h2>Bookstore</h2><p class="slogan">More than just Books!</p>
@@ -7397,8 +7453,9 @@ function openShop(tab,door){koiLive();
         sec('Today’s selection','',shelf(pick,D,'sel'))+sec('Commercials','',adShelf())+
         (fresh.length?secTo('New arrivals','just in','new',shelf(fresh4,D)):'')+
         tabs().filter(([id])=>id!=='offer'&&id!=='new').map(([id,label])=>{const list=peek(id);return list.length?secTo(label,'','',shelf(list,D),id):''}).join('')}
-    if(cur==='new'){const fresh=L.filter(it=>shopIsNew(it.key));
-      return fresh.length?tabs().filter(([id])=>id!=='offer'&&id!=='new').map(([id,label])=>{const list=fresh.filter(it=>it.tab===id);return list.length?secTo(label,'','',shelf(list,D),id):''}).join(''):'<p class="empty">Nothing new on the shelves just now.</p>'}
+    if(cur==='new'){const fresh=L.filter(it=>shopIsNew(it.key)),nx=releaseOn?relNext():null,
+        nxt=nx?`<p class="offer-note rel-next">${nx.days!=null?`Next arrival ${nx.days===0?'any moment now':nx.days===1?'tomorrow morning':`in ${nx.days} days`}.`:''}${nx.wait?` ${escH(nx.wait.name)} comes in once ${nx.wait.pages} more page${nx.wait.pages===1?' is':'s are'} solved.`:''}</p>`:'';
+      return nxt+(fresh.length?tabs().filter(([id])=>id!=='offer'&&id!=='new').map(([id,label])=>{const list=fresh.filter(it=>it.tab===id);return list.length?secTo(label,'','',shelf(list,D),id):''}).join(''):'<p class="empty">Nothing new on the shelves just now.</p>')}
     if(cur==='stickers'){const k=stk(),owned=Object.entries(k.owned).filter(([,n])=>n>0),S0=by('stickers');
       return sec('Stickers','for the cover and the pages',shelf(S0.filter(it=>it.sub==='stickers'),D))+sec('Stars &amp; signs','the twelve animals',shelf(S0.filter(it=>it.sub==='signs'),D))+sec('Washi tape','',shelf(S0.filter(it=>it.sub==='tape'),D))+
         sec('Your drawer','tap one to stick it on','<div class="shelf mine">'+(owned.length?owned.map(([id,n])=>{const st=STK.find(x=>x.id===id);return`<button class="item own" data-place="${id}"><div class="art">${stickSVG(st)}</div><span class="nm2">× ${n}</span></button>`}).join(''):'<p class="empty">Nothing yet. Pick something from the shelves above.</p>')+'</div>')+
@@ -7938,7 +7995,7 @@ function normaliseSave(d){
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
   n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(isVol(n.block)&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
-  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.ripped&&Number.isInteger(+d.ripped.d)&&d.ripped.s&&typeof d.ripped.s==='object'&&!Array.isArray(d.ripped.s)){n.ripped={d:+d.ripped.d,s:{}};for(const [k,v] of Object.entries(d.ripped.s).slice(0,80))if(/^[a-z0-9:]{1,40}$/i.test(k)&&Number.isInteger(v)&&v>=0&&v<WALL_ART.length)n.ripped.s[k]=v}if(d.shopMotion===1)n.shopMotion=1;if(d.type&&typeof d.type==='object')n.type=typeClean(d.type);if(Array.isArray(d.typeP)){n.typeP=d.typeP.filter(p=>p&&typeof p.n==='string'&&p.t&&typeof p.t==='object').slice(0,12).map(p=>({n:p.n.slice(0,28),t:typeClean(p.t)}));if(!n.typeP.length)delete n.typeP}if(d.typeUI&&typeof d.typeUI==='object'){n.typeUI={};if(/^[tblrf]$/.test(d.typeUI.d))n.typeUI.d=d.typeUI.d;for(const k of ['sv','sh','x','y','w','h'])if(Number.isFinite(+d.typeUI[k])&&d.typeUI[k]!==null)n.typeUI[k]=Math.round(+d.typeUI[k]*10)/10;if(d.typeUI.m)n.typeUI.m=1}if(d.mig43)n.mig43=1;if(d.mig48)n.mig48=1;if(d.imprint==='blind')n.imprint='blind';if(/^(curl|bend|ear|heavy|riffle)$/.test(d.turn))n.turn=d.turn;if(d.koiMsg===1)n.koiMsg=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
+  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.ripped&&Number.isInteger(+d.ripped.d)&&d.ripped.s&&typeof d.ripped.s==='object'&&!Array.isArray(d.ripped.s)){n.ripped={d:+d.ripped.d,s:{}};for(const [k,v] of Object.entries(d.ripped.s).slice(0,80))if(/^[a-z0-9:]{1,40}$/i.test(k)&&Number.isInteger(v)&&v>=0&&v<WALL_ART.length)n.ripped.s[k]=v}if(d.shopMotion===1)n.shopMotion=1;if(d.type&&typeof d.type==='object')n.type=typeClean(d.type);if(Array.isArray(d.typeP)){n.typeP=d.typeP.filter(p=>p&&typeof p.n==='string'&&p.t&&typeof p.t==='object').slice(0,12).map(p=>({n:p.n.slice(0,28),t:typeClean(p.t)}));if(!n.typeP.length)delete n.typeP}if(d.typeUI&&typeof d.typeUI==='object'){n.typeUI={};if(/^[tblrf]$/.test(d.typeUI.d))n.typeUI.d=d.typeUI.d;for(const k of ['sv','sh','x','y','w','h'])if(Number.isFinite(+d.typeUI[k])&&d.typeUI[k]!==null)n.typeUI[k]=Math.round(+d.typeUI[k]*10)/10;if(d.typeUI.m)n.typeUI.m=1}if(d.mig43)n.mig43=1;if(d.mig48)n.mig48=1;if(d.mig55)n.mig55=1;if(Number.isFinite(d.relKnown))n.relKnown=Math.max(0,Math.min(999,d.relKnown|0));if(Number.isFinite(d.relT0))n.relT0=d.relT0|0;if(d.relSeen&&typeof d.relSeen==='object'){n.relSeen={};for(const [k,v] of Object.entries(d.relSeen))if(/^[a-z]+:[\w-]+$/.test(k)&&Number.isFinite(v))n.relSeen[k]=v|0}if(Array.isArray(d.relNews))n.relNews=d.relNews.filter(k=>typeof k==='string').slice(0,40);if(d.imprint==='blind')n.imprint='blind';if(/^(curl|bend|ear|heavy|riffle)$/.test(d.turn))n.turn=d.turn;if(d.koiMsg===1)n.koiMsg=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
   n.flora={fl:{},vz:{},cur:null,arr:{},seed:{}};{const f=obj(d.flora),fid=Flora.FLOWERS.map(x=>x.id),vid=Flora.VASES.map(x=>x.id);
     for(const [id,c] of Object.entries(obj(f.fl)))if(fid.includes(id)&&Number.isInteger(+c)&&+c>0)n.flora.fl[id]=Math.min(999,+c);
     for(const id of Object.keys(obj(f.vz)))if(vid.includes(id))n.flora.vz[id]=1;
@@ -10485,7 +10542,7 @@ $('#radioBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();openR
 
 /* ================= boot ================= */
 function start(data){
-  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},get TURN(){return TURN},get flipping(){return flipping},turnAuto,turnStyle,TURNS,flipTo,flipBack,pageTurn,get typeDraft(){return TYPE_DRAFT},openTypeCase,typeApply,typeCode,typeRead,typeClean,typeUse,typeSaveAs,typeCurrent,typeProfiles,typeRoleAt,typeNow,typeBook,TYPE_DEFAULT,TYPE_ROLES,TYPE_SEL,TYPE_HOUSE,openCommode,openTV,openToc,openVerso,bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
+  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},shopCat,RELEASES,RELEASE_START,REL_SLOT,relNext,relSlots,relShopSlots,relOwnSlots,relPrice,setRelease:on=>{releaseOn=!!on},get TURN(){return TURN},get flipping(){return flipping},turnAuto,turnStyle,TURNS,flipTo,flipBack,pageTurn,get typeDraft(){return TYPE_DRAFT},openTypeCase,typeApply,typeCode,typeRead,typeClean,typeUse,typeSaveAs,typeCurrent,typeProfiles,typeRoleAt,typeNow,typeBook,TYPE_DEFAULT,TYPE_ROLES,TYPE_SEL,TYPE_HOUSE,openCommode,openTV,openToc,openVerso,bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
     puzzleIn(id,p){const was=S.block;S.block=id;try{return puzzle(p)}finally{S.block=was}}};
   load();if(saveLost)setTimeout(()=>toast('The book’s record could not be read, so a fresh book was opened. The old record is kept aside.'+(S.savePage?' A save code from the Binder’s Record can bring a book back.':'')),2500);
   devUnlocked();
@@ -10493,6 +10550,8 @@ function start(data){
   /* 1.0.43: the house style is the new look. What a player had set in the type case before is kept as a profile of their own. */
   /* 1.0.48: the pen loading screen is off for now; it can be switched back on in Design */
   if(!S.mig48){S.loading=false;S.mig48=1}
+  /* 1.0.55: the shop's calendar. A book that was already begun keeps everything the shop showed it, at the old prices; a new book starts with the first stock */
+  if(!S.mig55){const begun=Object.keys(S.solved||{}).length||Object.keys(S.prog||{}).length||(S.coins|0)>5||Object.keys(S.history||{}).length;if(begun)S.relKnown=RELEASES.length;S.relT0=adDay();S.mig55=1}
   if(!S.mig43){if(S.type){const t=typeClean(S.type);if(Object.keys(t.h).length||Object.keys(t.r).length){S.typeP=Array.isArray(S.typeP)?S.typeP:[];S.typeP.unshift({n:'Mine (before 1.0.43)',t})}delete S.type}S.mig43=1}
   if(!S.mig24){S.scene='cloth';S.mig24=1}
   if(!S.mig25){if(S.pal===3)S.dark=true;S.mig25=1}
