@@ -1678,6 +1678,19 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
 .credits .cr-small{margin:0 auto 10px;max-width:36ch;font:italic 12.5px/1.4 var(--fell);color:#f3e6c8;opacity:.75}.credits .cr-copy{margin:0 0 14px;font:600 10px var(--deco);letter-spacing:.2em;color:var(--gold);opacity:.7}
 .backcover .savestate[hidden]{display:none}
 /* the credits on a short screen: tighter, and it scrolls rather than spill if still too tall */
+/* the record with its colophon underneath, on one page */
+#savePage .sv-in{display:flex;flex-direction:column;justify-content:safe center;flex:0 0 auto;width:100%;margin:auto 0}#savePage{justify-content:safe center}
+#savePage .lede,#savePage .savecode{flex:none}#savePage .savecode{height:64px}#savePage #saveLoadCode{height:52px}
+.sv-col{flex:0 0 auto;margin:2px auto 0;width:92%;text-align:center}
+.sv-rule{display:block;width:60%;height:1px;margin:6px auto 7px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6}
+.sv-mark{margin:0 0 3px;font:600 9px var(--deco);letter-spacing:.5em;color:var(--gold);opacity:.75}
+.sv-by{margin:0;font:italic 12.5px/1.3 var(--fell);color:#f3e6c8}.sv-by span{opacity:.8}.sv-by b{display:block;margin-top:1px;font:400 17px/1.15 "Limelight",var(--title);color:var(--gold);text-shadow:0 2px 0 rgba(0,0,0,.45)}
+.sv-reach{display:flex;align-items:center;justify-content:center;gap:12px;margin:7px 0 5px}
+.sv-ask{display:flex;flex-direction:column;align-items:flex-start;text-align:left;max-width:20ch;font:italic 12px/1.3 var(--fell);color:#f3e6c8;opacity:.9}.sv-ask b{margin-top:2px;font:600 11.5px var(--deco);font-style:normal;letter-spacing:.12em;color:var(--gold);white-space:nowrap}
+.sv-links{display:flex;gap:10px}.sv-links .cr-link{display:flex;flex-direction:column;align-items:center;gap:2px;color:#f3e6c8;text-decoration:none;font:600 8px var(--deco);letter-spacing:.14em;text-transform:uppercase}
+.sv-links .cr-link svg{width:30px;height:30px;border-radius:50%;box-shadow:0 0 0 1.5px var(--gold),0 2px 4px rgba(0,0,0,.45)}
+.sv-small{margin:2px auto 0;max-width:40ch;font:italic 10.5px/1.3 var(--fell);color:#f3e6c8;opacity:.6}
+#savePage .lede{margin-bottom:6px}#savePage .close{margin-top:10px;align-self:center}
 #creditsPage{overflow:hidden}.credits .cr-in{display:flex;flex-direction:column;align-items:center;width:100%;flex-shrink:0}
 @media (max-height:700px){.credits h2{font-size:22px;margin:2px 0}.credits .endmark{margin-bottom:2px}.credits .cr-role{margin-top:4px;font-size:12.5px}.credits .cr-ask{margin-top:8px;font-size:12px}.credits .cr-num{margin-bottom:6px;font-size:12px}
  .credits .cr-link svg{width:32px;height:32px}.credits .cr-rule{margin:8px auto}.credits .cr-small{font-size:11px;line-height:1.3;margin-bottom:6px}.credits .cr-copy{margin-bottom:8px;font-size:9px}}
@@ -2061,6 +2074,23 @@ body.tc-picking .app,body.tc-picking .veil,body.tc-picking .toast{cursor:crossha
 .tc-use{display:grid;gap:2px;width:100%;padding:9px 70px 9px 10px;text-align:left;background:none}.tc-fx{font-size:26px;line-height:1.2;min-height:31px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#1e140a}.tc-fn{font:600 12px/1.2 system-ui,sans-serif;color:#6a543a}.tc-use small{font:italic 12.5px/1.25 Georgia,serif;color:#8a7658}
 .tc-i{position:absolute;right:8px;top:9px;padding:6px 9px;font-size:12px}.tc-more{padding:0 10px 10px}.tc-more[hidden]{display:none}
 .tc-story p{margin:0 0 10px;font:14.5px/1.5 Georgia,serif}.tc-code{display:block;width:100%;min-height:200px;margin:8px 0;padding:10px;border:0;border-radius:6px;background:#fffaf0;box-shadow:inset 0 0 0 1px rgba(90,60,20,.35);font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;color:#2a1c10;resize:vertical;-webkit-user-select:text;user-select:text}.tc-status{min-height:18px;margin:0;font:13px system-ui,sans-serif;color:#7a4a1c}
+
+/* the two ways out of the covers are not buttons laid on the book: they are lettering pressed into its leather.
+   Gilt: the letters are filled with gold leaf. Blind: a blind stamp, the bare impression in the leather, no colour. */
+:root .endpaper .close,:root .vctl .close{position:relative;margin-top:14px;padding:.42em .9em .38em;background:none!important;border:0!important;border-radius:0;box-shadow:none!important;
+  font:400 clamp(17px,5.6cqw,26px)/1.1 var(--cap);letter-spacing:.06em;text-transform:none;transform:none!important;cursor:pointer;transition:opacity .15s,filter .15s}
+:root[data-imprint="gold"] .endpaper .close,:root[data-imprint="gold"] .vctl .close{color:#d8b45a;background:linear-gradient(180deg,#f3d98d 0%,#d4a843 48%,#9c7424 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 -1px 0 rgba(0,0,0,.65)) drop-shadow(0 1px 0 rgba(255,225,170,.18))}
+:root[data-imprint="blind"] .endpaper .close,:root[data-imprint="blind"] .vctl .close{color:rgba(20,6,6,.42);-webkit-text-fill-color:currentColor;
+  text-shadow:0 1px 0 rgba(255,215,190,.14),0 -1px 0 rgba(0,0,0,.55)}
+.endpaper .close:hover,.vctl .close:hover{filter:brightness(1.12) drop-shadow(0 -1px 0 rgba(0,0,0,.65))}
+.endpaper .close:active,.vctl .close:active{opacity:.75}
+.endpaper .close:focus-visible,.vctl .close:focus-visible{outline:1.5px dashed var(--gold);outline-offset:4px}
+
+/* a box pressed round the lettering: a gilt rule (Gilt) or a bare impression (Blind) */
+.endpaper .close::after,.vctl .close::after{content:"";position:absolute;inset:0;border-radius:1px;pointer-events:none}
+:root[data-imprint="gold"] .endpaper .close::after,:root[data-imprint="gold"] .vctl .close::after{border:1.5px solid #c99a3c;box-shadow:0 -1px 0 rgba(0,0,0,.55),inset 0 1px 0 rgba(0,0,0,.45),0 1px 0 rgba(255,225,170,.14)}
+:root[data-imprint="blind"] .endpaper .close::after,:root[data-imprint="blind"] .vctl .close::after{border:1.5px solid rgba(20,6,6,.38);box-shadow:0 1px 0 rgba(255,215,190,.13),inset 0 1px 0 rgba(255,215,190,.1),0 -1px 0 rgba(0,0,0,.45)}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -2130,7 +2160,7 @@ body.tc-picking .app,body.tc-picking .veil,body.tc-picking .toast{cursor:crossha
         <p class="cr-copy">© 2026 Tea Story. All rights reserved.</p>
         <button class="px close">Back to the Sudokus</button></div>
       </div>
-      <div class="savestate endpaper" id="savePage" role="dialog" aria-label="Ex libris: the binder’s record">
+      <div class="savestate endpaper" id="savePage" role="dialog" aria-label="Ex libris: the binder’s record and the colophon"><div class="sv-in">
         <p class="endmark">EX LIBRIS</p><h2>The Binder’s Record</h2>
         <p class="lede">Everything in these covers, pressed into one line of type. Copy it to carry the book elsewhere, or bind another record into this one.</p>
         <label class="save-label" for="saveCopyCode">This book’s record</label>
@@ -2139,8 +2169,16 @@ body.tc-picking .app,body.tc-picking .veil,body.tc-picking .toast{cursor:crossha
         <label class="save-label" for="saveLoadCode">Bind another record</label>
         <textarea class="savecode" id="saveLoadCode" aria-label="Record to bind" placeholder="Paste a complete record here" spellcheck="false"></textarea>
         <div class="save-actions"><button class="px" data-load>Bind it</button></div>
-        <p class="save-status" role="status"></p><button class="px close">Close the cover</button>
-      </div>
+        <p class="save-status" role="status"></p>
+        <!-- the colophon, in small, under the record: who made the book and how to reach him -->
+        <div class="sv-col" aria-label="Credits"><i class="sv-rule" aria-hidden="true"></i>
+          <p class="sv-mark">COLOPHON</p>
+          <p class="sv-by"><span>Written, designed and vibecoded by</span> <b>Alexander Tea</b></p>
+          <div class="sv-reach"><span class="sv-ask">Questions, ideas, or wanna be friends?<b>+41 76 558 88 31</b></span><span class="sv-links"></span></div>
+          <p class="sv-small">Type from Google Fonts (SIL Open Font &amp; Apache licences) · the quotes are the words of those named · © 2026 Tea Story</p>
+        </div>
+        <button class="px close">Close the cover</button>
+      </div></div>
     </div>
   </div>
   <div class="verso" id="verso" role="dialog" aria-label="The backs of the pages" hidden>
@@ -2209,6 +2247,7 @@ body.tc-picking .app,body.tc-picking .veil,body.tc-picking .toast{cursor:crossha
      <label class="tog"><input type="checkbox" id="optSndBtn"><span class="sl"></span>Sound button</label>
      <div class="tog mbset"><span>Music controls panel</span><input type="range" id="optMbAlpha" min="0" max="100" step="5" aria-label="How solid the panel behind the music controls is"><b id="mbAlphaVal"></b></div>
      <div class="tog vinpos"><span>Pictures on solved pages</span><span class="mag-choice" id="pxStyleChoice"><button type="button" data-pxs="plain">Pixels</button><button type="button" data-pxs="chalk">Chalk</button><button type="button" data-pxs="pastel">Pastel</button></span></div>
+     <div class="tog vinpos"><span>Lettering pressed into the cover (Close the cover, Back to the page)</span><span class="mag-choice" id="imprintChoice"><button type="button" data-imprint="gold">Gilt</button><button type="button" data-imprint="blind">Blind</button></span></div>
      <div class="tog vinpos"><span>Koi pond messages (as the fish come to trust you)</span><span class="mag-choice" id="koiMsgChoice"><button type="button" data-koimsg="0">Off</button><button type="button" data-koimsg="1">On</button></span></div>
      <div class="tog vinpos"><span>Shop items move (settle, stir, rumble)</span><span class="mag-choice" id="shopMoveChoice"><button type="button" data-shopmove="0">Off</button><button type="button" data-shopmove="1">On</button></span></div>
      <div class="tog vinpos"><span>Vinyl record</span><span class="mag-choice" id="vinOnChoice"><button type="button" data-vinon="0">Off</button><button type="button" data-vinon="1">On</button></span></div>
@@ -7899,7 +7938,7 @@ function normaliseSave(d){
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
   n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(isVol(n.block)&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
-  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.ripped&&Number.isInteger(+d.ripped.d)&&d.ripped.s&&typeof d.ripped.s==='object'&&!Array.isArray(d.ripped.s)){n.ripped={d:+d.ripped.d,s:{}};for(const [k,v] of Object.entries(d.ripped.s).slice(0,80))if(/^[a-z0-9:]{1,40}$/i.test(k)&&Number.isInteger(v)&&v>=0&&v<WALL_ART.length)n.ripped.s[k]=v}if(d.shopMotion===1)n.shopMotion=1;if(d.type&&typeof d.type==='object')n.type=typeClean(d.type);if(Array.isArray(d.typeP)){n.typeP=d.typeP.filter(p=>p&&typeof p.n==='string'&&p.t&&typeof p.t==='object').slice(0,12).map(p=>({n:p.n.slice(0,28),t:typeClean(p.t)}));if(!n.typeP.length)delete n.typeP}if(d.typeUI&&typeof d.typeUI==='object'){n.typeUI={};if(/^[tblrf]$/.test(d.typeUI.d))n.typeUI.d=d.typeUI.d;for(const k of ['sv','sh','x','y','w','h'])if(Number.isFinite(+d.typeUI[k])&&d.typeUI[k]!==null)n.typeUI[k]=Math.round(+d.typeUI[k]*10)/10;if(d.typeUI.m)n.typeUI.m=1}if(d.mig43)n.mig43=1;if(d.mig48)n.mig48=1;if(/^(curl|bend|ear|heavy|riffle)$/.test(d.turn))n.turn=d.turn;if(d.koiMsg===1)n.koiMsg=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
+  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.ripped&&Number.isInteger(+d.ripped.d)&&d.ripped.s&&typeof d.ripped.s==='object'&&!Array.isArray(d.ripped.s)){n.ripped={d:+d.ripped.d,s:{}};for(const [k,v] of Object.entries(d.ripped.s).slice(0,80))if(/^[a-z0-9:]{1,40}$/i.test(k)&&Number.isInteger(v)&&v>=0&&v<WALL_ART.length)n.ripped.s[k]=v}if(d.shopMotion===1)n.shopMotion=1;if(d.type&&typeof d.type==='object')n.type=typeClean(d.type);if(Array.isArray(d.typeP)){n.typeP=d.typeP.filter(p=>p&&typeof p.n==='string'&&p.t&&typeof p.t==='object').slice(0,12).map(p=>({n:p.n.slice(0,28),t:typeClean(p.t)}));if(!n.typeP.length)delete n.typeP}if(d.typeUI&&typeof d.typeUI==='object'){n.typeUI={};if(/^[tblrf]$/.test(d.typeUI.d))n.typeUI.d=d.typeUI.d;for(const k of ['sv','sh','x','y','w','h'])if(Number.isFinite(+d.typeUI[k])&&d.typeUI[k]!==null)n.typeUI[k]=Math.round(+d.typeUI[k]*10)/10;if(d.typeUI.m)n.typeUI.m=1}if(d.mig43)n.mig43=1;if(d.mig48)n.mig48=1;if(d.imprint==='blind')n.imprint='blind';if(/^(curl|bend|ear|heavy|riffle)$/.test(d.turn))n.turn=d.turn;if(d.koiMsg===1)n.koiMsg=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
   n.flora={fl:{},vz:{},cur:null,arr:{},seed:{}};{const f=obj(d.flora),fid=Flora.FLOWERS.map(x=>x.id),vid=Flora.VASES.map(x=>x.id);
     for(const [id,c] of Object.entries(obj(f.fl)))if(fid.includes(id)&&Number.isInteger(+c)&&+c>0)n.flora.fl[id]=Math.min(999,+c);
     for(const id of Object.keys(obj(f.vz)))if(vid.includes(id))n.flora.vz[id]=1;
@@ -7978,13 +8017,17 @@ function applySaveState(incoming){
   try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}toast('Save state loaded. Your book is ready.');
 }
 /* the credits always fit one page: the whole colophon shrinks a little on a short screen instead of scrolling */
-function fitCredits(){const c=$('#creditsPage'),w=c&&c.querySelector('.cr-in');if(!w||c.hidden||backCover.hidden)return;w.style.zoom='';
+/* the record and its colophon share one page: if they do not fit, the whole page is set smaller (never below 60%) */
+function fitSavePage(){const c=$('#savePage'),w=c&&c.querySelector('.sv-in');if(!w||c.hidden||backCover.hidden)return;w.style.zoom='';
+  const cs=getComputedStyle(c),room=c.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom)-2,need=w.scrollHeight;if(need>room&&room>0)w.style.zoom=Math.max(.6,room/need-.005).toFixed(3)}
+{const links=document.querySelector('#creditsPage .cr-links');if(links)$('#savePage .sv-links').innerHTML=links.innerHTML}   /* the same two links as on the credits page */
+function fitCredits(){fitSavePage();const c=$('#creditsPage'),w=c&&c.querySelector('.cr-in');if(!w||c.hidden||backCover.hidden)return;w.style.zoom='';
   const cs=getComputedStyle(c),room=c.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom)-4,need=w.scrollHeight;
   if(need>room&&room>0)w.style.zoom=Math.max(.5,room/need-.005).toFixed(3)}
 addEventListener('resize',()=>requestAnimationFrame(fitCredits));
 function openSave(){
   if(playMode==='multi'){toast('Leave the multiplayer match before using Save.');return}
-  if(atBack||saveFlipping||flipping||!opened||atFront||versoMoving)return;closePops();if(S.savePage)copyArea.value=makeSaveCode();loadArea.value='';saveStatus.textContent='';saveStatus.classList.remove('err');
+  if(atBack||saveFlipping||flipping||!opened||atFront||versoMoving)return;closePops();copyArea.value=makeSaveCode();loadArea.value='';saveStatus.textContent='';saveStatus.classList.remove('err');
   atBack=true;saveFlipping=true;sfx.flip();const dur=reduced?10:680;
   const leaves=reduced?0:6,gap=90;                        // the rest of the book follows the first page over
   for(let k=0;k<leaves;k++){
@@ -8283,7 +8326,8 @@ function askName(){
 $('#nameBtn').addEventListener('click',e=>{e.stopPropagation();askName()});
 $('#testRow').hidden=!/[?&]test\b/.test(location.search);$('#testCoins').addEventListener('click',e=>{e.stopPropagation();S.coins+=100;sfx.coin();render();save()});   /* only with ?test in the address: never in the shipped game */
 /* the back bookmark: the credits (the default), or the save page with its codes when switched on in Design */
-function applyEndPage(){const sv=!!S.savePage,b=$('#saveBtn');$('#optSavePage').checked=sv;b.querySelector('span').textContent=sv?'Save':'Credits';
+/* prototype: the record and the colophon are one page, always (the old switch between them is hidden) */
+function applyEndPage(){const sv=true,b=$('#saveBtn');{const r=$('#optSavePage')?.closest('label,.row,.tog');if(r)r.hidden=true}$('#optSavePage').checked=sv;b.querySelector('span').textContent=sv?'Save':'Credits';
   b.setAttribute('aria-label',sv?'Ex libris: the binder’s record':'Credits');b.title=sv?'The binder’s record':'Credits';$('#creditsPage').hidden=sv;$('#savePage').hidden=!sv}
 function applyShow(){applyEndPage();$('#optHandGrid').checked=!!S.handGrid;$('#optWide').checked=!!S.wide;document.body.classList.toggle('hide-foot',!S.showFoot);document.body.classList.toggle('hide-left',!S.showLeft);$('#optFoot').checked=!!S.showFoot;$('#optSndBtn').checked=!!S.sndbtn;$('#sndBtn').hidden=!S.sndbtn;$('#optFsBtn').checked=!!S.fsbtn;if(typeof fsShow==='function')fsShow();$('#optLeft').checked=!!S.showLeft;$('#optLoad').checked=S.loading===true;$('#optLost').checked=!!S.lostStamp;$('#optMoon').checked=S.moon!==false;$('#optQtab').checked=!!S.qtab;$('#optPlHearts').checked=!!S.plhearts;$('#optPlLife').checked=!!S.pllife;$('#optPlSpots').checked=!!S.plspots;$('#optFlowers').checked=!!S.flowers;$('#optRadio').checked=!!S.radio;$('#optSprout').checked=!!S.sprout;applyTextures()}
 function applyTextures(){const lth=S.lth||'smooth',ppr=S.ppr||'vellum';board.classList.toggle('leather-grain',lth!=='smooth');board.dataset.lth=lth;document.body.dataset.ppr=ppr;document.querySelectorAll('#lthChoice button').forEach(b=>b.classList.toggle('selected',b.dataset.lth===lth));document.querySelectorAll('#pprChoice button').forEach(b=>b.classList.toggle('selected',b.dataset.ppr===ppr))}
@@ -9346,7 +9390,7 @@ const TYPE_ROLES=[
  {id:'wsub',n:'Subheadings',m:[/ h3( em)?$/,/\.dept$/,/draft-fh/,/\.mbset b/,/^\.popv b$/],x:'Chapter I · Gentle'},
  {id:'toast',n:'Messages',m:[/^\.toast$/],x:'Every square is full.'},
  {id:'design',n:'Design panel',m:[/^\.popv/,/^\.tog\b/,/mag-choice/,/^\.gl$/,/\.draft /,/store-choice/],x:'Ink · Marks · Scene'},
- {id:'records',n:'Records, credits, privacy, controller',m:[/endpaper/,/save/,/\.hist/,/credits/,/contact/,/privacy/,/\.goal/,/radio/,/stations/,/pad-/,/pp-row/,/wear-row/,/\.ma-/],x:'The Binder’s Record'},
+ {id:'records',n:'Records, credits, privacy, controller',m:[/endpaper/,/save/,/\.sv-/,/\.hist/,/credits/,/contact/,/privacy/,/\.goal/,/radio/,/stations/,/pad-/,/pp-row/,/wear-row/,/\.ma-/],x:'The Binder’s Record'},
  {id:'art',n:'Lettering inside pictures (stickers, posters)',sc:'.sticker svg text,.stickers svg text,.pstickers svg text,.poster-art svg text,.g-face svg text,.stage svg text',x:'Sudoku'},
  {g:'Everything else',id:'o-pix',n:'Everything else in the numbers-and-text face',v:'--pix',x:'Sudoku'},
  {id:'o-deco',n:'Everything else in the label face',v:'--deco',x:'Sudoku'},
@@ -9707,13 +9751,14 @@ $('#pxStyleChoice')?.addEventListener('click',e=>{const b=e.target.closest('[dat
 $('#vin3dChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-vin3d]');if(!b)return;S.vin3d=+b.dataset.vin3d;applyMediaPanel();mediaPlace();save();sfx.tick?.()});
 $('#typeBtn')?.addEventListener('click',e=>{e.stopPropagation();sfx.tick();openTypeCase()});
 $('#typeProfiles')?.addEventListener('click',e=>{const b=e.target.closest('[data-typep]');if(!b)return;e.stopPropagation();sfx.toggle();typeUse(b.dataset.typep);typeProfilesPaint();document.getElementById('typeCase')&&openTypeCase()});
+$('#imprintChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-imprint]');if(!b)return;if(b.dataset.imprint==='blind')S.imprint='blind';else delete S.imprint;applyMediaPanel();save();sfx.tick?.()});
 $('#koiMsgChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-koimsg]');if(!b)return;if(b.dataset.koimsg==='1')S.koiMsg=1;else delete S.koiMsg;applyMediaPanel();save();sfx.tick?.()});
 const TURN_NOTES={classic:'The page swings over on a swipe, as it always has.',curl:'Drag a page and it rolls back under your finger. Let go before the middle and it falls back.',bend:'The page swings round the spine and bends as it goes. It follows your finger.',ear:'Hold a corner and it folds up for a look at the next page; drag on to turn.',heavy:'A weighted page: it lags, hangs when it stands upright, then falls and settles.',riffle:'Drag far and several pages fan past: let go on the page you want.'};
 $('#turnChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-turn]');if(!b)return;if(b.dataset.turn==='classic')delete S.turn;else S.turn=b.dataset.turn;applyMediaPanel();save();sfx.tick?.()});
 $('#shopMoveChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-shopmove]');if(!b)return;if(b.dataset.shopmove==='1')S.shopMotion=1;else delete S.shopMotion;applyMediaPanel();save();sfx.tick?.()});
 $('#vinOnChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-vinon]');if(!b)return;if(b.dataset.vinon==='1')S.vinOn=1;else delete S.vinOn;applyMediaPanel();mediaPlace();save();sfx.tick?.()});
 $('#vinPosChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-vinpos]');if(!b)return;S.vinPos=b.dataset.vinpos;applyMediaPanel();mediaPlace();save();sfx.tick?.()});
-function applyMediaPanel(){typeApply();typeProfilesPaint();document.querySelectorAll('#turnChoice [data-turn]').forEach(x=>x.classList.toggle('selected',x.dataset.turn===turnStyle()));{const tn=$('#turnNote');if(tn)tn.textContent=TURN_NOTES[turnStyle()]}document.querySelectorAll('#koiMsgChoice [data-koimsg]').forEach(x=>x.classList.toggle('selected',x.dataset.koimsg===(S.koiMsg===1?'1':'0')));document.querySelectorAll('#shopMoveChoice [data-shopmove]').forEach(x=>x.classList.toggle('selected',x.dataset.shopmove===(S.shopMotion===1?'1':'0')));document.querySelectorAll('#vinOnChoice [data-vinon]').forEach(x=>x.classList.toggle('selected',x.dataset.vinon===(S.vinOn===1?'1':'0')));document.querySelectorAll('#vinPosChoice,#vin3dChoice').forEach(x=>x.closest('.tog')?.classList.toggle('dim',S.vinOn!==1));document.querySelectorAll('#pxStyleChoice [data-pxs]').forEach(x=>x.classList.toggle('selected',x.dataset.pxs===pxStyle()));const vp=S.vinPos==='side'||S.vinPos==='in'?S.vinPos:'center';document.querySelectorAll('#vinPosChoice [data-vinpos]').forEach(x=>x.classList.toggle('selected',x.dataset.vinpos===vp));document.querySelectorAll('#vin3dChoice [data-vin3d]').forEach(x=>x.classList.toggle('selected',+x.dataset.vin3d===(S.vin3d===1?1:0)));document.body.classList.toggle('vin3d',S.vin3d===1);const a=Number.isFinite(S.mbAlpha)?S.mbAlpha:50;root.style.setProperty('--mb-a',(a/100*.62).toFixed(3));const r=$('#optMbAlpha');if(r){r.value=a;$('#mbAlphaVal').textContent=a+'%'}}
+function applyMediaPanel(){root.dataset.imprint=S.imprint==='blind'?'blind':'gold';document.querySelectorAll('#imprintChoice [data-imprint]').forEach(x=>x.classList.toggle('selected',x.dataset.imprint===(S.imprint==='blind'?'blind':'gold')));typeApply();typeProfilesPaint();document.querySelectorAll('#turnChoice [data-turn]').forEach(x=>x.classList.toggle('selected',x.dataset.turn===turnStyle()));{const tn=$('#turnNote');if(tn)tn.textContent=TURN_NOTES[turnStyle()]}document.querySelectorAll('#koiMsgChoice [data-koimsg]').forEach(x=>x.classList.toggle('selected',x.dataset.koimsg===(S.koiMsg===1?'1':'0')));document.querySelectorAll('#shopMoveChoice [data-shopmove]').forEach(x=>x.classList.toggle('selected',x.dataset.shopmove===(S.shopMotion===1?'1':'0')));document.querySelectorAll('#vinOnChoice [data-vinon]').forEach(x=>x.classList.toggle('selected',x.dataset.vinon===(S.vinOn===1?'1':'0')));document.querySelectorAll('#vinPosChoice,#vin3dChoice').forEach(x=>x.closest('.tog')?.classList.toggle('dim',S.vinOn!==1));document.querySelectorAll('#pxStyleChoice [data-pxs]').forEach(x=>x.classList.toggle('selected',x.dataset.pxs===pxStyle()));const vp=S.vinPos==='side'||S.vinPos==='in'?S.vinPos:'center';document.querySelectorAll('#vinPosChoice [data-vinpos]').forEach(x=>x.classList.toggle('selected',x.dataset.vinpos===vp));document.querySelectorAll('#vin3dChoice [data-vin3d]').forEach(x=>x.classList.toggle('selected',+x.dataset.vin3d===(S.vin3d===1?1:0)));document.body.classList.toggle('vin3d',S.vin3d===1);const a=Number.isFinite(S.mbAlpha)?S.mbAlpha:50;root.style.setProperty('--mb-a',(a/100*.62).toFixed(3));const r=$('#optMbAlpha');if(r){r.value=a;$('#mbAlphaVal').textContent=a+'%'}}
 const mediaApp=()=>!!(window.NINES_APP&&window.NinesApp&&typeof NinesApp.mediaState==='function');
 /* the music permission: asked as soon as the book is open, until it is given or the player says no.
    The card keeps the purpose folded away as a surprise; one tap on "What is it for?" shows all of it. */
