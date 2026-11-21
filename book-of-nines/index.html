@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <script>window.NINES_API="https://book-of-nines.drache-alexander.workers.dev/"</script>
+<script>/* opened from the home-screen widget: see-through from the very first paint (no intro, no backdrop) */if(/[?&]overlay=1/.test(location.search)&&window.NinesApp)document.documentElement.classList.add("overlay")</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>The Book of Nines — An Interactive Sudoku Codex</title>
 <meta name="description" content="Open an antique book of ninety-nine Sudoku puzzles, tear off a daily page, and challenge friends through the wireless fax.">
@@ -1723,6 +1724,8 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
 /* the intro: an empty page first, then the name fades in once its typeface has loaded */
 .publisher-intro .pub-name{opacity:0;transition:opacity 1.4s ease}.publisher-intro.ready .pub-name{opacity:1}
 @media (prefers-reduced-motion:reduce){.publisher-intro .pub-name{transition:none}}
+/* a first tap before the name shows brings it in at once */
+.publisher-intro.ffwd .pub-name{transition:none}
 
 /* the draft scenes in Design: one row of five small previews per family */
 #draftScenes .pid-note{margin:0 0 6px}.draft-fam{margin:6px 0 2px}.draft-fh{display:block;font:600 11px var(--deco);letter-spacing:.12em;text-transform:uppercase;opacity:.8;margin:2px 0 4px}
@@ -2359,6 +2362,7 @@ body.tc-picking .app,body.tc-picking .veil,body.tc-picking .toast{cursor:crossha
 :root.overlay :is(#dateBtn,#faxBtn,#tvBtn,#sproutBtn,#vaseBtn,#plushBtn,#radioBtn,#shopBtn,#mediaBar,#vinylBig,#cornerui,#dayBtn,#libBtn,#setBtn,#matchHud){display:none!important}
 .art.it-art{width:52px!important;height:75px!important}
 .art.it-art .it-img{width:100%;height:100%;object-fit:contain;filter:none}
+:root.overlay #publisherIntro,:root.overlay #quietLoader{display:none!important}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -6950,7 +6954,7 @@ function closeBook(){setTimeout(mediaPlace,1900);
   board.classList.add('opening');board.classList.add('shut');
   coverEl.animate([{transform:'rotateY(-180deg)',opacity:isRow()?1:0},{transform:'rotateY(-110deg)',opacity:1,offset:.45},{transform:'rotateY(0deg)',opacity:1}],{duration:dur,easing:'cubic-bezier(.55,.05,.3,1)',fill:'forwards'});
   setCoins(S.coins);
-  setTimeout(()=>{if(gen!==bookGen)return;board.classList.remove('opening');$('#openHint').hidden=false;fitOwner();if(S.sound)tone({f:72,f2:44,g:.32,d:.26,wet:.25});if(OVERLAY)overlayLeave();else setTimeout(()=>bookSnap(),350)},dur);
+  setTimeout(()=>{if(gen!==bookGen)return;board.classList.remove('opening');$('#openHint').hidden=false;fitOwner();if(S.sound)tone({f:72,f2:44,g:.32,d:.26,wet:.25});if(!OVERLAY)setTimeout(()=>bookSnap(),350)},dur);
 }
 $('#closeBtn').addEventListener('click',e=>{e.stopPropagation();closeBook()});
 coverEl.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();if(!introOn())openBook()}});
@@ -7625,18 +7629,23 @@ async function certDraw(){const W=1800,H=1272,c=document.createElement('canvas')
 const OVERLAY=/[?&]overlay=1/.test(location.search)&&!!window.NinesApp;
 if(OVERLAY)root.classList.add('overlay');
 const fromRect=()=>{const m=/[?&]from=(-?\d+),(-?\d+),(\d+),(\d+)/.exec(location.search);return m?{x:+m[1],y:+m[2],w:+m[3],h:+m[4]}:{x:innerWidth/2-50,y:innerHeight-180,w:100,h:140}};
-function flyFrom(){const st=$('#stage'),c=coverEl.getBoundingClientRect(),f=fromRect();if(!c.width)return null;
+function flyFrom(){const st=$('#stage'),cr=coverEl.getBoundingClientRect(),c=cr.width&&!coverEl.hidden?cr:board.getBoundingClientRect(),f=fromRect();if(!c.width)return null;
   const k=Math.min(f.w/c.width,f.h/c.height),dx=(f.x+f.w/2)-(c.left+c.width/2),dy=(f.y+f.h/2)-(c.top+c.height/2);
   return[st,`translate(${dx}px,${dy}px) scale(${k.toFixed(3)}) rotateY(-24deg)`]}
 function overlayEnter(){$('#publisherIntro')?.remove();$('#quietLoader')?.remove();window.coverHoldUntil=0;
   root.classList.add('ov-in');requestAnimationFrame(()=>requestAnimationFrame(()=>{const f=flyFrom();
     if(f&&!reduced){root.classList.add('ov-fly');f[0].animate([{transform:f[1],opacity:.6},{transform:'none',opacity:1}],{duration:520,easing:'cubic-bezier(.2,.8,.25,1)'}).onfinish=()=>{root.classList.remove('ov-fly');fit()}}
-    setTimeout(()=>{root.classList.remove('ov-in');openBook()},reduced?40:560)}))}
-function overlayLeave(){const f=flyFrom();root.classList.add('ov-out');
+    setTimeout(()=>{root.classList.remove('ov-in')},reduced?40:560)}))}   /* it lands shut: the player opens it */
+let ovLeaving=false;
+function overlayLeave(){if(ovLeaving)return;ovLeaving=true;const f=flyFrom();root.classList.add('ov-out');
   if(f&&!reduced){root.classList.add('ov-fly');f[0].animate([{transform:'none',opacity:1},{transform:f[1],opacity:.3}],{duration:420,easing:'cubic-bezier(.5,0,.75,.4)',fill:'forwards'})}
   setTimeout(()=>{try{save()}catch(e){}try{window.NinesApp.overlayDone()}catch(e){}},reduced?40:430)}
 /* the widget is tapped again while the book is already open over the screen: nothing to do but make sure it is open */
-window.ninesOverlayAgain=()=>{if(OVERLAY&&!opened&&!introOn())openBook()};
+window.ninesOverlayAgain=()=>{};
+/* a tap anywhere off the book (on the home screen around it) sends it back into the widget, open or shut */
+if(OVERLAY)document.addEventListener('click',e=>{if(ovLeaving||root.classList.contains('ov-in'))return;
+  if(e.target.closest('.board,#cover,.tools,.tab,.ribbon,#closeBtn,.veil,.popv,#gazette,#certView,.cert,.gz,.toast,button,input,textarea,select,a,label'))return;
+  overlayLeave()},true);
 /* before the other window closes this one: write everything down */
 window.ninesFlush=()=>{try{stash()}catch(e){}try{save()}catch(e){}};
 /* the widget's picture: the player's own book seen from the front, as a little low-poly model. The game draws it itself
@@ -7645,9 +7654,9 @@ window.ninesFlush=()=>{try{stash()}catch(e){}try{save()}catch(e){}};
    they sit. Redrawn whenever any of that changes; only for owners, in the app's own window. */
 const WB_W=480,WB_H=690;   /* about 15% less tall than the cover itself */
 function wbMix(a,b,t){const h=x=>{x=x.trim().replace('#','');if(x.length===3)x=[...x].map(c=>c+c).join('');return[0,2,4].map(i=>parseInt(x.slice(i,i+2),16))};const A=h(a),B=h(b);return`rgb(${A.map((v,i)=>Math.round(v+(B[i]-v)*Math.max(0,Math.min(1,t)))).join(',')})`}
-async function drawWidgetBook(){const c=document.createElement('canvas');c.width=WB_W;c.height=WB_H;const x=c.getContext('2d');
+async function drawWidgetBook(o={}){const c=document.createElement('canvas');c.width=WB_W;c.height=WB_H;const x=c.getContext('2d');
   const cs=getComputedStyle(board),v=(n,d)=>(cs.getPropertyValue(n).trim()||d);   /* the cover's own leather (a bought cover sets it on the book) */
-  const lo=v('--leatherLo','#432d1a'),mid=v('--leather','#6b4a2e'),hi=v('--leatherHi','#86603f'),gold=v('--gold','#e9c46a');
+  const lo=o.locked?'#18171a':v('--leatherLo','#432d1a'),mid=o.locked?'#2c2a2f':v('--leather','#6b4a2e'),hi=o.locked?'#403d44':v('--leatherHi','#86603f'),gold=o.locked?'#a8925e':v('--gold','#e9c46a');   /* locked: the widget before the book is bought */
   const shade=t=>t<.5?wbMix(lo,mid,t*2):wbMix(mid,hi,(t-.5)*2);
   const X=22,Y=14,W=WB_W-44,H=WB_H-58,cut=14,sp=W*.075;
   /* the shadow under it */
@@ -7678,15 +7687,19 @@ async function drawWidgetBook(){const c=document.createElement('canvas');c.width
   x.fillStyle=gold;x.fillRect(ex+g-1,ey+3,2,ew-6);x.fillRect(ex+2*g-1,ey+3,2,ew-6);x.fillRect(ex+3,ey+g-1,ew-6,2);x.fillRect(ex+3,ey+2*g-1,ew-6,2);
   /* the title, and the owner's name label */
   const ty=ey+ew+fh*.1;x.fillStyle=gold;x.textAlign='center';x.textBaseline='middle';x.font=`600 ${Math.round(W*.052)}px "Josefin Sans",sans-serif`;
-  const title='BOOK OF NINES';try{x.letterSpacing='4px'}catch(e){}x.fillText(title,fx+fw/2+2,ty+(S.owner?22:0));try{x.letterSpacing='0px'}catch(e){}
-  if(S.owner){const nm=possessive(S.owner);x.font=`italic 600 ${Math.round(W*.05)}px "EB Garamond",Georgia,serif`;const tw=x.measureText(nm).width+22,lx=fx+fw/2-tw/2,lyy=ty-34;
+  const title=o.locked?'THE BOOK ITSELF':'BOOK OF NINES';try{x.letterSpacing='4px'}catch(e){}x.fillText(title,fx+fw/2+2,ty+(S.owner&&!o.locked?22:0));try{x.letterSpacing='0px'}catch(e){}
+  if(o.locked){x.fillStyle=gold;x.font=`italic ${Math.round(W*.05)}px "EB Garamond",Georgia,serif`;x.fillText('in the shop',fx+fw/2,ty+34);
+    /* a padlock over the emblem */
+    const lx2=fx+fw/2,ly2=ey+ew/2;x.fillStyle='rgba(0,0,0,.55)';x.fillRect(ex-4,ey-4,ew+8,ew+8);x.strokeStyle=gold;x.lineWidth=7;x.beginPath();x.arc(lx2,ly2-12,22,Math.PI,0);x.stroke();
+    x.fillStyle=gold;x.fillRect(lx2-34,ly2-12,68,52);x.fillStyle='#2c2a2f';x.beginPath();x.arc(lx2,ly2+8,7,0,Math.PI*2);x.fill();x.fillRect(lx2-3,ly2+8,6,16)}
+  if(S.owner&&!o.locked){const nm=possessive(S.owner);x.font=`italic 600 ${Math.round(W*.05)}px "EB Garamond",Georgia,serif`;const tw=x.measureText(nm).width+22,lx=fx+fw/2-tw/2,lyy=ty-34;
     x.save();x.translate(lx+tw/2,lyy+16);x.rotate(-.06);x.fillStyle='#f6f0e2';x.fillRect(-tw/2,-16,tw,32);x.strokeStyle='rgba(0,0,0,.25)';x.lineWidth=1;x.strokeRect(-tw/2,-16,tw,32);
     x.fillStyle='#2a2f5c';x.fillText(nm,0,1);x.restore()}
   /* the clasp */
   const cy=Y+H*.48;x.fillStyle=shade(.12);x.fillRect(X+W-26,cy-34,30,68);x.strokeStyle=gold;x.lineWidth=2;x.strokeRect(X+W-26,cy-34,30,68);
   x.fillStyle=gold;x.beginPath();x.moveTo(X+W-11,cy-18);x.lineTo(X+W-2,cy);x.lineTo(X+W-11,cy+18);x.lineTo(X+W-20,cy);x.closePath();x.fill();
   /* the stickers and the tape, where they sit on the cover */
-  const placed=stk().placed||[],sz=Math.min(W*.17,H*.13);
+  const placed=o.locked?[]:(stk().placed||[]),sz=Math.min(W*.17,H*.13);
   const TAPE={dots:['#e9a3ad','#fff'],stripes:['#8fc3d4','#f6f1e6'],gingham:['#eef5e9','#8fb798'],waves:['#3f5f8a','#f6efe2'],gold:['#d9b25a','#fff0c0']};
   for(const pl of placed){const st=STK.find(q=>q.id===pl.id);if(!st)continue;const cx=X+pl.x/100*W,cy2=Y+pl.y/100*H;x.save();x.translate(cx,cy2);x.rotate((pl.r||0)*Math.PI/180);
     if(st.tape){const tw=Math.min(W*.44,H*.3),th=tw/5,[a,b2]=TAPE[st.tape]||['#ddd','#fff'];x.fillStyle=a;x.fillRect(-tw/2,-th/2,tw,th);x.fillStyle=b2;
@@ -11228,7 +11241,9 @@ function runEntrance(){
   let left=false,canTap=false,loaderOn=false,timer=0;
   const listen=on=>{for(const t of ['pointerdown','keydown'])(on?addEventListener:removeEventListener)(t,tap,true)};
   let tapped=false;const hold=()=>{if(tapped)window.coverHoldUntil=performance.now()+700};   /* someone tapping through the intro gets a moment's grace before the cover answers */
-  const tap=e=>{tapped=true;if(loaderOn){e.preventDefault();e.stopPropagation();fadeLoader();return}if(!canTap||left)return;e.preventDefault();e.stopPropagation();clearTimeout(timer);leave(SOON)};
+  let ffwd=false;const ready=()=>{intro.classList.add('ready');clearTimeout(timer);timer=setTimeout(()=>leave(introFade),introTime)};
+  /* a first tap before the name stands there in full brings it in at once; the next tap starts the fade */
+  const tap=e=>{tapped=true;if(loaderOn){e.preventDefault();e.stopPropagation();fadeLoader();return}if(left)return;if(!canTap){if(ffwd)return;e.preventDefault();e.stopPropagation();ffwd=true;intro.classList.add('ffwd');ready();setTimeout(()=>{canTap=true},120);return}e.preventDefault();e.stopPropagation();clearTimeout(timer);leave(SOON)};
   const fadeLoader=()=>{if(!loaderOn)return;loaderOn=false;listen(false);loader.classList.add('leaving');setTimeout(()=>{loader.remove();hold()},loaderFade)};
   const leave=fade=>{if(left)return;left=true;canTap=false;
     intro.style.transitionDuration=fade+'ms';intro.classList.add('leaving');
@@ -11240,9 +11255,8 @@ function runEntrance(){
   listen(true);
   /* the name waits on the empty paper until its typeface is really there (a second at least, never more than three), then fades in */
   const t0=performance.now(),face=document.fonts?.load?Promise.race([document.fonts.load('700 42px "Cinzel Decorative"','Tea Story').catch(()=>{}),new Promise(r=>setTimeout(r,3000))]):Promise.resolve();
-  face.then(()=>new Promise(r=>setTimeout(r,Math.max(0,(reduced?0:1000)-(performance.now()-t0))))).then(()=>{intro.classList.add('ready');
-    setTimeout(()=>{canTap=true},reduced?0:1400);   /* taps count only once the name stands there in full */
-    timer=setTimeout(()=>leave(introFade),introTime)})
+  face.then(()=>new Promise(r=>setTimeout(r,Math.max(0,(reduced?0:1000)-(performance.now()-t0))))).then(()=>{if(ffwd)return;ready();
+    setTimeout(()=>{if(!ffwd)canTap=true},reduced?0:1400)})   /* taps leave only once the name stands there in full */
 }
 if(OVERLAY)overlayEnter();else{runEntrance();setTimeout(()=>bookSnap(),4200)}
 })();
