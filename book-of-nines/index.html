@@ -2557,7 +2557,7 @@ body.tc-picking .app,body.tc-picking .veil,body.tc-picking .toast{cursor:crossha
    <div class="sgrp"><b>Plushies</b><div class="mag-choice" id="plushChoice"><button type="button" data-p3="0">2D</button><button type="button" data-p3="1">3D</button></div></div>
    <div class="sgrp"><b>Controller</b><div class="mag-choice wrap" id="padChoice"><button type="button" data-pad="1">1 · Keypad</button><button type="button" data-pad="2">2 · Dial</button><button type="button" data-pad="3">3 · Scroll</button><button type="button" data-pad="4">4 · Face buttons</button></div><p class="pid-note" id="padNote"></p><button class="namebtn" id="padEdit">See and change the buttons</button></div>
    <div class="sgrp"><b>Name on the cover</b><button class="namebtn" id="nameBtn">Write a name</button><b class="b2">Handwriting</b><div class="nf-choice" id="nfChoice"></div><span class="nm" id="nm-nf"></span><div class="tog mbset nfink"><span>Thickness</span><input type="range" id="optNameInk" min="0" max="100" step="5" aria-label="How thick the name is written, from a fine pen to a thick marker"><b id="nameInkVal"></b></div></div>
-   <div class="sgrp" id="testRow" hidden><b>Testing</b><button class="namebtn" id="testCoins">+100 coins</button></div>
+   <div class="sgrp" id="testRow"><b>Testing</b><button class="namebtn" id="testCoins" type="button">+999 coins</button></div>
  </div>
 </div>
 
@@ -9023,7 +9023,7 @@ function askName(){
   v.addEventListener('click',e=>{if(e.target===v){S.askedName=1;save();v.remove()}});
 }
 $('#nameBtn').addEventListener('click',e=>{e.stopPropagation();askName()});
-$('#testRow').hidden=!/[?&]test\b/.test(location.search);$('#testCoins').addEventListener('click',e=>{e.stopPropagation();S.coins+=100;sfx.coin();render();save()});   /* only with ?test in the address: never in the shipped game */
+$('#testCoins').addEventListener('click',e=>{e.stopPropagation();S.coins=(S.coins|0)+999;sfx.coin();render();save()});   /* for testing: 999 coins a press, at the very end of the (hidden) Design menu */
 /* the back bookmark: the credits (the default), or the save page with its codes when switched on in Design */
 /* prototype: the record and the colophon are one page, always (the old switch between them is hidden) */
 function applyEndPage(){const sv=true,b=$('#saveBtn');{const r=$('#optSavePage')?.closest('label,.row,.tog');if(r)r.hidden=true}$('#optSavePage').checked=sv;b.querySelector('span').textContent=sv?'Save':'Credits';
