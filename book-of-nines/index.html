@@ -1362,7 +1362,7 @@ body.immersed #plushBtn{display:none!important}
 /* a back not read yet: one large question mark over the grid */
 .vmark{display:block;font:400 clamp(120px,56cqw,300px)/1 var(--pix);color:var(--ink);opacity:.55;margin-top:-.04em}
 .vhide{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.vctl{position:absolute;z-index:2;left:var(--cl);top:var(--ct);width:var(--cw);height:var(--ch);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(10px,2.2vh,18px);text-align:center;opacity:0;transition:opacity .3s;pointer-events:none}
+.vctl{position:absolute;z-index:2;left:var(--cl);top:var(--ct);width:var(--cw);height:var(--ch);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(10px,2.2vh,18px);text-align:center;pointer-events:none}   /* the button is there from the first moment, sliding in with the cover; it answers once the page lies there */
 .verso.ready .vctl{opacity:1;pointer-events:auto}
 .vctl .close{margin:0;background:var(--gold);color:#2a1a0c;border:0}
 .save-leaf{position:absolute;inset:0;z-index:35;transform-origin:0 50%;backface-visibility:hidden;pointer-events:none}.save-leaf-no{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);font:12px var(--cap);letter-spacing:.2em;color:var(--ink);opacity:.6}.backcover,.backcover textarea{touch-action:pan-y}
@@ -1725,7 +1725,7 @@ body .board[data-acc="buckle"]::before{display:none;top:-6px;bottom:-6px;right:c
 .publisher-intro .pub-name{opacity:0;transition:opacity 1.4s ease}.publisher-intro.ready .pub-name{opacity:1}
 @media (prefers-reduced-motion:reduce){.publisher-intro .pub-name{transition:none}}
 /* a first tap before the name shows brings it in at once */
-.publisher-intro.ffwd .pub-name{transition:none}
+.publisher-intro.ffwd .pub-name{transition:opacity .45s cubic-bezier(.2,.6,.3,1)}
 
 /* the draft scenes in Design: one row of five small previews per family */
 #draftScenes .pid-note{margin:0 0 6px}.draft-fam{margin:6px 0 2px}.draft-fh{display:block;font:600 11px var(--deco);letter-spacing:.12em;text-transform:uppercase;opacity:.8;margin:2px 0 4px}
@@ -2363,6 +2363,28 @@ body.tc-picking .app,body.tc-picking .veil,body.tc-picking .toast{cursor:crossha
 .art.it-art{width:52px!important;height:75px!important}
 .art.it-art .it-img{width:100%;height:100%;object-fit:contain;filter:none}
 :root.overlay #publisherIntro,:root.overlay #quietLoader{display:none!important}
+/* the widget's window shows nothing of the book until it is whole and shut and starts its flight */
+:root.overlay:not(.ov-live) #stage{visibility:hidden}
+
+/* the cover can be swiped open sideways; an up-and-down drag still scrolls */
+.cover{touch-action:pan-y}
+/* the upright book: the page block sits a little left of the middle of its board, so it looks centred once the stacked
+   page edges on its right are counted; the bookmarks come in with it, which leaves the book a little more room to grow */
+.board.col{--shiftl:4px;padding-left:calc(var(--rim) - var(--shiftl));padding-right:calc(var(--rim) + var(--shiftl))}
+.board.col .tab{right:calc(-58px + var(--shiftl))}
+@media (max-width:600px){.board.col .tab{right:calc(-36px + var(--shiftl))}}
+/* the instrument stays where it was: only the page moves left */
+.board.col .tcell{left:var(--shiftl)}
+
+/* the low-poly book flying out of the widget (and back) */
+.ov-poly{position:fixed;inset:0;z-index:60;pointer-events:none}
+.ov-poly-box{position:absolute;transform-style:preserve-3d;transform-origin:50% 50%;will-change:transform}
+/* the real book's sides, hung on the book itself while it turns: its page edges, the instrument's edge and the clasp band */
+.ov-real{position:absolute;inset:0;pointer-events:none;transform-style:preserve-3d;display:none}
+:root.ov-3d .ov-real{display:block}
+:root.ov-3d #stage{transform-style:preserve-3d}
+.ov-poly-face{position:absolute;left:0;top:0;backface-visibility:hidden;transform-origin:50% 50%}
+.ov-poly-shadow{position:absolute;left:0;top:0;height:18px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent);filter:blur(4px);transform-origin:50% 50%}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -6928,19 +6950,45 @@ function turnPeek(e0){const T=turnOpen(true,S.page+1,'ear'),g=turnPt(e0);T.g=g;f
 /* ================= opening the book: the cover swings from right to left ================= */
 let opened=false;
 let bookGen=0;
-function openBook(){setTimeout(mediaPlace,1900);
-  if(opened)return;opened=true;const gen=++bookGen;if(stickering)renderStickers();
+/* the cover takes its time: a slow, weighty swing feels better under the finger than a quick flip. It can also be swiped
+   open from right to left like a page, as fast or as slowly as the reader likes, and let go early it falls back shut */
+const OPEN_MS=1650;
+const coverKF=(a0=0)=>{const row=isRow();return a0>-120?[{transform:`rotateY(${a0}deg)`,opacity:1},{transform:'rotateY(-120deg)',opacity:1,offset:a0===0?.6:(120+a0)/(180+a0)},{transform:'rotateY(-180deg)',opacity:row?1:0}]:[{transform:`rotateY(${a0}deg)`,opacity:row?1:Math.max(0,1-(-a0-120)/60)},{transform:'rotateY(-180deg)',opacity:row?1:0}]};
+function openPrep(){opened=true;const gen=++bookGen;if(stickering)renderStickers();
   if(S.sound){ac();sfx.creak()}
-  const dur=reduced?10:1100;
   coverEl.getAnimations().forEach(a=>a.cancel());coverEl.hidden=false;
-  board.classList.add('opening');board.classList.remove('shut');
-  coverEl.animate([{transform:'rotateY(0deg)',opacity:1},{transform:'rotateY(-120deg)',opacity:1,offset:.6},{transform:'rotateY(-180deg)',opacity:isRow()?1:0}],{duration:dur,easing:'cubic-bezier(.55,.05,.3,1)',fill:'forwards'});
-  $('#openHint').hidden=true;
-  setTimeout(()=>{
-    if(gen!==bookGen)return;
-    coverEl.animate([{opacity:1},{opacity:0}],{duration:reduced?10:260,fill:'forwards'}).onfinish=()=>{if(gen===bookGen)coverEl.hidden=true};
-    board.classList.remove('opening');if(S.sound){bell(587.33,0,.09);tone({f:1174.66,type:'square',g:.03,d:.12,t:.05})}
-  },dur);
+  board.style.transitionDuration=(reduced?10:OPEN_MS)+'ms';board.classList.add('opening');board.classList.remove('shut');
+  $('#openHint').hidden=true;return gen}
+function openDone(gen){if(gen!==bookGen)return;
+  coverEl.animate([{opacity:getComputedStyle(coverEl).opacity},{opacity:0}],{duration:reduced?10:260,fill:'forwards'}).onfinish=()=>{if(gen===bookGen)coverEl.hidden=true};
+  board.classList.remove('opening');board.style.transitionDuration='';if(S.sound){bell(587.33,0,.09);tone({f:1174.66,type:'square',g:.03,d:.12,t:.05})}}
+function openBook(){setTimeout(mediaPlace,1900);
+  if(opened)return;const gen=openPrep();
+  /* the swing starts on a quiet frame, after the page beneath has been laid out, so its first moments are never skipped */
+  const go=()=>{if(gen!==bookGen)return;const a=coverEl.animate(coverKF(),{duration:reduced?10:OPEN_MS,easing:'cubic-bezier(.42,0,.22,1)',fill:'forwards'});a.onfinish=()=>openDone(gen)};
+  reduced?go():requestAnimationFrame(()=>requestAnimationFrame(go));
+}
+{let on=false,moved=false,drag=false,sx=0,sy=0,pid=null,W=1,gen=0,ang=0,vs=[],eat=0;
+ const angAt=x=>{const d=Math.max(0,sx-x);return-Math.min(180,180*d/(W*.95))};
+ const put=a=>{ang=a;coverEl.getAnimations().forEach(x=>x.cancel());const k=coverKF(a)[0];coverEl.style.transform=k.transform;coverEl.style.opacity=k.opacity};
+ coverEl.addEventListener('pointerdown',e=>{if(opened||e.button>0||introOn()||OVERLAY&&document.documentElement.classList.contains('ov-fly'))return;on=true;moved=false;drag=false;sx=e.clientX;sy=e.clientY;pid=e.pointerId;W=coverEl.getBoundingClientRect().width||1;vs=[[performance.now(),e.clientX]]});
+ coverEl.addEventListener('pointermove',e=>{if(!on)return;const dx=sx-e.clientX,dy=e.clientY-sy;vs.push([performance.now(),e.clientX]);if(vs.length>6)vs.shift();
+   if(!drag){if(Math.abs(dy)>14&&Math.abs(dy)>dx){on=false;moved=true;return}if(dx<10||Math.abs(dy)>dx)return;drag=true;try{coverEl.setPointerCapture(pid)}catch(x){}gen=openPrep();sx-=10}
+   e.preventDefault();put(angAt(e.clientX))});
+ const end=e=>{if(moved){moved=false;eat=performance.now()+400}if(!on)return;on=false;if(!drag)return;drag=false;eat=performance.now()+400;try{coverEl.releasePointerCapture(pid)}catch(x){}
+   const a=vs[0],b=vs[vs.length-1],v=(a&&b&&b[0]-a[0]>0)?(a[1]-b[1])/(b[0]-a[0]):0,p=-ang/180;   /* v: px per ms, leftward */
+   coverEl.style.transform='';coverEl.style.opacity='';
+   if(e.type!=='pointercancel'&&(v>.35||p>.42&&v>-.25)){
+     const d=reduced?10:Math.max(260,Math.min(1200,(1-p)*OPEN_MS/(1+Math.max(0,v)*2.2)));
+     coverEl.animate(coverKF(ang),{duration:d,easing:'cubic-bezier(.25,.6,.35,1)',fill:'forwards'}).onfinish=()=>openDone(gen);
+     setTimeout(mediaPlace,1900);
+   }else{
+     const g=gen,d=reduced?10:Math.max(220,p*900),k=coverKF(ang)[0];
+     coverEl.animate([k,{transform:'rotateY(0deg)',opacity:1}],{duration:d,easing:'cubic-bezier(.3,.7,.4,1)',fill:'forwards'}).onfinish=()=>{if(g!==bookGen)return;
+       opened=false;++bookGen;board.classList.add('shut');board.classList.remove('opening');board.style.transitionDuration='';$('#openHint').hidden=false;coverEl.getAnimations().forEach(x=>x.cancel());if(S.sound)tone({f:72,f2:44,g:.22,d:.2,wet:.25})};
+   }};
+ coverEl.addEventListener('pointerup',end);coverEl.addEventListener('pointercancel',end);
+ coverEl.addEventListener('click',e=>{if(performance.now()<eat){e.stopImmediatePropagation();e.preventDefault()}},true);
 }
 /* the cover cannot be opened while the intro is still on screen, nor for a moment after: a tap meant to hurry the intro
    must never open the book as well (the reader should always see the cover first) */
@@ -7632,14 +7680,125 @@ const fromRect=()=>{const m=/[?&]from=(-?\d+),(-?\d+),(\d+),(\d+)/.exec(location
 function flyFrom(){const st=$('#stage'),cr=coverEl.getBoundingClientRect(),c=cr.width&&!coverEl.hidden?cr:board.getBoundingClientRect(),f=fromRect();if(!c.width)return null;
   const k=Math.min(f.w/c.width,f.h/c.height),dx=(f.x+f.w/2)-(c.left+c.width/2),dy=(f.y+f.h/2)-(c.top+c.height/2);
   return[st,`translate(${dx}px,${dy}px) scale(${k.toFixed(3)}) rotateY(-24deg)`]}
+/* ---- the low-poly flight: the widget's own picture of the book lifts off the home screen as a little faceted box (cover,
+   spine, page edges, all flat-shaded triangles catching the light as it turns), grows to the book's size and lands; then its
+   facets settle, from the edges inward, into the real book beneath. Going back plays it the other way round. ---- */
+const POLY={in:1250,out:950,P:1100};   /* flight times (ms) and the perspective of the turn */
+const pEase=t=>1-Math.pow(1-t,3),pBack=t=>{const c=1.25;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)};
+/* the widget shows the picture fitted into its cell (4dp padding); the book is the part of the picture inside its margins */
+function polyStart(){const f=fromRect(),pad=4,bw=f.w-2*pad,bh=f.h-2*pad,k=Math.min(bw/WB_W,bh/WB_H),iw=WB_W*k,ih=WB_H*k,ix=f.x+pad+(bw-iw)/2,iy=f.y+pad+(bh-ih)/2;
+  return{x:ix+22*k,y:iy+14*k,w:(WB_W-44)*k,h:(WB_H-58)*k}}
+/* triangles over the cover: a jittered grid, each with its own tilt so it catches the light differently */
+function polyTris(w,h){const C=6,R=9,P=[];let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+  for(let r=0;r<=R;r++){const row=[];for(let c=0;c<=C;c++){const edge=r===0||r===R||c===0||c===C;row.push([(c+(edge&&(c===0||c===C)?0:(rnd()-.5)*.7))*w/C,(r+(edge&&(r===0||r===R)?0:(rnd()-.5)*.7))*h/R])}P.push(row)}
+  const T=[];for(let r=0;r<R;r++)for(let c=0;c<C;c++){const a=P[r][c],b=P[r][c+1],d=P[r+1][c],e=P[r+1][c+1],flip=(r+c)%2;
+    for(const t of flip?[[a,b,e],[a,e,d]]:[[a,b,d],[b,e,d]]){const cx=(t[0][0]+t[1][0]+t[2][0])/3,cy=(t[0][1]+t[1][1]+t[2][1])/3;
+      T.push({p:t,cx,cy,n:[(rnd()-.5)*1.1,(rnd()-.5)*1.1],e:Math.max(Math.abs(cx/w-.5),Math.abs(cy/h-.5))*2})}}
+  return T}
+/* one face of the box as a canvas of flat-shaded facets in a single colour (spine, page edges, back) */
+function polyFace(w,h,col,lines){const d=Math.min(2,devicePixelRatio||1),c=document.createElement('canvas');c.width=Math.max(2,Math.round(w*d));c.height=Math.max(2,Math.round(h*d));
+  const x=c.getContext('2d');x.scale(d,d);x.fillStyle=col;x.fillRect(0,0,w,h);
+  if(lines){x.strokeStyle='rgba(120,95,60,.35)';x.lineWidth=.6;const v=w<h;for(let i=1;i<12;i++){x.beginPath();if(v){x.moveTo(w*i/12,0);x.lineTo(w*i/12,h)}else{x.moveTo(0,h*i/12);x.lineTo(w,h*i/12)}x.stroke()}}
+  let seed=3;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647,n=w<h?[3,9]:[9,3];
+  for(let r=0;r<n[1];r++)for(let q=0;q<n[0];q++)for(const up of[0,1]){const x0=q*w/n[0],y0=r*h/n[1],x1=x0+w/n[0],y1=y0+h/n[1];x.beginPath();
+    if(up){x.moveTo(x0,y0);x.lineTo(x1,y0);x.lineTo(x0,y1)}else{x.moveTo(x1,y0);x.lineTo(x1,y1);x.lineTo(x0,y1)}x.closePath();const g=rnd()-.5;x.fillStyle=g>0?`rgba(255,240,210,${g*.16})`:`rgba(0,0,0,${-g*.3})`;x.fill()}
+  c.style.width=w+'px';c.style.height=h+'px';return c}
+/* one side of the real book seen in 3D: the cover boards front and back, the stack of page edges between them (with the
+   page's grid just behind the cover), the instrument's wooden edge below the pages, and the clasp band over the fore-edge */
+function realFace(kind,w,h,I){const d=Math.min(2,devicePixelRatio||1),c=document.createElement('canvas');c.width=Math.max(2,Math.round(w*d));c.height=Math.max(2,Math.round(h*d));
+  const x=c.getContext('2d');x.scale(d,d);const vert=kind==='right'||kind==='left',L=vert?w:h,len=vert?h:w,bd=Math.max(2,L*.09);   /* L: the depth; bd: a cover board */
+  const at=(z0,z1,a0,a1,col)=>{x.fillStyle=col;if(vert)x.fillRect(z0,a0,z1-z0,a1-a0);else x.fillRect(a0,z0,a1-a0,z1-z0)};
+  if(kind==='left'){at(0,L,0,len,I.mid);x.fillStyle='rgba(0,0,0,.18)';x.fillRect(0,0,w*.18,h);x.fillRect(w*.82,0,w*.18,h);
+    x.fillStyle=I.gild;for(const f of[.12,.15,.85,.88])x.fillRect(w*.15,h*f,w*.7,Math.max(1,h*.006));c.style.width=w+'px';c.style.height=h+'px';return c}
+  if(kind==='back'){at(0,L,0,len,I.lo);c.style.width=w+'px';c.style.height=h+'px';return c}
+  /* the inside, edge on: board leather everywhere first, then pages and instrument where they lie */
+  at(0,L,0,len,I.lo);
+  const [p0,p1]=vert?[I.py0*len,I.py1*len]:[I.px0*len,I.px1*len],[t0,t1]=vert?[I.ty0*len,I.ty1*len]:[I.px0*len,I.px1*len];
+  const inner0=bd,inner1=L-bd;
+  if(kind!=='bottom'){const g=x.createLinearGradient(...(vert?[inner0,0,inner1,0]:[0,inner0,0,inner1]));g.addColorStop(0,'#f4e9cf');g.addColorStop(1,'#d9c7a0');at(inner0,inner1,p0,p1,g);
+    x.strokeStyle='rgba(110,85,50,.35)';x.lineWidth=.5;for(let k=1;k<14;k++){const z=inner0+(inner1-inner0)*k/14;x.beginPath();if(vert){x.moveTo(z,p0);x.lineTo(z,p1)}else{x.moveTo(p0,z);x.lineTo(p1,z)}x.stroke()}
+    /* the top sheet, just behind the cover: its grid printed to the very edge */
+    x.fillStyle='rgba(40,28,18,.55)';const z=inner0+.5;for(let k=0;k<=9;k++){const a=p0+(p1-p0)*(.06+.88*k/9),th=k%3===0?1.4:.7;if(vert)x.fillRect(z,a-th/2,Math.max(1.2,L*.05),th);else x.fillRect(a-th/2,z,th,Math.max(1.2,L*.05))}}
+  if(kind!=='top'&&I.ty1>I.ty0){const g=x.createLinearGradient(...(vert?[0,t0,0,t1]:[t0,0,t1,0]));g.addColorStop(0,'#b07c4c');g.addColorStop(.5,'#8a5a32');g.addColorStop(1,'#6b4426');
+    const a0=vert?t0:p0,a1=vert?t1:p1;at(inner0,inner0+(inner1-inner0)*.7,a0,a1,g);
+    x.strokeStyle='rgba(60,35,15,.35)';x.lineWidth=.6;for(let k=1;k<6;k++){const a=a0+(a1-a0)*k/6;x.beginPath();if(vert){x.moveTo(inner0,a);x.lineTo(inner0+(inner1-inner0)*.7,a+3)}else{x.moveTo(a,inner0);x.lineTo(a+3,inner0+(inner1-inner0)*.7)}x.stroke()}}
+  /* the boards' own edges, lighter at the rim */
+  x.fillStyle=I.mid;if(vert){x.fillRect(0,0,bd,h);x.fillRect(w-bd,0,bd,h)}else{x.fillRect(0,0,w,bd);x.fillRect(0,h-bd,w,bd)}
+  x.fillStyle='rgba(255,230,180,.18)';if(vert){x.fillRect(0,0,1,h);x.fillRect(w-1,0,1,h)}else{x.fillRect(0,0,w,1);x.fillRect(0,h-1,w,1)}
+  /* the clasp band, across the fore-edge from the back board to the clasp on the front */
+  if(kind==='right'&&I.sy1>I.sy0){const a0=I.sy0*len,a1=I.sy1*len;x.fillStyle=I.lo;x.fillRect(0,a0,w,a1-a0);x.fillStyle='rgba(0,0,0,.25)';x.fillRect(0,a1-1.5,w,1.5);
+    x.strokeStyle=I.gild;x.lineWidth=1;x.strokeRect(.5,a0+1.5,w-1,a1-a0-3)}
+  c.style.width=w+'px';c.style.height=h+'px';return c}
+async function polyBuild(){const cr=coverEl.getBoundingClientRect();if(!cr.width)return null;
+  let pic;try{pic=await Promise.race([drawWidgetBook(),new Promise(r=>setTimeout(()=>r(null),900))])}catch(e){pic=null}if(!pic)return null;
+  const W=cr.width,H=cr.height,D=Math.max(12,W*.1),dpr=Math.min(2,devicePixelRatio||1),cs=getComputedStyle(board),cv=n=>cs.getPropertyValue(n).trim();
+  const lo=cv('--leatherLo')||'#432d1a',mid=cv('--leather')||'#6b4a2e',gild=cv('--gild')||cv('--gold')||'#d4af37';
+  const host=document.createElement('div');host.className='ov-poly';host.setAttribute('aria-hidden','true');
+  const shadow=document.createElement('i');shadow.className='ov-poly-shadow';host.appendChild(shadow);
+  const mkBox=cls=>{const b=document.createElement('div');b.className=cls;b.style.cssText=`left:${cr.left}px;top:${cr.top}px;width:${W}px;height:${H}px`;return b};
+  const box=mkBox('ov-poly-box');host.appendChild(box);
+  const front=document.createElement('canvas');front.width=Math.round(W*dpr);front.height=Math.round(H*dpr);front.style.width=W+'px';front.style.height=H+'px';
+  const put=(par,el,l,t,tf)=>{el.classList.add('ov-poly-face');el.style.left=l+'px';el.style.top=t+'px';el.style.transform=tf;par.appendChild(el);return el};
+  const sides=(par,mk,ox,oy)=>[put(par,mk('back',W,H),ox,oy,`translateZ(${-D}px) rotateY(180deg)`),put(par,mk('left',D,H),ox-D/2,oy,`translateZ(${-D/2}px) rotateY(-90deg)`),
+    put(par,mk('right',D,H),ox+W-D/2,oy,`translateZ(${-D/2}px) rotateY(90deg)`),put(par,mk('top',W,D),ox,oy-D/2,`translateZ(${-D/2}px) rotateX(90deg)`),
+    put(par,mk('bottom',W,D),ox,oy+H-D/2,`translateZ(${-D/2}px) rotateX(-90deg)`)];
+  /* the low-poly box */
+  const pc={back:lo,left:mid,right:'#efe2c4',top:'#e8d9b8',bottom:'#d9c8a4'};
+  sides(box,(k,w,h)=>polyFace(w,h,pc[k],k==='right'||k==='top'||k==='bottom'),0,0);put(box,front,0,0,'translateZ(0.5px)');
+  /* the real book's sides, on the book itself (it turns as one with them); measured from the parts inside the shut cover */
+  const st=$('#stage'),sr=st.getBoundingClientRect(),br=board.getBoundingClientRect(),rel=(el,a)=>{const r=el?.getBoundingClientRect();return r&&r.height?a(r):null};
+  const pr=rel($('#pcell'),r=>r),tr=rel($('.tcell'),r=>r),sp=rel(coverEl.querySelector('.strap'),r=>r);
+  const I={lo,mid,gild,py0:pr?(pr.top-cr.top)/H:.04,py1:pr?(pr.bottom-cr.top)/H:.62,ty0:tr?(tr.top-cr.top)/H:.63,ty1:tr?(tr.bottom-cr.top)/H:.96,
+    px0:pr?(pr.left-cr.left)/W:.03,px1:pr?(pr.right-cr.left)/W:.97,sy0:sp?(sp.top-cr.top)/H:0,sy1:sp?(sp.bottom-cr.top)/H:0};
+  const real=document.createElement('div');real.className='ov-real';real.setAttribute('aria-hidden','true');st.appendChild(real);
+  const ox=cr.left-sr.left,oy=cr.top-sr.top;sides(real,(k,w,h)=>realFace(k,w,h,I),ox,oy);
+  document.body.appendChild(host);
+  return{host,box,shadow,front,fx:front.getContext('2d'),pic,tris:polyTris(W,H),cr,W,H,D,dpr,st,real,origin:`${ox+W/2}px ${oy+H/2}px`}}
+/* one frame of the cover: the picture through each facet, lit by how the box is turned, each facet settling in (or out) */
+function polyDraw(P,ry,rx,settle){const x=P.fx,{W,H,dpr,pic}=P;x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,W,H);
+  const L=[Math.sin(ry*Math.PI/180)*.9+.25,Math.sin(rx*Math.PI/180)*.9-.2];
+  for(const t of P.tris){let a=1,sc=1;if(settle>0){const st=(1-t.e)*.5,k=Math.min(1,Math.max(0,(settle-st)/.5));a=1-k;sc=1-k*.35;if(a<=0)continue}
+    x.save();x.globalAlpha=a;x.translate(t.cx,t.cy);x.scale(sc,sc);x.translate(-t.cx,-t.cy);
+    x.beginPath();x.moveTo(...t.p[0]);x.lineTo(...t.p[1]);x.lineTo(...t.p[2]);x.closePath();x.clip();
+    x.drawImage(pic,22,14,WB_W-44,WB_H-58,0,0,W,H);
+    const g=(t.n[0]*L[0]+t.n[1]*L[1])*(1-settle*.6);x.fillStyle=g>0?`rgba(255,236,200,${Math.min(.32,g*.45)})`:`rgba(0,0,0,${Math.min(.42,-g*.55)})`;x.fill();
+    x.strokeStyle=`rgba(255,230,180,${.10*(1-settle)})`;x.lineWidth=.7;x.stroke();x.restore()}}
+/* where the book is at time u (0 = in the widget, 1 = landed): it rises and grows along a little arc, and turns once all the
+   way round on its upright axis, the low-poly book until it stands edge on, three quarters of the way, the real one after */
+const pTurn=u=>u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;
+function polyPose(P,u){const s=polyStart(),c=P.cr,e=pEase(u),b=pBack(Math.min(1,u*1.08)),k0=Math.min(s.w/P.W,s.h/P.H);
+  const lift=Math.sin(Math.PI*e)*Math.min(110,innerHeight*.1),dx=((s.x+s.w/2)-(c.left+c.width/2))*(1-e),dy=((s.y+s.h/2)-(c.top+c.height/2))*(1-e)-lift;
+  const k=k0+(1-k0)*b,A=-360*(1-pTurn(u)),rx=14*Math.sin(Math.PI*u),rz=-6*(1-e);
+  const tf=`translate(${dx}px,${dy}px) scale(${k}) perspective(${POLY.P}px) rotateX(${rx}deg) rotateY(${A}deg) rotateZ(${rz}deg)`;
+  P.shadow.style.width=(P.W*.84)+'px';P.shadow.style.transform=`translate(${c.left+c.width*.08+dx}px,${c.top+c.height-6+dy+lift}px) scale(${k},${k})`;
+  P.shadow.style.opacity=(.15+.55*e).toFixed(3);return{tf,A,rx}}
+function polyRun(P,dir,done){const t0=performance.now(),T=dir>0?POLY.in:POLY.out;let real=null;root.classList.add('ov-fly');
+  P.st.style.transformOrigin=P.origin;
+  const step=now=>{const v=Math.min(1,(now-t0)/T),u=dir>0?v:1-v,r=polyPose(P,u),isReal=r.A>-90;
+    if(isReal!==real){real=isReal;P.box.style.visibility=isReal?'hidden':'';root.classList.toggle('ov-live',isReal);root.classList.toggle('ov-3d',isReal)}
+    if(isReal)P.st.style.transform=r.tf;else{P.box.style.transform=r.tf;polyDraw(P,r.A,r.rx,0)}
+    if(v<1)requestAnimationFrame(step);else done()};
+  requestAnimationFrame(step)}
+function polyEnd(P){P.host.remove();P.real.remove();P.st.style.transform='';P.st.style.transformOrigin='';root.classList.remove('ov-3d','ov-fly');fit()}
 function overlayEnter(){$('#publisherIntro')?.remove();$('#quietLoader')?.remove();window.coverHoldUntil=0;
-  root.classList.add('ov-in');requestAnimationFrame(()=>requestAnimationFrame(()=>{const f=flyFrom();
+  root.classList.add('ov-in');
+  /* nothing shows until the book is whole and shut: then it appears, already on its way out of the widget */
+  const t0=performance.now(),whole=()=>!coverEl.hidden&&board.classList.contains('shut')&&board.offsetWidth>0;
+  const plain=()=>requestAnimationFrame(()=>{const f=flyFrom();root.classList.add('ov-live');
     if(f&&!reduced){root.classList.add('ov-fly');f[0].animate([{transform:f[1],opacity:.6},{transform:'none',opacity:1}],{duration:520,easing:'cubic-bezier(.2,.8,.25,1)'}).onfinish=()=>{root.classList.remove('ov-fly');fit()}}
-    setTimeout(()=>{root.classList.remove('ov-in')},reduced?40:560)}))}   /* it lands shut: the player opens it */
+    setTimeout(()=>{root.classList.remove('ov-in')},reduced?40:560)});
+  const wait=()=>{if(!whole()&&performance.now()-t0<1500)return requestAnimationFrame(wait);
+    if(reduced)return plain();
+    polyBuild().then(P=>{if(!P)return plain();polyRun(P,1,()=>{polyEnd(P);root.classList.add('ov-live');root.classList.remove('ov-in')})}).catch(plain)};
+  requestAnimationFrame(wait)}   /* it lands shut: the player opens it */
 let ovLeaving=false;
-function overlayLeave(){if(ovLeaving)return;ovLeaving=true;const f=flyFrom();root.classList.add('ov-out');
-  if(f&&!reduced){root.classList.add('ov-fly');f[0].animate([{transform:'none',opacity:1},{transform:f[1],opacity:.3}],{duration:420,easing:'cubic-bezier(.5,0,.75,.4)',fill:'forwards'})}
-  setTimeout(()=>{try{save()}catch(e){}try{window.NinesApp.overlayDone()}catch(e){}},reduced?40:430)}
+function overlayLeave(){if(ovLeaving)return;ovLeaving=true;root.classList.add('ov-out');
+  const bye=()=>{try{save()}catch(e){}try{window.NinesApp.overlayDone()}catch(e){}};
+  const plain=()=>{const f=flyFrom();if(f&&!reduced){root.classList.add('ov-fly');f[0].animate([{transform:'none',opacity:1},{transform:f[1],opacity:.3}],{duration:420,easing:'cubic-bezier(.5,0,.75,.4)',fill:'forwards'})}
+    setTimeout(bye,reduced?40:430)};
+  /* a shut book goes back the way it came, as facets; an open one simply flies back */
+  if(reduced||opened||coverEl.hidden||!board.classList.contains('shut'))return plain();
+  polyBuild().then(P=>{if(!P)return plain();polyRun(P,-1,()=>{P.host.style.opacity=0;P.real.remove();bye()})}).catch(plain)}
 /* the widget is tapped again while the book is already open over the screen: nothing to do but make sure it is open */
 window.ninesOverlayAgain=()=>{};
 /* a tap anywhere off the book (on the home screen around it) sends it back into the widget, open or shut */
@@ -9343,7 +9502,7 @@ function foldSeam(){if(foldTest)return foldTest;
 try{navigator.devicePosture?.addEventListener('change',()=>{fit();setTimeout(fit,320)})}catch(e){}
 function fit(){if(root.classList.contains('ov-fly'))return;   /* the book is flying in or out of the widget: measured when it lands */
   let st=$('#stage').getBoundingClientRect().toJSON();
-  const phone=st.width<=600,spill=immersed?0:(phone?36:58);
+  const phone=st.width<=600,spill=immersed?0:(phone?36:58)-(S.wide?0:4);   /* 4: the upright book's page block and bookmarks sit that much left of the board's middle */
   // a wide screen with room beside the book lets it reach down into the band the corner buttons use
   {const roomy=document.body.classList.contains('roomy'),Hfull=st.height+(roomy?0:48),bw=.63*(Hfull-16+40);const want=!immersed&&!phone&&(st.width-bw)/2>=100;if(want!==roomy){document.body.classList.toggle('roomy',want);st=$('#stage').getBoundingClientRect().toJSON()}}   /* the stage is measured again right away rather than waiting for another pass that may never come */   // the ribbons' reach beyond the book, kept on both sides so the book stays centred
   const W=st.width-(immersed?14:2*(spill+4)),H=st.height-(immersed?10:16),ex=2*(12+2),PX=immersed?28+6:12+6,PY=immersed?88+6:80+6,TWMIN=270,THMIN=160;
@@ -9377,7 +9536,7 @@ function fit(){if(root.classList.contains('ov-fly'))return;   /* the book is fly
   const vb0=$('#vaseBtn');vb0.style.width=vb0.style.height=vb0.style.right='';   /* the vase (above the sprout, bottom right) counts as part of the bottom band when it is out */
   const botLim=Math.min(innerHeight-CB,!immersed&&S.flowers&&!vb0.hidden?vb0.getBoundingClientRect().top-6:innerHeight),between=2*Math.min(mid-CB,botLim-mid)-16;
   /* a tall phone: the corner buttons are far above and below the book, so it need not leave their width free; if it fits between their bands it takes the full width */
-  if(!immersed&&!foldSeam()){const b=size(innerWidth-2*(6+40),between);if(b.gs>gs)({gs,pw,ph,tw,th}=b)}   /* 40 on both sides: the bookmarks past the right edge, and as much on the left so the book stays in the middle */
+  if(!immersed&&!foldSeam()){const b=size(innerWidth-2*(6+36),between);if(b.gs>gs)({gs,pw,ph,tw,th}=b)}   /* 40 on both sides: the bookmarks past the right edge, and as much on the left so the book stays in the middle */
   /* a screen wider than it is tall (a phone on its side, the Flip's cover screen, a laptop): the book lies sideways, the instrument to the left of the page,
      so the grid can be as tall as the screen instead of being squeezed under it. The instrument stacks its tools over the keys when its column is narrow */
   const row=!!S.wide&&!foldSeam()&&st.width>st.height*1.02&&st.width>=560;let narrow=false;   /* the sideways book: only when switched on in Design, for now */
@@ -11202,7 +11361,7 @@ $('#radioBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();openR
 
 /* ================= boot ================= */
 function start(data){
-  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},shopCat,bookSnap,drawWidgetBook,overlayEnter,overlayLeave,certOpen,certDraw,ownerPlate,tutPlay,TUT_P,solve,gzOpen,gzGo,gzClose,GZ,setCoins,saveNow,giltOn,RELEASES,RELEASE_START,REL_SLOT,relNext,relSlots,relShopSlots,relOwnSlots,relPrice,setRelease:on=>{releaseOn=!!on},get TURN(){return TURN},get flipping(){return flipping},turnAuto,turnStyle,TURNS,flipTo,flipBack,pageTurn,get typeDraft(){return TYPE_DRAFT},openTypeCase,typeApply,typeCode,typeRead,typeClean,typeUse,typeSaveAs,typeCurrent,typeProfiles,typeRoleAt,typeNow,typeBook,TYPE_DEFAULT,TYPE_ROLES,TYPE_SEL,TYPE_HOUSE,openCommode,openTV,openToc,openVerso,bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
+  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},shopCat,bookSnap,drawWidgetBook,polyBuild,polyDraw,polyPose,get POLY(){return POLY},overlayEnter,overlayLeave,certOpen,certDraw,ownerPlate,tutPlay,TUT_P,solve,gzOpen,gzGo,gzClose,GZ,setCoins,saveNow,giltOn,RELEASES,RELEASE_START,REL_SLOT,relNext,relSlots,relShopSlots,relOwnSlots,relPrice,setRelease:on=>{releaseOn=!!on},get TURN(){return TURN},get flipping(){return flipping},turnAuto,turnStyle,TURNS,flipTo,flipBack,pageTurn,get typeDraft(){return TYPE_DRAFT},openTypeCase,typeApply,typeCode,typeRead,typeClean,typeUse,typeSaveAs,typeCurrent,typeProfiles,typeRoleAt,typeNow,typeBook,TYPE_DEFAULT,TYPE_ROLES,TYPE_SEL,TYPE_HOUSE,openCommode,openTV,openToc,openVerso,bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
     puzzleIn(id,p){const was=S.block;S.block=id;try{return puzzle(p)}finally{S.block=was}}};
   load();if(saveLost)setTimeout(()=>toast('The book’s record could not be read, so a fresh book was opened. The old record is kept aside.'+(S.savePage?' A save code from the Binder’s Record can bring a book back.':'')),2500);
   devUnlocked();
@@ -11255,10 +11414,12 @@ function runEntrance(){
   listen(true);
   /* the name waits on the empty paper until its typeface is really there (a second at least, never more than three), then fades in */
   const t0=performance.now(),face=document.fonts?.load?Promise.race([document.fonts.load('700 42px "Cinzel Decorative"','Tea Story').catch(()=>{}),new Promise(r=>setTimeout(r,3000))]):Promise.resolve();
-  face.then(()=>new Promise(r=>setTimeout(r,Math.max(0,(reduced?0:1000)-(performance.now()-t0))))).then(()=>{if(ffwd)return;ready();
+  face.then(()=>new Promise(r=>setTimeout(r,Math.max(0,(reduced?0:450)-(performance.now()-t0))))).then(()=>{if(ffwd)return;ready();
     setTimeout(()=>{if(!ffwd)canTap=true},reduced?0:1400)})   /* taps leave only once the name stands there in full */
 }
-if(OVERLAY)overlayEnter();else{runEntrance();setTimeout(()=>bookSnap(),4200)}
+if(OVERLAY)overlayEnter();else{runEntrance();
+  /* the widget's picture is drawn when the book is at rest, never in the middle of the cover's swing */
+  setTimeout(function snap(){if(board.classList.contains('opening')||coverEl.getAnimations().some(a=>a.playState==='running'))return setTimeout(snap,800);(window.requestIdleCallback||setTimeout)(()=>bookSnap(),{timeout:1500})},4200)}
 })();
 </script>
 <script>
