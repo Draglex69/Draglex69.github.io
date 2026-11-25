@@ -2732,6 +2732,7 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
    <div class="gz-book" id="gzBook"><div class="gz-side gz-l" id="gzL"></div><div class="gz-side gz-r" id="gzR"></div></div>
    <div class="gz-bar"><button type="button" class="gz-go" data-gzgo="-1" aria-label="Previous page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg></button><span class="gz-pg" id="gzPg"></span><button type="button" class="gz-go" data-gzgo="1" aria-label="Next page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button><button type="button" class="gz-x" data-gzclose>Close</button></div></div>
  <div class="popv setp" id="pop-set" hidden>
+   <div class="sgrp" id="logGrp"><b>Diagnostics</b><button class="namebtn" id="logBtn" type="button">Cut the log</button><p class="pid-note" id="logNote"></p></div>
    <div class="sgrp" id="calGrp"><b>Shop calendar</b><button class="namebtn" id="gzBtn" type="button">Open the shop catalogue</button><p class="pid-note">What comes into the shop, in which order and when, as a magazine to leaf through.</p></div>
    <div class="sgrp"><b>Your own page</b><div class="mag-choice"><button type="button" id="openEditor">Make a Sudoku</button></div><p class="pid-note" id="pidNote"></p></div>
    <div class="sgrp"><b>Ink</b><div class="row" id="pals"></div><span class="nm" id="nm-pal"></span>
@@ -6111,6 +6112,32 @@ return{list:F,byId,scenes,families:[...new Set(F.map(d=>d.fam))].map(f=>({fam:f,
 <script>
 (()=>{
 const $=s=>document.querySelector(s);
+/* ---- the diagnostic log: what happened lately, for the maker to read when something goes wrong ----
+   The last 400 events, kept on this device only (its own key, apart from the save). The Design panel's "Cut the log"
+   copies it and clears it in one tap, so each log sent covers only what happened since the last one. Nothing personal
+   goes in: no name, no place, no ad or account IDs; only what the game did, the screen, and errors. */
+const NINES_BUILD='1.0.66 · built 2026-11-25 07:42 UTC';
+const NLOG={k:'bookOfNines.log',max:400,a:null,t:0,
+  load(){if(this.a)return this.a;try{const a=JSON.parse(localStorage.getItem(this.k)||'[]');this.a=Array.isArray(a)?a:[]}catch(e){this.a=[]}return this.a},
+  add(kind,msg){const a=this.load(),d=new Date(),p=n=>String(n).padStart(2,'0');
+    a.push(`${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}.${String(d.getMilliseconds()).padStart(3,'0')} ${kind}${msg?' '+msg:''}`);
+    if(a.length>this.max)a.splice(0,a.length-this.max);clearTimeout(this.t);this.t=setTimeout(()=>this.save(),700)},
+  save(){clearTimeout(this.t);try{localStorage.setItem(this.k,JSON.stringify(this.a||[]))}catch(e){}},
+  clear(){this.a=[];this.save()},
+  head(){const sc=screen||{},vv=window.visualViewport;
+    return[`Book of Nines diagnostic log · ${NINES_BUILD||'dev'} · ${typeof NinesApp!=='undefined'?'Android app':matchMedia('(display-mode: standalone)').matches?'installed web app':'browser'}`,
+      `copied ${new Date().toString().slice(0,24)} · ${navigator.userAgent}`,
+      `screen ${sc.width}x${sc.height} · window ${innerWidth}x${innerHeight}${vv?` (visible ${Math.round(vv.width)}x${Math.round(vv.height)})`:''} · dpr ${devicePixelRatio} · ${matchMedia('(orientation: landscape)').matches?'landscape':'portrait'} · reduced motion ${matchMedia('(prefers-reduced-motion: reduce)').matches?'on':'off'} · ${navigator.language}`]},
+  text(){return[...this.head(),`${this.load().length} events:`,...this.load()].join('\n')}};
+const nlog=(kind,msg)=>{try{NLOG.add(kind,msg==null?'':typeof msg==='string'?msg:JSON.stringify(msg))}catch(e){}};
+addEventListener('error',e=>nlog('ERROR',`${e.message||e.type} @ ${(e.filename||'').split('/').pop()}:${e.lineno||0}:${e.colno||0}${e.error?.stack?' | '+String(e.error.stack).split('\n').slice(1,4).map(x=>x.trim()).join(' | '):''}`));
+addEventListener('unhandledrejection',e=>nlog('ERROR','promise: '+(e.reason?.message||String(e.reason)).slice(0,300)));
+document.addEventListener('visibilitychange',()=>{nlog('app',document.hidden?'hidden (in the background)':'visible again');if(document.hidden)NLOG.save()});
+addEventListener('pagehide',()=>NLOG.save());
+/* what opens and closes: every overlay (shop, TV, gifts, catalogue, calendar…) is a direct child of the page body */
+new MutationObserver(ms=>{for(const m of ms){for(const n of m.addedNodes)if(n.nodeType===1&&n.className&&typeof n.className==='string'&&!/^(toast|spark|chip|steam)\b/.test(n.className))nlog('open',n.className.trim().slice(0,80));
+  for(const n of m.removedNodes)if(n.nodeType===1&&typeof n.className==='string'&&/\b(veil|gift3d|tv-zoom|gz)\b/.test(n.className))nlog('close',n.className.trim().slice(0,60))}}).observe(document.body,{childList:true});
+nlog('start',`${NINES_BUILD||'dev'} · window ${innerWidth}x${innerHeight}`);
 const root=document.documentElement;
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -6823,7 +6850,7 @@ function renderHead(){
 function popCell(i){const c=cells[i];c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');setTimeout(()=>c.classList.remove('pop'),350)}
 
 /* ================= page load ================= */
-function loadPage(p,skipStash=false){
+function loadPage(p,skipStash=false){nlog('page',`${S.block||'nines'} page ${p}`);
   if(!skipStash)stash();
   playMode='book';dailyKey=null;currentTheme=null;pageEl.className='leaf puzzle paper';$('#dailyMotif').hidden=true;$('#matchHud').innerHTML='';
   S.page=p;const z=puzzle(p);
@@ -7034,7 +7061,7 @@ function giftSticker(p,tries=0){const st=STK.find(x=>x.id==='pg-'+p);if(!st||S.r
     setTimeout(()=>toast(`${st.name}: a page sticker, now in your sticker drawer.`,3200),reduced?0:900)};
   v.addEventListener('click',take);v.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '||e.key==='Escape'){e.preventDefault();take(e)}});v.tabIndex=0;setTimeout(()=>v.focus(),60);
   v._close=take}
-function showSolved(anim,reward){
+function showSolved(anim,reward){nlog('page',`solved: ${S.block||'nines'} page ${S.page}${G.failed?' (after it was lost)':''}`);
   const lost=G.failed&&!!S.lostStamp;     // the LOST stamp is a Design option; otherwise a dead page is simply stamped Solved
   if(playMode==='daily'){
     pageEl.querySelectorAll('.stamp,.turn').forEach(n=>n.remove());
@@ -7341,7 +7368,7 @@ function openPrep(){opened=true;const gen=++bookGen;if(stickering)renderStickers
 function openDone(gen){if(gen!==bookGen)return;
   coverEl.animate([{opacity:1},{opacity:0}],{duration:reduced?10:260,fill:'forwards'})   /* the open cover blinks back once and fades, with the bell: the book's little flourish */.onfinish=()=>{if(gen===bookGen)coverEl.hidden=true};
   board.classList.remove('opening');board.style.transitionDuration='';if(S.sound){bell(587.33,0,.09);tone({f:1174.66,type:'square',g:.03,d:.12,t:.05})}}
-function openBook(){setTimeout(mediaPlace,1900);
+function openBook(){nlog('book','opened');setTimeout(mediaPlace,1900);
   if(opened)return;const gen=openPrep();
   /* the swing starts on a quiet frame, after the page beneath has been laid out, so its first moments are never skipped */
   const go=()=>{if(gen!==bookGen)return;const a=coverEl.animate(coverKF(),{duration:reduced?10:OPEN_MS,easing:'cubic-bezier(.42,0,.22,1)',fill:'forwards'});a.onfinish=()=>openDone(gen)};
@@ -10673,6 +10700,16 @@ function paintDraftThumbs(){const box=$('#draftRows');if(!box?.dataset.done)retu
 paintDraftThumbs.run=0;
 $('#draftRows')?.addEventListener('click',e=>{const b=e.target.closest('.draft');if(!b)return;setScene(b.dataset.s);sfx.toggle();render();save()});
 $('#setBtn').addEventListener('click',()=>setTimeout(buildDraftRows,60));
+/* Diagnostics: one tap copies the log and clears it, like cutting text, so the next one sent starts fresh. If the copy
+   fails, nothing is cleared. */
+function logNote(){const a=NLOG.load(),n=$('#logNote');if(!n)return;n.textContent=a.length?`${a.length} event${a.length===1?'':'s'} since ${a[0].slice(6,11)}. One tap copies them and clears the log, ready to paste to Claude.`:'Nothing in the log yet. It fills as you play.'}
+async function logCut(){const t=NLOG.text(),n=NLOG.load().length;let ok=false;
+  try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(t);ok=true}}catch(e){}
+  if(!ok)try{const ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;left:-9999px;top:0;opacity:0';document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,t.length);ok=document.execCommand('copy');ta.remove()}catch(e){}
+  if(ok){NLOG.clear();nlog('log','cut ('+n+' events copied)');sfx.tick();toast(`Log copied (${n} event${n===1?'':'s'}) and cleared.`)}
+  else toast('Could not copy the log on this device. Nothing was cleared.',3200);
+  logNote()}
+$('#logBtn').addEventListener('click',logCut);$('#setBtn').addEventListener('click',()=>setTimeout(logNote,60));
 
 function loop(now){
   requestAnimationFrame(loop);
@@ -11337,7 +11374,7 @@ function adventGift(key,tries=0){const d=adventDay(key);if(!d||S.advent?.[key]||
       if(g.c)setCoins(was);v.classList.add('out');setTimeout(()=>v.remove(),700)}else{v.remove();setCoins(S.coins)}
     if(I.note)setTimeout(()=>toast(`${I.name}: ${I.note}.`,3200),reduced?0:900)};
   v.addEventListener('click',take);v.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '||e.key==='Escape'){e.preventDefault();take(e)}});v.tabIndex=0;setTimeout(()=>v.focus(),60);v._close=take}
-function solveDaily(){
+function solveDaily(){nlog('daily','solved '+(S.daily?.cur||''));
   G.done=true;G.sel=-1;if(!S.daily)S.daily={};const old=S.daily[dailyKey]?.d||0,reward=G.failed?0:(old?0:G.blind?quietPay(3):3+(G.clean?2:0));stash();S.daily[dailyKey].d=1;S.coins+=reward;sfx.solve();render();save();steam(12);const key=dailyKey;setTimeout(()=>{if(playMode!=='daily'||dailyKey!==key||!G.done)return;showSolved(true,reward)},reduced?20:650);
   if(adventDay(key)&&!G.failed&&!S.advent?.[key])setTimeout(()=>adventGift(key),reduced?700:2900);   /* that day's Advent door opens */
 }
@@ -11763,9 +11800,10 @@ const runCard=(T,onProgress,res)=>new Promise(ok=>{const t0=performance.now();co
 const NinesAds={
   ready:()=>{if(adsOff())return true;if(NA('rewardedReady'))try{return!!window.NinesApp.rewardedReady()}catch(e){return false}return true},
   play(channel,onProgress){
-    if(adsOff())return runCard(reduced?60:1300,onProgress,{channel,free:1});   /* no ad: just the channel coming in */
-    if(NA('showRewarded'))return new Promise((ok,no)=>{window.ninesRewarded=r=>{window.ninesRewarded=null;onProgress(1);r==='earned'?ok({channel}):no(new Error(r||'skipped'))};
-      let shown=false;try{shown=!!window.NinesApp.showRewarded()}catch(e){}if(!shown){window.ninesRewarded=null;no(new Error('none'))}});
+    if(adsOff()){nlog('ad','channel '+channel+': ads off, a short card instead');return runCard(reduced?60:1300,onProgress,{channel,free:1})}   /* no ad: just the channel coming in */
+    if(NA('showRewarded'))return new Promise((ok,no)=>{window.ninesRewarded=r=>{window.ninesRewarded=null;nlog('ad',`channel ${channel}: the app says ${r} (page ${document.hidden?'hidden':'visible'})`);onProgress(1);r==='earned'?ok({channel}):no(new Error(r||'skipped'))};
+      let shown=false;try{shown=!!window.NinesApp.showRewarded()}catch(e){nlog('ad','showRewarded threw: '+e.message)}nlog('ad',`channel ${channel}: rewarded ad ${shown?'shown':'NOT shown'}`);if(!shown){window.ninesRewarded=null;no(new Error('none'))}});
+    nlog('ad','channel '+channel+': no app, the six-second card');
     return runCard(6000,onProgress,{channel})},
 };
 /* the counter's picture: a banknote of the house, green and gold, its seal pressed with the lemniscate (for a lifetime) over a quiet screen */
@@ -11779,7 +11817,7 @@ function noAdsArt(){return`<svg viewBox="0 0 120 80"><defs><linearGradient id="p
   <path d="m53 65-3 9 4.5-2 2.5 4 1-8M67 65l3 9-4.5-2-2.5 4-1-8" fill="#8a2420"/></svg>`}
 /* real-money purchases come back from Google Play here: 'owned', 'pending', 'cancelled' or 'error' */
 let shopRepaint=null;
-window.ninesPurchase=state=>{if(state==='owned'){S.adsOn=0;save();toast('No ads, for a lifetime. Thank you!',3600);sfx.coin()}
+window.ninesPurchase=state=>{nlog('purchase',state);if(state==='owned'){S.adsOn=0;save();toast('No ads, for a lifetime. Thank you!',3600);sfx.coin()}
   else if(state==='pending')toast('The payment is on its way: the ads go once Google Play confirms it.',4200);
   else if(state==='restored')toast(noAdsOwned()?'Found it: no ads, for a lifetime.':'No earlier purchase found on this Google account.',3600);
   else if(state==='error')toast('Google Play could not finish the purchase. Nothing was charged.',3600);
@@ -11966,15 +12004,17 @@ function openTV(){
     if(v.dataset.busy)return;const n=+b.dataset.ch,show=v.querySelector('#tvShow'),msg=v.querySelector('#tvMsg');
     S.tv=n;save();v.querySelectorAll('[data-ch]').forEach(x=>x.classList.toggle('on',x===b));
     if(!tvLeft()){msg.textContent='';v.querySelector('#tvLeft').innerHTML=TV_ENOUGH;sfx.tick();return}   /* the day's broadcasts are watched */
-    if(!NinesAds.ready()){adsBegin();msg.textContent='Tuning in… nothing is on the air yet. Try again in a moment.';return}
+    if(!NinesAds.ready()){nlog('tv',`channel ${n}: no ad loaded yet`);adsBegin();msg.textContent='Tuning in… nothing is on the air yet. Try again in a moment.';return}
+    nlog('tv',`channel ${n}: tuning in (${tvLeft()} left today)`);
     v.dataset.busy='1';sfx.tick();show.hidden=false;show.innerHTML=`<b>CH ${n}</b><small>${CHANNELS[n-1].n} · broadcast in progress…</small><div class="bar"><i id="tvBar"></i></div>`;
     await tvBuzz(v);   /* the set changes channel with a buzz and a burst of snow */
     await tvZoom(v,1);   /* then into the set, then the programme */
     let paid=false,was=S.coins;
     try{await NinesAds.play(n,f=>{const bar=v.querySelector('#tvBar');if(bar)bar.style.width=(f*100)+'%'});tvCounted();was=S.coins;S.coins+=TV_COINS;save();paid=true;   /* kept at once; the counter shows it after the presentation */
       if(v.isConnected&&!v.dataset.off){show.innerHTML=`<b>CH ${n}</b><small>Thanks for watching ${CHANNELS[n-1].n}.</small>`;v.querySelector('#tvLeft').innerHTML=tvLeft()?tvLeftText():TV_ENOUGH}}
-    catch(e){show.innerHTML=`<b>CH ${n}</b><small>The broadcast was interrupted.</small>`}
-    if(v.isConnected){await tvSeen();await tvZoom(v,-1)}else v._zoom?.remove();   /* and back out of it, once the page is in view again */
+    catch(e){nlog('tv',`channel ${n}: interrupted (${e.message})`);show.innerHTML=`<b>CH ${n}</b><small>The broadcast was interrupted.</small>`}
+    if(v.isConnected){await tvSeen();await tvZoom(v,-1)}else{nlog('tv','the set was closed during the broadcast');v._zoom?.remove()}   /* and back out of it, once the page is in view again */
+    tvUnzoom(v);   /* whatever the timing on the phone, the room is back at its own size before the coins come */
     if(paid)await tvCoins(v,n,was);
     delete v.dataset.busy;tvTimer=setTimeout(()=>{if(show.isConnected)show.hidden=true},2200);
   }));
@@ -11990,8 +12030,12 @@ function tvBuzz(v){return new Promise(ok=>{const scr=v.querySelector('#tvScreen'
   scr.animate([{filter:'none',transform:'none'},{filter:'brightness(1.6) contrast(1.3)',transform:'translateY(-3%) scaleY(1.04)',offset:.15},{filter:'brightness(.8)',transform:'translateY(4%)',offset:.45},{filter:'brightness(1.2)',transform:'translateY(-1%)',offset:.7},{filter:'none',transform:'none'}],{duration:480,easing:'ease-out'});
   setTimeout(ok,500)})}
 /* after the ad the app comes back to the front: wait until the page is showing again before zooming out, so it is seen */
-function tvSeen(){return new Promise(ok=>{const go=()=>requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(ok,280)));
-  if(!document.hidden){go();return}const f=()=>{if(!document.hidden){document.removeEventListener('visibilitychange',f);go()}};document.addEventListener('visibilitychange',f);setTimeout(()=>{document.removeEventListener('visibilitychange',f);ok()},4000)})}
+function tvSeen(){return new Promise(res=>{let done=false;const ok=why=>{if(done)return;done=true;nlog('tv','page in view again: '+why);res()};const go=why=>requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(()=>ok(why),280)));
+  if(!document.hidden){go('was visible');return}const f=()=>{if(!document.hidden){document.removeEventListener('visibilitychange',f);go('became visible')}};document.addEventListener('visibilitychange',f);setTimeout(()=>{document.removeEventListener('visibilitychange',f);ok('gave up waiting after 4 s')},4000)})}
+/* the room back at its own size: the zoom in is held with fill 'forwards', so it is cancelled by name, not left to the browser
+   to tidy away (some phones' WebViews kept it, and the coins came out over a screen still zoomed in) */
+function tvUnzoom(v){const tf=getComputedStyle(v).transform;v._zin?.cancel();v._zin=null;v._zout?.cancel();v._zout=null;v.style.transformOrigin='';v._zoom?.remove();v._zoom=null;
+  if(tf&&tf!=='none'&&!/^matrix\(1, 0, 0, 1, 0, 0\)$/.test(tf))nlog('tv','room was still zoomed after the zoom out ('+tf.slice(0,48)+'): reset')}
 function tvZoom(v,dir){return new Promise(ok=>{
   /* the whole room is scaled about the screen's centre, so the set itself grows until its glass is all there is */
   const scr=v.querySelector('#tvScreen'),card=v;if(!scr||reduced){ok();return}
@@ -12006,9 +12050,9 @@ function tvZoom(v,dir){return new Promise(ok=>{
      leaping at the start: the whole set is seen coming closer, then only the glass */
   const ez=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,fr=[];
   for(let i=0;i<=30;i++){const t=i/30,e=dir>0?ez(t):1-ez(t);   /* out the same way it went in: the glass first, then the whole set drawing back */fr.push({transform:`translate(${(W/2-cx)*e}px,${(H/2-cy)*e}px) scale(${Math.pow(k,e)})`})}
-  const a=card.animate(fr,{duration:T,easing:'linear',fill:'forwards'});
+  const a=card.animate(fr,{duration:T,easing:'linear',fill:'forwards'});if(dir>0)v._zin=a;else v._zout=a;nlog('tv',`zoom ${dir>0?'in':'out'} (x${k.toFixed(2)}, ${T} ms, page ${document.hidden?'hidden':'visible'})`);
   snow.animate(dir>0?[{opacity:0},{opacity:0,offset:.7},{opacity:1}]:[{opacity:1},{opacity:1,offset:.12},{opacity:0,offset:.45},{opacity:0}],{duration:T,fill:'forwards'});   /* the set is seen growing first; the snow only at the glass */
-  a.onfinish=()=>{if(dir<0){a.cancel();card.style.transformOrigin='';snow.remove();v._zoom=null}
+  a.onfinish=()=>{nlog('tv',`zoom ${dir>0?'in':'out'} finished`);if(dir<0){v._zin?.cancel();v._zin=null;a.cancel();v._zout=null;card.style.transformOrigin='';snow.remove();v._zoom=null}
     else if(!NA('showRewarded')||adsOff())snow.animate([{opacity:1},{opacity:.12}],{duration:400,fill:'forwards'});   /* no real ad to cover it: the programme shows through the snow */
     ok()}})}
 const TV_ENOUGH='<b>Don’t watch too much television.</b> The channels pay again tomorrow.';
@@ -12019,7 +12063,7 @@ function coinSVG(i){return`<svg viewBox="0 0 64 64" aria-hidden="true"><defs><ra
 /* one coin's clink: a bright strike with its inharmonic ring and a tick of metal (k lifts the pitch, g sets how hard) */
 function coinClink(k=0,g=1,t=0){if(!S.sound||!ac())return;const f=3300+k*140+Math.random()*120;
   tone({f,t,g:.085*g,d:.22,wet:.25});tone({f:f*1.47,t,g:.04*g,d:.12,wet:.2});tone({f:f*2.09,t,g:.018*g,d:.07,wet:.15});noise({type:'highpass',f:6500,t,d:.014,g:.07*g,wet:0})}
-function tvCoins(tv,ch,was){return new Promise(done=>{
+function tvCoins(tv,ch,was){nlog('tv',`coins for channel ${ch}: ${TV_COINS} (room ${getComputedStyle(tv).transform.slice(0,30)})`);return new Promise(done=>{
   const end=()=>{setCoins(S.coins);done()};
   if(!document.body.contains(tv)||reduced){end();return}
   setCoins(was);
@@ -12112,7 +12156,7 @@ $('#radioBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();openR
 
 /* ================= boot ================= */
 function start(data){
-  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},gzxOpen,gzxClose,get GZX(){return GZX},ADVENT,adventGiftOf,adventDay,shopCat,adsOff,noAdsOwned,tvLeft,TV_DAILY,TV_COINS,bookSnap,drawWidgetBook,polyBuild,polyDraw,polyPose,get POLY(){return POLY},overlayEnter,overlayLeave,certOpen,certDraw,ownerPlate,tutPlay,TUT_P,solve,gzOpen,gzGo,gzClose,GZ,setCoins,saveNow,giltOn,RELEASES,RELEASE_START,REL_SLOT,relNext,relSlots,relShopSlots,relOwnSlots,relPrice,setRelease:on=>{releaseOn=!!on},get TURN(){return TURN},get flipping(){return flipping},turnAuto,turnStyle,TURNS,flipTo,flipBack,pageTurn,get typeDraft(){return TYPE_DRAFT},openTypeCase,typeApply,typeCode,typeRead,typeClean,typeUse,typeSaveAs,typeCurrent,typeProfiles,typeRoleAt,typeNow,typeBook,TYPE_DEFAULT,TYPE_ROLES,TYPE_SEL,TYPE_HOUSE,openCommode,openTV,openToc,openVerso,bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
+  if(/[?&]test\b/.test(location.search))window.__nines={get G(){return G},NLOG,logCut,gzxOpen,gzxClose,get GZX(){return GZX},ADVENT,adventGiftOf,adventDay,shopCat,adsOff,noAdsOwned,tvLeft,TV_DAILY,TV_COINS,bookSnap,drawWidgetBook,polyBuild,polyDraw,polyPose,get POLY(){return POLY},overlayEnter,overlayLeave,certOpen,certDraw,ownerPlate,tutPlay,TUT_P,solve,gzOpen,gzGo,gzClose,GZ,setCoins,saveNow,giltOn,RELEASES,RELEASE_START,REL_SLOT,relNext,relSlots,relShopSlots,relOwnSlots,relPrice,setRelease:on=>{releaseOn=!!on},get TURN(){return TURN},get flipping(){return flipping},turnAuto,turnStyle,TURNS,flipTo,flipBack,pageTurn,get typeDraft(){return TYPE_DRAFT},openTypeCase,typeApply,typeCode,typeRead,typeClean,typeUse,typeSaveAs,typeCurrent,typeProfiles,typeRoleAt,typeNow,typeBook,TYPE_DEFAULT,TYPE_ROLES,TYPE_SEL,TYPE_HOUSE,openCommode,openTV,openToc,openVerso,bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
     puzzleIn(id,p){const was=S.block;S.block=id;try{return puzzle(p)}finally{S.block=was}}};
   load();if(saveLost)setTimeout(()=>toast('The book’s record could not be read, so a fresh book was opened. The old record is kept aside.'+(S.savePage?' A save code from the Binder’s Record can bring a book back.':'')),2500);
   devUnlocked();
