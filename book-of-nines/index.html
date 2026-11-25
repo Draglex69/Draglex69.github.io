@@ -2593,6 +2593,36 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
 .gz-rules .gz-cols p{margin-bottom:1.2cqw}
 .gz-week .gz-it{grid-template-rows:minmax(0,1fr) auto}.gz-week .gz-pic{aspect-ratio:auto;height:100%;min-height:0}.gz-week .gz-pic .art{width:70%;height:84%}
 .gz-week .gz-pic{overflow:hidden}
+/* inside the instrument (toys.js): the compartment under the instrument, shown while the save page is open */
+.toybox{position:absolute;z-index:0;border-radius:9px;background:rgba(0,0,0,.1);pointer-events:none;
+  box-shadow:inset 0 0 0 2px #7f5418,inset 0 0 0 5px #d6a84a,inset 0 0 0 7px #8a6020,inset 0 3px 8px 6px rgba(0,0,0,.22),0 0 0 1px rgba(0,0,0,.35),0 2px 3px rgba(0,0,0,.3)}
+.toybox canvas{position:absolute;inset:7px;width:calc(100% - 14px);height:calc(100% - 14px);display:block;border-radius:3px}
+/* a screw in each corner of the instrument's back: a brass head with its slot */
+.toybox i{position:absolute;z-index:2;width:11px;height:11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fbe7a6,#d6a84a 45%,#8a6020 80%);box-shadow:0 0 0 1px #6b4a1a,0 1px 1px rgba(0,0,0,.5)}
+.toybox i::after{content:"";position:absolute;left:1.5px;right:1.5px;top:50%;height:1.6px;margin-top:-.8px;background:#5a3d12;transform:rotate(var(--r,20deg))}
+.toybox i:nth-of-type(1){left:3px;top:3px}.toybox i:nth-of-type(2){right:3px;top:3px;--r:-35deg}.toybox i:nth-of-type(3){left:3px;bottom:3px;--r:70deg}.toybox i:nth-of-type(4){right:3px;bottom:3px;--r:-5deg}
+/* with something inside the instrument, the record keeps to the page's half of the book */
+.backcover.with-toy{display:block;padding:0}
+.backcover.with-toy>.savestate{position:absolute;left:var(--svx);top:var(--svy);width:var(--svw);height:var(--svh);max-width:none;padding:14px 16px}
+/* the record made compact beside the toys: each record box with its button to its right, Back over the panel's top right */
+.backcover.with-toy #savePage .lede{display:none}
+.backcover.with-toy #savePage .sv-in{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:10px;align-items:center;width:92%;margin:0 auto;padding-bottom:34px}
+.backcover.with-toy #savePage .sv-in>*{grid-column:1/-1}
+.backcover.with-toy #savePage .sv-in>.savecode{grid-column:1;width:100%;margin:4px 0 2px}
+.backcover.with-toy #savePage .sv-in>.save-actions{grid-column:2}
+.backcover.with-toy #savePage .save-label{width:100%;margin-top:6px}
+.backcover.with-toy #savePage .savecode{height:52px}.backcover.with-toy #savePage #saveLoadCode{height:44px}
+.backcover.with-toy #savePage .save-actions button{min-width:112px}
+/* the small print beside Back, so the colophon above can be bigger; the record boxes without a scrollbar (they still scroll) */
+.backcover.with-toy #savePage .sv-small{position:absolute;left:8px;bottom:6px;right:128px;max-width:none;margin:0;text-align:left;font-size:9.5px;display:flex;align-items:center;height:var(--bk,34px)}
+.backcover.with-toy #savePage .sv-in{padding-bottom:40px}
+.backcover.with-toy #savePage .sv-by{font-size:14.5px}.backcover.with-toy #savePage .sv-by b{font-size:21px}
+.backcover.with-toy #savePage .sv-mark{font-size:10px}
+.backcover.with-toy #savePage .sv-ask{font-size:13.5px}.backcover.with-toy #savePage .sv-ask b{font-size:13px}
+.backcover.with-toy #savePage .sv-links .cr-link svg{width:36px;height:36px}.backcover.with-toy #savePage .sv-links .cr-link{font-size:9px}
+.backcover.with-toy #savePage .sv-reach{gap:16px;margin:9px 0 4px}
+.backcover.with-toy #savePage .savecode{scrollbar-width:none;-ms-overflow-style:none}.backcover.with-toy #savePage .savecode::-webkit-scrollbar{display:none}
+.backcover.with-toy #savePage .sv-in>.close{position:absolute;right:6px;bottom:6px;margin:0;height:var(--bk,34px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;padding-top:7px;padding-bottom:5px}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -2604,6 +2634,7 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
 <div class="vinyl-big" id="vinylBig" hidden><button type="button" data-media="toggle" aria-label="The record: tap to pause or play, turn it with a finger"><span class="vinyl v-big" aria-hidden="true"><span class="v-disc"><i class="v-label"></i></span><i class="v-sheen"></i></span></button></div>
  <div class="stage" id="stage">
   <div class="board shut" id="board">
+    <div class="toybox" id="toybox" hidden aria-hidden="true"><canvas></canvas><i></i><i></i><i></i><i></i></div>
     <div class="tcell"><section class="leaf tools device calc" id="tools" aria-label="Instrument">
       <div class="bench">
         <div class="tools-g">
@@ -2734,6 +2765,7 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
  <div class="popv setp" id="pop-set" hidden>
    <div class="sgrp" id="logGrp"><b>Diagnostics</b><button class="namebtn" id="logBtn" type="button">Cut the log</button><p class="pid-note" id="logNote"></p></div>
    <div class="sgrp" id="calGrp"><b>Shop calendar</b><button class="namebtn" id="gzBtn" type="button">Open the shop catalogue</button><p class="pid-note">What comes into the shop, in which order and when, as a magazine to leaf through.</p></div>
+   <div class="sgrp" id="toyGrp"><b>Inside the instrument</b><div class="row wrap" id="toyChoice"><button class="namebtn" data-toy="" type="button">Nothing</button><button class="namebtn" data-toy="perch" type="button">The reckoning fish</button><button class="namebtn" data-toy="seahorse" type="button">The thinking star</button></div><p class="pid-note">A prototype: what shows where the instrument was, while the save page is open.</p></div>
    <div class="sgrp"><b>Your own page</b><div class="mag-choice"><button type="button" id="openEditor">Make a Sudoku</button></div><p class="pid-note" id="pidNote"></p></div>
    <div class="sgrp"><b>Ink</b><div class="row" id="pals"></div><span class="nm" id="nm-pal"></span>
      <div class="mag-choice daynight" id="dayNight"><button type="button" data-dark="0"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Day</button><button type="button" data-dark="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>Night</button></div></div>
@@ -5974,6 +6006,326 @@ function create(style,canvas,opts={}){
 return{create,styles:Object.keys(MAKE)}})();
 </script>
 <script>
+/* toys.js */
+/* toys.js: what is really inside the instrument. When the save page is open and the instrument has slid away, its
+   compartment shows what does the sums: a 9-volt battery driving a little gearbox, and either a painted wooden perch
+   spinning on a stick ("the reckoning fish") or a pink wooden sea star riding a rocking seahorse ("the thinking star").
+   It all lies on the book, inside the instrument's brass-rimmed back, seen almost from straight above.
+   Low-poly, flat-shaded, made in code (no model files): every piece is built here from boxes, cylinders, gears, tubes and
+   lofts, painted wood with a grain in the shader. One WebGL canvas; drawn only while it is on screen.
+   Toys.start(canvas, 'perch'|'seahorse'), Toys.stop(). */
+const Toys=(()=>{
+  /* ---- a little matrix arithmetic (column-major, as WebGL wants) ---- */
+  const I4=()=>[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1];
+  const mul=(a,b)=>{const o=new Array(16);for(let i=0;i<4;i++)for(let j=0;j<4;j++){let s=0;for(let k=0;k<4;k++)s+=a[k*4+j]*b[i*4+k];o[i*4+j]=s}return o};
+  const T=(x,y,z)=>[1,0,0,0,0,1,0,0,0,0,1,0,x,y,z,1];
+  const RY=t=>{const c=Math.cos(t),s=Math.sin(t);return[c,0,-s,0,0,1,0,0,s,0,c,0,0,0,0,1]};
+  const RX=t=>{const c=Math.cos(t),s=Math.sin(t);return[1,0,0,0,0,c,s,0,0,-s,c,0,0,0,0,1]};
+  const RZ=t=>{const c=Math.cos(t),s=Math.sin(t);return[c,s,0,0,-s,c,0,0,0,0,1,0,0,0,0,1]};
+  const S3=(x,y,z)=>[x,0,0,0,0,y,0,0,0,0,z,0,0,0,0,1];
+  const chain=(...m)=>m.reduce((a,b)=>mul(a,b));
+  const ap=(m,p)=>[m[0]*p[0]+m[4]*p[1]+m[8]*p[2]+m[12],m[1]*p[0]+m[5]*p[1]+m[9]*p[2]+m[13],m[2]*p[0]+m[6]*p[1]+m[10]*p[2]+m[14]];
+  const persp=(fy,as,n,f)=>{const q=1/Math.tan(fy/2);return[q/as,0,0,0,0,q,0,0,0,0,(f+n)/(n-f),-1,0,0,2*f*n/(n-f),0]};
+  const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]],sc=(a,s)=>[a[0]*s,a[1]*s,a[2]*s];
+  const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],nrm=a=>{const l=Math.hypot(...a)||1;return sc(a,1/l)};
+  const look=(e,c,u)=>{const z=nrm(sub(e,c)),x=nrm(cross(u,z)),y=cross(z,x);return[x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]),-(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]),-(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]),1]};
+  /* ---- colours: hex, with a little unevenness, as brushed paint ---- */
+  let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+  const hex=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255);
+  const paint=(c,j=.05)=>{const k=1+(rnd()-.5)*j*2;return c.map(v=>Math.min(1,v*k))};
+  /* ---- a mesh is a list of triangles: [a,b,c,colour] ---- */
+  const tri=(L,a,b,c,col,j)=>L.push([a,b,c,paint(typeof col==='string'?hex(col):col,j)]);
+  const quad=(L,a,b,c,d,col,j)=>{const k=paint(typeof col==='string'?hex(col):col,j);L.push([a,b,c,k],[a,c,d,k])};
+  const xf=(L,m)=>L.map(([a,b,c,k])=>[ap(m,a),ap(m,b),ap(m,c),k]);
+  /* a box from (0,0,0) to (w,h,d), centred in x and z; side colour may be a function of height */
+  function box(w,h,d,col,top=col,bot=col){const L=[],x0=-w/2,x1=w/2,z0=-d/2,z1=d/2;
+    quad(L,[x0,h,z0],[x0,h,z1],[x1,h,z1],[x1,h,z0],top);quad(L,[x0,0,z0],[x1,0,z0],[x1,0,z1],[x0,0,z1],bot);
+    const side=(p,q)=>{const bands=typeof col==='function'?col():[[0,h,col]];for(const [y0,y1,c] of bands)quad(L,[p[0],y0,p[1]],[q[0],y0,q[1]],[q[0],y1,q[1]],[p[0],y1,p[1]],c)};
+    side([x0,z1],[x1,z1]);side([x1,z1],[x1,z0]);side([x1,z0],[x0,z0]);side([x0,z0],[x0,z1]);return L}
+  /* a prism: a polygon (xz, star-shaped about its first point or the origin) raised from y=0 to y=h */
+  function prism(P,h,col,top=col){const L=[],n=P.length;
+    for(let i=0;i<n;i++){const a=P[i],b=P[(i+1)%n];quad(L,[a[0],0,a[1]],[b[0],0,b[1]],[b[0],h,b[1]],[a[0],h,a[1]],col);
+      tri(L,[0,h,0],[a[0],h,a[1]],[b[0],h,b[1]],top,.02);tri(L,[0,0,0],[b[0],0,b[1]],[a[0],0,a[1]],col,.02)}return L}
+  const ngon=(r,n,o=0)=>Array.from({length:n},(_,i)=>[r*Math.cos(o+i/n*Math.PI*2),r*Math.sin(o+i/n*Math.PI*2)]);
+  const cyl=(r,h,n,col,top=col)=>prism(ngon(r,n),h,col,top);
+  function gear(R,teeth,h,col,top=col){const P=[],r=R*.8;for(let i=0;i<teeth;i++){const a=i/teeth*Math.PI*2,s=Math.PI/teeth;
+      P.push([r*Math.cos(a-s*.55),r*Math.sin(a-s*.55)],[R*Math.cos(a-s*.3),R*Math.sin(a-s*.3)],[R*Math.cos(a+s*.3),R*Math.sin(a+s*.3)],[r*Math.cos(a+s*.55),r*Math.sin(a+s*.55)])}
+    const L=prism(P,h,col,top);return L.concat(xf(cyl(R*.2,h*1.6,6,'#5a3a1e'),T(0,-h*.3,0)))}
+  /* a tube along a path of points */
+  function tube(path,r,n,col,j=.03){const L=[];let prev=null;
+    for(let i=0;i<path.length;i++){const p=path[i],t=nrm(sub(path[Math.min(i+1,path.length-1)],path[Math.max(i-1,0)]));let u=Math.abs(t[1])<.9?[0,1,0]:[1,0,0];
+      const a=nrm(cross(t,u)),b=cross(t,a),ring=Array.from({length:n},(_,k)=>{const q=k/n*Math.PI*2;return add(p,add(sc(a,r*Math.cos(q)),sc(b,r*Math.sin(q))))});
+      if(prev)for(let k=0;k<n;k++)quad(L,prev[k],prev[(k+1)%n],ring[(k+1)%n],ring[k],typeof col==='function'?col(i,k):col,j);prev=ring}return L}
+  const bez=(a,b,c,d,n=14)=>Array.from({length:n+1},(_,i)=>{const t=i/n,u=1-t;return[0,1,2].map(k=>u*u*u*a[k]+3*u*u*t*b[k]+3*u*t*t*c[k]+t*t*t*d[k])});
+  /* a loft: rings along a spine; ring(i) gives the ring's points, colour(i,k) the paint of the band from ring i to i+1 */
+  function loft(rings,colour,capA=true,capB=true){const L=[];
+    for(let i=0;i+1<rings.length;i++){const A=rings[i],B=rings[i+1],n=A.length;for(let k=0;k<n;k++)quad(L,A[k],A[(k+1)%n],B[(k+1)%n],B[k],colour(i,k),.04)}
+    const cap=(R,rev,c)=>{const m=sc(R.reduce((s,p)=>add(s,p),[0,0,0]),1/R.length);for(let k=0;k<R.length;k++){const a=R[k],b=R[(k+1)%R.length];rev?tri(L,m,b,a,c):tri(L,m,a,b,c)}};
+    if(capA)cap(rings[0],true,colour(0,0));if(capB)cap(rings[rings.length-1],false,colour(rings.length-2,0));return L}
+  /* a flat fin (double-sided): a fan from a base point */
+  const fan=(L,o,pts,col)=>{for(let i=0;i+1<pts.length;i++)tri(L,o,pts[i],pts[i+1],col,.04)};
+  /* a little shiny bead (an octahedron): eyes, bolts, speckles */
+  function bead(c,r,col){const L=[],P=[[r,0,0],[-r,0,0],[0,r,0],[0,-r,0],[0,0,r],[0,0,-r]].map(p=>add(c,p));
+    for(const [a,b,d] of [[0,2,4],[2,1,4],[1,3,4],[3,0,4],[2,0,5],[1,2,5],[3,1,5],[0,3,5]])tri(L,P[a],P[b],P[d],col,.02);return L}
+  const catmull=(P,steps)=>{const out=[];for(let i=0;i<P.length-1;i++){const p0=P[Math.max(i-1,0)],p1=P[i],p2=P[i+1],p3=P[Math.min(i+2,P.length-1)];
+      for(let s=0;s<steps;s++){const t=s/steps,t2=t*t,t3=t2*t;out.push([0,1,2].map(k=>.5*(2*p1[k]+(-p0[k]+p2[k])*t+(2*p0[k]-5*p1[k]+4*p2[k]-p3[k])*t2+(-p0[k]+3*p1[k]-3*p2[k]+p3[k])*t3)))}}
+    out.push(P[P.length-1]);return out};
+
+  /* ================= the pieces ================= */
+  /* a real 9-volt: a black block with its label, two snap terminals on top (round +, hexagonal −), a clip on each */
+  function battery(){const W=.62,H=1.08,D=.42;let L=box(W,H,D,()=>[[0,.18,'#1d1d1f'],[.18,.62,'#c0392b'],[.62,.7,'#e9c46a'],[.7,H,'#1d1d1f']],'#3a3a3c','#151515');
+    L=L.concat(xf(box(W*.92,.03,D*.9,'#8d8d90','#a9a9ad'),T(0,H,0)));
+    L=L.concat(xf(cyl(.075,.09,10,'#cfd2d6','#e8eaee'),T(-.14,H+.03,0)));                       /* + round */
+    L=L.concat(xf(prism(ngon(.085,6,Math.PI/6),.09,'#cfd2d6','#e8eaee'),T(.14,H+.03,0)));      /* − hexagonal */
+    L=L.concat(xf(box(.5,.07,.2,'#111','#1b1b1b'),T(0,H+.12,0)));                             /* the snap clip */
+    return L}
+
+  /* ---- the perch: a loft along x, olive back, golden sides, cream belly, dark bars, orange fins ---- */
+  function perch(){const L=[],prof=[[-1,.06,.035],[-.86,.13,.055],[-.62,.27,.1],[-.32,.4,.14],[-.02,.45,.16],[.28,.42,.15],[.52,.32,.13],[.72,.22,.1],[.88,.12,.07],[1,.04,.03]];
+    const P=catmull(prof.map(([x,h,w])=>[x,h,w]),2),N=8,rings=P.map(([x,h,w])=>Array.from({length:N},(_,k)=>{const a=k/N*Math.PI*2;return[x,h*Math.cos(a)*(Math.cos(a)>0?1.06:.86),w*Math.sin(a)]}));
+    const bars=[-.55,-.26,.04,.3];
+    const body=loft(rings,(i,k)=>{const x=(P[i][0]+P[i+1][0])/2,c=Math.cos((k+.5)/N*Math.PI*2);
+      if(c<-.55)return'#efe2b4';if(c>.7)return'#5f6e2a';if(bars.some(b=>Math.abs(x-b)<.07)&&c>-.35)return'#3a4418';return c>.1?'#8f9a3e':'#d8c46a'});
+    L.push(...body);
+    const top=x=>{let v=0;for(let i=0;i<P.length-1;i++)if(x>=P[i][0]&&x<=P[i+1][0]){const t=(x-P[i][0])/(P[i+1][0]-P[i][0]);v=P[i][1]+(P[i+1][1]-P[i][1])*t}return v};
+    /* spiny first dorsal, with its dark spot, and the soft second */
+    const sp=[];for(let x=-.08;x<=.42;x+=.06)sp.push([x,top(x)+(Math.round((x+.08)/.06)%2?.16:.26),0]);
+    fan(L,[.16,top(.16)-.02,0],[[-.1,top(-.1)-.01,0],...sp,[.44,top(.44)-.01,0]],'#4c5a20');
+    fan(L,[-.36,top(-.36)-.02,0],[[-.56,top(-.56)-.01,0],[-.52,top(-.52)+.16,0],[-.36,top(-.36)+.2,0],[-.2,top(-.2)+.14,0],[-.12,top(-.12)-.01,0]],'#6b7a2c');
+    /* tail: two lobes, orange */
+    fan(L,[-.94,0,0],[[-1.28,.3,0],[-1.18,.1,0],[-1.12,0,0],[-1.18,-.1,0],[-1.28,-.3,0]],'#d9692e');
+    /* belly fins: pelvic and anal, orange-red; pectorals on the sides */
+    for(const z of [-1,1]){fan(L,[.38,-.18,z*.09],[[.36,-.2,z*.1],[.22,-.42,z*.16],[.14,-.32,z*.13]],'#e2632c');
+      fan(L,[.5,-.02,z*.135],[[.5,.02,z*.14],[.24,-.06,z*.24],[.28,-.14,z*.2]],'#e0884a')}
+    fan(L,[-.45,-.26,0],[[-.36,-.3,0],[-.52,-.48,0],[-.66,-.42,0],[-.68,-.22,0]],'#e2632c');
+    /* eyes and mouth */
+    for(const z of [-1,1]){L.push(...bead([.72,.05,z*.085],.05,'#e9c46a'),...bead([.735,.05,z*.11],.026,'#151010'))}
+    L.push(...bead([.97,-.01,0],.03,'#3d2a1a'));
+    return xf(L,S3(.82,.82,.82))}
+
+  /* ---- the seahorse: a loft along its curved spine, in profile (x forward, y up), ringed, knobbly, speckled ---- */
+  function seahorse(){const L=[];
+    /* the spine from the snout's tip to the tail's tip (sketch coordinates, y down), and the body's radius along it */
+    const C=[[100,-56,.07],[82,-66,.075],[64,-76,.1],[50,-94,.26],[30,-110,.3],[10,-100,.27],[2,-80,.24],[12,-54,.34],[22,-26,.4],[20,0,.38],[8,24,.3],[-6,42,.22],[-14,66,.17],[-30,82,.14],[-50,82,.12],[-62,68,.1],[-62,52,.085],[-52,44,.07],[-42,50,.06],[-44,60,.05],[-52,60,.04]];
+    const P=catmull(C.map(([x,y,r])=>[x/60,-y/60,r]),3),N=7,rings=[];const pts=[],fr=[];
+    for(let i=0;i<P.length;i++){const p=[P[i][0],P[i][1],0],q=P[Math.min(i+1,P.length-1)],o=P[Math.max(i-1,0)],t=nrm([q[0]-o[0],q[1]-o[1],0]),n=[t[1],-t[0],0];
+      const r=P[i][2]*.86*(1+(i%3===0?.08:0)),rz=r*.64;pts.push(p);fr.push(n);
+      rings.push(Array.from({length:N},(_,k)=>{const a=k/N*Math.PI*2;return add(p,add(sc(n,r*Math.cos(a)),[0,0,rz*Math.sin(a)]))}))}
+    /* which side is the chest: the normal pointing forward (+x) through the body */
+    const body=loft(rings,(i,k)=>{const c=Math.cos((k+.5)/N*Math.PI*2),ring=i%3===0;return c>.55?(ring?'#b88a90':'#c69aa0'):c<-.55?(ring?'#6e4550':'#7a4f5a'):(ring?'#8b5c66':'#9b6a73')});
+    L.push(...body);
+    /* knobs down the back, every few rings, and a crown of them on the head */
+    for(let i=8;i<P.length-8;i+=3){const p=pts[i],n=fr[i],r=P[i][2];const b=add(p,sc(n,-r*1.02)),tip=add(p,sc(n,-r*1.28));
+      tri(L,add(b,[0,.025,.03]),add(b,[0,-.025,.03]),tip,'#6e4550');tri(L,add(b,[0,-.025,-.03]),add(b,[0,.025,-.03]),tip,'#6e4550');tri(L,add(b,[0,.025,.03]),tip,add(b,[0,.025,-.03]),'#5e3a44');tri(L,add(b,[0,-.025,-.03]),tip,add(b,[0,-.025,.03]),'#5e3a44')}
+    const crown=pts[Math.round(P.length*.2)];for(const [dx,dy,h] of [[-.08,.02,.16],[.02,.06,.2],[.1,.03,.13]]){const b=add(crown,[dx,dy+.22,0]);L.push(...xf(prism(ngon(.035,5),h,'#6e4550','#5e3a44'),T(b[0],b[1],b[2])))}
+    /* the small, see-through fin on the back */
+    {const i=Math.round(P.length*.42),p=pts[i],n=fr[i],r=P[i][2],base=add(p,sc(n,-r*.9));fan(L,base,[add(base,[0,.2,0]),add(base,sc(n,-.24)),add(base,add(sc(n,-.2),[0,-.18,0])),add(base,[0,-.26,0])],'#e3c0c4')}
+    /* eyes: a golden ring and a dark pupil, both sides */
+    {const e=add(pts[Math.round(P.length*.13)],[.04,.05,0]);for(const z of [-1,1]){L.push(...bead(add(e,[0,0,z*.15]),.07,'#e9c46a'),...bead(add(e,[.01,0,z*.2]),.035,'#1a0e10'))}}
+    /* white speckles */
+    seed=31;for(let s=0;s<60;s++){const i=8+Math.floor(rnd()*(P.length-14)),k=rnd()*Math.PI*2,p=pts[i],n=fr[i],r=P[i][2]*1.02;
+      const c=add(p,add(sc(n,r*.86*Math.cos(k)),[0,0,r*.55*Math.sin(k)]));L.push(...bead(c,.018,'#f4e8e0'))}
+    return L}
+
+
+  /* ---- the sea star as a rider: a plump, stylised five-pointed star, flat on its back and front, puffed in the middle.
+     In its own space it stands in the xy plane, one point up, two down (its legs), two out (its arms); z is its thickness. ---- */
+  function rider(bend=.75){const L=[],R=.19,r=.09,H=.04,P=[];
+    for(let i=0;i<10;i++){const a=Math.PI/2+i/10*Math.PI*2,q=i%2?r:R;P.push([q*Math.cos(a),q*Math.sin(a)])}
+    const F=[0,0,H*1.5],B=[0,0,-H*1.5];
+    for(let i=0;i<10;i++){const a=P[i],b=P[(i+1)%10],a0=[a[0],a[1],H*.35],b0=[b[0],b[1],H*.35],a1=[a[0],a[1],-H*.35],b1=[b[0],b[1],-H*.35];
+      const lit=i%2?'#f2a0b8':'#ea8aa6';tri(L,F,a0,b0,lit,.03);tri(L,B,b1,a1,'#d9708f',.03);quad(L,a0,a1,b1,b0,'#c95f80',.03)}
+    /* astride: below its middle, the right-hand leg folds towards the reader and the left one away, both down */
+    for(const t of L)for(let j=0;j<3;j++){const v=t[j];if(v.__b)continue;const d=Math.max(0,-v[1]-.01);
+      const w=[v[0]*(1-d*.6),v[1]-d*.15,v[2]+Math.sign(v[0]||1)*d*bend];w.__b=1;t[j]=w}
+    seed=5;for(let i=0;i<12;i++){const k=Math.floor(rnd()*5),a=Math.PI/2+k/5*Math.PI*2,d=.025+rnd()*.07,w=(rnd()-.5)*.025;
+      L.push(...bead([d*Math.cos(a)-w*Math.sin(a),d*Math.sin(a)+w*Math.cos(a),H*1.5*(1-d/R)+.004],.007,'#fbd2df'))}
+    return L}
+  /* ---- the coin box on its post: a round foot, a brass post, the head with its red window, the slot and "25¢" in paint ---- */
+  function coinPost(){let L=xf(cyl(.1,.03,14,'#7a5228','#9a6a36'),T(0,0,0));
+    L=L.concat(xf(cyl(.025,.46,8,'#c9973f','#e3bd5e'),T(0,.03,0)));
+    for(const y of [.16,.31])L=L.concat(xf(cyl(.032,.02,8,'#8e6420','#b8862f'),T(0,y,0)));                      /* the bands on the post */
+    L=L.concat(xf(box(.15,.19,.1,'#9a9ca6','#b9bbc4','#7d7f88'),T(0,.48,0)));                                  /* the head */
+    L=L.concat(xf(box(.07,.03,.06,'#8a8c95','#a7a9b2'),T(0,.67,0)));                                          /* its cap */
+    const z=.051,bar=(x0,y0,x1,y1,w,c='#2b2b30')=>{const d=nrm([-(y1-y0),x1-x0,0]).map(v=>v*w/2);quad(L,[x0+d[0],y0+d[1],z],[x0-d[0],y0-d[1],z],[x1-d[0],y1-d[1],z],[x1+d[0],y1+d[1],z],c,0)};
+    quad(L,[-.05,.6,z],[-.05,.645,z],[.05,.645,z],[.05,.6,z],'#b8302a',0);                                     /* the red window */
+    bar(-.03,.66,.03,.66,.008,'#1a1a1a');                                                                       /* the coin slot */
+    const y0=.51,h=.028,w=.008;                                                                                 /* 2 5 ¢ */
+    bar(-.055,y0+h*2,-.03,y0+h*2,w);bar(-.03,y0+h*2,-.03,y0+h,w);bar(-.03,y0+h,-.055,y0+h,w);bar(-.055,y0+h,-.055,y0,w);bar(-.055,y0,-.03,y0,w);
+    bar(-.012,y0+h*2,.013,y0+h*2,w);bar(-.012,y0+h*2,-.012,y0+h,w);bar(-.012,y0+h,.013,y0+h,w);bar(.013,y0+h,.013,y0,w);bar(.013,y0,-.012,y0,w);
+    bar(.032,y0+h*1.4,.05,y0+h*1.4,w);bar(.032,y0+h*1.4,.032,y0+h*.4,w);bar(.032,y0+h*.4,.05,y0+h*.4,w);bar(.041,y0+h*1.8,.041,y0,w*.7);
+    return L}
+  /* ---- the ride's platform: a low housing with sloped sides on a wider plate, bolted down, rivets, a hole for the pole ---- */
+  function platform(){const L=[],c='#c3c0d0',top='#d6d3e2',dark='#9e9bb0';
+    const plate=(w,d,h,y)=>xf(box(w,h,d,dark,c),T(0,y,0));L.push(...plate(.84,.68,.03,0));
+    const bw=.62,bd=.48,tw=.44,td=.3,y0=.03,y1=.17,B=[[-bw/2,-bd/2],[bw/2,-bd/2],[bw/2,bd/2],[-bw/2,bd/2]],Tt=[[-tw/2,-td/2],[tw/2,-td/2],[tw/2,td/2],[-tw/2,td/2]];
+    for(let i=0;i<4;i++){const a=B[i],b=B[(i+1)%4],ta=Tt[i],tb=Tt[(i+1)%4];quad(L,[a[0],y0,a[1]],[b[0],y0,b[1]],[tb[0],y1,tb[1]],[ta[0],y1,ta[1]],i%2?c:'#b4b1c4',.02)}
+    quad(L,[-tw/2,y1,-td/2],[-tw/2,y1,td/2],[tw/2,y1,td/2],[tw/2,y1,-td/2],top,.02);
+    for(const [x,z] of [[-.37,-.29],[0,-.29],[.37,-.29],[-.37,.29],[0,.29],[.37,.29],[-.37,0],[.37,0]])L.push(...xf(cyl(.018,.006,8,'#6f6c80','#7e7b90'),T(x,.03,z)));   /* bolt holes */
+    for(let k=0;k<4;k++)L.push(...bead([-.27+k*.025*0,.07+k*.03,.235-k*.02],.01,'#8d8aa0'),...bead([.27,.07+k*.03,.235-k*.02],.01,'#8d8aa0'));                   /* rivets */
+    L.push(...xf(cyl(.07,.004,14,'#3a3848','#2a2836'),T(0,y1,0)));                                             /* the hole for the pole */
+    return L}
+
+  /* ================= the panel: everything lies on the book, inside the instrument's back ================= */
+  /* x across the panel, z towards the reader, y up off the book. 1 unit ≈ 45 mm, so the 9V is its real size beside a
+     ~140 mm instrument. The machine makes sense: battery → snap clip → a little DC motor on its side → a worm screw on its
+     shaft → the worm wheel → a smaller spur gear → (fish) a shaft and bevel through a hinge into the stick, (seahorse) a
+     crank pin and a connecting rod that rocks the ride. When the save page opens, only the fish and the ride rise from
+     lying flat to half upright, on their hinges; then they move. */
+  const seg=(a,b)=>{const d=sub(b,a),l=Math.hypot(...d)||1e-6,y=sc(d,1/l),x=nrm(cross(y,Math.abs(y[0])<.9?[1,0,0]:[0,0,1])),z=cross(x,y);
+    return[x[0],x[1],x[2],0,y[0]*l,y[1]*l,y[2]*l,0,z[0],z[1],z[2],0,a[0],a[1],a[2],1]};             /* a unit rod along y, from a to b */
+  const ease=v=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v)};
+  const rise=t=>ease((t-1.05)/1.1);                                            /* on opening: up from flat in a little over a second */
+  const lift=t=>Math.PI/2-rise(t)*Math.PI*145/180;                            /* the hinge: lying towards the reader (90°) → up, past upright, to rest leaning back, 35° off the book */
+  const UP=2.25;                                                                 /* from when the toys move */
+  /* the drive's speeds: the worm fast, the wheel slow, the small gear by its teeth */
+  const R1=.32,R2=.18,G1=[.12,.1,-.06],G2=[.12+.45,.1,-.06];
+  const aW=t=>t*20,a1=t=>t*2*Math.PI*119/120*R2/R1,a2=t=>-a1(t)*R1/R2+.17;   /* the small gear: a turn every two beats of Fly Me to the Moon (119 BPM): one stride, two bounces */
+  function shadowDisc(cx,cz,rx,rz,n=18){const L=[],S=ngon(1,n);for(let i=0;i<n;i++){const a=S[i],b=S[(i+1)%n];tri(L,[cx,.003,cz],[cx+b[0]*rx,.003,cz+b[1]*rz],[cx+a[0]*rx,.003,cz+a[1]*rz],'#000000',0)}return L}
+  function shadowRect(x0,z0,x1,z1,r=.04){const L=[];quad(L,[x0,.003,z0],[x0,.003,z1],[x1,.003,z1],[x1,.003,z0],'#000000',0);
+    quad(L,[x0-r,.002,z0-r],[x0-r,.002,z1+r],[x1+r,.002,z1+r],[x1+r,.002,z0-r],'#000000',0);return L}
+  /* the 9V on its back: the label up, the snaps to the far side; "9V" in paint on the label */
+  function batteryFlat(){const D=.42;let L=xf(battery(),chain(T(0,D/2,0),RX(-Math.PI/2)));
+    const y=D+.003,bar=(x0,z0,x1,z1,w)=>{const d=nrm([z1-z0,0,-(x1-x0)]).map(v=>v*w/2);quad(L,[x0+d[0],y,z0+d[2]],[x1+d[0],y,z1+d[2]],[x1-d[0],y,z1-d[2]],[x0-d[0],y,z0-d[2]],'#f6e3c0',0)};
+    const zc=-.4,h=.1,w=.032;                                                    /* the letters stand towards the far side */
+    bar(-.17,zc-h,-.03,zc-h,w);bar(-.17,zc-h,-.17,zc,w);bar(-.03,zc-h,-.03,zc+h,w);bar(-.17,zc,-.03,zc,w);bar(-.17,zc+h,-.03,zc+h,w);   /* 9 */
+    bar(.02,zc-h,.09,zc+h,w*1.1);bar(.16,zc-h,.09,zc+h,w*1.1);                                                                        /* V */
+    return L}
+  /* a little DC motor on its side, along +x: black end cap with two solder tabs, brass can, the bearing boss, the shaft */
+  function motorDC(){const lay=RZ(-Math.PI/2);let L=xf(cyl(.142,.12,12,'#26262a','#3a3a3e'),lay);
+    L=L.concat(xf(cyl(.14,.38,12,'#c9973f','#e3bd5e'),chain(T(.12,0,0),lay)),xf(cyl(.05,.05,8,'#a9abb0','#cfd2d6'),chain(T(.5,0,0),lay)),
+      xf(cyl(.018,.46,6,'#c8ccd1','#e8eaee'),chain(T(.55,0,0),lay)));
+    for(const z of [-.06,.06])L=L.concat(xf(box(.07,.012,.035,'#d5d8dc','#e8eaee'),T(-.03,.07,z)));
+    return L}
+  /* the worm screw: a brass core with a thread wound round it, along x, centred */
+  function worm(){let L=xf(cyl(.045,.3,8,'#b8862f','#d6a84a'),chain(T(-.15,0,0),RZ(-Math.PI/2)));const hel=[];
+    for(let i=0;i<=90;i++){const a=i/90*Math.PI*2*6;hel.push([-.14+i/90*.28,.058*Math.cos(a),.058*Math.sin(a)])}
+    return L.concat(tube(hel,.016,5,'#e3bd5e'))}
+  function drive(P,t0){
+    P([...shadowRect(-1.36,-.62,-.74,.66),...shadowDisc(-.34,-.38,.36,.18),...shadowDisc(G1[0]+.03,G1[2]+.05,R1+.03,R1+.03),...shadowDisc(G2[0]+.03,G2[2]+.05,R2+.03,R2+.03)],undefined,{alpha:.3});
+    P(xf(batteryFlat(),T(-1.08,0,.6)),undefined,{spec:.6});
+    P(xf(motorDC(),T(-.62,.14,-.45)),undefined,{spec:.7});
+    P(worm(),t=>chain(T(G1[0],.14,-.45),RX(aW(t))),{spec:.8});
+    P(xf(box(.05,.14,.05,'#8e6420','#c9973f'),T(.31,0,-.45)),undefined,{spec:.5});                     /* the shaft's end bearing */
+    P(xf(cyl(.05,.1,8,'#8e6420','#c9973f'),T(G1[0],0,G1[2])),undefined,{spec:.5});P(xf(cyl(.04,.1,8,'#8e6420','#c9973f'),T(G2[0],0,G2[2])),undefined,{spec:.5});
+    P(gear(R1,24,.08,'#d9b06a','#e8c98a'),t=>chain(T(...G1),RY(a1(t))),{grain:1,spec:.4});
+    P(gear(R2,14,.08,'#e0c48e','#f0d9a8'),t=>chain(T(...G2),RY(a2(t))),{grain:1,spec:.4});
+    /* the snap clip's leads to the motor's tabs */
+    P(tube(bez([-1.2,.3,-.67],[-1.25,.55,-.95],[-.75,.5,-.8],[-.66,.21,-.51]),.022,6,'#c0392b'),undefined,{spec:.3});
+    P(tube(bez([-.96,.3,-.67],[-.92,.48,-.86],[-.72,.42,-.5],[-.66,.21,-.39]),.022,6,'#1a1a1a'),undefined,{spec:.3});
+  }
+  function scenePerch(){const parts=[];const P=(tris,m=()=>I4(),o={})=>parts.push({tris,m,...o});
+    drive(P);
+    /* the small gear's shaft, a bevel pair at the hinge; the hinge block on the book */
+    const HX=1.12,HZ=G2[2];
+    P(tube([[G2[0],.14,HZ],[HX-.12,.14,HZ]],.02,6,'#c8ccd1'),undefined,{spec:.8});
+    P(xf(gear(.06,8,.04,'#c99a5a','#ddb47a'),RZ(-Math.PI/2)),t=>chain(T(HX-.14,.14,HZ),RX(a2(t))),{grain:1});
+    P([...shadowRect(HX-.2,HZ-.14,HX+.2,HZ+.16)],undefined,{alpha:.3});
+    P(xf(box(.34,.05,.26,'#8e6420','#c9973f'),T(HX,0,HZ)),undefined,{spec:.6});
+    for(const x of [-.12,.05])P(xf(cyl(.055,.1,10,'#b8862f','#e3bd5e'),chain(T(HX+x,.1,HZ),RZ(-Math.PI/2))),undefined,{spec:.7});
+    const stick=t=>chain(T(HX,.1,HZ),RX(lift(t)));
+    P(tube([[0,0,0],[0,.6,0]],.026,6,'#c8ccd1'),stick,{spec:.9});
+    /* the brass strut that props it: from the plate's front to the stick */
+    const A=[HX+.1,.05,HZ-.15];P(tube([[0,0,0],[0,1,0]],.02,6,'#c9973f'),t=>seg(A,ap(stick(t),[0,.26,0])),{spec:.8});
+    P(bead([0,0,0],.035,'#7a5418'),()=>T(...A));
+    /* the perch: lying on its side till it rises, then turning on its stick, driven through the bevel */
+    const spin=t=>{const u=Math.max(0,t-UP);return-(u<.6?u*u/1.2:u-.3)*2*Math.PI*80/60};   /* runs up, then 80 turns a minute, clockwise seen from the stick's top */
+    const fishM=t=>chain(stick(t),T(0,.76,0),RY(spin(t)));
+    P(xf(perch(),S3(.5,.5,.5)),fishM,{grain:1});
+    /* its shadow on the book, under where it is */
+    P(shadowDisc(0,0,1,1),t=>{const c=ap(fishM(t),[0,0,0]);return chain(T(c[0]+.16*c[1],0,c[2]+.2*c[1]),RY(spin(t)),S3(.36,1,.1+.05*rise(t)))},{alpha:.26});
+    return{parts,target:[.08,0,-.14],halfW:1.72,halfH:.98}}
+  function sceneSeahorse(){const parts=[];const P=(tris,m=()=>I4(),o={})=>parts.push({tris,m,...o});
+    drive(P);
+    /* a crank disc on the small gear, its pin */
+    P(xf(cyl(.1,.03,12,'#c99a5a','#ddb47a'),T(0,.18,0)),t=>chain(T(G2[0],0,G2[2]),RY(a2(t))),{grain:1});
+    const pin=t=>{const a=a2(t);return[G2[0]+.07*Math.cos(a),.24,G2[2]-.07*Math.sin(a)]};
+    P(bead([0,0,0],.03,'#f0cf70'),t=>T(...pin(t)),{spec:.8});
+    /* the ride's platform, flat on the book; the hinge on its top, at the pole's hole */
+    const BC=[1.2,0,.02];
+    P(shadowRect(BC[0]-.4,BC[2]-.31,BC[0]+.46,BC[2]+.36),undefined,{alpha:.3});
+    P(xf(platform(),T(...BC)),undefined,{spec:.35});
+    /* the coin box beside it: lying flat, it gets up just after the seahorse */
+    const CP=[.76,.03,-.42],lift2=t=>Math.PI/2-ease((t-1.55)/.95)*Math.PI*145/180;
+    P(shadowDisc(CP[0]+.03,CP[2]+.02,.12,.12),undefined,{alpha:.3});
+    P(xf(cyl(.035,.06,8,'#8e6420','#c9973f'),chain(T(CP[0]-.03,CP[1]+.01,CP[2]),RZ(-Math.PI/2))),undefined,{spec:.6});
+    P(coinPost(),t=>chain(T(...CP),RX(lift2(t))),{spec:.4});
+    /* the ride's gallop, all from the small gear: the crank rocks it forward and back once a turn, the two-lobed cam
+       bumps the spring up twice a turn, so it goes up-and-down and to-and-fro like a horse */
+    /* as the real ride does: one loop per beat, the crank carrying the seat round a little circle (over the top, forward, down,
+       back, up again) and tipping it forward as it comes forward; the rider a beat's fraction behind, bobbing more */
+    const go=t=>ease((t-UP+.4)/.8),th=t=>-a2(t);
+    const loopX=t=>Math.sin(th(t))*.045*go(t),loopY=t=>(Math.cos(th(t))-1)*.045*go(t);
+    const pitch=t=>-Math.sin(th(t))*.09*go(t),bounce=t=>loopY(t)+.045*go(t),surge=loopX;
+    const hinge=t=>chain(T(BC[0],.17,BC[2]),RX(lift(t)));
+    const ride=t=>chain(hinge(t),T(surge(t),loopY(t),0),RZ(pitch(t)));
+    P(xf(cyl(.05,.08,10,'#b8862f','#e3bd5e'),chain(T(-.06,0,0),RZ(-Math.PI/2))),hinge,{spec:.7});   /* the knuckle */
+    /* the crank rod to the lever at the ride's foot */
+    P(tube([[0,0,0],[0,1,0]],.018,6,'#bfc3c8'),t=>seg(pin(t),[BC[0]-.29+surge(t)*.8,.1,BC[2]-.06]),{spec:.8});          /* into the housing's side, to the rocker */
+    /* the two-lobed cam on the crank disc, and the follower that lifts the spring */
+    P(xf(prism(ngon(1,14).map(([x,z])=>[x*.11,z*.065]),.035,'#a87d38','#d6a84a'),T(0,.215,0)),t=>chain(T(G2[0],0,G2[2]),RY(a2(t))),{spec:.6});
+    P(tube([[0,0,0],[0,1,0]],.014,6,'#c9973f'),t=>{const a=a2(t)+.6,e=.08+.03*Math.abs(Math.cos(a));return seg([G2[0]+e,.23,G2[2]],[BC[0]-.29,.09+bounce(t)*.6,BC[2]+.07])},{spec:.8});   /* to the lifter */
+    /* the spring and the pole up into the seahorse's belly */
+    const PL=.42,hel=[];for(let i=0;i<=60;i++){const a=i/60*Math.PI*2*5;hel.push([.065*Math.cos(a),.02+i/60*.2,.065*Math.sin(a)])}
+    P(tube(hel,.014,5,'#a8acb2'),t=>chain(hinge(t),T(surge(t)*.5,0,0),RZ(pitch(t)*.5),S3(1,1+bounce(t)/.22,1)),{spec:.9});
+    P(tube([[0,.2,0],[0,PL+.03,0]],.024,6,'#e3bd5e'),ride,{spec:.9});
+    /* the seahorse: facing right, head bowed, the pole in its belly, the tail curled free */
+    const s=.29,LEAN=-.56,place=chain(T(0,PL,0),RZ(LEAN),T(-.35*s,.45*s,0),S3(s,s,s));   /* leaning forward, diagonal, as in the photo */
+    const body=xf(seahorse(),place);P(body,ride,{grain:1});
+    /* the sea star, riding loose: the seahorse's back between its two legs, its arms to the neck; it lags and lifts in the saddle */
+    /* where a child would set the star down: the top of the back, just behind the neck (the highest point of the body there) */
+    const bx=ap(place,[-.2,.82,0])[0];let top=-9;for(const t of body)for(let j=0;j<3;j++){const v=t[j];if(Math.abs(v[0]-bx)<.05&&Math.abs(v[2])<.04&&v[1]>top)top=v[1]}
+    const back=[bx,top];
+    /* the star just sits there: upright whatever the seahorse does, its legs flopped down either side; each loop it lifts a hair,
+       wobbles and settles a moment after the seat */
+    const loose=t=>{const a=th(t),b=a-.7,g=go(t),hop=Math.max(0,Math.sin(b))*.022*g;
+      return chain(ride(t),T(back[0]+(Math.sin(b)-Math.sin(a))*.025*g,back[1]+.09+hop,0),RZ(-pitch(t)*.8+Math.sin(b*2)*.07*g-.08),RY(1.22),RX(-.9+Math.sin(b+1)*.05*g))};   /* astride: turned across the back, a leg down each side */
+    P(xf(rider(.12),S3(1.25,1.25,1.25)),loose,{grain:1});
+    /* its shadow on the book */
+    P(shadowDisc(0,0,1,1),t=>{const c=ap(ride(t),[.2,.3,0]);return chain(T(c[0]+.14*c[1],0,c[2]+.16*c[1]),S3(.3,1,.2))},{alpha:.22});
+    return{parts,target:[.3,0,-.12],halfW:1.84,halfH:1.02}}
+
+  /* ================= drawing ================= */
+  const VS=`attribute vec3 p;attribute vec3 n;attribute vec3 c;uniform mat4 M;uniform mat4 VP;varying vec3 vn;varying vec3 vc;varying vec3 vw;
+    void main(){vec4 w=M*vec4(p,1.0);vw=w.xyz;vn=mat3(M)*n;vc=c;gl_Position=VP*w;}`;
+  const FS=`precision mediump float;varying vec3 vn;varying vec3 vc;varying vec3 vw;uniform vec3 L;uniform vec3 E;uniform float grain;uniform float spec;uniform float alpha;
+    void main(){vec3 n=normalize(vn);if(!gl_FrontFacing)n=-n;float d=max(dot(n,L),0.0);
+      vec3 col=vc*(.46+.66*d);
+      float g=sin((vw.x*2.3+vw.z*.7)*34.0+sin(vw.y*11.0+vw.z*6.0)*2.4);col*=1.0+.045*g*grain;               /* wood under the paint */
+      vec3 v=normalize(E-vw);float s=pow(max(dot(reflect(-L,n),v),0.0),18.0);col+=vec3(1.0,.93,.8)*s*(.08+.5*spec);
+      col*=vec3(1.04,1.0,.94);                                                                                 /* lamplight */
+      gl_FragColor=alpha>0.0?vec4(0.0,0.0,0.0,alpha):vec4(col,1.0);}`;
+  let st=null;
+  function build(gl,scene){const prog=gl.createProgram();for(const [t,s] of [[gl.VERTEX_SHADER,VS],[gl.FRAGMENT_SHADER,FS]]){const sh=gl.createShader(t);gl.shaderSource(sh,s);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(sh));gl.attachShader(prog,sh)}
+    gl.linkProgram(prog);gl.useProgram(prog);const U=k=>gl.getUniformLocation(prog,k),A=k=>gl.getAttribLocation(prog,k);
+    const parts=scene.parts.map(pt=>{const n=pt.tris.length*3,P=new Float32Array(n*3),Nn=new Float32Array(n*3),C=new Float32Array(n*3);let o=0;
+      for(const [a,b,c,k] of pt.tris){const f=nrm(cross(sub(b,a),sub(c,a)));for(const v of [a,b,c]){P.set(v,o);Nn.set(f,o);C.set(k,o);o+=3}}
+      const buf=d=>{const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,d,gl.STATIC_DRAW);return b};
+      return{...pt,n,bp:buf(P),bn:buf(Nn),bc:buf(C)}});
+    return{prog,U,A,parts,target:scene.target,halfW:scene.halfW,halfH:scene.halfH}}
+  function frame(now){if(!st)return;const {gl,cv,sc}=st;const w=cv.clientWidth,h=cv.clientHeight,dpr=Math.min(2,devicePixelRatio||1);
+    if(!w||!h){st.raf=requestAnimationFrame(frame);return}
+    if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}
+    const t=(st.still?5:(now-st.t0)/1000);
+    gl.viewport(0,0,cv.width,cv.height);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);
+    const as=w/h,fy=.24,dist=Math.max(sc.halfW/(Math.tan(fy/2)*as),sc.halfH/Math.tan(fy/2));   /* fit the scene, looking down at a tilt */
+    const tg=sc.target,eye=add(tg,[0,dist,0]);
+    const VP=mul(persp(fy,as,.1,40),look(eye,tg,[0,0,-1]));
+    gl.uniformMatrix4fv(sc.U('VP'),false,new Float32Array(VP));gl.uniform3fv(sc.U('L'),new Float32Array(nrm([-.45,.85,.55])));gl.uniform3fv(sc.U('E'),new Float32Array(eye));
+    for(const pt of sc.parts){gl.uniformMatrix4fv(sc.U('M'),false,new Float32Array(pt.m(t)));gl.uniform1f(sc.U('grain'),pt.grain||0);gl.uniform1f(sc.U('spec'),pt.spec||0);gl.uniform1f(sc.U('alpha'),pt.alpha||0);
+      if(pt.alpha){gl.enable(gl.BLEND);gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false)}
+      for(const [b,k] of [[pt.bp,'p'],[pt.bn,'n'],[pt.bc,'c']]){const a=sc.A(k);gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,3,gl.FLOAT,false,0,0)}
+      gl.drawArrays(gl.TRIANGLES,0,pt.n);if(pt.alpha){gl.disable(gl.BLEND);gl.depthMask(true)}}
+    if(st.still){st.raf=0;return}
+    st.raf=requestAnimationFrame(frame)}
+  function start(cv,kind,{still=false}={}){stop();const gl=cv.getContext('webgl',{antialias:true,alpha:true,premultipliedAlpha:true,preserveDrawingBuffer:true});if(!gl)return false;
+    seed=7;const sc=build(gl,kind==='seahorse'?sceneSeahorse():scenePerch());
+    st={gl,cv,sc,kind,t0:performance.now(),raf:0,still};
+    st.raf=requestAnimationFrame(frame);return true}
+  function stop(){if(st)cancelAnimationFrame(st.raf);st=null}
+  return{start,stop,get running(){return!!st}}})();
+</script>
+<script>
 /* drafts.js */
 /* Scenes drawn in code (no image files): the Patchwork drafts on trial in Design, and Confetti from the bookstore.
    Each draft: paint(c,W,H,k,R) draws the still part once and returns its state;
@@ -6116,7 +6468,7 @@ const $=s=>document.querySelector(s);
    The last 400 events, kept on this device only (its own key, apart from the save). The Design panel's "Cut the log"
    copies it and clears it in one tap, so each log sent covers only what happened since the last one. Nothing personal
    goes in: no name, no place, no ad or account IDs; only what the game did, the screen, and errors. */
-const NINES_BUILD='1.0.66 · built 2026-11-25 07:42 UTC';
+const NINES_BUILD='1.0.67 · built 2026-11-25 20:28 UTC';
 const NLOG={k:'bookOfNines.log',max:400,a:null,t:0,
   load(){if(this.a)return this.a;try{const a=JSON.parse(localStorage.getItem(this.k)||'[]');this.a=Array.isArray(a)?a:[]}catch(e){this.a=[]}return this.a},
   add(kind,msg){const a=this.load(),d=new Date(),p=n=>String(n).padStart(2,'0');
@@ -9388,7 +9740,7 @@ function normaliseSave(d){
     n.plush.lifeAt=Number.isFinite(+pl.lifeAt)&&+pl.lifeAt>0?Math.min(Date.now(),+pl.lifeAt):0}
   n.pad={v:PadSets.V,set:0,map:{}};{const pd=obj(d.pad);if(pd.v===PadSets.V){if(PadSets.SETS.some(x=>x.id===+pd.set))n.pad.set=+pd.set;
     for(const st of PadSets.SETS){const own=obj(obj(pd.map)[st.id]),o={};for(const [a,b] of Object.entries(own))if(a in st.map&&PadSets.valid(b)&&b!==st.map[a])o[a]=b;if(Object.keys(o).length)n.pad.map[st.id]=o}}}
-  n.vseen=Number.isInteger(+d.vseen)&&+d.vseen>0?Math.min(NP,+d.vseen):0;if(d.v2told)n.v2told=1;n.vseen2=Number.isInteger(+d.vseen2)&&+d.vseen2>0?Math.min(NP,+d.vseen2):0;if(d.v3told)n.v3told=1;n.vseen3=Number.isInteger(+d.vseen3)&&+d.vseen3>0?Math.min(NP,+d.vseen3):0;
+  n.vseen=Number.isInteger(+d.vseen)&&+d.vseen>0?Math.min(NP,+d.vseen):0;if(d.v2told)n.v2told=1;n.vseen2=Number.isInteger(+d.vseen2)&&+d.vseen2>0?Math.min(NP,+d.vseen2):0;if(d.v3told)n.v3told=1;n.toy=d.toy===''?'':(['perch','seahorse'].includes(d.toy)?d.toy:'perch');n.vseen3=Number.isInteger(+d.vseen3)&&+d.vseen3>0?Math.min(NP,+d.vseen3):0;
   n.mig25=d.mig25?1:0;n.mig26=d.mig26?1:0;n.tv=Number.isInteger(+d.tv)&&+d.tv>=1&&+d.tv<=9?+d.tv:1;   // migration marks travel with the record
   n.owner=typeof d.owner==='string'&&d.owner.trim()?d.owner.trim().slice(0,16):null;n.askedName=d.askedName?1:0;n.pid=n.owner&&PID_RE.test(d.pid||'')?d.pid:null;
   for(const[p,v]of Object.entries(obj(top.solved)))if(/^\d+$/.test(p)&&(+p>0||(isVol(n.block)&&+p===0))&&+p<=lim&&v)n.solved[p]=1;
@@ -9449,7 +9801,7 @@ const backCover=$('#backCover'),copyArea=$('#saveCopyCode'),loadArea=$('#saveLoa
 let atBack=false,saveFlipping=false;
 function applySaveState(incoming){
   dropFront();S=incoming;G.puz=null;playMode='book';dailyKey=null;currentTheme=null;$('#matchHud').innerHTML='';opened=false;bookGen++;closePops();if(stickering)endEdit();atBack=false;saveFlipping=false;
-  backCover.getAnimations().forEach(a=>a.cancel());backCover.hidden=true;board.classList.remove('at-end');{const tc=$('.tcell');tc.classList.remove('folded');tc.getAnimations().forEach(a=>a.cancel())}
+  backCover.getAnimations().forEach(a=>a.cancel());backCover.hidden=true;toyHide();board.classList.remove('at-end');{const tc=$('.tcell');tc.classList.remove('folded');tc.getAnimations().forEach(a=>a.cancel())}
   coverEl.getAnimations().forEach(a=>a.cancel());coverEl.hidden=false;coverEl.style.opacity='';coverEl.style.transform='';void coverEl.offsetWidth;board.classList.add('shut');board.classList.remove('opening','placing','stickering');$('#openHint').hidden=false;$('#placebar').hidden=true;
   root.dataset.pal=S.pal;applyDark();applyShape();applyBo3();applyStyle();applyStore();applyCommode();applyBell();applyTune();applyPay();applyRcpt();applyPengu();applyMediaPanel();if(typeof applyTV==='function')applyTV();setScaleNotes(S.scale);fit();loadPage(S.page);renderStickers();renderOwner();applyShow();applyMagnifier();applyPlushMode();applyCorners();applyFlowers();applyPad();sizeBG();
   try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}toast('Save state loaded. Your book is ready.');
@@ -9463,10 +9815,23 @@ function fitCredits(){fitSavePage();const c=$('#creditsPage'),w=c&&c.querySelect
   const cs=getComputedStyle(c),room=c.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom)-4,need=w.scrollHeight;
   if(need>room&&room>0)w.style.zoom=Math.max(.5,room/need-.005).toFixed(3)}
 addEventListener('resize',()=>requestAnimationFrame(fitCredits));
+/* inside the instrument: when the save page is open and the instrument has slid away, its compartment shows what really
+   does the sums (toys.js). A prototype, chosen in the Design panel. */
+const toybox=$('#toybox');
+function toyShow(){if(!S.toy||typeof Toys==='undefined'){toyHide();return}const tc=$('.tcell');
+  const tl=$('#tools');   /* exactly where the instrument sits, so its back panel is under it */
+  Object.assign(toybox.style,{left:tc.offsetLeft+tl.offsetLeft+'px',top:tc.offsetTop+tl.offsetTop+'px',width:tl.offsetWidth+'px',height:tl.offsetHeight+'px'});
+  toybox.dataset.name=S.toy==='seahorse'?'the thinking star':'the reckoning fish';
+  /* the record keeps to the page's half of the book; the compartment has the instrument's */
+  const pc=$('.pcell');  backCover.style.setProperty('--svx',pc.offsetLeft+'px');backCover.style.setProperty('--svy',pc.offsetTop+'px');backCover.style.setProperty('--svw',pc.offsetWidth+'px');backCover.style.setProperty('--svh',pc.offsetHeight+'px');
+  backCover.classList.add('with-toy');requestAnimationFrame(fitCredits);
+  toybox.hidden=false;Toys.start(toybox.querySelector('canvas'),S.toy,{still:reduced});nlog('toy','shown: '+S.toy)}
+function toyHide(){backCover.classList.remove('with-toy');if(toybox.hidden)return;toybox.hidden=true;if(typeof Toys!=='undefined')Toys.stop()}
+addEventListener('resize',()=>{if(atBack&&!toybox.hidden)setTimeout(toyShow,120)});
 function openSave(){
   if(playMode==='multi'){toast('Leave the multiplayer match before using Save.');return}
   if(atBack||saveFlipping||flipping||!opened||atFront||versoMoving)return;closePops();copyArea.value=makeSaveCode();loadArea.value='';saveStatus.textContent='';saveStatus.classList.remove('err');
-  ownerPlate();atBack=true;saveFlipping=true;sfx.flip();const dur=reduced?10:680;
+  ownerPlate();atBack=true;saveFlipping=true;sfx.flip();const dur=reduced?10:680;toyShow();
   const leaves=reduced?0:6,gap=90;                        // the rest of the book follows the first page over
   for(let k=0;k<leaves;k++){
     const fl=k?document.createElement('div'):pageEl.cloneNode(true);if(!k){fl.removeAttribute('id');fl.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'))}
@@ -9492,7 +9857,7 @@ function closeSave(){
   const tc=$('.tcell');tc.classList.remove('folded');
   if(!reduced){tc.animate([{transform:'translateX(-118%) rotate(-3deg)'},{transform:'translateX(1.5%) rotate(.4deg)',offset:.82},{transform:'translateX(0) rotate(0deg)'}],{duration:560,easing:'cubic-bezier(.2,.9,.3,1)',fill:'forwards'}).onfinish=()=>tc.getAnimations().forEach(a=>a.cancel());setTimeout(()=>sfx.fitted(),430)}
   if(reduced||!leaves)board.classList.remove('at-end');
-  setTimeout(()=>{backCover.hidden=true;atBack=false;saveFlipping=false},dur+leaves*gap+20);
+  setTimeout(()=>{backCover.hidden=true;atBack=false;saveFlipping=false;toyHide()},dur+leaves*gap+20);
 }
 /* swipe to the right on the back cover closes it */
 {let sx=0,sy=0,on=false,id=null;
@@ -10709,7 +11074,10 @@ async function logCut(){const t=NLOG.text(),n=NLOG.load().length;let ok=false;
   if(ok){NLOG.clear();nlog('log','cut ('+n+' events copied)');sfx.tick();toast(`Log copied (${n} event${n===1?'':'s'}) and cleared.`)}
   else toast('Could not copy the log on this device. Nothing was cleared.',3200);
   logNote()}
-$('#logBtn').addEventListener('click',logCut);$('#setBtn').addEventListener('click',()=>setTimeout(logNote,60));
+$('#logBtn').addEventListener('click',logCut);
+function toyChoice(){document.querySelectorAll('#toyChoice [data-toy]').forEach(b=>b.setAttribute('aria-pressed',String((S.toy||'')===b.dataset.toy)))}
+$('#toyChoice').addEventListener('click',e=>{const b=e.target.closest('[data-toy]');if(!b)return;S.toy=b.dataset.toy;sfx.toggle();save();toyChoice();if(atBack){toyShow();requestAnimationFrame(fitCredits)}});
+$('#setBtn').addEventListener('click',()=>setTimeout(toyChoice,60));$('#setBtn').addEventListener('click',()=>setTimeout(logNote,60));
 
 function loop(now){
   requestAnimationFrame(loop);
@@ -10850,7 +11218,7 @@ const TYPE_ROLES=[
  {id:'wsub',n:'Subheadings',m:[/ h3( em)?$/,/\.dept$/,/draft-fh/,/\.mbset b/,/^\.popv b$/],x:'Chapter I · Gentle'},
  {id:'toast',n:'Messages',m:[/^\.toast$/],x:'Every square is full.'},
  {id:'design',n:'Design panel',m:[/^\.popv/,/^\.tog\b/,/mag-choice/,/^\.gl$/,/\.draft /,/store-choice/],x:'Ink · Marks · Scene'},
- {id:'records',n:'Records, credits, privacy, controller',m:[/endpaper/,/save/,/\.sv-/,/\.hist/,/credits/,/contact/,/privacy/,/\.goal/,/radio/,/stations/,/pad-/,/pp-row/,/wear-row/,/\.ma-/],x:'The Binder’s Record'},
+ {id:'records',n:'Records, credits, privacy, controller',m:[/endpaper/,/toy-/,/save/,/\.sv-/,/\.hist/,/credits/,/contact/,/privacy/,/\.goal/,/radio/,/stations/,/pad-/,/pp-row/,/wear-row/,/\.ma-/],x:'The Binder’s Record'},
  {id:'art',n:'Lettering inside pictures (stickers, posters)',sc:'.sticker svg text,.stickers svg text,.pstickers svg text,.poster-art svg text,.g-face svg text,.stage svg text',x:'Sudoku'},
  {g:'Everything else',id:'o-pix',n:'Everything else in the numbers-and-text face',v:'--pix',x:'Sudoku'},
  {id:'o-deco',n:'Everything else in the label face',v:'--deco',x:'Sudoku'},
@@ -11304,7 +11672,7 @@ function generatedPuzzle(seed,diff){
 function dailyPuzzle(key){if(!DAILY_PZ[key]){const d=dailyInfo(key);DAILY_PZ[key]=generatedPuzzle(parseInt(codeHash('grid:'+key),16),d.diff)}return DAILY_PZ[key]}
 function motifSVG(id){const paths={flag:'<path d="M5 22V3M5 4h13l-3 4 3 4H5"/>',egg:'<path d="M12 2c4 0 7 6 7 11a7 7 0 0 1-14 0c0-5 3-11 7-11Z"/><path d="M6 12c2-1 4 1 6 0s4-1 6 0"/>',heart:'<path d="M12 21C4 16 2 11 4 7c2-4 7-3 8 1 1-4 6-5 8-1 2 4 0 9-8 14Z"/>',snow:'<path d="M12 2v20M4 7l16 10M20 7L4 17M8 4l4 3 4-3M8 20l4-3 4 3"/>',sun:'<circle cx="12" cy="12" r="5"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4 4l2 2M18 18l2 2M20 4l-2 2M6 18l-2 2"/>',leaf:'<path d="M20 3C10 3 4 7 4 14c0 4 3 7 7 7 7 0 9-9 9-18Z M3 22 16 9"/>',pumpkin:'<path d="M12 6V2M9 4h6M12 6c-7-3-10 3-9 9 1 7 6 7 9 4 3 3 8 3 9-4 1-6-2-12-9-9Z M12 7v12"/>',tree:'<path d="M12 2 6 10h4l-6 8h16l-6-8h4Z M12 18v4"/>',star:'<path d="m12 2 3 7 7 1-5 5 1 7-6-4-6 4 1-7-5-5 7-1Z"/>'};return`<svg viewBox="0 0 24 24">${paths[id]||paths.star}</svg>`}
 /* the record at the back of the book is put away at once (no animation) when something else needs the page */
-function dropBack(){dropFront();if(!atBack)return;backCover.hidden=true;board.classList.remove('at-end');{const tc=$('.tcell');tc.classList.remove('folded');tc.getAnimations().forEach(a=>a.cancel())}atBack=false;saveFlipping=false}
+function dropBack(){dropFront();if(!atBack)return;toyHide();backCover.hidden=true;board.classList.remove('at-end');{const tc=$('.tcell');tc.classList.remove('folded');tc.getAnimations().forEach(a=>a.cancel())}atBack=false;saveFlipping=false}
 function placeSpecial(loader,print=false){
   if(flipping)return;if(!opened){openBook();setTimeout(()=>placeSpecial(loader,print),reduced?35:1140);return}
   dropBack();
