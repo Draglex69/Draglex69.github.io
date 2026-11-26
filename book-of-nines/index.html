@@ -2246,6 +2246,53 @@ body.tc-picking .app,body.tc-picking .veil,body.tc-picking .toast{cursor:crossha
 .cm-gz .a{position:absolute;left:0;right:0;top:0;height:13px;background:repeating-linear-gradient(180deg,#b8352a 0 3px,#fbf5ea 3px 6px)}
 .cm-gz span{position:absolute;left:0;right:0;top:17px;bottom:6px;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font:400 9px/22px "Limelight",var(--title);letter-spacing:.06em;color:#3a2614}
 @media (hover:hover){.cm-gz:hover{transform:translateY(-3px)}}
+/* ================= the Book of Discoveries =================
+   A finder's book on the lessons book's paper: a midnight cover with a gilt compass star, and three entries to a page.
+   An entry not yet found is a shadow and a riddle; a found one is drawn in gold (alone) or in red ink (with the answer). */
+.dc-page.dc-cover{background:radial-gradient(120% 90% at 40% 26%,#2a3350,#141a2e 68%,#0b0f1d);color:#ecd18a}
+.dc-page.dc-cover::after{background:linear-gradient(118deg,rgba(255,255,255,0) 34%,rgba(255,240,200,.07) 44%,rgba(255,255,255,0) 54%)}
+.dc-cover .gz-in{inset:0}
+.dc-frame{position:absolute;inset:7cqw;border:.5cqw solid #c9a24a;outline:.3cqw solid #c9a24a;outline-offset:-2cqw;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4.4cqw;text-align:center;padding:8cqw}
+.dc-frame::before,.dc-frame::after{content:"";position:absolute;left:50%;width:34cqw;height:3cqw;transform:translateX(-50%);background:repeating-linear-gradient(90deg,#c9a24a 0 .4cqw,transparent .4cqw 1.7cqw);-webkit-mask:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent);mask:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent)}
+.dc-frame::before{top:5.5cqw}.dc-frame::after{bottom:5.5cqw}
+.dc-kick{font:600 2.5cqw var(--deco);letter-spacing:.34em;text-transform:uppercase;color:#d9b766}
+.dc-frame h2{margin:0;font:700 9.4cqw/1.08 var(--title);color:#e9c46a;text-shadow:0 .3cqw 0 rgba(0,0,0,.4)}
+.dc-frame h2 small{display:block;margin:1.4cqw 0;font:600 3.4cqw var(--deco);letter-spacing:.4em;text-transform:uppercase;color:#d9b766}
+.dc-frame em{font:italic 4.2cqw var(--pix);color:#e8d6a4}
+.dc-emb{width:30cqw;height:30cqw;fill:none;stroke:#c9a24a;stroke-width:1.1;flex:none}
+.dc-emb path{fill:#c9a24a;stroke:none}.dc-emb path.in{fill:#141a2e}.dc-emb .dot{fill:#e9c46a;stroke:none}
+.dc-back .dc-emb{width:22cqw;height:22cqw;opacity:.9}
+/* to the finder */
+.dc-tally{align-self:center;display:grid;grid-template-columns:auto auto;column-gap:2.4cqw;align-items:baseline;margin-top:1.5cqw;padding:2.4cqw 5cqw;border:.3cqw solid rgba(176,138,58,.7);outline:.2cqw solid rgba(176,138,58,.5);outline-offset:-1.2cqw}
+.dc-tally b{font:700 11cqw/1 var(--title);color:var(--tu-red,#a3271f)}
+.dc-tally span{font:600 3cqw var(--deco);letter-spacing:.2em;text-transform:uppercase}
+.dc-tally i{grid-column:1/-1;justify-self:center;font:italic 3.3cqw var(--pix);color:var(--tu-soft,#6e5e4b)}
+.dc-key{margin:auto 0 0;padding:0;list-style:none;display:flex;justify-content:center;flex-wrap:wrap;gap:1.2cqw 3.4cqw;font:600 2.3cqw var(--deco);letter-spacing:.12em;text-transform:uppercase;color:var(--tu-soft,#6e5e4b)}
+.dc-key li{display:flex;align-items:center;gap:1.2cqw}
+.dc-key i{width:2.6cqw;height:2.6cqw;border-radius:50%;border:.35cqw solid currentColor}
+.dc-key .a i{background:#b08a3a;border-color:#8a6a1f}.dc-key .h i{background:rgba(163,39,31,.25);border-color:#a3271f}.dc-key .n i{border-style:dashed}
+/* the entries */
+.dc-list .gz-in{gap:0;justify-content:space-between}
+.dc-e{flex:1 1 0;min-height:0;display:flex;gap:3.4cqw;align-items:flex-start;padding:2.8cqw 0;border-bottom:.25cqw solid rgba(176,138,58,.45)}
+.dc-e:first-child{padding-top:.5cqw}.dc-e:last-child{border-bottom:0;padding-bottom:0}
+.dc-ic{flex:none;width:15cqw;height:15cqw;display:grid;place-items:center;border-radius:50%;border:.35cqw dashed rgba(110,94,75,.55);color:rgba(42,33,24,.26)}
+.dc-ic svg{width:9.6cqw;height:9.6cqw;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.dc-e:not(.found):not(.told) .dc-ic svg{filter:blur(.55cqw)}
+.dc-e.told .dc-ic{color:rgba(42,33,24,.5)}
+.dc-e.found .dc-ic{border-style:solid}
+.dc-e.alone .dc-ic{border-color:#8a6a1f;color:#6b4f12;background:radial-gradient(circle at 35% 30%,#f3dc9a,#d9b25a 60%,#b08a3a);box-shadow:inset 0 0 0 .5cqw rgba(255,244,205,.55),0 .5cqw 1.2cqw rgba(60,40,10,.25)}
+.dc-e.helped .dc-ic{border-color:#a3271f;color:#a3271f;background:rgba(163,39,31,.07)}
+.dc-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:.7cqw;align-items:flex-start}
+.dc-no{font:600 2.2cqw var(--deco);letter-spacing:.22em;text-transform:uppercase;color:var(--tu-soft,#6e5e4b)}
+.dc-e h4{margin:0;font:700 4.5cqw/1.12 var(--title);letter-spacing:.01em}
+.dc-e:not(.found):not(.told) h4{color:rgba(42,33,24,.35);letter-spacing:.2em}
+.dc-page .dc-e p{margin:0;font-size:3.2cqw;line-height:1.32}
+.dc-page .dc-e p.dc-r{font-style:italic}
+.dc-st{font:600 2.2cqw var(--deco);letter-spacing:.14em;text-transform:uppercase;color:var(--tu-soft,#6e5e4b)}
+.dc-e.alone .dc-st{color:#8a6a1f}.dc-e.helped .dc-st{color:#a3271f}
+.dc-tell{margin-top:.8cqw;padding:1.1cqw 3cqw 1cqw;border:.3cqw solid rgba(110,94,75,.7);border-radius:99cqw;background:none;color:var(--tu-soft,#6e5e4b);font:600 2.4cqw var(--deco);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.dc-tell.sure{border-color:#a3271f;color:#fff6e6;background:#a3271f}
+@media (hover:hover){.dc-tell:hover{border-color:#a3271f;color:#a3271f}.dc-tell.sure:hover{color:#fff6e6}}
 /* ================= First Steps in Sudoku: the lessons book =================
    A book, not a magazine: warm laid paper, Cinzel titles, Garamond to read, red ink for the number each lesson finds, and the
    grids drawn like the book's own pages. The cover is green leather with a gilt frame. */
@@ -2766,6 +2813,7 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
    <div class="sgrp" id="logGrp"><b>Diagnostics</b><button class="namebtn" id="logBtn" type="button">Cut the log</button><p class="pid-note" id="logNote"></p></div>
    <div class="sgrp" id="calGrp"><b>Shop calendar</b><button class="namebtn" id="gzBtn" type="button">Open the shop catalogue</button><p class="pid-note">What comes into the shop, in which order and when, as a magazine to leaf through.</p></div>
    <div class="sgrp" id="toyGrp"><b>Inside the instrument</b><div class="row wrap" id="toyChoice"><button class="namebtn" data-toy="" type="button">Nothing</button><button class="namebtn" data-toy="perch" type="button">The reckoning fish</button><button class="namebtn" data-toy="seahorse" type="button">The thinking star</button></div><p class="pid-note">A prototype: what shows where the instrument was, while the save page is open.</p></div>
+   <div class="sgrp" id="discGrp"><b>Discoveries</b><button class="namebtn" id="discBtn" type="button">Open the Book of Discoveries</button><p class="pid-note">A prototype, not in the shop: the hidden things of the game, each with a riddle, and the answer for whoever asks.</p></div>
    <div class="sgrp"><b>Your own page</b><div class="mag-choice"><button type="button" id="openEditor">Make a Sudoku</button></div><p class="pid-note" id="pidNote"></p></div>
    <div class="sgrp"><b>Ink</b><div class="row" id="pals"></div><span class="nm" id="nm-pal"></span>
      <div class="mag-choice daynight" id="dayNight"><button type="button" data-dark="0"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Day</button><button type="button" data-dark="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>Night</button></div></div>
@@ -6468,7 +6516,7 @@ const $=s=>document.querySelector(s);
    The last 400 events, kept on this device only (its own key, apart from the save). The Design panel's "Cut the log"
    copies it and clears it in one tap, so each log sent covers only what happened since the last one. Nothing personal
    goes in: no name, no place, no ad or account IDs; only what the game did, the screen, and errors. */
-const NINES_BUILD='1.0.67 · built 2026-11-25 20:28 UTC';
+const NINES_BUILD='1.0.68 · built 2026-11-26 09:24 UTC';
 const NLOG={k:'bookOfNines.log',max:400,a:null,t:0,
   load(){if(this.a)return this.a;try{const a=JSON.parse(localStorage.getItem(this.k)||'[]');this.a=Array.isArray(a)?a:[]}catch(e){this.a=[]}return this.a},
   add(kind,msg){const a=this.load(),d=new Date(),p=n=>String(n).padStart(2,'0');
@@ -7266,7 +7314,7 @@ function buzz(kind){padRumble(kind==='saved'?'damage':kind);try{if(reduced||!nav
 const pageHearts=()=>playMode==='book'?(stk().pages[(S.block||'nines')+'/'+(S.page??1)]||[]).filter(x=>x.id==='heart').length:0;
 const spareHearts=()=>Math.max(0,pageHearts()-(G.sh|0));
 function heartStuck(){if(playMode!=='book'||!G.puz||!spareHearts())return;
-  if(G.failed){G.failed=false;$('#gridwrap').querySelectorAll('.lost-stamp,.px-cap').forEach(n=>n.remove());render();save();sfx.coin?.();
+  if(G.failed){G.failed=false;disc('revive');$('#gridwrap').querySelectorAll('.lost-stamp,.px-cap').forEach(n=>n.remove());render();save();sfx.coin?.();
     if(G.done){showArt(true,'brought back to life');toast('The heart sticker brought this page back to life.')}else toast('The heart sticker brought this page back to life: one more mistake is allowed.',4000)}
   else toast('A heart sticker: the next mistake on this page costs no heart.',3600)}
 /* a quiet page (its hearts have flown): nothing says whether a number is right. No hearts lost, no combo, no coins on the way;
@@ -7274,7 +7322,7 @@ function heartStuck(){if(playMode!=='book'||!G.puz||!spareHearts())return;
 let HEARTS_UP=false;
 const quietCount=()=>{let n=0;for(let k=0;k<81;k++)if(G.bl[k]&&!G.hint[k]&&!G.puz[k])n++;return n};
 const quietPay=bonus=>3*quietCount()+bonus;   /* three coins for every square filled in without help, plus the page's own bonus: more empty squares, more coins */
-function goQuiet(){if(G.blind||G.done||G.failed||playMode==='multi'||!G.puz)return false;G.blind=true;G.bl=new Array(81).fill(0);G.combo=0;render();save();
+function goQuiet(){if(G.blind||G.done||G.failed||playMode==='multi'||!G.puz)return false;G.blind=true;G.bl=new Array(81).fill(0);G.combo=0;disc('quiet');render();save();
   toast('The hearts have flown: this page keeps quiet now. Nothing is marked right or wrong until it is finished, and the coins come at the end.',6200);return true}
 function afterPlace(i,v,hinted){
   popCell(i);
@@ -7282,7 +7330,7 @@ function afterPlace(i,v,hinted){
     if(isSolved())solved();else if(G.vals.every(x=>x))toast('Every square is full, but the page is not finished: something is not right yet.');return}
   if(v!==G.sol[i]){
     if(spareHearts()&&!(playMode==='book'&&block().noLives)){G.sh=(G.sh|0)+1;G.clean=false;G.combo=0;buzz('saved');sfx.bad();render();save();return}   /* a heart sticker takes the mistake */
-    G.clean=false;G.combo=0;if(!(playMode==='book'&&block().noLives)){G.lives=Math.max(0,G.lives-1);if(!G.lives)G.failed=true}
+    G.clean=false;G.combo=0;if(!(playMode==='book'&&block().noLives)){G.lives=Math.max(0,G.lives-1);if(!G.lives){G.failed=true;disc('dead')}}
     buzz(G.failed?'destroyed':'heart');sfx.bad();render();save();if(G.failed)showLost();return;
   }
   if(!hinted)G.combo++;
@@ -8085,7 +8133,7 @@ function openCommode(back){
   const holdDoll=p=>openPlush(p,'shelf',{drawer:open});   /* the commode stays open underneath */
   v._refresh=()=>{if(!v.isConnected)return;paintZones();refresh()};
   /* the ornaments do a little something when tapped */
-  const play=(o)=>{const e=cm.querySelector(`.cm-orn[data-orn="${o}"]`);if(!e)return;
+  const play=(o)=>{const e=cm.querySelector(`.cm-orn[data-orn="${o}"]`);if(!e)return;disc('ornament');
     if(o==='candle'||o==='lamp'){e.classList.toggle('off');sfx.toggle();return}
     e.classList.remove('play');void e.getBoundingClientRect();e.classList.add('play');setTimeout(()=>e.classList.remove('play'),o==='phono'?3000:1300);
     if(o==='clock'){setClock();sfx.chime()}else if(o==='phono')sfx.tune();else if(o==='globe')sfx.slide();else if(o==='hourglass')sfx.tick();else sfx.tick()};
@@ -8143,7 +8191,7 @@ function openCommode(back){
     const cancelHold=()=>{if(hold){clearTimeout(hold.t);hold=null}};
     /* what is carried is drawn above everything (the drawer's window too), where the finger is; the place it left stays faint */
     const ghostTo=(cx,cy)=>{drag.g.style.transform=`translate(${Math.round(cx-drag.ox)}px,${Math.round(cy-drag.oy)}px)`};
-    const lift=(it,dc,h)=>{const p=at(h.x,h.y),g=document.createElement('div');g.className='cm-ghost';
+    const lift=(it,dc,h)=>{disc('arrange');const p=at(h.x,h.y),g=document.createElement('div');g.className='cm-ghost';
       if(it){const key=it.dataset.key,q=pos[key];if(!q)return;const r=it.getBoundingClientRect(),c=it.cloneNode(true);c.removeAttribute('data-key');c.className='cm-it';c.style.cssText=`left:0;top:0;bottom:auto;width:${it.offsetWidth}px;height:${it.offsetHeight}px;transform:scale(${p.s});transform-origin:0 0`;
         it.querySelectorAll('canvas').forEach((cv,i)=>c.querySelectorAll('canvas')[i]?.getContext('2d').drawImage(cv,0,0));g.style.width=r.width+'px';g.style.height=r.height+'px';g.appendChild(c);v.appendChild(g);it.classList.add('lifted');
         drag={it,g,key,w:q.w,ox:h.x-r.left,oy:h.y-r.top,gx:p.x-CM_ZONE[q.z].x-q.x,id:h.id,me:{rows:cmShape(byKey[key]),p:key.startsWith('p:')}}}
@@ -8427,9 +8475,9 @@ function gzTurnOpen(fwd,style){const sp=GZ.spreads,from=GZ.at,to=from+(fwd?1:-1)
   if(two){const a=sp[from][0],b=sp[to][0];let shown=a;const w=()=>{if(T.done)return;const want=(fwd?T.t>.93:T.t<=.93)?b:a;if(want!==shown){shown=want;gzFill(gzL,want)}requestAnimationFrame(w)};requestAnimationFrame(w)}
   T.close=commit=>{GZ.at=commit?to:from;T.under?.remove();R.style.visibility='';GZ.T=null;gzShow()};
   GZ.T=T;TURN_ENG[style].build(T);return T}
-function gzGo(d){if(GZ.T)return;const to=GZ.at+d;if(to<0||to>=GZ.spreads.length)return;
+function gzGo(d){if(GZ.T)return;if(dcArm){dcArm='';if(GZ.kind==='disc')GZ.html=discPages()}const to=GZ.at+d;if(to<0||to>=GZ.spreads.length)return;
   if(reduced){GZ.at=to;sfx.flip?.();gzShow();return}const T=gzTurnOpen(d>0,gzStyle());if(T)TURN_ENG[T.style].auto(T)}
-function gzOpen(kind='cat'){closePops();GZ.kind=kind;GZ.html=kind==='tut'?tuPages():gzPages();GZ.at=0;gzSize();gzEl.hidden=false;gzEl.classList.toggle('tu',kind==='tut');gzEl.setAttribute('aria-label',kind==='tut'?'First Steps in Sudoku':'The Bookstore Catalogue');gzShow();sfx.leaf?.('lift');
+function gzOpen(kind='cat'){closePops();GZ.kind=kind;if(kind==='disc'){dcArm='';discSync()}GZ.html=kind==='tut'?tuPages():kind==='disc'?discPages():gzPages();GZ.at=0;gzSize();gzEl.hidden=false;gzEl.classList.toggle('tu',kind==='tut'||kind==='disc');gzEl.classList.toggle('dc',kind==='disc');gzEl.setAttribute('aria-label',kind==='tut'?'First Steps in Sudoku':kind==='disc'?'The Book of Discoveries':'The Bookstore Catalogue');gzShow();sfx.leaf?.('lift');
   if(!reduced)gzBook.animate([{opacity:0,transform:'translateY(24px) scale(.96)'},{opacity:1,transform:'none'}],{duration:320,easing:'cubic-bezier(.2,.8,.2,1)',composite:'add'})}
 function gzClose(){if(GZ.T)turnClose(GZ.T,false);gzxClose(true);gzEl.hidden=true}
 /* ================= the catalogue's close-up: a thing lifted off the page to be looked at =================
@@ -8505,7 +8553,76 @@ function gzxClose(now){const v=GZX.el;if(!v)return;GZX.el=null;GZX.key=()=>{};co
   if(a.width&&b.width){const s0=Math.max(.15,Math.min(a.width/b.width,a.height/b.height));wrap.animate([{transform:'none'},{transform:`translate(${a.left+a.width/2-b.left-b.width/2}px,${a.top+a.height/2-b.top-b.height/2}px) scale(${s0})`}],{duration:360,easing:'cubic-bezier(.5,0,.7,.4)',fill:'forwards'})}
   v.querySelectorAll('.gzx-dim,.gzx-cap,.gzx-back').forEach(n=>n.animate([{opacity:1},{opacity:0}],{duration:260,fill:'forwards'}));setTimeout(done,350)}
 $('#gzBtn')?.addEventListener('click',e=>{e.stopPropagation();gzOpen()});
-gzEl.addEventListener('click',e=>{if(e.target.closest('[data-gzclose]')){gzClose();return}if(e.target.closest('[data-tut-play]')){tutPlay();return}const g=e.target.closest('[data-gzgo]');if(g)gzGo(+g.dataset.gzgo)});
+/* ================= the Book of Discoveries: what the game never tells =================
+   A finder's book (opened from the Design page for now, not in the shop). One entry for each hidden thing in the game.
+   A thing not yet found shows only a shadow and a riddle; "Tell me how" (asked twice) prints the answer for that one entry.
+   A thing found is written in with its name and the day, and the book remembers whether the answer had been read first.
+   Finds are noted from the first day, book or no book: S.disc={f:{id:when},t:{id:1 (the answer was read)}}.
+   To add one: a line in DISC and a disc('id') where it happens (or a test in discSync, for things that are states). */
+const DISC=[
+ {id:'verso',n:'The other side',r:'A finished page has not said everything yet. Paper has two sides.',h:'On a solved page, tap “its quote”. The sheet turns over and shows the quotation printed on its back. Swipe to leaf through the backs of the other solved pages.',
+  i:'<path d="M12 7h17l8 8v26H12z"/><path d="M29 7v8h8"/><path d="M17 26c0-3.5 1.8-5 4-5m-4 5v4h4v-4zm9 0c0-3.5 1.8-5 4-5m-4 5v4h4v-4z"/>'},
+ {id:'backpic',n:'The picture in the corner',r:'On the back of a finished sheet, something small sits in a corner and waits to be asked.',h:'Turn a solved page of a volume over and tap the small picture in the corner of its back. It shows the page’s picture, or its sticker, once more.',
+  i:'<rect x="8" y="8" width="32" height="32"/><path d="M8 18.7h32M8 29.3h32M18.7 8v32M29.3 8v32"/><rect x="18.7" y="18.7" width="10.6" height="10.6" fill="currentColor"/><rect x="8" y="29.3" width="10.7" height="10.7" fill="currentColor"/>'},
+ {id:'quiet',n:'Hearts set free',r:'The hearts do not have to stay where they are printed. Hold on to them.',h:'Hold the hearts above the page until they lift off, then carry them off the page or flick them away. The page turns quiet: nothing is marked right or wrong until it is finished.',
+  i:'<path transform="translate(0 -7)" d="M24 40C13 31.500 9 26 9 20a7.500 7.500 0 0 1 15-2.500A7.500 7.500 0 0 1 39 20c0 6-4 11.500-15 20z"/><path d="M13 45l2.500-5M24 46v-6M35 45l-2.500-5"/>'},
+ {id:'dead',n:'A dead page',r:'What becomes of a page when its last heart is gone?',h:'Lose every heart on a page. The colour drains out of it, and it pays no coins and shows no picture.',
+  i:'<path d="M24 41C13 32.500 9 27 9 21a7.500 7.500 0 0 1 15-2.500A7.500 7.500 0 0 1 39 21c0 6-4 11.500-15 20z"/><path d="M24 18.500l-4 6.500 7 4-4 7"/>'},
+ {id:'revive',n:'Back to life',r:'A dead page is not beyond help. Something in the sticker drawer has just the right shape.',h:'Stick a heart sticker on a dead page and it comes back to life. On a living page, a heart sticker takes the next mistake for you.',
+  i:'<path d="M24 41C13 32.500 9 27 9 21a7.500 7.500 0 0 1 15-2.500A7.500 7.500 0 0 1 39 21c0 6-4 11.500-15 20z"/><path d="M24 19v12M18 25h12"/>'},
+ {id:'poster',n:'Down with it',r:'Not everything hanging in the bookstore is fastened well.',h:'In the shop, put a finger on a poster and pull. Pulled far enough, it rips off the wall.',
+  i:'<path d="M10 6h28v19l-5 4-5-5-5 6-5-5-4 4-4-4z"/><path d="M11 36l4 4 5-5 5 5 5-6 5 5 3-3v8H11z"/><circle cx="14" cy="10" r="1.200" fill="currentColor"/><circle cx="34" cy="10" r="1.200" fill="currentColor"/>'},
+ {id:'ornament',n:'Little somethings',r:'The things standing on the commode are not only there to be looked at.',h:'Tap an ornament on the commode. The globe spins, the clock chimes, the gramophone plays, and the candle and the lamp go out and on again.',
+  i:'<circle cx="24" cy="20" r="12"/><path d="M12 20h24M24 8c-6 6-6 18 0 24M24 8c6 6 6 18 0 24M24 32v6M15 41h18"/>'},
+ {id:'arrange',n:'A place for everything',r:'On the commode, things stay where they are only until somebody holds on to them.',h:'Hold anything on the commode until it lifts, then set it down anywhere along the top or the shelf. A plushie can go into a drawer.',
+  i:'<rect x="17" y="12" width="14" height="13"/><path d="M5 40h38M5 33h38M24 28v3M21 29l3 3 3-3M9 18H5M5 18l3-3M5 18l3 3M39 18h4M43 18l-3-3M43 18l-3 3"/>'},
+ {id:'sulk',n:'The sulk',r:'Even a plushie has its limits. Find out where they are, and be sorry afterwards.',h:'Poke a plushie five times in a row and it sulks for a while. More pokes only make it wobble.',
+  i:'<path d="M10 15l3-9 8 6h6l8-6 3 9v12a14 12 0 0 1-28 0z"/><path d="M16 22l6 2.500M32 22l-6 2.500M19.500 34c2.500-2.500 6.500-2.500 9 0"/>'},
+ {id:'cuddle',n:'A proper cuddle',r:'First hold on. Then, without letting go, be gentle.',h:'Keep a finger on a plushie until it is squeezed, and stroke it without lifting the finger. A stroke while it is squeezed is a cuddle.',
+  i:'<path d="M10 15l3-9 8 6h6l8-6 3 9v12a14 12 0 0 1-28 0z"/><path d="M15.500 25c1.500-2.500 4-2.500 5.500 0M27 25c1.500-2.500 4-2.500 5.500 0M20.500 32c2 2 5 2 7 0"/>'},
+ {id:'alive',n:'It moved',r:'Keep a plushie company for long enough, and one day it is no longer only a plushie.',h:'Poke, hug, stroke and feed a plushie, and let the days pass. Once its bond with you has grown far enough, it comes to life.',
+  i:'<path d="M10 17l3-9 8 6h6l8-6 3 9v12a14 12 0 0 1-28 0z"/><circle cx="18.500" cy="25" r="2.200" fill="currentColor"/><circle cx="29.500" cy="25" r="2.200" fill="currentColor"/><path d="M21 33c2 1.500 4 1.500 6 0M42 2v7M38.500 5.500h7"/>'},
+ {id:'popcorn',n:'Sharing',r:'Somebody who watches television with you may well be hungry.',h:'With a plushie watching television beside you, tap the popcorn box, catch a piece out of the air and carry it to the plushie.',
+  i:'<path d="M13 21l3 21h16l3-21z"/><path d="M19.500 21l1.300 21M28.500 21l-1.300 21"/><path d="M13 21c-2.500-5 3-8.500 6-5 1-6.500 9-6.500 10 0 4-3.500 8.500 0 6 5z"/>'},
+ {id:'koi',n:'The fish that stayed',r:'The water of the pond is not glass. A patient finger is welcome there.',h:'On the koi pond, rest a finger on a fish. One that trusts you lets itself be stroked; a shy one darts away, so go slowly.',
+  i:'<path d="M5 24c8-10.500 21-10.500 29 0-8 10.500-21 10.500-29 0z"/><path d="M34 24l9-7.500v15z"/><circle cx="13" cy="22" r="1.500" fill="currentColor"/><path d="M20 16.500c2.500 4.500 2.500 10.500 0 15"/>'},
+ {id:'gilt',n:'The fourth drum',r:'The counter on the instrument has three drums. A very full purse makes the bookstore think of a fourth.',h:'Hold 999 coins at once. The Gilt counter then stands in the shop, under Book styles, with the instrument.',
+  i:'<rect x="5" y="13" width="38" height="22" rx="2"/><path d="M14.500 13v22M24 13v22M33.500 13v22"/><circle cx="9.700" cy="24" r="2"/><circle cx="19.200" cy="24" r="2"/><circle cx="28.700" cy="24" r="2"/><circle cx="38.200" cy="24" r="2"/>'},
+ {id:'itself',n:'The Book Itself',r:'One book in the bookstore stands on no shelf at all, until the purse is very heavy indeed.',h:'Hold 9,999 coins at once. The Book Itself then stands on the Books shelf, and comes with a certificate in your name.',
+  i:'<path d="M11 6h26v36H11z"/><path d="M15.500 6v36"/><rect x="20.500" y="14" width="12" height="12"/><path d="M20.500 18h12M20.500 22h12M24.500 14v12M28.500 14v12"/>'}];
+const discState=()=>{const d=S.disc&&typeof S.disc==='object'?S.disc:(S.disc={f:{},t:{}});d.f=d.f||{};d.t=d.t||{};return d};
+/* something hidden was found: written down once, with the day */
+function disc(id){try{const d=discState();if(d.f[id]||!DISC.some(x=>x.id===id))return;d.f[id]=Date.now();save();if(!gzEl.hidden&&GZ.kind==='disc'){GZ.html=discPages();gzShow()}}catch(e){}}
+/* the ones that are states, not moments: looked up when the book opens */
+function discSync(){try{if(S.giltSaid||S.odo4)disc('gilt');if(S.itselfSaid||S.itself)disc('itself');const ps=plushState();if(Object.keys(ps.own||{}).some(id=>plushAlive(id)))disc('alive')}catch(e){}}
+let dcArm='';
+function discPages(){const P=[],d=discState(),N=DISC.length,nf=DISC.filter(x=>d.f[x.id]).length,alone=DISC.filter(x=>d.f[x.id]&&!d.t[x.id]).length;
+  const page=(cls,body,no)=>`<section class="gz-page tu-page dc-page ${cls}"><div class="gz-in">${body}</div>${no!=null?`<footer class="gz-foot"><span>The Book of Discoveries</span><b>${no}</b></footer>`:''}</section>`;
+  const svg=x=>`<svg viewBox="0 0 48 48" aria-hidden="true">${x.i.replace(/(\d)\.(\d)00\b/g,'$1.$2')}</svg>`;
+  const day=t=>new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const emblem=`<svg class="dc-emb" viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="40"/><circle cx="48" cy="48" r="33"/><path d="M48 14l5 29 29 5-29 5-5 29-5-29-29-5 29-5z"/><path d="M48 30l3 15 15 3-15 3-3 15-3-15-15-3 15-3z" class="in"/><circle cx="48" cy="48" r="3.5" class="dot"/></svg>`;
+  /* the cover */
+  P.push(page('dc-cover',`<div class="dc-frame"><span class="dc-kick">The Book of Nines Library</span>${emblem}<h2>The Book<small>of</small>Discoveries</h2><em>What the pages never tell</em></div>`));
+  /* to the finder */
+  P.push(page('tu-text dc-fore',`<header class="tu-head"><span class="tu-kick">To the finder</span><h3>Things kept quiet</h3></header>
+    <p class="tu-drop">The Book of Nines does not explain everything it can do. Some things are left lying about for whoever happens to touch them. This book keeps count of those.</p>
+    <p>A thing you have not found yet shows only its shadow and a riddle. The riddle is fair: it can be solved. If you would rather not, ask for the answer. The book will give it, and will remember that it did.</p>
+    <div class="dc-tally"><b>${nf}</b><span>of ${N} found</span><i>${alone} of them alone</i></div>
+    <ul class="dc-key"><li class="a"><i></i>Found alone</li><li class="h"><i></i>Found with the answer</li><li class="n"><i></i>Not yet found</li></ul>`,1));
+  /* the entries, three to a page */
+  const entry=(x,k)=>{const f=d.f[x.id],t=d.t[x.id],no=String(k+1).padStart(2,'0');
+    if(f)return`<article class="dc-e found ${t?'helped':'alone'}"><span class="dc-ic">${svg(x)}</span><div class="dc-tx"><span class="dc-no">No. ${no}</span><h4>${x.n}</h4><p>${x.h}</p><span class="dc-st">${t?'Found with the answer':'Found alone'} · ${day(f)}</span></div></article>`;
+    if(t)return`<article class="dc-e told"><span class="dc-ic">${svg(x)}</span><div class="dc-tx"><span class="dc-no">No. ${no}</span><h4>${x.n}</h4><p>${x.h}</p><span class="dc-st">Answer read · not yet found</span></div></article>`;
+    return`<article class="dc-e"><span class="dc-ic">${svg(x)}</span><div class="dc-tx"><span class="dc-no">No. ${no}</span><h4 aria-label="Not yet found">? ? ?</h4><p class="dc-r">${x.r}</p><button type="button" class="dc-tell${dcArm===x.id?' sure':''}" data-dc-tell="${x.id}">${dcArm===x.id?'Sure? Tap again for the answer':'Tell me how'}</button></div></article>`};
+  for(let k=0,no=2;k<N;k+=3,no++)P.push(page('dc-list',DISC.slice(k,k+3).map((x,j)=>entry(x,k+j)).join(''),no));
+  if(P.length%2===0)P.push(page('tu-text dc-fore',`<header class="tu-head"><span class="tu-kick">A last word</span><h3>More to come</h3></header><p>New things are hidden from time to time. When they are, this book grows a line longer.</p>`,P.length));
+  /* the back cover */
+  P.push(page('dc-cover dc-back',`<div class="dc-frame">${emblem}<em>Look twice.</em></div>`));
+  return P}
+function discTell(id){const d=discState();if(d.f[id]||d.t[id])return;if(dcArm!==id){dcArm=id;sfx.tick?.()}else{dcArm='';d.t[id]=1;save();sfx.leaf?.('lift')}GZ.html=discPages();gzShow()}
+$('#discBtn')?.addEventListener('click',e=>{e.stopPropagation();gzOpen('disc')});
+
+gzEl.addEventListener('click',e=>{if(e.target.closest('[data-gzclose]')){gzClose();return}if(e.target.closest('[data-tut-play]')){tutPlay();return}const dt=e.target.closest('[data-dc-tell]');if(dt){discTell(dt.dataset.dcTell);return}const g=e.target.closest('[data-gzgo]');if(g)gzGo(+g.dataset.gzgo)});
 addEventListener('keydown',e=>{if(gzEl.hidden)return;if(GZX.el){GZX.key(e);return}if((e.key==='Enter'||e.key===' ')&&document.activeElement?.matches?.('[data-gzi]')){gzxOpen(document.activeElement.dataset.gzi,document.activeElement);e.preventDefault();return}if(e.key==='Escape'){gzClose();e.preventDefault()}else if(e.key==='ArrowRight'){gzGo(1);e.preventDefault()}else if(e.key==='ArrowLeft'){gzGo(-1);e.preventDefault()}},true);
 addEventListener('resize',()=>{if(gzEl.hidden||GZ.T)return;const at=GZ.at,two=GZ.two,first=GZ.spreads[at]?.find(x=>x!=null)??0;gzSize();if(two!==GZ.two)GZ.at=Math.max(0,GZ.spreads.findIndex(sp=>sp.includes(first)));gzShow()});
 /* ================= the Book Itself: the owner's name, and the certificate =================
@@ -9266,7 +9383,7 @@ function openShop(tab,door){window.shopOpenedAt=performance.now();if(!adsOff())a
      if(g.mode==='p'){if(!g.pz.isConnected){g=null;return}const dx=e.clientX-g.sx,dy=e.clientY-g.sy,d=Math.hypot(dx,dy),w=g.pz.offsetWidth;   /* peeling: it lifts towards the finger, and tears past half its width */
        /* paper held by its pins: it gives less the further it is pulled; past three quarters of its width it starts to tear
           at the top (a warning: let go and it springs back whole); only past one and a quarter widths does it rip */
-       if(d>w*1.25){const pz=g.pz;g=null;v._swiped=performance.now();pz.classList.remove('straining');ripPoster(pz,dx,dy);return}
+       if(d>w*1.25){const pz=g.pz;g=null;v._swiped=performance.now();pz.classList.remove('straining');ripPoster(pz,dx,dy);disc('poster');return}
        const give=w*.42*(1-Math.exp(-d/(w*.55))),k=d?give/d:0,ex=dx*k,ey=dy*k,strain=d>w*.75;
        if(strain!==g.pz.classList.contains('straining')){g.pz.classList.toggle('straining',strain);if(strain)tearStart(g.pz,g.sh,dx,dy);else tearEnd(g.pz);if(strain){if(S.sound){ac();noise({d:.08,g:.03,f:2600,f2:1400,q:1,wet:.05})}try{navigator.vibrate?.(6)}catch(err){}}}
        g.pz.style.setProperty('--strain',strain?Math.min(1,(d-w*.75)/(w*.5)).toFixed(2):'0');
@@ -9443,7 +9560,7 @@ function openPlush(want,from,back){   /* from 'shelf': held from the Commode She
   const poke=x=>{learn(1);if(wake())return;const r=stage.getBoundingClientRect(),side=Math.sign(x-r.width/2)||1;A.wobv+=-side*5.5;A.sqv+=4;
     if(now()<(A.cross||0)){eyes('hmpf',1200);return}                                 /* still sulking: more pokes only make it wobble */
     A.pokes=A.pokes.filter(t=>now()-t<4000);A.pokes.push(now());
-    if(A.pokes.length>=5){A.pokes=[];A.cross=now()+2200;eyes('hmpf',2000);speak(PlushCast.say(id,'mad'),'mad');if(S.sound)tone({f:180,f2:120,type:'triangle',d:.18,g:.05,wet:.05})}
+    if(A.pokes.length>=5){A.pokes=[];disc('sulk');A.cross=now()+2200;eyes('hmpf',2000);speak(PlushCast.say(id,'mad'),'mad');if(S.sound)tone({f:180,f2:120,type:'triangle',d:.18,g:.05,wet:.05})}
     else{eyes('wide',450);if(S.sound)tone({f:700+Math.random()*200,f2:1050,type:'sine',d:.09,g:.05,wet:.1});live(.25);if(!grow(.25))speak(PlushCast.say(id,'poke'),'poke')}};
   const hug=()=>{learn(2);wake();A.sqT=0;A.sqv-=7;petTap([12,30,12,30,40]);
     if(id==='grump'&&bond()<20){eyes('hmpf',1600);speak(PlushCast.say(id,'mad'),'mad');live(.3);grow(.3);if(S.sound)noise({f:3200,f2:5200,q:.7,d:.3,g:.05});return}
@@ -9470,7 +9587,7 @@ function openPlush(want,from,back){   /* from 'shelf': held from the Commode She
   stage.addEventListener('pointermove',e=>{if(!P||e.pointerId!==P.id)return;const dx=e.clientX-P.lx,dy=e.clientY-P.ly,d=Math.hypot(dx,dy);P.lx=e.clientX;P.ly=e.clientY;P.moved+=d;
     if(P.on){const cr=cv.getBoundingClientRect();P.spot=plushSpot(P.box,(e.clientX-cr.left)/cr.width*cv.width,(e.clientY-cr.top)/cr.height*cv.height,S.p3&&Math.cos(A.yaw)<-.2)}
     if(P.on&&d>0){const sp=d/Math.max(1,now()-(P.t||now()-16));P.t=now();if(P.sq||P.moved>10)petBuzz(P.spot,sp,P.sq)}
-    if(P.sq){P.stroke+=d;A.wobv+=dx*.003;A.last=now();if(P.stroke>=150){P.stroke=0;const r=stage.getBoundingClientRect();pet(e.clientX-r.left,e.clientY-r.top-20,true)}return}   /* stroking while squeezed: a cuddle */
+    if(P.sq){P.stroke+=d;A.wobv+=dx*.003;A.last=now();if(P.stroke>=150){P.stroke=0;disc('cuddle');const r=stage.getBoundingClientRect();pet(e.clientX-r.left,e.clientY-r.top-20,true)}return}   /* stroking while squeezed: a cuddle */
     if(P.moved>10)clearTimeout(holdT);
     if(P.on&&P.moved>10){P.stroke+=d;P.fxd+=d;A.wobv+=dx*.006;if(A.eyes==='open'||A.eyes==='wide')eyes('happy',500);A.last=now();
       if(P.stroke>=150){P.stroke=0;const r=stage.getBoundingClientRect();pet(e.clientX-r.left,e.clientY-r.top-20)}}
@@ -9723,7 +9840,7 @@ function normaliseSave(d){
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
   n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(isVol(n.block)&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
-  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.ripped&&Number.isInteger(+d.ripped.d)&&d.ripped.s&&typeof d.ripped.s==='object'&&!Array.isArray(d.ripped.s)){n.ripped={d:+d.ripped.d,s:{}};for(const [k,v] of Object.entries(d.ripped.s).slice(0,80))if(/^[a-z0-9:]{1,40}$/i.test(k)&&Number.isInteger(v)&&v>=0&&v<WALL_ART.length)n.ripped.s[k]=v}if(d.shopMotion===1)n.shopMotion=1;if(d.type&&typeof d.type==='object')n.type=typeClean(d.type);if(Array.isArray(d.typeP)){n.typeP=d.typeP.filter(p=>p&&typeof p.n==='string'&&p.t&&typeof p.t==='object').slice(0,12).map(p=>({n:p.n.slice(0,28),t:typeClean(p.t)}));if(!n.typeP.length)delete n.typeP}if(d.typeUI&&typeof d.typeUI==='object'){n.typeUI={};if(/^[tblrf]$/.test(d.typeUI.d))n.typeUI.d=d.typeUI.d;for(const k of ['sv','sh','x','y','w','h'])if(Number.isFinite(+d.typeUI[k])&&d.typeUI[k]!==null)n.typeUI[k]=Math.round(+d.typeUI[k]*10)/10;if(d.typeUI.m)n.typeUI.m=1}if(d.mig43)n.mig43=1;if(d.mig48)n.mig48=1;if(d.mig55)n.mig55=1;if(d.odo4)n.odo4=1;if(d.gzShop)n.gzShop=1;if(d.itself&&Number.isFinite(+d.itself.at))n.itself={at:+d.itself.at};if(d.itselfSaid)n.itselfSaid=1;if(Number.isFinite(+d.named)&&d.named)n.named=+d.named;if(d.tutOwn)n.tutOwn=1;if(d.gzOwn)n.gzOwn=1;if(d.giltSaid)n.giltSaid=1;if(d.odo4On===0)n.odo4On=0;if(Number.isFinite(+d.coinPeak)&&d.coinPeak!==null)n.coinPeak=Math.max(0,Math.min(1e9,+d.coinPeak|0));if(Number.isFinite(d.relKnown))n.relKnown=Math.max(0,Math.min(999,d.relKnown|0));if(Number.isFinite(d.relT0))n.relT0=d.relT0|0;if(d.relSeen&&typeof d.relSeen==='object'){n.relSeen={};for(const [k,v] of Object.entries(d.relSeen))if(/^[a-z]+:[\w-]+$/.test(k)&&Number.isFinite(v))n.relSeen[k]=v|0}if(Array.isArray(d.relNews))n.relNews=d.relNews.filter(k=>typeof k==='string').slice(0,40);if(d.imprint==='blind')n.imprint='blind';if(/^(curl|bend|ear|heavy|riffle)$/.test(d.turn))n.turn=d.turn;if(d.koiMsg===1)n.koiMsg=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
+  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.ripped&&Number.isInteger(+d.ripped.d)&&d.ripped.s&&typeof d.ripped.s==='object'&&!Array.isArray(d.ripped.s)){n.ripped={d:+d.ripped.d,s:{}};for(const [k,v] of Object.entries(d.ripped.s).slice(0,80))if(/^[a-z0-9:]{1,40}$/i.test(k)&&Number.isInteger(v)&&v>=0&&v<WALL_ART.length)n.ripped.s[k]=v}if(d.shopMotion===1)n.shopMotion=1;if(d.type&&typeof d.type==='object')n.type=typeClean(d.type);if(Array.isArray(d.typeP)){n.typeP=d.typeP.filter(p=>p&&typeof p.n==='string'&&p.t&&typeof p.t==='object').slice(0,12).map(p=>({n:p.n.slice(0,28),t:typeClean(p.t)}));if(!n.typeP.length)delete n.typeP}if(d.typeUI&&typeof d.typeUI==='object'){n.typeUI={};if(/^[tblrf]$/.test(d.typeUI.d))n.typeUI.d=d.typeUI.d;for(const k of ['sv','sh','x','y','w','h'])if(Number.isFinite(+d.typeUI[k])&&d.typeUI[k]!==null)n.typeUI[k]=Math.round(+d.typeUI[k]*10)/10;if(d.typeUI.m)n.typeUI.m=1}if(d.mig43)n.mig43=1;if(d.mig48)n.mig48=1;if(d.mig55)n.mig55=1;if(d.odo4)n.odo4=1;if(d.gzShop)n.gzShop=1;if(d.itself&&Number.isFinite(+d.itself.at))n.itself={at:+d.itself.at};if(d.itselfSaid)n.itselfSaid=1;if(Number.isFinite(+d.named)&&d.named)n.named=+d.named;if(d.tutOwn)n.tutOwn=1;if(d.gzOwn)n.gzOwn=1;if(d.giltSaid)n.giltSaid=1;if(d.odo4On===0)n.odo4On=0;if(Number.isFinite(+d.coinPeak)&&d.coinPeak!==null)n.coinPeak=Math.max(0,Math.min(1e9,+d.coinPeak|0));if(Number.isFinite(d.relKnown))n.relKnown=Math.max(0,Math.min(999,d.relKnown|0));if(Number.isFinite(d.relT0))n.relT0=d.relT0|0;if(d.relSeen&&typeof d.relSeen==='object'){n.relSeen={};for(const [k,v] of Object.entries(d.relSeen))if(/^[a-z]+:[\w-]+$/.test(k)&&Number.isFinite(v))n.relSeen[k]=v|0}if(Array.isArray(d.relNews))n.relNews=d.relNews.filter(k=>typeof k==='string').slice(0,40);if(d.imprint==='blind')n.imprint='blind';{const D=d.disc,ok=new Set(DISC.map(x=>x.id)),o={f:{},t:{}};if(D&&typeof D==='object'){for(const[k,v]of Object.entries(D.f&&typeof D.f==='object'?D.f:{}))if(ok.has(k)&&Number.isFinite(+v)&&+v>0)o.f[k]=+v;for(const k of Object.keys(D.t&&typeof D.t==='object'?D.t:{}))if(ok.has(k))o.t[k]=1}n.disc=o}if(/^(curl|bend|ear|heavy|riffle)$/.test(d.turn))n.turn=d.turn;if(d.koiMsg===1)n.koiMsg=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
   n.flora={fl:{},vz:{},cur:null,arr:{},seed:{}};{const f=obj(d.flora),fid=Flora.FLOWERS.map(x=>x.id),vid=Flora.VASES.map(x=>x.id);
     for(const [id,c] of Object.entries(obj(f.fl)))if(fid.includes(id)&&Number.isInteger(+c)&&+c>0)n.flora.fl[id]=Math.min(999,+c);
     for(const id of Object.keys(obj(f.vz)))if(vid.includes(id))n.flora.vz[id]=1;
@@ -9897,7 +10014,7 @@ function versoFace(p){const q=vq()[p-1]||['','',''];
 const versoArt=p=>isVol(S.block||'nines')?PixArt.getV(volNo(),p):null;
 function pxMini(a){let d='';PixArt.cells(a).forEach((c,i)=>{if(c)d+=`<rect x="${i%9}" y="${i/9|0}" width="1.02" height="1.02" fill="${pxTint(c)}"/>`});return`<svg viewBox="0 0 9 9" shape-rendering="crispEdges" aria-hidden="true">${d}</svg>`}
 function versoPx(p){const a=versoArt(p);if(!a||!(isVol(S.block||'nines')?S.solved:ninesSolved())[p])return'';return`<button type="button" class="vpx" data-vpx="${p}" aria-label="The picture of page ${p}: ${escH(a.n)}. Show it">${pxMini(a)}</button>`}
-function pageCard(p){if(document.querySelector('.gift3d'))return;const a=versoArt(p);if(!a)return;const st=volNo()===1&&S.rw?.[p]?STK.find(x=>x.id==='pg-'+p):null;
+function pageCard(p){if(document.querySelector('.gift3d'))return;const a=versoArt(p);if(!a)return;disc('backpic');const st=volNo()===1&&S.rw?.[p]?STK.find(x=>x.id==='pg-'+p):null;
   const v=document.createElement('div');v.className='gift3d again';v.setAttribute('role','dialog');v.setAttribute('aria-label',`${st?st.name:a.n}. Tap to close.`);v.tabIndex=0;
   v.innerHTML=`<div class="g-stage"><div class="g-face${st?'':' g-px'}">${st?stickSVG(st):pxMini(a)}</div></div><div class="g-cap"><b>${escH(st?st.name:a.n)}</b>${a.d?`<p class="g-desc">${escH(a.d)}</p>`:''}<span class="g-tap">${st?`the sticker of page ${p}`:`the picture of page ${p}`} · tap to close</span></div>`;
   let gone=false;const close=e=>{if(gone)return;gone=true;e?.stopPropagation?.();v.classList.add('out');setTimeout(()=>v.remove(),reduced?0:450)};
@@ -9934,7 +10051,7 @@ function versoReady(g){if(g!==versoGen)return;versoMoving=false;verso.classList.
 const ownAnims=el=>el.getAnimations().filter(a=>!(window.CSSAnimation&&a instanceof CSSAnimation));
 function openVerso(){
   if(atFront||versoMoving||atBack||saveFlipping||flipping||!opened||!versoOK())return;
-  closePops();document.querySelectorAll('.toast').forEach(t=>t.remove());
+  closePops();document.querySelectorAll('.toast').forEach(t=>t.remove());disc('verso');
   versoPage=Math.max(1,Math.min(NP,S.page));S[VSEEN()]=versoRead();versoBadge();save();
   atFront=true;versoMoving=true;versoT=performance.now();const g=++versoGen;
   vCover.querySelectorAll('.vleaf').forEach(n=>n.remove());vSheet.hidden=true;verso.classList.remove('ready');
@@ -11113,7 +11230,7 @@ function koiPoke(f,x,y){const w=KOI.inst.world;   /* a quick tap on a fish */
   for(const o of w.fish)if(o!==f&&o.trust<.5&&Math.hypot(o.x-x,o.y-y)<f.L*2.2)w.startle(o,x,y,.8)}
 function koiTick(dt){const k=KP;if(!k||!KOI)return;const w=KOI.inst.world,now=performance.now(),held=now-k.t0;
   if(k.fish){const f=k.fish,on=w.hit(k.x,k.y,f.W*.6)===f;   /* a finger resting on a fish strokes it, if it lets you */
-    if(held>260&&!k.pet&&!k.left){if(f.trust<.35){w.startle(f,k.x,k.y,.75);k.left=true;w.ripple(k.x,k.y,.6)}else k.pet=true}
+    if(held>260&&!k.pet&&!k.left){if(f.trust<.35){w.startle(f,k.x,k.y,.75);k.left=true;w.ripple(k.x,k.y,.6)}else{k.pet=true;disc('koi')}}
     if(k.pet){if(k.speed>1.3&&f.trust<.8){w.startle(f,k.x,k.y,.9);w.ripple(k.x,k.y,1);KOI.inst.play('splash',k.x);k.pet=false;k.left=true;w.lure=null}
       else{w.lure={x:k.x,y:k.y,min:2,fish:f};if(on){f.pet=.35;koiGain(f,dt*2.2);k.rip-=dt;if(k.rip<=0){k.rip=.55;w.ripple(k.x,k.y,.45);KOI.inst.play('kiss',k.x);try{if(!reduced)navigator.vibrate?.(6)}catch(e){}}}}}}
   else if(held>320){w.lure={x:k.x,y:k.y,min:.5};k.rip-=dt;if(k.rip<=0){k.rip=.7;w.ripple(k.x,k.y,.55)}   /* a finger held on the water: the ones that trust you come */
@@ -11193,6 +11310,7 @@ const TYPE_ROLES=[
  {id:'patron',n:'The Patron’s Counter (real money)',m:[/\.pc-/],x:'No ads, for a lifetime'},
  {id:'itself',n:'The Book Itself (its picture and the certificate)',m:[/\.it-/,/\.cert/],x:'This book belongs to'},
  {id:'lessons',n:'First Steps in Sudoku (the lessons book)',m:[/\.tu-/,/\.cm-tut/],x:'Lesson 3 · Scanning a box'},
+ {id:'discoveries',n:'The Book of Discoveries',m:[/\.dc-/],x:'No. 06 · Down with it'},
  {id:'catalogue',n:'Shop catalogue (the magazine)',m:[/\.gz-/,/\.gzx/,/\.cm-gz/],x:'Bookstore · Season 3'},
  {id:'shoptabs',n:'Shop tabs',m:[/shop-tab/],x:'Daily offer'},
  {id:'posters',n:'Posters',m:[/\.item\.poster/,/\.p-who/],x:'Lumière · Club · Cocktails'},
@@ -12282,7 +12400,7 @@ function tvPet(v){const el=v.querySelector('.tv-pet'),ps=plushState(),id=ps.cur;
   const eat=()=>{A.mouthTo=now()+1100;A.chew=now()+1100;A.sqT=.3;setTimeout(()=>{A.sqT=0},500);eyes('happy',1300);fx('h','♥');if(S.sound){noise({f:1600,f2:700,q:.9,d:.14,g:.06});setTimeout(()=>{if(S.sound)noise({f:1400,f2:600,q:.9,d:.12,g:.05})},260)}plushLifeGain(id,.6);if(plushGain(id,.6))fx('h','♥')};
   /* a piece of popcorn picked up and held out to the plushie: let go near it, it goes to the mouth; it eats it once awake, and lets it drop before that */
   v._near=(x,y)=>{const m=cv.getBoundingClientRect();return x>m.left-20&&x<m.right+20&&y>m.top-20&&y<m.bottom+20};
-  v._feed=i=>{const r=i.getBoundingClientRect(),m=cv.getBoundingClientRect();if(!r.width){i.remove();return}
+  v._feed=i=>{const r=i.getBoundingClientRect(),m=cv.getBoundingClientRect();if(!r.width){i.remove();return}disc('popcorn');
     const tx=m.left+m.width*.5-r.left-r.width/2,ty=m.top+m.height*.58-r.top-r.height/2,alive=plushAlive(id);sfx.tick();
     const fly=i.animate([{transform:'translate(0,0) rotate(0)'},{transform:`translate(${tx/2}px,${ty/2-18}px) rotate(60deg)`,offset:.5},{transform:`translate(${tx}px,${ty}px) rotate(120deg)`}],{duration:reduced?10:260,easing:'cubic-bezier(.3,.5,.5,1)',fill:'forwards'});
     if(alive)A.mouthTo=now()+700;   /* it sees it coming */
