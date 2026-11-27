@@ -6518,7 +6518,7 @@ const $=s=>document.querySelector(s);
    The last 400 events, kept on this device only (its own key, apart from the save). The Design panel's "Cut the log"
    copies it and clears it in one tap, so each log sent covers only what happened since the last one. Nothing personal
    goes in: no name, no place, no ad or account IDs; only what the game did, the screen, and errors. */
-const NINES_BUILD='1.0.69 · built 2026-11-27 13:33 UTC';
+const NINES_BUILD='1.0.69 · built 2026-11-27 14:17 UTC';
 const NLOG={k:'bookOfNines.log',max:400,a:null,t:0,
   load(){if(this.a)return this.a;try{const a=JSON.parse(localStorage.getItem(this.k)||'[]');this.a=Array.isArray(a)?a:[]}catch(e){this.a=[]}return this.a},
   add(kind,msg){const a=this.load(),d=new Date(),p=n=>String(n).padStart(2,'0');
