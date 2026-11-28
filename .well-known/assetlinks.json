@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.BookOfNines",
+    "sha256_cert_fingerprints": ["A8:55:47:E0:02:02:39:FD:A6:59:1E:5B:83:94:7A:4D:19:B4:65:D5:13:C5:97:37:3D:4C:1F:AB:61:01:82:7F"]
+  }
+}]
