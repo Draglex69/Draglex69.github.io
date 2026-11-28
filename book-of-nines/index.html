@@ -2746,6 +2746,17 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
 @media (prefers-reduced-motion:reduce){.cm-orn.o-xtree .o-li circle,.cm-orn.o-xarch .o-flame,.cm-orn.o-xbox.play .o-fig,.cm-orn.o-xbox.play .o-crank{animation:none}}
 .gz-xmas .gz-grid{grid-template-rows:repeat(4,1fr)}.gz-xmas .gz-tx b{white-space:normal}.gz-xmas .gz-pic{width:15.5cqw;height:15.5cqw}.gz-xmas .gz-aside{font-size:2.9cqw}
 .gz-items:not(.gz-week) .gz-pic .orn-art svg{width:13.6cqw;height:13.6cqw}
+
+/* the card in a gift box, and the puzzle it is wrapped in */
+.gf-msg{width:100%;box-sizing:border-box;margin:6px 0 0;padding:10px 12px;border:1.5px solid var(--paperLo);border-radius:6px;background:var(--paper2);color:inherit;font:italic 15px/1.45 var(--fell);resize:vertical;min-height:110px}
+.gf-count{margin:2px 0 0;text-align:right;font:italic 12px var(--fell);opacity:.7}
+.gf-diffs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}.gf-dif{padding:6px 11px;border:1.5px solid var(--paperLo);border-radius:16px;background:var(--paper2);color:inherit;font:13px var(--fell);cursor:pointer}.gf-dif.on{border-color:var(--ink);background:var(--paper);box-shadow:0 0 0 2px rgba(233,196,106,.7);font-weight:700}
+.gf-letter{position:relative;margin:10px auto;max-width:420px;padding:16px 18px 12px;background:#fbf6ea;color:#2a1c12;border:1px solid #d8c7a4;border-radius:3px;box-shadow:0 3px 0 rgba(0,0,0,.18);text-align:left;transform:rotate(-.6deg)}
+.gf-letter::before{content:'';position:absolute;left:0;right:0;top:0;height:5px;background:repeating-linear-gradient(90deg,#c8323e 0 12px,#fbf6ea 12px 18px,#1f6a47 18px 30px,#fbf6ea 30px 36px)}
+.gf-letter p{margin:4px 0 8px;white-space:pre-wrap;overflow-wrap:anywhere;font:italic 15.5px/1.5 var(--fell)}.gf-letter i{display:block;text-align:right;font:600 14px var(--title)}.gf-letter i::before{content:'— '}
+.puzzle.daily-gift{--paper:#f6e9e4;--paper2:#fbf3ef;--paperLo:#dcb8ad;--hint:#b3262e;background-image:repeating-linear-gradient(135deg,rgba(179,38,46,.05) 0 14px,transparent 14px 28px,rgba(31,106,71,.05) 28px 42px,transparent 42px 56px)}
+[data-dark="1"] .puzzle.daily-gift{--paper:#2e1e20;--paper2:#38262a;--paperLo:#5a3c40;--hint:#e58a8f}
+.turn.gift-untie:disabled{opacity:.6;cursor:default}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -2895,7 +2906,7 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
    <div class="sgrp"><b>Your own page</b><div class="mag-choice"><button type="button" id="openEditor">Make a Sudoku</button></div><p class="pid-note" id="pidNote"></p></div>
    <div class="sgrp"><b>Ink</b><div class="row" id="pals"></div><span class="nm" id="nm-pal"></span>
      <div class="mag-choice daynight" id="dayNight"><button type="button" data-dark="0"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Day</button><button type="button" data-dark="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>Night</button></div></div>
-   <div class="sgrp"><b>Page turning</b><div class="mag-choice turn-choice" id="turnChoice"><button type="button" data-turn="classic">Classic</button><button type="button" data-turn="curl">Page curl</button><button type="button" data-turn="bend">Soft bend</button><button type="button" data-turn="ear">Dog-ear peek</button><button type="button" data-turn="heavy">Heavy page</button><button type="button" data-turn="riffle">Riffle</button></div><p class="pid-note" id="turnNote"></p></div>
+   <div class="sgrp"><b>Page turning</b><div class="mag-choice turn-choice" id="turnChoice"><button type="button" data-turn="classic">Classic</button><button type="button" data-turn="curl">Page curl</button><button type="button" data-turn="bend">Soft bend</button><button type="button" data-turn="ear">Dog-ear peek</button><button type="button" data-turn="heavy">Heavy page</button><button type="button" data-turn="lite">Light heavy</button><button type="button" data-turn="riffle">Riffle</button></div><p class="pid-note" id="turnNote"></p></div>
    <div class="sgrp"><b>Book shape</b><div class="mag-choice" id="shapeChoice"><button type="button" data-shape="auto">Fit the screen</button><button type="button" data-shape="phone">Tall</button><button type="button" data-shape="tablet">Wide</button></div></div>
    <div class="sgrp"><b>Typography</b><div class="mag-choice type-profiles" id="typeProfiles"></div><button class="namebtn" id="typeBtn" type="button">Open the type case</button><p class="pid-note">Choose a type profile, or open the type case to change any lettering: it sits beside the game, and a tap on any lettering opens its setting. Save your own profiles there.</p></div>
    <div class="sgrp"><b>Multiplayer</b><div class="mag-choice" id="mpUiChoice"><button type="button" data-mpui="window">Window</button><button type="button" data-mpui="fax">Fax machine (prototype)</button></div></div>
@@ -2996,7 +3007,7 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
 <h2>Links and other features</h2>
 <p><b>Music controls (Google Play app).</b> If you allow it, the app uses Android's notification access only to see which app is playing music or a video, its title and artist, so it can show back, pause or play, and next under the book. This stays on your phone: nothing is stored or sent anywhere, and the app does not read your notifications. You can switch it off any time in your phone's settings under Notification access.</p>
 <p><b>Letters (Google Play app).</b> If you allow notifications, the book may now and then send you a letter with news and events, such as tournaments. At present these letters are made on your phone and nothing about you is sent to us for them. If a letter service on our side is ever added, this page will say first what it needs. You can switch notifications off any time in your phone's settings.</p>
-<p><b>Gift boxes.</b> A gift box is made on your device: the things you pack, the name you gave your book and the date you sealed it are written into a link and a code. Nothing is sent to us, and we keep no copy: the box exists only in that link or code, wherever you send or paste it, and whoever has it can open it once in their own book. Send it only to people you mean to give it to. Your book remembers on your device which boxes it has sealed and opened.</p>
+<p><b>Gift boxes.</b> A gift box is made on your device: the things you pack, the card you write, the name you gave your book, the date you sealed it and the puzzle it is wrapped in are written into a link and a code. What is inside and the card can be read only by solving the puzzle. Nothing is sent to us, and we keep no copy: the box exists only in that link or code, wherever you send or paste it, and whoever has it can open it once in their own book. Send it only to people you mean to give it to. Your book remembers on your device which boxes it has sealed and opened.</p>
 <p><b>Invite links.</b> A match invite link carries only the four-digit room code. When you open a link, your browser or phone asks this website for a small page that passes you on to the book; GitHub, which hosts the page, sees the request as it would for any web page.</p>
 <p>The WhatsApp and Telegram buttons on the credits page open those apps; nothing is sent until you send a message there, and their own terms apply.</p>
 
@@ -6695,7 +6706,7 @@ const $=s=>document.querySelector(s);
    The last 400 events, kept on this device only (its own key, apart from the save). The Design panel's "Cut the log"
    copies it and clears it in one tap, so each log sent covers only what happened since the last one. Nothing personal
    goes in: no name, no place, no ad or account IDs; only what the game did, the screen, and errors. */
-const NINES_BUILD='1.0.72 · built 2026-11-28 11:35 UTC';
+const NINES_BUILD='1.0.73 · built 2026-11-28 16:47 UTC';
 const NLOG={k:'bookOfNines.log',max:400,a:null,t:0,
   load(){if(this.a)return this.a;try{const a=JSON.parse(localStorage.getItem(this.k)||'[]');this.a=Array.isArray(a)?a:[]}catch(e){this.a=[]}return this.a},
   add(kind,msg){const a=this.load(),d=new Date(),p=n=>String(n).padStart(2,'0');
@@ -7230,7 +7241,8 @@ const TUNE_OFF={label:'No music',icon:'<path d="M9 17V5.5l10-2V15"/><circle cx="
    a tune picked in Design during those weeks is kept instead (S.tuneYear: the Christmas for which the player chose). */
 const xmasNow=()=>new Date(window.__xmasDate??(/[?&]test\b/.test(location.search)?new Date(2026,5,1):Date.now()));   /* the tests live in June unless they say otherwise */
 const xmasTime=()=>{const d=xmasNow();return d.getMonth()===11&&d.getDate()<=26};
-const shopTuneNow=()=>{const t=S.shopTune==='off'||ShopTunes.TUNES[S.shopTune]?S.shopTune:'bossa';return t!=='off'&&xmasTime()&&S.tuneYear!==xmasNow().getFullYear()?'xmas':t};
+/* until a player picks a tune of their own (S.tuneSet), the Christmas records are the bookstore's music all year (for now, until more records come) */
+const shopTuneNow=()=>{const t=S.shopTune==='off'||ShopTunes.TUNES[S.shopTune]?S.shopTune:'bossa';if(t!=='off'&&!S.tuneSet&&t==='bossa')return'xmas';return t!=='off'&&xmasTime()&&S.tuneYear!==xmasNow().getFullYear()?'xmas':t};
 /* each visit starts with the next record of the stack */
 const shopTuneOpts=id=>id==='xmas'?{first:(S.xmasN=((S.xmasN|0)+1)%ShopTunes.XMAS.length)}:{};
 function applyTune(){const id=shopTuneNow(),row=$('#tuneChoice');if(!row)return;
@@ -7543,7 +7555,7 @@ function render(){{const tb=typeBook(),de=document.documentElement;if(de.dataset
 function fitHead(){const h=pageEl.querySelector('.head');if(!h)return;h.classList.remove('snug','snugger');const over=()=>[...h.querySelectorAll('#hChap,#hDiff')].some(e=>e.scrollWidth>e.clientWidth+1);if(over()){h.classList.add('snug');if(over())h.classList.add('snugger')}}
 function renderHead(){
   versoBadge();
-  if(playMode==='daily'&&dailyKey){const d=dailyInfo(dailyKey);$('#hChap').textContent=d.title;$('#hChap').title=d.title;$('#hDiff').textContent=CH[d.diff][0];$('#fClues').textContent=`${G.giv} clues`;$('#fPage').textContent=shortDate(dailyKey);fitHead();return}
+  if(playMode==='daily'&&dailyKey){const d=dailyInfo(dailyKey);$('#hChap').textContent=d.title;$('#hChap').title=d.title;$('#hDiff').textContent=CH[d.diff][0];$('#fClues').textContent=`${G.giv} clues`;$('#fPage').textContent=giftKey(dailyKey)?'A gift':shortDate(dailyKey);fitHead();return}
   if(playMode==='multi'){const z=multiPageInfo();$('#hChap').textContent=z.title;$('#hChap').title=z.title;$('#hDiff').textContent=CH[z.diff][0];$('#fClues').textContent=`${G.giv} clues`;$('#fPage').textContent=z.label;fitHead();return}
   const {c}=chapterOf(S.page),p=S.page,bk=block();
   if(bk.names){$('#hChap').textContent=bk.names[p-1]||bk.title;$('#hChap').title=$('#hChap').textContent;$('#hDiff').textContent=CH[bk.diffs[p-1]||2][0]}
@@ -7708,7 +7720,7 @@ function animateBoxCoins(boxIndex,amount){
   }
 }
 function solved(){
-  if(playMode==='daily'){solveDaily();return}
+  if(playMode==='daily'){if(giftKey(dailyKey))giftPuzzleSolved();else solveDaily();return}
   if(playMode==='multi'){solveMulti();return}
   G.done=true;G.sel=-1;
   const first=!S.solved[S.page],{c}=chapterOf(S.page);
@@ -7771,7 +7783,8 @@ function showSolved(anim,reward){nlog('page',`solved: ${S.block||'nines'} page $
   if(playMode==='daily'){
     pageEl.querySelectorAll('.stamp,.turn').forEach(n=>n.remove());
     if(lost){const st=document.createElement('div');st.className='stamp lost-stamp'+(anim?' land':'');st.innerHTML='<b>Lost</b><small>solved without reward</small>';$('#gridwrap').appendChild(st)}
-    else if(!G.failed)showArt(anim,anim&&reward?`+${reward} coins${G.blind?' · quiet page':G.clean?' · clean page':''}`:'');
+    else if(!G.failed&&!giftKey(dailyKey))showArt(anim,anim&&reward?`+${reward} coins${G.blind?' · quiet page':G.clean?' · clean page':''}`:'');
+    if(giftKey(dailyKey)){const id=dailyKey.slice(5),open=!!gs().opened[id],g=document.createElement('button');g.className='turn gift-untie';g.textContent=open?'Unwrapped':'Untie the ribbon';g.disabled=open;g.setAttribute('aria-label',open?'This gift is unwrapped':'Untie the ribbon of the gift');g.addEventListener('click',e=>{e.stopPropagation();giftFromPage()});pageEl.appendChild(g);return}
     const b=document.createElement('button');b.className='turn';b.textContent='Back to calendar';b.setAttribute('aria-label','Back to the daily calendar');b.addEventListener('click',e=>{e.stopPropagation();openCalendar()});pageEl.appendChild(b);return;
   }
   if(G.failed)$('#gridwrap').querySelectorAll('.lost-stamp').forEach(n=>n.remove());
@@ -7847,7 +7860,7 @@ function pageTurn(fwd){
   else if(S.page>1){const previous=previousUnlocked(S.page);if(previous)flipBack(previous)}
   else closeBook()}
 /* after a solved page: on to whatever comes next */
-function nextAfterSolve(){if(playMode==='daily')openCalendar();else if(playMode==='multi')openMultiplayer();else if(unlocked(S.page+1))flipTo(S.page+1)}
+function nextAfterSolve(){if(playMode==='daily'){if(giftKey(dailyKey))giftFromPage();else openCalendar()}else if(playMode==='multi')openMultiplayer();else if(unlocked(S.page+1))flipTo(S.page+1)}
 function flipTo(p){
   if(flipping)return;
   if(reduced){sfx.flip();loadPage(p);return}
@@ -7881,8 +7894,12 @@ function flipTo(p){
    the folded-over part is a sheet of blank paper mirrored across the crease, with light and shadow laid along it.
    The three others are real depth: the copy is cut into upright strips hinged to each other, each strip turned a little
    more than the last, so the sheet bends. T.t runs from 0 (leaf lying flat on the right) to 1 (turned over). */
-const TURNS=[['classic','Classic'],['curl','Page curl'],['bend','Soft bend'],['ear','Dog-ear peek'],['heavy','Heavy page'],['riffle','Riffle']];
-const turnStyle=()=>TURNS.some(t=>t[0]===S.turn)?S.turn:'classic';
+const TURNS=[['classic','Classic'],['curl','Page curl'],['bend','Soft bend'],['ear','Dog-ear peek'],['heavy','Heavy page'],['lite','Light heavy'],['riffle','Riffle']];
+/* a new book turns its pages the light-heavy way; whoever chose a style keeps it (Classic is stored). The automatic tests start classic. */
+const TURN_DEF=/[?&]test\b/.test(location.search)&&!window.__turnDef?'classic':'lite';
+const turnStyle=()=>TURNS.some(t=>t[0]===S.turn)?S.turn:(window.__turnDef||TURN_DEF);
+/* the weighted sheets: [follow spring, damping, lag, speed lag, gravity, air drag] */
+const HEAVY={heavy:[.00009,.017,46,70,14,1.6],lite:[.00011,.019,41,60,12.6,1.85]};
 let TURN=null;
 const RAD=Math.PI/180,tclamp=(x,a,b)=>Math.max(a,Math.min(b,x)),tdiv=(c,p)=>{const d=document.createElement('div');d.className=c;if(p)p.appendChild(d);return d};
 const turnCopy=()=>{const n=pageEl.cloneNode(true);n.removeAttribute('id');n.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));n.style.visibility='';n.classList.add('turn-page');return n};
@@ -7977,7 +7994,7 @@ function leafOfPage(T,src,N,no){const cs=[...src.querySelectorAll('.grid .cell')
 /* a further leaf for the riffle: the face of page no (a blank page in the book, a quotation among the backs), and its back */
 function leafBlank(T,no,N){const el=T.faceOf(no);if(!N)return tmir(el,T.mir);const bf=T.backOf?.(no);return leafMake(T,N,tslice(T,el,T.mir),bf?tsliceB(T,bf,T.mir):null)}
 function bendBuild(T){T.rect=tdiv('turn-rect',T.stage);T.cast=tdiv('turn-cast',T.rect);T.leaf=leafOfPage(T,T.src,T.style==='riffle'?7:10);T.stage.appendChild(T.leaf.el);
-  T.B0=T.style==='heavy'?46:30;T.kv=T.style==='heavy'?70:46;T.th=T.fwd?0:180;T.om=0;bendDraw(T,T.th,0)}
+  {const h=HEAVY[T.style];T.B0=h?h[2]:30;T.kv=h?h[3]:46}T.th=T.fwd?0:180;T.om=0;bendDraw(T,T.th,0)}
 /* th in degrees, om in degrees a millisecond */
 function bendDraw(T,th,om,flut=0){T.th=th;T.t=th/180;const lag=tclamp(T.B0*Math.sin(2*th*RAD)+T.kv*om,-80,80);T.leaf.set(th,lag,flut);
   const c=Math.cos(tclamp(th-lag*.6,0,180)*RAD);T.cast.style.width=(T.W*(Math.max(0,c)+.1)).toFixed(1)+'px';T.cast.style.opacity=(Math.sin(th*RAD)*(th<90?1:.5)).toFixed(3)}
@@ -7985,13 +8002,13 @@ const bendAim=(T,dx)=>{const u=tclamp(Math.abs(dx)/(T.W*.9),0,1);return T.fwd?Ma
 function bendMove(T,p,now){const aim=bendAim(T,T.fwd?Math.min(0,p.x-T.g.x):Math.max(0,p.x-T.g.x));T.aim=aim;if(T.loop)return;T.loop=true;let last=now||performance.now();
   /* the sheet follows the finger: closely (bend) or with weight (heavy) */
   const f=n=>{if(T.done||!T.loop)return;const dt=tclamp(n-last,4,40);last=n;const prev=T.th;
-    if(T.style==='heavy'){T.om+=((T.aim-T.th)*.00009-T.om*.017)*dt;T.th=tclamp(T.th+T.om*dt,0,180)}else{T.th+=(T.aim-T.th)*(1-Math.pow(.0008,dt/1000*6));T.om=T.om*.6+(T.th-prev)/dt*.4}
+    if(HEAVY[T.style]){const h=HEAVY[T.style];T.om+=((T.aim-T.th)*h[0]-T.om*h[1])*dt;T.th=tclamp(T.th+T.om*dt,0,180)}else{T.th+=(T.aim-T.th)*(1-Math.pow(.0008,dt/1000*6));T.om=T.om*.6+(T.th-prev)/dt*.4}
     bendDraw(T,T.th,T.om);T.raf=requestAnimationFrame(f)};T.raf=requestAnimationFrame(f)}
 /* let go: the bend runs to the nearer side; the heavy page falls by its own weight */
 function bendEnd(T,vx){T.loop=false;cancelAnimationFrame(T.raf);const flick=Math.abs(vx)>.45;
-  if(T.style==='heavy'){let th=T.th*RAD,w=tclamp((T.om*1000)*RAD+(flick?(vx<0?5:-5):0),-10,10),last=performance.now(),hit=0;if(Math.abs(th-Math.PI/2)<.07&&Math.abs(w)<.4)w=(T.fwd?1:-1)*.8;
+  if(HEAVY[T.style]){const hv=HEAVY[T.style];let th=T.th*RAD,w=tclamp((T.om*1000)*RAD+(flick?(vx<0?5:-5):0),-10,10),last=performance.now(),hit=0;if(Math.abs(th-Math.PI/2)<.07&&Math.abs(w)<.4)w=(T.fwd?1:-1)*.8;
     const f=n=>{if(T.done)return;const dt=tclamp((n-last)/1000,.004,.04);last=n;
-      for(let i=0;i<4;i++){w+=(-14*Math.cos(th)-1.6*w)*dt/4;th+=w*dt/4;
+      for(let i=0;i<4;i++){w+=(-hv[4]*Math.cos(th)-hv[5]*w)*dt/4;th+=w*dt/4;
         if(th<=0||th>=Math.PI){const end=th<=0?0:Math.PI;th=end;if(Math.abs(w)>1.1){if(!hit++)sfx.thud();w=-w*.3}else{bendDraw(T,end/RAD,0);turnClose(T,T.fwd?end>0:end===0);return}}}
       bendDraw(T,th/RAD,w/RAD/1000);T.raf=requestAnimationFrame(f)};sfx.leaf('heavy');T.raf=requestAnimationFrame(f);return}
   const to=flick?(vx<0?180:0):(T.th>88?180:0),a=T.th,commit=T.fwd?to===180:to===0;if(commit)sfx.leaf(T.style==='riffle'?'bend':T.style);let prev=a,pt=performance.now();
@@ -7999,7 +8016,7 @@ function bendEnd(T,vx){T.loop=false;cancelAnimationFrame(T.raf);const flick=Math
 /* a sheet that lands on the right flutters once before it lies still */
 function bendSettle(T,to,commit,page){if(to!==0||T.fwd){turnClose(T,commit,page);return}turnRun(T,300,s=>bendDraw(T,0,0,-11*Math.exp(-s*4.2)*Math.sin(s*15)),()=>turnClose(T,commit,page))}
 function bendAuto(T){const a=T.fwd?0:180,b=T.fwd?180:0;
-  if(T.style==='heavy'){T.th=a;T.om=(T.fwd?1:-1)*7.05/RAD/1000;bendEnd(T,0);return}
+  if(HEAVY[T.style]){T.th=a;T.om=(T.fwd?1:-1)*7.05/RAD/1000;bendEnd(T,0);return}
   sfx.leaf('bend');let prev=a,pt=performance.now();turnRun(T,T.style==='riffle'?560:760,s=>{const th=a+(b-a)*easeIO(s),n=performance.now(),om=(th-prev)/Math.max(8,n-pt);prev=th;pt=n;bendDraw(T,th,om)},()=>bendSettle(T,b,true))}
 
 /* ---- riffle: the first leaf is the real page; more leaves follow it as the drag goes on ---- */
@@ -8033,6 +8050,7 @@ const TURN_ENG={
   ear:{build:foldBuild,grab:foldGrab,move:foldMove,end:(T,vx)=>foldEnd(T,foldWants(T,vx)),auto:foldAuto},
   bend:{build:bendBuild,grab:(T,g)=>{T.g=g},move:bendMove,end:bendEnd,auto:bendAuto},
   heavy:{build:bendBuild,grab:(T,g)=>{T.g=g},move:bendMove,end:bendEnd,auto:bendAuto},
+  lite:{build:bendBuild,grab:(T,g)=>{T.g=g},move:bendMove,end:bendEnd,auto:bendAuto},
   riffle:{build:rifBuild,grab:(T,g)=>{T.g=g;rifDraw(T,0)},move:(T,p)=>rifDraw(T,rifAim(T,p.x-T.g.x)),end:rifEnd,auto:bendAuto}};
 /* a turn that plays by itself (a tap on "next page", a swipe over the grid, the controller) */
 function turnAuto(fwd,p){if(flipping)return;const st=turnStyle(),T=turnOpen(fwd,p,st);TURN_ENG[st].auto(T)}
@@ -10046,7 +10064,7 @@ $('#payChoice').addEventListener('click',e=>{const b=e.target.closest('[data-pay
 $('#rcChoice').addEventListener('click',e=>{const b=e.target.closest('[data-rc-style]');if(!b)return;S.receiptStyle=b.dataset.rcStyle;applyRcpt();save();   /* a tap prints a sample over the settings (not kept) */
   if(!document.querySelector('.rc-wrap'))printReceipt(document.body,{when:Date.now(),no:0,rows:[['Dokushin',1,40],['Star',2,6],['Globe',1,22]],total:68,left:S.coins,st:S.receiptStyle})});
 applyTune();
-$('#tuneChoice').addEventListener('click',e=>{const b=e.target.closest('[data-tune]');if(!b)return;S.shopTune=b.dataset.tune;if(xmasTime())S.tuneYear=xmasNow().getFullYear();applyTune();save();if(S.shopTune==='off'){ShopTunes.stop(.4);sfx.toggle()}else ShopTunes.play(S.shopTune,{fade:.5,length:S.shopTune==='xmas'?14:9,...shopTuneOpts(S.shopTune)})});   /* a tap plays a few bars */
+$('#tuneChoice').addEventListener('click',e=>{const b=e.target.closest('[data-tune]');if(!b)return;S.shopTune=b.dataset.tune;S.tuneSet=1;if(xmasTime())S.tuneYear=xmasNow().getFullYear();applyTune();save();if(S.shopTune==='off'){ShopTunes.stop(.4);sfx.toggle()}else ShopTunes.play(S.shopTune,{fade:.5,length:S.shopTune==='xmas'?14:9,...shopTuneOpts(S.shopTune)})});   /* a tap plays a few bars */
 $('#dnChoice').addEventListener('click',e=>{const b=e.target.closest('[data-dn]');if(!b)return;S.dnStyle=b.dataset.dn;applyDayBtn();sfx.toggle();save()});
 function applyStore(){const id=STORES[S.store]?S.store:'corner-awning',b=$('#shopBtn');b.innerHTML=`<svg viewBox="0 0 60 56" aria-hidden="true">${STORES[id].svg}</svg>`;b.dataset.store=id;
   const row=$('#storeChoice');if(row&&!row.children.length)row.innerHTML=Object.entries(STORES).map(([k,st])=>`<button type="button" data-store="${k}" aria-label="${st.label}"><svg viewBox="0 0 60 56" aria-hidden="true">${st.svg.replace(/id="(s[wd]-[a-z]+)"/g,'id="$1-p"').replace(/url\(#(s[wd]-[a-z]+)\)/g,'url(#$1-p)')}</svg><span>${st.label}</span></button>`).join('');
@@ -10170,7 +10188,7 @@ function normaliseSave(d){
   const top=(d.block||'nines')===n.block?d:obj(obj(d.shelf).nines),lim=PAGE_LIMIT(n.block);if(top!==d)delete n.shelf.nines;
   n.nv=2;n.page=Number.isInteger(+top.page)&&(+top.page>0||(isVol(n.block)&&+top.page===0))?Math.min(lim,+top.page):1;n.maxPage=Number.isInteger(+top.maxPage)?Math.max(n.page,Math.min(lim+1,+top.maxPage)):n.page;
   for(const k of ['showFoot','showLeft','loading','leather','p3','qtab','plhearts','pllife','plspots','pengu','sndbtn','fsbtn','flowers','radio','sprout','wide','savePage'])if(typeof d[k]==='boolean')n[k]=d[k];
-  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.ripped&&Number.isInteger(+d.ripped.d)&&d.ripped.s&&typeof d.ripped.s==='object'&&!Array.isArray(d.ripped.s)){n.ripped={d:+d.ripped.d,s:{}};for(const [k,v] of Object.entries(d.ripped.s).slice(0,80))if(/^[a-z0-9:]{1,40}$/i.test(k)&&Number.isInteger(v)&&v>=0&&v<WALL_ART.length)n.ripped.s[k]=v}if(d.shopMotion===1)n.shopMotion=1;if(d.type&&typeof d.type==='object')n.type=typeClean(d.type);if(Array.isArray(d.typeP)){n.typeP=d.typeP.filter(p=>p&&typeof p.n==='string'&&p.t&&typeof p.t==='object').slice(0,12).map(p=>({n:p.n.slice(0,28),t:typeClean(p.t)}));if(!n.typeP.length)delete n.typeP}if(d.typeUI&&typeof d.typeUI==='object'){n.typeUI={};if(/^[tblrf]$/.test(d.typeUI.d))n.typeUI.d=d.typeUI.d;for(const k of ['sv','sh','x','y','w','h'])if(Number.isFinite(+d.typeUI[k])&&d.typeUI[k]!==null)n.typeUI[k]=Math.round(+d.typeUI[k]*10)/10;if(d.typeUI.m)n.typeUI.m=1}if(d.mig43)n.mig43=1;if(d.mig48)n.mig48=1;if(d.mig55)n.mig55=1;if(d.odo4)n.odo4=1;if(d.gzShop)n.gzShop=1;if(d.itself&&Number.isFinite(+d.itself.at))n.itself={at:+d.itself.at};if(d.itselfSaid)n.itselfSaid=1;if(Number.isFinite(+d.named)&&d.named)n.named=+d.named;if(d.tutOwn)n.tutOwn=1;if(d.gzOwn)n.gzOwn=1;if(d.giltSaid)n.giltSaid=1;if(d.odo4On===0)n.odo4On=0;if(Number.isFinite(+d.coinPeak)&&d.coinPeak!==null)n.coinPeak=Math.max(0,Math.min(1e9,+d.coinPeak|0));if(Number.isFinite(d.relKnown))n.relKnown=Math.max(0,Math.min(999,d.relKnown|0));if(Number.isFinite(d.relT0))n.relT0=d.relT0|0;if(d.relSeen&&typeof d.relSeen==='object'){n.relSeen={};for(const [k,v] of Object.entries(d.relSeen))if(/^[a-z]+:[\w-]+$/.test(k)&&Number.isFinite(v))n.relSeen[k]=v|0}if(Array.isArray(d.relNews))n.relNews=d.relNews.filter(k=>typeof k==='string').slice(0,40);if(d.imprint==='blind')n.imprint='blind';{const r=d.rate;if(r&&typeof r==='object'){if(r.st==='done')n.rate={st:'done',how:['go','did','later'].includes(r.how)?r.how:'did'};else if(r.st==='later')n.rate={st:'later',n:Math.min(2,Math.max(1,r.n|0)),at:Math.max(0,+r.at||0)}}}{const D=d.disc,ok=new Set(DISC.map(x=>x.id)),o={f:{},t:{}};if(D&&typeof D==='object'){for(const[k,v]of Object.entries(D.f&&typeof D.f==='object'?D.f:{}))if(ok.has(k)&&Number.isFinite(+v)&&+v>0)o.f[k]=+v;for(const k of Object.keys(D.t&&typeof D.t==='object'?D.t:{}))if(ok.has(k))o.t[k]=1}n.disc=o}if(/^(curl|bend|ear|heavy|riffle)$/.test(d.turn))n.turn=d.turn;if(d.koiMsg===1)n.koiMsg=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
+  if(d.mediaAsked)n.mediaAsked=1;n.rw={};for(const k of Object.keys(d.rw&&typeof d.rw==='object'?d.rw:{}))if(/^\d{1,2}$/.test(k))n.rw[k]=1;if(d.vinPos==='in'||d.vinPos==='side')n.vinPos=d.vinPos;if(d.handGrid===true)n.handGrid=true;if(d.vinOn===1)n.vinOn=1;if(d.ripped&&Number.isInteger(+d.ripped.d)&&d.ripped.s&&typeof d.ripped.s==='object'&&!Array.isArray(d.ripped.s)){n.ripped={d:+d.ripped.d,s:{}};for(const [k,v] of Object.entries(d.ripped.s).slice(0,80))if(/^[a-z0-9:]{1,40}$/i.test(k)&&Number.isInteger(v)&&v>=0&&v<WALL_ART.length)n.ripped.s[k]=v}if(d.shopMotion===1)n.shopMotion=1;if(d.type&&typeof d.type==='object')n.type=typeClean(d.type);if(Array.isArray(d.typeP)){n.typeP=d.typeP.filter(p=>p&&typeof p.n==='string'&&p.t&&typeof p.t==='object').slice(0,12).map(p=>({n:p.n.slice(0,28),t:typeClean(p.t)}));if(!n.typeP.length)delete n.typeP}if(d.typeUI&&typeof d.typeUI==='object'){n.typeUI={};if(/^[tblrf]$/.test(d.typeUI.d))n.typeUI.d=d.typeUI.d;for(const k of ['sv','sh','x','y','w','h'])if(Number.isFinite(+d.typeUI[k])&&d.typeUI[k]!==null)n.typeUI[k]=Math.round(+d.typeUI[k]*10)/10;if(d.typeUI.m)n.typeUI.m=1}if(d.mig43)n.mig43=1;if(d.mig48)n.mig48=1;if(d.mig55)n.mig55=1;if(d.odo4)n.odo4=1;if(d.gzShop)n.gzShop=1;if(d.itself&&Number.isFinite(+d.itself.at))n.itself={at:+d.itself.at};if(d.itselfSaid)n.itselfSaid=1;if(Number.isFinite(+d.named)&&d.named)n.named=+d.named;if(d.tutOwn)n.tutOwn=1;if(d.gzOwn)n.gzOwn=1;if(d.giltSaid)n.giltSaid=1;if(d.odo4On===0)n.odo4On=0;if(Number.isFinite(+d.coinPeak)&&d.coinPeak!==null)n.coinPeak=Math.max(0,Math.min(1e9,+d.coinPeak|0));if(Number.isFinite(d.relKnown))n.relKnown=Math.max(0,Math.min(999,d.relKnown|0));if(Number.isFinite(d.relT0))n.relT0=d.relT0|0;if(d.relSeen&&typeof d.relSeen==='object'){n.relSeen={};for(const [k,v] of Object.entries(d.relSeen))if(/^[a-z]+:[\w-]+$/.test(k)&&Number.isFinite(v))n.relSeen[k]=v|0}if(Array.isArray(d.relNews))n.relNews=d.relNews.filter(k=>typeof k==='string').slice(0,40);if(d.imprint==='blind')n.imprint='blind';{const r=d.rate;if(r&&typeof r==='object'){if(r.st==='done')n.rate={st:'done',how:['go','did','later'].includes(r.how)?r.how:'did'};else if(r.st==='later')n.rate={st:'later',n:Math.min(2,Math.max(1,r.n|0)),at:Math.max(0,+r.at||0)}}}{const D=d.disc,ok=new Set(DISC.map(x=>x.id)),o={f:{},t:{}};if(D&&typeof D==='object'){for(const[k,v]of Object.entries(D.f&&typeof D.f==='object'?D.f:{}))if(ok.has(k)&&Number.isFinite(+v)&&+v>0)o.f[k]=+v;for(const k of Object.keys(D.t&&typeof D.t==='object'?D.t:{}))if(ok.has(k))o.t[k]=1}n.disc=o}if(/^(classic|curl|bend|ear|heavy|lite|riffle)$/.test(d.turn))n.turn=d.turn;if(d.koiMsg===1)n.koiMsg=1;if(d.selDay&&Number.isInteger(+d.selDay.d)&&Array.isArray(d.selDay.k))n.selDay={d:+d.selDay.d,k:d.selDay.k.filter(k=>typeof k==='string'&&k.length<60).slice(0,6)};if(d.mpUi==='fax')n.mpUi='fax';if(/^(fine|burl|knotty|oak|weathered)$/.test(d.cmTex||''))n.cmTex=d.cmTex;if(d.vin3d===1)n.vin3d=1;if(d.pxStyle==='chalk'||d.pxStyle==='pastel')n.pxStyle=d.pxStyle;if(typeof d.nameFont==='string'&&/^[a-z]{2,12}$/.test(d.nameFont))n.nameFont=d.nameFont;if(Number.isFinite(+d.nameInk)&&d.nameInk!==null)n.nameInk=Math.max(0,Math.min(100,Math.round(+d.nameInk)));if(d.mbAlpha!==undefined&&d.mbAlpha!==null&&Number.isFinite(+d.mbAlpha))n.mbAlpha=Math.max(0,Math.min(100,Math.round(+d.mbAlpha)));
   n.flora={fl:{},vz:{},cur:null,arr:{},seed:{}};{const f=obj(d.flora),fid=Flora.FLOWERS.map(x=>x.id),vid=Flora.VASES.map(x=>x.id);
     for(const [id,c] of Object.entries(obj(f.fl)))if(fid.includes(id)&&Number.isInteger(+c)&&+c>0)n.flora.fl[id]=Math.min(999,+c);
     for(const id of Object.keys(obj(f.vz)))if(vid.includes(id))n.flora.vz[id]=1;
@@ -10197,7 +10215,7 @@ function normaliseSave(d){
     n.prog[p]={v:pr.v.slice(),n:pr.n.slice(),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(v=>v?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(Boolean).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?Math.max(0,Math.min(MAX_LIVES,pr.l)):MAX_LIVES,b:Number.isInteger(pr.b)?pr.b&511:0,m:Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0,s:Number.isInteger(pr.s)?Math.max(0,Math.min(99,pr.s)):0};if(pr.z){n.prog[p].z=1;n.prog[p].q=Array.isArray(pr.q)&&pr.q.length===81?pr.q.map(v=>v?1:0):new Array(81).fill(0)}
   }
   n.daily={};for(const[key,pr]of Object.entries(obj(d.daily)).sort((a,b)=>a[0]<b[0]?1:-1).slice(0,400)){
-    if(!/^\d{4}-\d{2}-\d{2}$/.test(key)||!pr||!Array.isArray(pr.v)||!Array.isArray(pr.n)||pr.v.length!==81||pr.n.length!==81)continue;
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(key)&&!/^gift:[a-z0-9]{8,16}$/.test(key)||!pr||!Array.isArray(pr.v)||!Array.isArray(pr.n)||pr.v.length!==81||pr.n.length!==81)continue;
     if(!pr.v.every(v=>Number.isInteger(v)&&v>=0&&v<=9)||!pr.n.every(v=>Number.isInteger(v)&&v>=0&&v<=1022))continue;
     n.daily[key]={v:pr.v.slice(),n:pr.n.slice(),h:Array.isArray(pr.h)&&pr.h.length===81?pr.h.map(v=>v?1:0):new Array(81).fill(0),u:Number.isInteger(pr.u)?Math.max(0,Math.min(40,pr.u)):Array.isArray(pr.h)?pr.h.filter(Boolean).length:0,c:pr.c!==false,l:Number.isInteger(pr.l)?Math.max(0,Math.min(MAX_LIVES,pr.l)):MAX_LIVES,b:Number.isInteger(pr.b)?pr.b&511:0,m:Number.isInteger(pr.m)?Math.max(0,Math.min(81,pr.m)):0,d:pr.d?1:0};if(pr.z){n.daily[key].z=1;n.daily[key].q=Array.isArray(pr.q)&&pr.q.length===81?pr.q.map(v=>v?1:0):new Array(81).fill(0)}
   }
@@ -10215,7 +10233,7 @@ function normaliseSave(d){
   n.store=['corner','bouquiniste','jinbocho','deco','corner-flat','corner-awning','corner-ink','corner-pixel'].includes(d.store)?(d.store==='corner'&&!d.mig34?'corner-awning':d.store):'corner-awning';   /* Corner · Awning is the default (from 7 Nov 2026) */
   n.dnStyle=['line','coin','almanac','deco','pixel','switch'].includes(d.dnStyle)?d.dnStyle:'line';
   n.bell=['brass','chimes','dingdong','konbini','furin'].includes(d.bell)?d.bell:'brass';
-  n.shopTune=['waltz','bossa','lofi','shoten','muzak','xmas','off'].includes(d.shopTune)?d.shopTune:'bossa';if(Number.isInteger(d.tuneYear)&&d.tuneYear>2000&&d.tuneYear<3000)n.tuneYear=d.tuneYear;if(Number.isInteger(d.xmasN))n.xmasN=Math.abs(d.xmasN)%5;if(Number.isInteger(d.xboxN))n.xboxN=Math.abs(d.xboxN)%5;   /* the bookstore's music: bossa nova unless chosen otherwise */
+  n.shopTune=['waltz','bossa','lofi','shoten','muzak','xmas','off'].includes(d.shopTune)?d.shopTune:'bossa';if(Number.isInteger(d.tuneYear)&&d.tuneYear>2000&&d.tuneYear<3000)n.tuneYear=d.tuneYear;if(Number.isInteger(d.xmasN))n.xmasN=Math.abs(d.xmasN)%5;if(Number.isInteger(d.xboxN))n.xboxN=Math.abs(d.xboxN)%5;if(d.tuneSet===1)n.tuneSet=1;   /* the bookstore's music: bossa nova unless chosen otherwise */
   if(d.tune62)n.tune62=1;else{n.tune62=1;if(n.shopTune==='waltz')n.shopTune='bossa'}   /* once: the old default (the waltz) becomes the new one */
   n.paySound=['register','coins','scanner','soroban','sparkle'].includes(d.paySound)?d.paySound:'register';n.receiptStyle=['thermal','dotmatrix','typewriter'].includes(d.receiptStyle)?d.receiptStyle:'thermal';
   n.receipts=(Array.isArray(d.receipts)?d.receipts:[]).filter(r=>r&&/^rc[a-z0-9]{3,20}$/.test(r.id)&&Array.isArray(r.rows)).slice(0,60).map(r=>({id:r.id,when:+r.when||0,no:Math.max(0,Math.floor(+r.no||0)),
@@ -10230,11 +10248,12 @@ function normaliseSave(d){
   n.advent={};for(const[k,g]of Object.entries(obj(d.advent)))if(/^\d{4}-12-(0[1-9]|1\d|2[0-4])$/.test(k)){const o=obj(g),ok=Number.isInteger(o.c)&&o.c>0&&o.c<100?{c:o.c}:typeof o.s==='string'&&STK.some(x=>x.id===o.s)?{s:o.s}:typeof o.o==='string'&&Commode.ORN[o.o]?{o:o.o}:typeof o.y==='string'&&STYLES.some(x=>x.id===o.y)?{y:o.y}:o.sc==='snowfall'?{sc:'snowfall'}:{c:9};n.advent[k]=ok}   /* the Advent doors opened, and what each held */if(!d.mig34&&d.scene==='heraldry')n.scenes.heraldry=1;   /* Heraldry was free before it went into the bookstore */
   n.commode=Commode.S[d.commode]?d.commode:'farm';n.cmIcon=n.commode==='farm'?(d.cmIcon==='full'||Commode.alts.includes(d.cmIcon)?d.cmIcon:'flat'):null;   /* Farmhouse · Flat is the default icon; 'full' is the detailed one */
   /* the Gift Box: the boxes opened and sealed (a box opens only once), the spare copies, and the cards of the gifts received */
-  n.gift={opened:{},sent:{},spare:{},got:[]};{const g=obj(d.gift),bid=/^[a-z0-9]{8,16}$/;
+  n.gift={opened:{},sent:{},spare:{},got:[],wait:{}};{const g=obj(d.gift),bid=/^[a-z0-9]{8,16}$/;
     for(const [k,t] of Object.entries(obj(g.opened)).slice(0,5000))if(bid.test(k)&&+t>0)n.gift.opened[k]=+t;
-    for(const [k,x] of Object.entries(obj(g.sent)).slice(0,2000))if(bid.test(k)&&x&&+x.at>0&&typeof x.code==='string'&&x.code.length<12000&&/^NG1\.[A-Za-z0-9_-]+\.[a-z0-9]{7}$/.test(x.code))n.gift.sent[k]={at:+x.at,n:Math.max(1,Math.min(9999,x.n|0)),code:x.code};
+    for(const [k,x] of Object.entries(obj(g.sent)).slice(0,2000))if(bid.test(k)&&x&&+x.at>0&&typeof x.code==='string'&&x.code.length<12000&&/^NG[12]\.[A-Za-z0-9_-]+\.[a-z0-9]{7}$/.test(x.code))n.gift.sent[k]={at:+x.at,n:Math.max(0,Math.min(9999,x.n|0)),code:x.code,m:String(x.m||'').slice(0,600),w:Number.isInteger(x.w)?x.w:-1};
+    for(const [k,w] of Object.entries(obj(g.wait)).slice(0,100))if(bid.test(k)&&w&&typeof w.code==='string'&&w.code.length<16000&&/^NG2\.[A-Za-z0-9_-]+\.[a-z0-9]{7}$/.test(w.code))n.gift.wait[k]={code:w.code};
     for(const [k,c] of Object.entries(obj(g.spare)).slice(0,400))if(/^[opc]:[A-Za-z0-9_-]{1,30}$/.test(k)&&(c|0)>0)n.gift.spare[k]=Math.min(999,c|0);
-    for(const r of (Array.isArray(g.got)?g.got:[]).slice(0,200))if(r&&bid.test(r.id||'')&&+r.at>0&&Array.isArray(r.items))n.gift.got.push({id:r.id,from:String(r.from||'').replace(/[|<>"&]/g,'').slice(0,18)||'A friend',at:+r.at,opened:+r.opened||0,items:r.items.slice(0,80).filter(i=>Array.isArray(i)&&/^[sfopc]$/.test(i[0])&&/^[A-Za-z0-9_-]{1,30}$/.test(i[1]||'')).map(i=>[i[0],i[1],Math.max(1,Math.min(99,i[2]|0))])})}
+    for(const r of (Array.isArray(g.got)?g.got:[]).slice(0,200))if(r&&bid.test(r.id||'')&&+r.at>0&&Array.isArray(r.items))n.gift.got.push({id:r.id,from:String(r.from||'').replace(/[|<>"&]/g,'').slice(0,18)||'A friend',at:+r.at,opened:+r.opened||0,items:r.items.slice(0,80).filter(i=>Array.isArray(i)&&/^[sfopc]$/.test(i[0])&&/^[A-Za-z0-9_-]{1,30}$/.test(i[1]||'')).map(i=>[i[0],i[1],Math.max(1,Math.min(99,i[2]|0))]),msg:String(r.msg||'').replace(/[\u0000-\u0009\u000b-\u001f]/g,'').slice(0,600),w:Number.isInteger(r.w)?r.w:-1})}
   n.orn={own:{},off:{}};{const o=obj(d.orn);for(const id of Object.keys(obj(o.own)))if(Commode.ORN[id]&&!Commode.ORN[id].free)n.orn.own[id]=1;for(const id of Object.keys(obj(o.off)))if(Commode.ORN[id])n.orn.off[id]=1;
     let k=0;for(const id of Object.keys(Commode.ORN))if((Commode.ORN[id].free||n.orn.own[id])&&!n.orn.off[id]&&++k>ORN_TOP)n.orn.off[id]=1}   /* the top holds four */
   n.adsOn=d.adsOn===1?1:0;   /* with No ads bought: 1 = the player switched the ads back on */
@@ -12036,8 +12055,8 @@ $('#typeProfiles')?.addEventListener('click',e=>{const b=e.target.closest('[data
 $('#giltChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-gilt]');if(!b||!S.odo4)return;if(b.dataset.gilt==='1')delete S.odo4On;else S.odo4On=0;setCoins(S.coins);applyMediaPanel();save();sfx.tick?.()});
 $('#imprintChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-imprint]');if(!b)return;if(b.dataset.imprint==='blind')S.imprint='blind';else delete S.imprint;applyMediaPanel();save();sfx.tick?.()});
 $('#koiMsgChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-koimsg]');if(!b)return;if(b.dataset.koimsg==='1')S.koiMsg=1;else delete S.koiMsg;applyMediaPanel();save();sfx.tick?.()});
-const TURN_NOTES={classic:'The page swings over on a swipe, as it always has.',curl:'Drag a page and it rolls back under your finger. Let go before the middle and it falls back.',bend:'The page swings round the spine and bends as it goes. It follows your finger.',ear:'Hold a corner and it folds up for a look at the next page; drag on to turn.',heavy:'A weighted page: it lags, hangs when it stands upright, then falls and settles.',riffle:'Drag far and several pages fan past: let go on the page you want.'};
-$('#turnChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-turn]');if(!b)return;if(b.dataset.turn==='classic')delete S.turn;else S.turn=b.dataset.turn;applyMediaPanel();save();sfx.tick?.()});
+const TURN_NOTES={classic:'The page swings over on a swipe, as it always has.',curl:'Drag a page and it rolls back under your finger. Let go before the middle and it falls back.',bend:'The page swings round the spine and bends as it goes. It follows your finger.',ear:'Hold a corner and it folds up for a look at the next page; drag on to turn.',heavy:'A weighted page: it lags, hangs when it stands upright, then falls and settles.',lite:'Like the heavy page, a touch lighter: it follows your finger a little sooner and falls a little more gently. The default.',riffle:'Drag far and several pages fan past: let go on the page you want.'};
+$('#turnChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-turn]');if(!b)return;S.turn=b.dataset.turn;applyMediaPanel();save();sfx.tick?.()});
 $('#shopMoveChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-shopmove]');if(!b)return;if(b.dataset.shopmove==='1')S.shopMotion=1;else delete S.shopMotion;applyMediaPanel();save();sfx.tick?.()});
 $('#vinOnChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-vinon]');if(!b)return;if(b.dataset.vinon==='1')S.vinOn=1;else delete S.vinOn;applyMediaPanel();mediaPlace();save();sfx.tick?.()});
 $('#vinPosChoice')?.addEventListener('click',e=>{const b=e.target.closest('[data-vinpos]');if(!b)return;S.vinPos=b.dataset.vinpos;applyMediaPanel();mediaPlace();save();sfx.tick?.()});
@@ -12066,7 +12085,7 @@ function adsBegin(){adsSync();if(adsOff())return;if(NA('adsBegin'))try{window.Ni
    I already did (middle: never again), Rate the book (right: the Play Store page; never again). No questions before it, no reward. */
 const RATE_URL='https://play.google.com/store/apps/details?id=com.BookOfNines';
 const rateApp=()=>!OVERLAY&&(!!window.NinesApp||!!window.__rateAnywhere);
-const solvedAll=()=>relSolved()+Object.values(S.daily||{}).filter(d=>d&&d.d).length;
+const solvedAll=()=>relSolved()+Object.entries(S.daily||{}).filter(([k,d])=>d&&d.d&&!giftKey(k)).length;
 function rateDue(){const r=S.rate||{};if(!rateApp()||r.st==='done')return false;const n=solvedAll();return r.st==='later'?n>=(r.at||0)+10:n>=3}
 /* the three little faces on the rating buttons, drawn as ink line art (no emoji): sleepy (Later), glad with blushes (Already did), winking (Rate now) */
 function raFace(kind){
@@ -12129,6 +12148,7 @@ function moonPhase(key){const[y,m,d]=key.split('-').map(Number);const t=Date.UTC
 function moonMark(key){const{age}=moonPhase(key),half=29.530589/2,q=29.530589/4;const near=(x,c)=>Math.abs(x-c)<.5||Math.abs(x-c-29.530589)<.5;if(near(age,0))return{id:'new',label:'New moon'};if(near(age,q))return{id:'first',label:'First quarter'};if(near(age,half))return{id:'full',label:'Full moon'};if(near(age,3*q))return{id:'last',label:'Last quarter'};return null}
 function moonSVG(id){const m={new:'<circle cx="12" cy="12" r="8" fill="none"/>',full:'<circle cx="12" cy="12" r="8"/>',first:'<path d="M12 4a8 8 0 0 1 0 16Z"/><circle cx="12" cy="12" r="8" fill="none"/>',last:'<path d="M12 4a8 8 0 0 0 0 16Z"/><circle cx="12" cy="12" r="8" fill="none"/>'};return`<svg viewBox="0 0 24 24" class="moon ${id}">${m[id]}</svg>`}
 function dailyInfo(key){
+  if(giftKey(key)){const b=giftWaitBox(key.slice(5));return{key,title:b?'A gift from '+b.from:'A gift',diff:b?b.diff:1,season:'winter',motif:'gift',cls:'gift',seed:parseInt(gSum(key),36)>>>0,event:false,eventName:''}}   /* the puzzle round a gift box */
   const[y,m,d]=key.split('-').map(Number),season=seasonOf(m,d),seed=parseInt(codeHash('almanac:'+key),16),rnd=mulberry(seed);let event=null;
   const events={'01-01':['New Year · The First Light','star'],'02-14':["Valentine’s · The Heart’s Arithmetic",'heart'],'03-17':['St. Patrick’s · The Clover Proof','leaf'],'04-01':['April Fools · The Crooked Nine','star'],'04-22':['Earth Day · The Living Grid','leaf'],'05-01':['May Day · The Garland Page','leaf'],'06-21':['Midsummer · The Solstice Cipher','sun'],'07-04':['Independence Day · The Star Spangled Nine','star'],'10-31':['Halloween · The Pumpkin Cipher','pumpkin'],'12-24':['Christmas Eve · The Silent Grid','tree'],'12-25':['Christmas · Bells in the Snow','tree'],'12-31':['New Year’s Eve · The Last Bell','star']};
   if(events[key.slice(5)]){const[title,motif]=events[key.slice(5)];event={title,motif}}
@@ -12146,8 +12166,8 @@ function generatedPuzzle(seed,diff){
   for(const i of order){if(giv<=tgt)break;const j=80-i,x=puz[i],y=puz[j];puz[i]=0;puz[j]=0;if(solve(puz.slice(),2).count!==1){puz[i]=x;puz[j]=y}else giv-=(i===j?1:2)}
   return{puz,sol,giv};
 }
-function dailyPuzzle(key){if(!DAILY_PZ[key]){const d=dailyInfo(key);DAILY_PZ[key]=generatedPuzzle(parseInt(codeHash('grid:'+key),16),d.diff)}return DAILY_PZ[key]}
-function motifSVG(id){const paths={flag:'<path d="M5 22V3M5 4h13l-3 4 3 4H5"/>',egg:'<path d="M12 2c4 0 7 6 7 11a7 7 0 0 1-14 0c0-5 3-11 7-11Z"/><path d="M6 12c2-1 4 1 6 0s4-1 6 0"/>',heart:'<path d="M12 21C4 16 2 11 4 7c2-4 7-3 8 1 1-4 6-5 8-1 2 4 0 9-8 14Z"/>',snow:'<path d="M12 2v20M4 7l16 10M20 7L4 17M8 4l4 3 4-3M8 20l4-3 4 3"/>',sun:'<circle cx="12" cy="12" r="5"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4 4l2 2M18 18l2 2M20 4l-2 2M6 18l-2 2"/>',leaf:'<path d="M20 3C10 3 4 7 4 14c0 4 3 7 7 7 7 0 9-9 9-18Z M3 22 16 9"/>',pumpkin:'<path d="M12 6V2M9 4h6M12 6c-7-3-10 3-9 9 1 7 6 7 9 4 3 3 8 3 9-4 1-6-2-12-9-9Z M12 7v12"/>',tree:'<path d="M12 2 6 10h4l-6 8h16l-6-8h4Z M12 18v4"/>',star:'<path d="m12 2 3 7 7 1-5 5 1 7-6-4-6 4 1-7-5-5 7-1Z"/>'};return`<svg viewBox="0 0 24 24">${paths[id]||paths.star}</svg>`}
+function dailyPuzzle(key){if(giftKey(key)){if(!DAILY_PZ[key]){const b=giftWaitBox(key.slice(5));DAILY_PZ[key]={puz:b.puz.slice(),sol:b.sol.slice(),giv:b.puz.filter(Boolean).length}}return DAILY_PZ[key]}if(!DAILY_PZ[key]){const d=dailyInfo(key);DAILY_PZ[key]=generatedPuzzle(parseInt(codeHash('grid:'+key),16),d.diff)}return DAILY_PZ[key]}
+function motifSVG(id){const paths={gift:'<rect x="4" y="10" width="16" height="11" rx="1"/><path d="M3 7h18v3H3zM12 7v14M12 7C10 3 6 3 7 6c.6 1.3 3 1 5 1zM12 7c2-4 6-4 5-1-.6 1.3-3 1-5 1z"/>',flag:'<path d="M5 22V3M5 4h13l-3 4 3 4H5"/>',egg:'<path d="M12 2c4 0 7 6 7 11a7 7 0 0 1-14 0c0-5 3-11 7-11Z"/><path d="M6 12c2-1 4 1 6 0s4-1 6 0"/>',heart:'<path d="M12 21C4 16 2 11 4 7c2-4 7-3 8 1 1-4 6-5 8-1 2 4 0 9-8 14Z"/>',snow:'<path d="M12 2v20M4 7l16 10M20 7L4 17M8 4l4 3 4-3M8 20l4-3 4 3"/>',sun:'<circle cx="12" cy="12" r="5"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4 4l2 2M18 18l2 2M20 4l-2 2M6 18l-2 2"/>',leaf:'<path d="M20 3C10 3 4 7 4 14c0 4 3 7 7 7 7 0 9-9 9-18Z M3 22 16 9"/>',pumpkin:'<path d="M12 6V2M9 4h6M12 6c-7-3-10 3-9 9 1 7 6 7 9 4 3 3 8 3 9-4 1-6-2-12-9-9Z M12 7v12"/>',tree:'<path d="M12 2 6 10h4l-6 8h16l-6-8h4Z M12 18v4"/>',star:'<path d="m12 2 3 7 7 1-5 5 1 7-6-4-6 4 1-7-5-5 7-1Z"/>'};return`<svg viewBox="0 0 24 24">${paths[id]||paths.star}</svg>`}
 /* the record at the back of the book is put away at once (no animation) when something else needs the page */
 function dropBack(){dropFront();if(!atBack)return;toyHide();backCover.hidden=true;board.classList.remove('at-end');{const tc=$('.tcell');tc.classList.remove('folded');tc.getAnimations().forEach(a=>a.cancel())}atBack=false;saveFlipping=false}
 function placeSpecial(loader,print=false){
@@ -12176,7 +12196,7 @@ function startDaily(key){
 function leaveDaily(calendar=true){
   if(playMode!=='daily')return;const key=dailyKey,old=pageEl.cloneNode(true),r=pcell.getBoundingClientRect();old.removeAttribute('id');old.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));stash();loadPage((S.page??1),true);dailyKey=null;currentTheme=null;
   if(!reduced){old.classList.add('tear-sheet');Object.assign(old.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});document.body.appendChild(old);old.animate([{transform:'translateY(0) rotate(0)',opacity:1},{transform:'translateY(-110vh) rotate(-7deg)',opacity:.7}],{duration:650,easing:'cubic-bezier(.45,0,.8,.3)',fill:'forwards'}).onfinish=()=>old.remove()}
-  if(calendar)setTimeout(()=>openCalendar(key),reduced?0:180)
+  if(calendar&&!giftKey(key))setTimeout(()=>openCalendar(key),reduced?0:180)
 }
 /* ================= the Advent calendar =================
    In December the almanac's first twenty-four days are little doors. A door opens only when that day's page is solved
@@ -12613,7 +12633,7 @@ function giftInfo(t,id){if(!GIFT_ID.test(id||''))return null;
   if(t==='p'){const C=PlushCast.CAST.find(x=>x.id===id);return C&&plushShown(id)?{name:C.name,art:()=>`<img src="${plushArt(id)}" alt="">`}:null}
   if(t==='c'){const st=STYLES.find(x=>x.id===id&&x.cat==='cover');return st?{name:st.name,art:()=>`<span class="style-swatch ${id}"></span>`}:null}
   return null}
-const gs=()=>{const g=S.gift||(S.gift={});g.opened=g.opened||{};g.sent=g.sent||{};g.spare=g.spare||{};g.got=g.got||[];return g};
+const gs=()=>{const g=S.gift||(S.gift={});g.opened=g.opened||{};g.sent=g.sent||{};g.spare=g.spare||{};g.got=g.got||[];g.wait=g.wait||{};return g};
 /* how many of a thing there are to give: the ones in stock, and for a thing one has only once, the one and its spares */
 function giftHave(t,id){const sp=gs().spare[t+':'+id]||0;
   if(t==='s')return stk().owned[id]||0;
@@ -12652,25 +12672,48 @@ const gNewId=()=>{const a=new Uint8Array(10);try{crypto.getRandomValues(a)}catch
 const gName=s=>String(s||'').replace(/[|<>"&\u0000-\u001f]/g,'').trim().slice(0,18);
 const giftDate=t=>new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
 function giftCode(box){const p=[box.id,box.from,box.at.toString(36),box.items.map(i=>i.t+':'+i.id+':'+i.n).join(',')].join('|');return'NG1.'+gB64(p)+'.'+gSum(p)}
-/* reads a code, or a whole link or message with one in it: the box, {err:'newer'} when it holds something this book does not know, or null */
-function giftRead(raw){const RX=/NG1\.([A-Za-z0-9_-]{8,8000})\.([a-z0-9]{7})(?![A-Za-z0-9_-])/,txt=String(raw||''),m=RX.exec(txt)||RX.exec(txt.replace(/\s+/g,''));if(!m)return null;   /* as pasted, or (a code a message program broke across lines) with the breaks taken out */
-  let p;try{p=gUn64(m[1])}catch(e){return null}if(gSum(p)!==m[2])return null;
-  const a=p.split('|');if(a.length!==4||!/^[a-z0-9]{8,16}$/.test(a[0]))return null;const at=parseInt(a[2],36);if(!(at>0&&at<4e12))return null;
-  const items=[],seen=new Set();let newer=false;
-  for(const e of a[3].split(',')){const [t,id,n]=e.split(':'),c=Math.floor(+n);if(!(c>=1&&c<=99)||seen.has(t+id)||items.length>=80)return null;seen.add(t+id);if(!giftInfo(t,id)){newer=true;continue}items.push({t,id,n:c})}
-  if(newer)return{err:'newer'};if(!items.length)return null;
-  return{id:a[0],from:gName(a[1])||'A friend',at,items,code:'NG1.'+m[1]+'.'+m[2]}}
+/* the items of a box, as written in a code: 's:star:2,p:pookie:1'; {items} or {err:'newer'} or null */
+function giftItems(str){const items=[],seen=new Set();let newer=false;if(!str)return{items};
+  for(const e of str.split(',')){const [t,id,n]=e.split(':'),c=Math.floor(+n);if(!(c>=1&&c<=99)||seen.has(t+id)||items.length>=80||!GIFT_ID.test(id||''))return null;seen.add(t+id);if(!giftInfo(t,id)){newer=true;continue}items.push({t,id,n:c})}
+  return newer?{err:'newer'}:{items}}
+const gMsg=s=>String(s||'').replace(/\r\n?/g,'\n').replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g,'').replace(/\n{3,}/g,'\n\n').trim().slice(0,GIFT_MSG);
+const GIFT_MSG=500;
+/* the lock: what is inside and the card are mixed with a stream drawn from the puzzle's solution, so they can be read only once it is solved */
+const gStream=(sol,id)=>mulberry(parseInt(gSum(sol.join('')+'|'+id),36)>>>0);
+function gLock(text,sol,id){const r=gStream(sol,id),b=new TextEncoder().encode('ok|'+text);for(let i=0;i<b.length;i++)b[i]^=(r()*256)|0;return btoa(Array.from(b,c=>String.fromCharCode(c)).join('')).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function gOpen(lock,sol,id){try{const s=lock.replace(/-/g,'+').replace(/_/g,'/'),pad=s+'='.repeat((4-s.length%4)%4),b=Uint8Array.from(atob(pad),c=>c.charCodeAt(0)),r=gStream(sol,id);for(let i=0;i<b.length;i++)b[i]^=(r()*256)|0;const t=new TextDecoder('utf-8',{fatal:true}).decode(b);return t.startsWith('ok|')?t.slice(3):null}catch(e){return null}}
+/* reads a code, or a whole link or message with one in it. NG1: an open box (the first gift boxes). NG2: a box wrapped in a puzzle,
+   {id,from,at,diff,puz,sol,lock}: its contents are read by giftUnlock once the puzzle is solved. {err:'newer'} for what this book does not know; otherwise null */
+function giftRead(raw){const RX=/NG([12])\.([A-Za-z0-9_-]{8,12000})\.([a-z0-9]{7})(?![A-Za-z0-9_-])/,txt=String(raw||''),m=RX.exec(txt)||RX.exec(txt.replace(/\s+/g,''));if(!m)return null;   /* as pasted, or (a code a message program broke across lines) with the breaks taken out */
+  let p;try{p=gUn64(m[2])}catch(e){return null}if(gSum(p)!==m[3])return null;
+  const a=p.split('|'),code='NG'+m[1]+'.'+m[2]+'.'+m[3];if(!/^[a-z0-9]{8,16}$/.test(a[0]||''))return null;const at=parseInt(a[2],36);if(!(at>0&&at<4e12))return null;const from=gName(a[1])||'A friend';
+  if(m[1]==='1'){if(a.length!==4)return null;const r=giftItems(a[3]);if(!r)return null;if(r.err)return r;if(!r.items.length)return null;return{id:a[0],from,at,items:r.items,code}}
+  if(a.length!==6||!/^[0-5]$/.test(a[3])||!/^[0-9]{81}$/.test(a[4])||!/^[A-Za-z0-9_-]{4,4000}$/.test(a[5]))return null;
+  const puz=[...a[4]].map(Number);if(puz.filter(Boolean).length<17)return null;const z=solve(puz.slice(),2);if(z.count!==1)return null;
+  return{id:a[0],from,at,diff:+a[3],puz,sol:z.sol,lock:a[5],wrapped:true,code}}
+/* what is inside a wrapped box, once its puzzle is solved: {items,msg}, {err:'newer'}, or null */
+function giftUnlock(box){if(!box?.wrapped)return box?{items:box.items,msg:''}:null;const t=gOpen(box.lock,box.sol,box.id);if(t==null)return null;const k=t.indexOf('|');if(k<0)return null;
+  const r=giftItems(t.slice(0,k));if(!r)return null;if(r.err)return r;return{items:r.items,msg:gMsg(t.slice(k+1))}}
+function giftCode2(box,sol){const lock=gLock(box.items.map(i=>i.t+':'+i.id+':'+i.n).join(',')+'|'+box.msg,sol,box.id),p=[box.id,box.from,box.at.toString(36),box.diff,box.puz.join(''),lock].join('|');return'NG2.'+gB64(p)+'.'+gSum(p)}
 const giftLink=code=>INVITE_BASE+'gift/#'+code;
-/* seal: the things leave the commode, the box is remembered as sent (so its link can be shown again; it cannot be unsealed) */
-function giftSeal(picks){const items=picks.filter(p=>p.n>0&&giftInfo(p.t,p.id)&&p.n<=giftHave(p.t,p.id)).map(p=>({t:p.t,id:p.id,n:Math.min(99,p.n)}));if(!items.length)return null;
-  const box={id:gNewId(),from:gName(faxName())||'A friend',at:Date.now(),items};box.code=giftCode(box);
-  items.forEach(i=>giftTake(i.t,i.id,i.n));const g=gs();g.sent[box.id]={at:box.at,n:items.reduce((s,i)=>s+i.n,0),code:box.code};
+/* seal: a fresh puzzle of the chosen difficulty is made and wrapped round it; the things leave the commode, and the box is remembered as sent
+   (so its link can be shown again; it cannot be unsealed). A box may hold only a card. */
+function giftSeal(picks,{msg='',diff=1}={}){const items=(picks||[]).filter(p=>p.n>0&&giftInfo(p.t,p.id)&&p.n<=giftHave(p.t,p.id)).map(p=>({t:p.t,id:p.id,n:Math.min(99,p.n)}));msg=gMsg(msg);diff=Math.max(0,Math.min(5,diff|0));
+  if(!items.length&&!msg)return null;
+  const z=generatedPuzzle((Math.random()*4294967296)>>>0,diff),box={id:gNewId(),from:gName(faxName())||'A friend',at:Date.now(),items,msg,diff,puz:z.puz};box.code=giftCode2(box,z.sol);
+  items.forEach(i=>giftTake(i.t,i.id,i.n));const g=gs();g.sent[box.id]={at:box.at,n:items.reduce((s,i)=>s+i.n,0),code:box.code,m:msg,w:diff};
   applyCommode();save();return box}
-/* open: only a box this book has neither opened nor sealed itself */
-function giftOpenBox(box){const g=gs();if(g.opened[box.id]||g.sent[box.id])return null;
-  const res=box.items.map(i=>({...i,extra:giftGive(i.t,i.id,i.n)}));
-  g.opened[box.id]=Date.now();g.got.unshift({id:box.id,from:box.from,at:box.at,opened:g.opened[box.id],items:box.items.map(i=>[i.t,i.id,i.n])});if(g.got.length>200)g.got.length=200;
-  applyStyle();applyCommode();renderPlushIcon();save();return res}
+/* open: only a box this book has neither opened nor sealed itself; a wrapped one only once its puzzle is solved here */
+function giftOpenBox(box){const g=gs();if(!box||g.opened[box.id]||g.sent[box.id])return null;
+  if(box.wrapped&&!S.daily?.['gift:'+box.id]?.d)return null;
+  const u=giftUnlock(box);if(!u||u.err)return u&&u.err?u:null;
+  const res=u.items.map(i=>({...i,extra:giftGive(i.t,i.id,i.n)}));
+  g.opened[box.id]=Date.now();delete g.wait[box.id];
+  g.got.unshift({id:box.id,from:box.from,at:box.at,opened:g.opened[box.id],items:u.items.map(i=>[i.t,i.id,i.n]),msg:u.msg,w:box.wrapped?box.diff:-1});if(g.got.length>200)g.got.length=200;
+  applyStyle();applyCommode();renderPlushIcon();save();res.msg=u.msg;return res}
+/* a wrapped box being solved: kept (its code) until it is unwrapped, so it can be gone on with from the Gift Box */
+const giftKey=k=>typeof k==='string'&&k.startsWith('gift:');
+const giftWaitBox=id=>{const w=gs().wait[id];const b=w&&giftRead(w.code);return b&&!b.err&&b.wrapped?b:null};
 /* its look: a box with a ribbon; red and green in December */
 const giftXmas=()=>(window.__giftMonth??new Date().getMonth())===11;
 const giftArt=()=>`<svg class="gfbox${giftXmas()?' xmas':''}" viewBox="0 0 52 52" aria-hidden="true"><rect class="gb-b" x="8" y="25" width="36" height="23" rx="2"/><path class="gb-g" d="M8 33h36M8 40h36"/><rect class="gb-l" x="5" y="17" width="42" height="10" rx="2"/><rect class="gb-r" x="23" y="17" width="6" height="31"/><path class="gb-r" d="M26 17C21 5 9 6 12 13c2.6 4 10 4 14 4zM26 17c5-12 17-11 14-4-2.6 4-10 4-14 4z"/><path class="gb-d" d="M26 17C22 10 16 9 15 12M26 17c4-7 10-8 11-5"/></svg>`;
@@ -12678,65 +12721,93 @@ const giftBtnPaint=()=>{const b=$('#giftBtn');if(b){const k=giftXmas()?'x':'n';i
 function giftDialog(html){closePops();document.querySelectorAll('.veil').forEach(v=>v.remove());const v=document.createElement('div');v.className='veil gf-veil';
   v.innerHTML=`<div class="toc paper gf-card" role="dialog" aria-label="The Gift Box">${html}</div>`;document.body.appendChild(v);v.addEventListener('click',e=>{if(e.target===v)v.remove()});return v}
 const gfThings=(items,extra)=>items.map((i,x)=>{const I=giftInfo(i[0]||i.t,i[1]||i.id);if(!I)return'';const n=i[2]??i.n;return`<li class="gf-th${extra?.[x]?' gf-sp':''}"><span class="gf-art">${I.art()}</span><b>${escH(I.name)}</b>${n>1?`<i>×${n}</i>`:''}${extra?.[x]?'<i class="gf-s">spare</i>':''}</li>`}).join('');
+const gfCard=(msg,from)=>msg?`<div class="gf-letter"><p>${escH(msg)}</p><i>${escH(from)}</i></div>`:'';
+const gfWrapName=d=>CH[d]?.[0]||'';
 function giftHome(){giftBtnPaint();
-  const g=gs(),sent=Object.entries(g.sent).sort((a,b)=>b[1].at-a[1].at),got=g.got.slice(0,12),spare=Object.entries(g.spare).filter(([,n])=>n>0);
+  const g=gs(),sent=Object.entries(g.sent).sort((a,b)=>b[1].at-a[1].at),got=g.got.slice(0,12),spare=Object.entries(g.spare).filter(([,n])=>n>0),wait=Object.keys(g.wait).map(giftWaitBox).filter(Boolean);
   const v=giftDialog(`<h2>The Gift Box</h2><div class="gf-hero">${giftArt()}</div>
-    <p class="gf-lead">Wrap things from your commode for a friend, or open a box that was sent to you.</p>
+    <p class="gf-lead">Wrap things from your commode, or just a card, in a puzzle for a friend; or open a box that was sent to you.</p>
     <div class="gf-acts"><button type="button" class="px close" id="gfWrap">Wrap a gift</button><button type="button" class="px close" id="gfAsk">Open a gift</button></div>
-    ${sent.length?`<h3 class="gf-h">Wrapped by you</h3><ul class="gf-rows">${sent.slice(0,8).map(([id,s])=>`<li><span>${giftDate(s.at)} · ${s.n} thing${s.n>1?'s':''}</span><button type="button" class="linkish" data-gfshow="${id}">Show the link</button></li>`).join('')}</ul>`:''}
-    ${got.length?`<h3 class="gf-h">Received</h3><ul class="gf-rows">${got.map(r=>`<li class="gf-got"><span>From ${escH(r.from)} · sealed ${giftDate(r.at)}</span><ul class="gf-things">${gfThings(r.items)}</ul></li>`).join('')}</ul>`:''}
-    ${spare.length?`<h3 class="gf-h">Spare copies</h3><ul class="gf-things">${gfThings(spare.map(([k,n])=>{const [t,id]=[k[0],k.slice(2)];return[t,id,n]}))}</ul><p class="gf-note">Things you were given twice. They can be wrapped and given on.</p>`:''}
+    ${wait.length?`<h3 class="gf-h">Still wrapped</h3><ul class="gf-rows">${wait.map(b=>`<li><span>From ${escH(b.from)} · a ${gfWrapName(b.diff).toLowerCase()} puzzle</span><button type="button" class="linkish" data-gfgo="${b.id}">${S.daily?.['gift:'+b.id]?.d?'Untie the ribbon':'Go on with the puzzle'}</button></li>`).join('')}</ul>`:''}
+    ${got.length?`<h3 class="gf-h">Received</h3><ul class="gf-rows">${got.map((r,x)=>`<li class="gf-got"><span>From ${escH(r.from)} · sealed ${giftDate(r.at)}${r.msg?` <button type="button" class="linkish" data-gfread="${x}">Read the card</button>`:''}</span>${r.items.length?`<ul class="gf-things">${gfThings(r.items)}</ul>`:''}</li>`).join('')}</ul>`:''}
+    ${sent.length?`<h3 class="gf-h">Wrapped by you</h3><ul class="gf-rows">${sent.slice(0,8).map(([id,s])=>`<li><span>${giftDate(s.at)} · ${s.n?`${s.n} thing${s.n>1?'s':''}`:'a card'}</span><button type="button" class="linkish" data-gfshow="${id}">Show the link</button></li>`).join('')}</ul>`:''}
+    ${spare.length?`<h3 class="gf-h">Spare copies</h3><ul class="gf-things">${gfThings(spare.map(([k,n])=>[k[0],k.slice(2),n]))}</ul><p class="gf-note">Things you were given twice. They can be wrapped and given on.</p>`:''}
     <div class="gf-acts"><button type="button" class="px close" id="gfBye">Close</button></div>`);
-  v.querySelector('#gfWrap').onclick=()=>giftPack();v.querySelector('#gfAsk').onclick=()=>giftAsk();v.querySelector('#gfBye').onclick=()=>v.remove();
-  v.querySelectorAll('[data-gfshow]').forEach(b=>b.onclick=()=>{const s=g.sent[b.dataset.gfshow];const box=giftRead(s.code);if(box&&!box.err)giftSealed({...box,code:s.code,again:true})})}
-/* packing */
-function giftPack(){const stock=giftStock(),pick={},keyOf=(t,id)=>t+':'+id;
-  if(!stock.length){const v=giftDialog(`<h2>Wrap a gift</h2><div class="gf-hero">${giftArt()}</div><p class="gf-lead">There is nothing in your commode to give yet: stickers, flowers, ornaments, plushies and covers can go in a box.</p><div class="gf-acts"><button type="button" class="px close" id="gfBack">Back</button></div>`);v.querySelector('#gfBack').onclick=()=>giftHome();return}
-  const v=giftDialog(`<h2>Wrap a gift</h2><p class="gf-lead">Tap what should go in the box. It leaves your commode for good once the box is sealed.</p>
-    <div class="gf-pack">${stock.map(s=>`<h3 class="gf-h">${s.label}</h3><ul class="gf-grid">${s.list.map(x=>`<li class="gf-it" data-k="${keyOf(x.t,x.id)}"><button type="button" class="gf-pick" data-add="${keyOf(x.t,x.id)}" aria-label="${escH(x.name)}: add to the box"><span class="gf-art">${x.art()}</span><b>${escH(x.name)}</b></button><div class="gf-ctl" hidden><button type="button" class="gf-m" data-sub="${keyOf(x.t,x.id)}" aria-label="One fewer ${escH(x.name)}">−</button><span class="gf-c"></span><button type="button" class="gf-p" data-add="${keyOf(x.t,x.id)}" aria-label="One more ${escH(x.name)}">+</button></div></li>`).join('')}</ul>`).join('')}</div>
+  v.querySelector('#gfWrap').onclick=()=>{GIFT_DRAFT={pick:{},msg:'',diff:1};giftPack()};v.querySelector('#gfAsk').onclick=()=>giftAsk();v.querySelector('#gfBye').onclick=()=>v.remove();
+  v.querySelectorAll('[data-gfshow]').forEach(b=>b.onclick=()=>{const s=g.sent[b.dataset.gfshow];const box=giftRead(s.code);if(box&&!box.err)giftSealed({...box,msg:s.m||'',items:[],again:true})});
+  v.querySelectorAll('[data-gfgo]').forEach(b=>b.onclick=()=>{const x=giftWaitBox(b.dataset.gfgo);if(x)giftPreview(x)});
+  v.querySelectorAll('[data-gfread]').forEach(b=>b.onclick=()=>{const r=got[+b.dataset.gfread];const q=giftDialog(`<h2>From ${escH(r.from)}</h2>${gfCard(r.msg,r.from)}<p class="gf-note">Sealed ${giftDate(r.at)}${r.opened?`, unwrapped ${giftDate(r.opened)}`:''}.</p><div class="gf-acts"><button type="button" class="px close" id="gfBack">Back</button></div>`);q.querySelector('#gfBack').onclick=()=>giftHome()})}
+/* wrapping, in three steps: what goes in, the card and the puzzle, the seal. GIFT_DRAFT keeps the box while one goes back and forth */
+let GIFT_DRAFT={pick:{},msg:'',diff:1};
+function giftPack(){const stock=giftStock(),pick=GIFT_DRAFT.pick,keyOf=(t,id)=>t+':'+id;
+  for(const k of Object.keys(pick)){const [t,id]=[k[0],k.slice(2)];if(!(pick[k]>0)||pick[k]>giftHave(t,id))delete pick[k]}
+  const v=giftDialog(`<h2>Wrap a gift</h2><p class="gf-lead">${stock.length?'Tap what should go in the box. It leaves your commode for good once the box is sealed. A box may also hold just a card.':'Your commode has nothing to give yet, but a box may hold just a card.'}</p>
+    ${stock.length?`<div class="gf-pack">${stock.map(s=>`<h3 class="gf-h">${s.label}</h3><ul class="gf-grid">${s.list.map(x=>`<li class="gf-it" data-k="${keyOf(x.t,x.id)}"><button type="button" class="gf-pick" data-add="${keyOf(x.t,x.id)}" aria-label="${escH(x.name)}: add to the box"><span class="gf-art">${x.art()}</span><b>${escH(x.name)}</b></button><div class="gf-ctl" hidden><button type="button" class="gf-m" data-sub="${keyOf(x.t,x.id)}" aria-label="One fewer ${escH(x.name)}">−</button><span class="gf-c"></span><button type="button" class="gf-p" data-add="${keyOf(x.t,x.id)}" aria-label="One more ${escH(x.name)}">+</button></div></li>`).join('')}</ul>`).join('')}</div>`:`<div class="gf-hero">${giftArt()}</div>`}
     <div class="gf-foot"><p class="gf-sum" id="gfSum" aria-live="polite"></p>
-    <div class="gf-acts"><button type="button" class="px close" id="gfSeal" disabled>Seal the box</button><button type="button" class="px close" id="gfBack">Back</button></div></div>`);
-  const have=k=>{const [t,id]=[k[0],k.slice(2)];return giftHave(t,id)};
+    <div class="gf-acts"><button type="button" class="px close" id="gfNext">Next: the card</button><button type="button" class="px close" id="gfBack">Back</button></div></div>`);
+  const have=k=>giftHave(k[0],k.slice(2));
   const paint=()=>{let n=0;v.querySelectorAll('.gf-it').forEach(li=>{const k=li.dataset.k,c=pick[k]||0,max=have(k);n+=c;li.classList.toggle('on',c>0);li.querySelector('.gf-ctl').hidden=c<1;li.querySelector('.gf-c').textContent=c?(max>1?`${c} of ${max}`:'in the box'):'';li.querySelector('.gf-p').disabled=c>=max});
-    v.querySelector('#gfSum').textContent=n?`${n} thing${n>1?'s':''} in the box`:'The box is empty.';v.querySelector('#gfSeal').disabled=!n};paint();
+    v.querySelector('#gfSum').textContent=n?`${n} thing${n>1?'s':''} in the box`:'Nothing in the box yet: it can still carry a card.'};paint();
   v.addEventListener('click',e=>{const a=e.target.closest('[data-add]'),s=e.target.closest('[data-sub]');if(a){const k=a.dataset.add;if((pick[k]||0)<have(k)){pick[k]=(pick[k]||0)+1;sfx.tick();paint()}}else if(s){const k=s.dataset.sub;if(pick[k]){pick[k]--;if(!pick[k])delete pick[k];sfx.tick();paint()}}});
-  v.querySelector('#gfBack').onclick=()=>giftHome();
-  v.querySelector('#gfSeal').onclick=()=>{const n=Object.values(pick).reduce((s,c)=>s+c,0);if(!n)return;
-    const q=giftDialog(`<h2>Seal the box?</h2><div class="gf-hero">${giftArt()}</div><ul class="gf-things">${gfThings(Object.entries(pick).map(([k,c])=>[k[0],k.slice(2),c]))}</ul><p class="gf-lead">From ${escH(gName(faxName())||'you')}, sealed today. These leave your commode for good, and a sealed box cannot be undone.</p><div class="gf-acts"><button type="button" class="px close" id="gfYes">Seal it</button><button type="button" class="px close" id="gfNo">Not yet</button></div>`);
-    q.querySelector('#gfNo').onclick=()=>giftPack();
-    q.querySelector('#gfYes').onclick=()=>{const box=giftSeal(Object.entries(pick).map(([k,c])=>({t:k[0],id:k.slice(2),n:c})));if(!box){giftHome();return}sfx.stamp?.();giftSealed(box)}}}
+  v.querySelector('#gfBack').onclick=()=>giftHome();v.querySelector('#gfNext').onclick=()=>giftCardStep()}
+function giftCardStep(){const D=GIFT_DRAFT,n=Object.values(D.pick).reduce((s,c)=>s+c,0);
+  const v=giftDialog(`<h2>The card</h2><p class="gf-lead">Write a few lines, if you like. They are read only once the puzzle round the box is solved.</p>
+    <textarea class="gf-msg" id="gfMsg" rows="6" maxlength="${GIFT_MSG}" aria-label="The card: a message to go in the box" placeholder="Merry Christmas! …">${escH(D.msg)}</textarea><p class="gf-count" id="gfCount" aria-live="polite"></p>
+    <h3 class="gf-h">The puzzle round it</h3><div class="gf-diffs" role="radiogroup" aria-label="How hard the puzzle is">${CH.map((c,i)=>`<button type="button" class="gf-dif${i===D.diff?' on':''}" role="radio" aria-checked="${i===D.diff}" data-dif="${i}">${c[0]}</button>`).join('')}</div>
+    <p class="gf-err" id="gfErr" role="alert"></p>
+    <div class="gf-acts"><button type="button" class="px close" id="gfSeal">Seal the box</button><button type="button" class="px close" id="gfBack">Back</button></div>`);
+  const ta=v.querySelector('#gfMsg'),cnt=()=>{D.msg=ta.value.slice(0,GIFT_MSG);v.querySelector('#gfCount').textContent=`${GIFT_MSG-D.msg.length} letters left`};cnt();ta.addEventListener('input',cnt);
+  v.querySelectorAll('[data-dif]').forEach(b=>b.onclick=()=>{D.diff=+b.dataset.dif;v.querySelectorAll('[data-dif]').forEach(x=>{const on=+x.dataset.dif===D.diff;x.classList.toggle('on',on);x.setAttribute('aria-checked',on)});sfx.tick()});
+  v.querySelector('#gfBack').onclick=()=>giftPack();
+  v.querySelector('#gfSeal').onclick=()=>{if(!n&&!gMsg(D.msg)){v.querySelector('#gfErr').textContent='The box is empty: put something in it, or write the card.';return}giftConfirm()}}
+function giftConfirm(){const D=GIFT_DRAFT,list=Object.entries(D.pick).map(([k,c])=>[k[0],k.slice(2),c]),msg=gMsg(D.msg);
+  const q=giftDialog(`<h2>Seal the box?</h2><div class="gf-hero">${giftArt()}</div>${list.length?`<ul class="gf-things">${gfThings(list)}</ul>`:'<p class="gf-lead">Just a card.</p>'}${msg?gfCard(msg,gName(faxName())||'you'):''}
+    <p class="gf-lead">From ${escH(gName(faxName())||'you')}, sealed today, wrapped in a ${gfWrapName(D.diff).toLowerCase()} puzzle.${list.length?' These leave your commode for good, and a sealed box cannot be undone.':' A sealed box cannot be undone.'}</p>
+    <div class="gf-acts"><button type="button" class="px close" id="gfYes">Seal it</button><button type="button" class="px close" id="gfNo">Not yet</button></div>`);
+  q.querySelector('#gfNo').onclick=()=>giftCardStep();
+  q.querySelector('#gfYes').onclick=()=>{const b=q.querySelector('#gfYes');b.disabled=true;b.textContent='Wrapping…';
+    setTimeout(()=>{const box=giftSeal(Object.entries(D.pick).map(([k,c])=>({t:k[0],id:k.slice(2),n:c})),{msg,diff:D.diff});if(!box){giftHome();return}GIFT_DRAFT={pick:{},msg:'',diff:1};sfx.stamp?.();giftSealed(box)},30)}}
 /* the sealed box: its link and its code */
 function giftSealed(box){const link=giftLink(box.code);
   const v=giftDialog(`<h2>${box.again?'Your gift box':'Sealed'}</h2><div class="gf-hero">${giftArt()}</div>
-    <p class="gf-tag">From <b>${escH(box.from)}</b><br>sealed ${giftDate(box.at)} · box ${escH(box.id.slice(0,4).toUpperCase())}</p>
-    <p class="gf-lead">Send the link. Whoever opens it first in their book gets what is inside, and it waits as long as the link does.</p>
+    <p class="gf-tag">From <b>${escH(box.from)}</b><br>sealed ${giftDate(box.at)} · box ${escH(box.id.slice(0,4).toUpperCase())}${box.wrapped||box.puz?`<br>wrapped in a ${gfWrapName(box.diff).toLowerCase()} puzzle`:''}</p>
+    <p class="gf-lead">Send the link. Whoever opens it first in their book solves the puzzle to untie the ribbon, and it waits as long as the link does.</p>
     <div class="gf-acts"><button type="button" class="px close" id="gfSend">Send the link</button><button type="button" class="px close" id="gfCopy">Copy the code</button></div>
     <textarea class="gf-code" readonly rows="3" aria-label="The code of the box" id="gfCodeOut">${escH(box.code)}</textarea>
     <p class="gf-note" id="gfSaid">Or send the code on its own: it can be pasted into Open a gift.</p>
     <div class="gf-acts"><button type="button" class="px close" id="gfDone">Done</button></div>`);
   const say=t=>{v.querySelector('#gfSaid').textContent=t};
-  v.querySelector('#gfSend').onclick=async()=>{const text='A gift for you in The Book of Nines. Tap the link to open it.';
+  v.querySelector('#gfSend').onclick=async()=>{const text='A gift for you in The Book of Nines, wrapped in a puzzle. Tap the link to open it.';
     try{if(navigator.share&&!window.claude){await navigator.share({title:'The Book of Nines',text,url:link});return}}catch(e){if(e&&e.name==='AbortError')return}
     try{await navigator.clipboard.writeText(text+' '+link);say('The link is copied. Paste it into any message.');sfx.tick()}catch(e){say(link)}};
   v.querySelector('#gfCopy').onclick=async()=>{try{await navigator.clipboard.writeText(box.code);say('The code is copied.');sfx.tick()}catch(e){v.querySelector('#gfCodeOut').select();say('Select the code and copy it.')}};
   v.querySelector('#gfDone').onclick=()=>v.remove()}
 /* opening: paste a code or a link, or arrive by a link */
 function giftAsk(msg){const v=giftDialog(`<h2>Open a gift</h2><div class="gf-hero">${giftArt()}</div><p class="gf-lead">Paste the code, or the whole link, of a gift box.</p>
-    <textarea class="gf-code" rows="3" id="gfIn" placeholder="NG1.…" aria-label="The code of a gift box" autocapitalize="off" autocomplete="off" spellcheck="false"></textarea>
+    <textarea class="gf-code" rows="3" id="gfIn" placeholder="NG2.…" aria-label="The code of a gift box" autocapitalize="off" autocomplete="off" spellcheck="false"></textarea>
     <p class="gf-err" id="gfErr" role="alert">${msg?escH(msg):''}</p>
     <div class="gf-acts"><button type="button" class="px close" id="gfLook">Look at the box</button><button type="button" class="px close" id="gfBack">Back</button></div>`);
   const go=()=>{const raw=v.querySelector('#gfIn').value,b=giftRead(raw);v.querySelector('#gfErr').textContent=!raw.trim()?'Paste a code first.':!b?'That is not the code of a gift box. Check that all of it was copied.':b.err?'This box holds something from a newer Book of Nines. Update the app and try again.':'';if(b&&!b.err)giftPreview(b)};
   v.querySelector('#gfLook').onclick=go;v.querySelector('#gfBack').onclick=()=>giftHome();setTimeout(()=>v.querySelector('#gfIn')?.focus(),80)}
-function giftPreview(box){const g=gs(),mine=!!g.sent[box.id],done=g.opened[box.id];
-  const v=giftDialog(`<h2>A gift box</h2><div class="gf-hero">${giftArt()}</div><p class="gf-tag">From <b>${escH(box.from)}</b><br>sealed ${giftDate(box.at)}</p>
-    ${done?`<p class="gf-lead">You opened this box on ${giftDate(done)}. A box opens only once.</p>`:mine?`<p class="gf-lead">This is a box you sealed yourself. It is for someone else to open.</p>`:`<p class="gf-lead">Untie the ribbon to see what is inside. It will go into your commode.</p>`}
-    <div class="gf-acts">${done||mine?'':'<button type="button" class="px close" id="gfUntie">Untie the ribbon</button>'}<button type="button" class="px close" id="gfBack">${done||mine?'Back':'Later'}</button></div>`);
+function giftPreview(box){const g=gs(),mine=!!g.sent[box.id],done=g.opened[box.id],key='gift:'+box.id,pr=S.daily?.[key],solved=!!pr?.d;
+  const v=giftDialog(`<h2>A gift box</h2><div class="gf-hero">${giftArt()}</div><p class="gf-tag">From <b>${escH(box.from)}</b><br>sealed ${giftDate(box.at)}${box.wrapped?`<br>wrapped in a ${gfWrapName(box.diff).toLowerCase()} puzzle`:''}</p>
+    ${done?`<p class="gf-lead">You opened this box on ${giftDate(done)}. A box opens only once.</p>`:mine?`<p class="gf-lead">This is a box you sealed yourself. It is for someone else to open.</p>`:box.wrapped?`<p class="gf-lead">${solved?'The puzzle is solved: the ribbon can be untied.':pr?'You have begun the puzzle round it. Solve it to untie the ribbon.':'Solve the puzzle round it to untie the ribbon and see what is inside.'}</p>`:`<p class="gf-lead">Untie the ribbon to see what is inside. It will go into your commode.</p>`}
+    <div class="gf-acts">${done||mine?'':box.wrapped&&!solved?`<button type="button" class="px close" id="gfPlay">${pr?'Go on with the puzzle':'Begin the puzzle'}</button>`:'<button type="button" class="px close" id="gfUntie">Untie the ribbon</button>'}<button type="button" class="px close" id="gfBack">${done||mine?'Back':'Later'}</button></div>`);
+  if(box.wrapped&&!done&&!mine){g.wait[box.id]={code:box.code};save()}   /* kept, so it can be found again in the Gift Box */
   v.querySelector('#gfBack').onclick=()=>{if(done||mine)giftHome();else v.remove()};
-  v.querySelector('#gfUntie')?.addEventListener('click',()=>{const res=giftOpenBox(box);if(!res){giftPreview(box);return}giftReveal(box,res)})}
+  v.querySelector('#gfPlay')?.addEventListener('click',()=>startGiftPuzzle(box.id));
+  v.querySelector('#gfUntie')?.addEventListener('click',()=>giftUntie(box))}
+function giftUntie(box){const res=giftOpenBox(box);if(res&&res.err){giftAsk('This box holds something from a newer Book of Nines. Update the app, and the box will be waiting for you here.');return}if(!res){giftPreview(box);return}giftReveal(box,res)}
 function giftReveal(box,res){sfx.tada?.();const sp=res.filter(r=>r.extra);
-  const v=giftDialog(`<h2>From ${escH(box.from)}</h2><div class="gf-hero gf-open">${giftArt()}</div><ul class="gf-things gf-big">${gfThings(res,res.map(r=>r.extra))}</ul>
-    <p class="gf-note">${sp.length?'What you already had is kept as a spare copy, in your Gift Box. ':''}Everything else is in your commode now.</p><div class="gf-acts"><button type="button" class="px close" id="gfDone">Thank you</button></div>`);
+  const v=giftDialog(`<h2>From ${escH(box.from)}</h2><div class="gf-hero gf-open">${giftArt()}</div>${gfCard(res.msg,box.from)}${res.length?`<ul class="gf-things gf-big">${gfThings(res,res.map(r=>r.extra))}</ul>`:''}
+    <p class="gf-note">${res.length?`${sp.length?'What you already had is kept as a spare copy, in your Gift Box. ':''}Everything else is in your commode now.`:''}${res.msg?' The card is kept in your Gift Box.':''}</p><div class="gf-acts"><button type="button" class="px close" id="gfDone">Thank you</button></div>`);
   v.querySelector('#gfDone').onclick=()=>v.remove()}
+/* the puzzle round a box is a page of its own, on wrapping paper, played like a daily page (its progress is kept as S.daily['gift:<id>']) */
+function startGiftPuzzle(id){const box=giftWaitBox(id);if(!box)return;if(playMode==='multi'){toast('Leave the multiplayer match before unwrapping a gift.');return}
+  document.querySelectorAll('.veil').forEach(v=>v.remove());placeSpecial(()=>{stash();loadDailyNow('gift:'+id)})}
+function giftPuzzleSolved(){const key=dailyKey,id=key.slice(5);G.done=true;G.sel=-1;stash();S.daily[key].d=1;sfx.solve();render();save();steam(12);
+  nlog('daily','gift puzzle solved '+id);setTimeout(()=>{if(playMode!=='daily'||dailyKey!==key||!G.done)return;showSolved(true,0)},reduced?20:650)}
+function giftFromPage(){const id=dailyKey.slice(5),box=giftWaitBox(id);leaveDaily(false);if(box)setTimeout(()=>giftUntie(box),reduced?0:420);else giftHome()}
 /* the button, the link, and the book opening on a gift */
 $('#giftBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();giftHome()});giftBtnPaint();
 function giftArrive(raw){const b=giftRead(raw);if(!b){giftAsk('That gift link could not be read. Paste the code that came with it.');return}if(b.err){giftAsk('This box holds something from a newer Book of Nines. Update the app and try again.');return}giftPreview(b)}
@@ -13211,7 +13282,7 @@ $('#radioBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();openR
 
 /* ================= boot ================= */
 function start(data){
-  if(/[?&]test\b/.test(location.search))window.__nines={ENV:{get S(){return S},gzOpen,gzShow,get GZ(){return GZ},xmasShelf,XMAS_KEYS,shopCat,PlushCast,setRelease:on=>{releaseOn=on},ShopTunes,shopTuneNow,xmasTime,applyTune,Flora,Commode,stk,floraState,ornState,ornOwned,plushState,plushShown,wearOf,applyStyle,save,STK,STYLES,giftHave,giftStock,giftSeal,giftRead,giftOpenBox,giftCode,giftLink,giftHome,giftArrive,gs},inviteUrl,inviteCode,giftHave,giftStock,giftSeal,giftRead,giftOpenBox,giftCode,giftLink,giftInfo,giftHome,giftPack,giftArrive,gs,get G(){return G},solved,rateAsk,NLOG,logCut,gzxOpen,gzxClose,get GZX(){return GZX},ADVENT,adventGiftOf,adventDay,shopCat,adsOff,noAdsOwned,tvLeft,TV_DAILY,TV_COINS,bookSnap,drawWidgetBook,polyBuild,polyDraw,polyPose,get POLY(){return POLY},overlayEnter,overlayLeave,certOpen,certDraw,ownerPlate,tutPlay,TUT_P,solve,gzOpen,gzGo,gzClose,GZ,setCoins,saveNow,giltOn,RELEASES,RELEASE_START,REL_SLOT,relNext,relSlots,relShopSlots,relOwnSlots,relPrice,setRelease:on=>{releaseOn=!!on},get TURN(){return TURN},get flipping(){return flipping},turnAuto,turnStyle,TURNS,flipTo,flipBack,pageTurn,get typeDraft(){return TYPE_DRAFT},openTypeCase,typeApply,typeCode,typeRead,typeClean,typeUse,typeSaveAs,typeCurrent,typeProfiles,typeRoleAt,typeNow,typeBook,TYPE_DEFAULT,TYPE_ROLES,TYPE_SEL,TYPE_HOUSE,openCommode,openTV,openToc,openVerso,bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
+  if(/[?&]test\b/.test(location.search))window.__nines={ENV:{get S(){return S},get G(){return G},solved,get playMode(){return playMode},get dailyKey(){return dailyKey},giftUnlock,giftWaitBox,startGiftPuzzle,giftFromPage,giftCardStep,giftConfirm,get GIFT_DRAFT(){return GIFT_DRAFT},gzOpen,gzShow,get GZ(){return GZ},xmasShelf,XMAS_KEYS,shopCat,PlushCast,setRelease:on=>{releaseOn=on},ShopTunes,shopTuneNow,xmasTime,applyTune,Flora,Commode,stk,floraState,ornState,ornOwned,plushState,plushShown,wearOf,applyStyle,save,STK,STYLES,giftHave,giftStock,giftSeal,giftRead,giftOpenBox,giftCode,giftLink,giftHome,giftArrive,gs},inviteUrl,inviteCode,giftHave,giftStock,giftSeal,giftRead,giftOpenBox,giftCode,giftLink,giftInfo,giftHome,giftPack,giftArrive,gs,get G(){return G},solved,rateAsk,NLOG,logCut,gzxOpen,gzxClose,get GZX(){return GZX},ADVENT,adventGiftOf,adventDay,shopCat,adsOff,noAdsOwned,tvLeft,TV_DAILY,TV_COINS,bookSnap,drawWidgetBook,polyBuild,polyDraw,polyPose,get POLY(){return POLY},overlayEnter,overlayLeave,certOpen,certDraw,ownerPlate,tutPlay,TUT_P,solve,gzOpen,gzGo,gzClose,GZ,setCoins,saveNow,giltOn,RELEASES,RELEASE_START,REL_SLOT,relNext,relSlots,relShopSlots,relOwnSlots,relPrice,setRelease:on=>{releaseOn=!!on},get TURN(){return TURN},get flipping(){return flipping},turnAuto,turnStyle,TURNS,flipTo,flipBack,pageTurn,get typeDraft(){return TYPE_DRAFT},openTypeCase,typeApply,typeCode,typeRead,typeClean,typeUse,typeSaveAs,typeCurrent,typeProfiles,typeRoleAt,typeNow,typeBook,TYPE_DEFAULT,TYPE_ROLES,TYPE_SEL,TYPE_HOUSE,openCommode,openTV,openToc,openVerso,bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
     puzzleIn(id,p){const was=S.block;S.block=id;try{return puzzle(p)}finally{S.block=was}}};
   load();if(saveLost)setTimeout(()=>toast('The book’s record could not be read, so a fresh book was opened. The old record is kept aside.'+(S.savePage?' A save code from the Binder’s Record can bring a book back.':'')),2500);
   devUnlocked();
