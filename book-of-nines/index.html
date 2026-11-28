@@ -902,7 +902,7 @@ body.immersed .pstickers,body.immersed .puzzle .stamp{opacity:0}   /* zoomed in,
 @media (max-width:520px){.placebar[data-side="bottom"] .pb-drawer,.placebar[data-side="top"] .pb-drawer{flex:1 1 100%;max-width:none;justify-content:safe center}.placebar[data-side="bottom"] #placeMsg,.placebar[data-side="top"] #placeMsg{display:none}}
 /* the box gets its side of the screen: the buttons there step aside, and on the left or right the book makes room */
 body.stickering.tray-bottom .tvbtn,body.stickering.tray-bottom .plushbtn,body.stickering.tray-bottom .shopbtn,body.stickering.tray-bottom .vasebtn,body.stickering.tray-bottom .sproutbtn,body.stickering.tray-bottom .radiobtn:not(body.radio-side .radiobtn){visibility:hidden}
-body.stickering.tray-top .datebtn,body.stickering.tray-top .faxbtn,body.stickering.tray-top .libbtn,body.stickering.tray-top .setbtn,body.stickering.tray-top .cornerui{visibility:hidden}
+body.stickering.tray-top .datebtn,body.stickering.tray-top .faxbtn,body.stickering.tray-top .libbtn,body.stickering.tray-top .giftbtn,body.stickering.tray-top .setbtn,body.stickering.tray-top .cornerui{visibility:hidden}
 body.stickering.tray-left .app{padding-left:max(72px,calc(env(safe-area-inset-left,0px) + 64px))}body.stickering.tray-right .app{padding-right:max(72px,calc(env(safe-area-inset-right,0px) + 64px))}
 .board.col .tool .cost{display:none}
 
@@ -1159,7 +1159,7 @@ body.radio-side .radiobtn{left:auto;margin-left:0;right:max(11px,env(safe-area-i
 .setbtn .spr{width:21px;height:21px}
 body.setside .setbtn{left:max(16px,env(safe-area-inset-left,0px));top:50%;bottom:auto;margin:-21px 0 0 0}   /* room beside the book: on the left, halfway down */
 body.setside .popv.setp{left:calc(max(16px,env(safe-area-inset-left,0px)) + 54px);top:50%;bottom:auto;translate:0 -50%;width:min(600px,calc(100% - 90px));max-width:calc(100% - 90px);max-height:calc(100% - 40px)}
-.libbtn{--cm-h:calc(var(--store-h) - 4px);position:fixed;z-index:45;top:max(8px,env(safe-area-inset-top,0px));right:max(10px,env(safe-area-inset-right,0px));width:calc(var(--cm-h) * 48 / 52);height:var(--cm-h);padding:0;background:none;border:0;cursor:pointer;filter:drop-shadow(0 3px 0 rgba(0,0,0,.45))}.libbtn svg{display:block;width:100%;height:100%;overflow:visible;transition:transform .15s cubic-bezier(.3,1.6,.5,1)}.libbtn:hover svg{transform:translateY(-1px) scale(1.04)}.libbtn:active svg{transform:translateY(2px)}#cornerui{right:calc(max(10px,env(safe-area-inset-right,0px)) + (var(--store-h) - 4px) * 48 / 52 + 10px)}body.immersed #libBtn{display:none!important}
+.libbtn{--cm-h:calc(var(--store-h) - 4px);position:fixed;z-index:45;top:max(8px,env(safe-area-inset-top,0px));right:max(10px,env(safe-area-inset-right,0px));width:calc(var(--cm-h) * 48 / 52);height:var(--cm-h);padding:0;background:none;border:0;cursor:pointer;filter:drop-shadow(0 3px 0 rgba(0,0,0,.45))}.libbtn svg{display:block;width:100%;height:100%;overflow:visible;transition:transform .15s cubic-bezier(.3,1.6,.5,1)}.libbtn:hover svg{transform:translateY(-1px) scale(1.04)}.libbtn:active svg{transform:translateY(2px)}#cornerui{right:calc(max(10px,env(safe-area-inset-right,0px)) + (var(--store-h) - 4px) * (48 / 52 + .86) + 18px)}body.immersed #libBtn,body.immersed #giftBtn{display:none!important}
 .lib-card{width:min(560px,calc(100% - 8px))}.pid-note{margin:6px 0 0;font:italic 12px var(--fell);opacity:.85;text-align:center}.pid-note b{font:600 12px var(--deco);letter-spacing:.06em}.shelf-cap{margin:10px 0 0;font:italic 12px var(--fell);opacity:.9}.shelf-cap b{font:600 11px var(--deco);letter-spacing:.06em;opacity:.8}.editor-card{width:min(440px,calc(100% - 8px))}.privacy-link{margin:12px 0 0;text-align:center}.linkish{background:none;border:0;padding:6px 4px;font:italic 13px var(--fell);color:inherit;text-decoration:underline;text-underline-offset:3px;opacity:.8;cursor:pointer}.privacy-card{width:min(600px,calc(100% - 8px));text-align:left}.privacy h1{font:700 24px var(--title);margin:0 0 2px;text-align:center}.privacy .asof{font:italic 12px var(--fell);opacity:.75;text-align:center;margin:0 0 12px}.privacy .lead{font-style:italic}.privacy h2{font:600 12px var(--deco);letter-spacing:.14em;text-transform:uppercase;margin:16px 0 4px;color:var(--hint)}.privacy p,.privacy li{font:15px/1.5 var(--pix);margin:5px 0}.privacy ul{padding-left:20px;margin:4px 0}.privacy a{color:inherit}.editor-card .mp-actions{flex-wrap:nowrap;gap:6px}.editor-card .mp-actions .px{white-space:nowrap;padding-left:10px;padding-right:10px;min-width:0}.ed-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:0;width:min(342px,100%);aspect-ratio:1;margin:8px auto 0;border:2px solid var(--ink);background:var(--paper)}.ed-cell{min-width:0;padding:0;border:1px solid var(--paperLo);background:none;color:var(--ink);font:600 clamp(14px,4.5vw,20px) var(--cap);cursor:pointer}.ed-cell:nth-child(3n){border-right:2px solid var(--ink)}.ed-cell:nth-child(9n){border-right:0}.ed-cell:nth-child(n+19):nth-child(-n+27),.ed-cell:nth-child(n+46):nth-child(-n+54){border-bottom:2px solid var(--ink)}.ed-cell.sel{background:var(--sel)}.ed-cell.bad{color:var(--err)}.ed-keys{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:10px}.ed-keys button{padding:9px 0;border:1.5px solid var(--paperLo);border-radius:4px;background:var(--key);font:700 15px var(--cap);color:var(--ink)}.shelf-wood{position:relative;margin:8px -4px 0;padding:18px 14px 0;background:linear-gradient(180deg,rgba(0,0,0,.08),transparent 30%),linear-gradient(90deg,#6b4a2e,#8a6240 50%,#6b4a2e);border-radius:6px 6px 0 0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}.shelf-row{display:flex;gap:16px;justify-content:center;align-items:flex-end;flex-wrap:wrap;padding-bottom:4px}.shelf-plank{height:14px;margin:0 -14px;background:linear-gradient(180deg,#a8744a,#5a3a22);box-shadow:0 6px 10px rgba(0,0,0,.4);border-radius:0 0 6px 6px}.tome{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0;border:0;background:none;cursor:pointer;width:104px}.tome-cover{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:96px;height:128px;padding:10px 8px;border-radius:3px 7px 7px 3px;background:linear-gradient(160deg,var(--leatherHi),var(--leather) 40%,var(--leatherLo));box-shadow:inset 3px 0 0 rgba(0,0,0,.35),inset 0 0 0 1.5px var(--gold),inset 0 0 0 5px transparent,inset 0 0 0 6px rgba(233,196,106,.45),0 4px 0 rgba(0,0,0,.35),0 8px 14px rgba(0,0,0,.4);color:var(--gold);text-align:center;transition:transform .18s}.tome-cover b{font:900 12px/1.15 var(--title);text-shadow:0 1px 0 rgba(0,0,0,.5)}.tome-cover small{font:italic 9px/1.2 var(--fell);color:#f3e6c8;opacity:.85}.tome-rule{width:60%;height:1px;background:var(--gold);opacity:.6}.tome-label{font:600 10px var(--deco);letter-spacing:.06em;text-transform:uppercase;color:#f3e6c8;opacity:.85}.tome[aria-pressed="true"] .tome-cover{transform:translateY(-8px) scale(1.04);box-shadow:inset 3px 0 0 rgba(0,0,0,.35),inset 0 0 0 1.5px var(--gold),inset 0 0 0 6px rgba(233,196,106,.45),0 0 0 2px #fff,0 10px 18px rgba(0,0,0,.5)}.tome.bound .tome-label::after{content:' · bound'}.tome-detail{min-height:64px;margin:12px 0 4px;text-align:center}.tome-detail h3{margin:0;font:700 17px var(--title);color:var(--ink)}.tome-sub{margin:3px 0 6px;font:600 10px var(--deco);letter-spacing:.06em;text-transform:uppercase;opacity:.75}.tome-credit{margin:0;font:italic 12.5px/1.4 var(--fell);color:var(--ink);opacity:.85}.lib-shelf{display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px}.volume{position:relative;display:grid;grid-template-columns:14px 1fr;grid-template-rows:auto auto auto auto;column-gap:12px;align-items:start;padding:10px 12px 10px 10px;text-align:left;background:var(--paper2);border:1.5px solid var(--paperLo);border-radius:4px;color:var(--ink);cursor:pointer}.volume .spine{grid-row:1/-1;width:14px;height:100%;min-height:56px;border-radius:2px;background:linear-gradient(90deg,var(--leatherLo),var(--leather),var(--leatherHi));box-shadow:inset 0 0 0 1px rgba(0,0,0,.3)}.volume.bound{outline:2px solid var(--hint);background:var(--paper)}.volume .vol-title{font:700 16px var(--title);color:var(--ink)}.volume .vol-sub{font:italic 13px var(--fell);opacity:.85}.volume .vol-meta{font:600 10px var(--deco);letter-spacing:.06em;text-transform:uppercase;opacity:.75;margin-top:2px}.volume .vol-credit{font:italic 12px/1.35 var(--fell);opacity:.8;margin-top:6px}.shelf-note{font-size:12px;opacity:.7}.lib-h{margin:16px 0 6px;font-family:var(--cap);font-size:13px;display:flex;gap:8px;align-items:center}.lib-h b{flex:1;height:3px;background:var(--paperLo)}.lib-h em{font:italic 12px var(--fell)}.pages-shelf,.arch-shelf{background:linear-gradient(90deg,#5a4a3e,#7a6a58 50%,#5a4a3e)}.page-tome .tome-cover{background:var(--paper);color:var(--ink);box-shadow:inset 0 0 0 1px var(--paperLo),0 3px 0 rgba(0,0,0,.3),0 6px 12px rgba(0,0,0,.35);border-radius:2px}.page-tome .tome-cover b{color:var(--ink);text-shadow:none}.page-tome .tome-cover small{color:var(--ink)}.page-tome .tome-rule{background:var(--ink)}.history{list-style:none;margin:0;padding:0;display:grid;gap:6px}.hist{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;padding:6px 8px;background:var(--paper2);border:1px solid var(--paperLo);border-radius:4px;text-align:left}.hist.arch{opacity:.6}.hist-grid{width:40px;height:40px;color:var(--ink)}.hist-grid svg{width:100%;height:100%;fill:var(--ink);background:var(--paper)}.hist b{display:block;font:700 12px var(--title)}.hist small{display:block;font:italic 11px/1.3 var(--fell);opacity:.85}.hist-acts{display:flex;flex-direction:column;gap:4px}.hist-acts .px{padding:4px 8px;font:600 10px var(--deco)}
 .popv.setp{position:fixed;z-index:46;top:auto;bottom:calc(max(16px,env(safe-area-inset-bottom,0px)) + 52px);right:auto;left:50%;translate:-50% 0;   /* hangs below the Design button at the top, in the middle */
   max-height:calc(100% - 130px);overflow:auto;display:flex;flex-direction:column;gap:12px;padding:12px 14px;min-width:0;width:min(600px,calc(100% - 24px));max-width:calc(100% - 24px)}
@@ -2409,7 +2409,7 @@ body.tc-picking .app,body.tc-picking .veil,body.tc-picking .toast{cursor:crossha
 :root.overlay.ov-in body::before,:root.overlay.ov-out body::before{opacity:0}
 :root.overlay #stage{transform-origin:50% 50%;will-change:transform}
 /* over the home screen it is only the book: none of the things that stand around it */
-:root.overlay :is(#dateBtn,#faxBtn,#tvBtn,#sproutBtn,#vaseBtn,#plushBtn,#radioBtn,#shopBtn,#mediaBar,#vinylBig,#cornerui,#dayBtn,#libBtn,#setBtn,#matchHud){display:none!important}
+:root.overlay :is(#dateBtn,#faxBtn,#tvBtn,#sproutBtn,#vaseBtn,#plushBtn,#radioBtn,#shopBtn,#mediaBar,#vinylBig,#cornerui,#dayBtn,#libBtn,#giftBtn,#setBtn,#matchHud){display:none!important}
 .art.it-art{width:52px!important;height:75px!important}
 .art.it-art .it-img{width:100%;height:100%;object-fit:contain;filter:none}
 :root.overlay #publisherIntro,:root.overlay #quietLoader{display:none!important}
@@ -2691,6 +2691,61 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
 .turn.back.ico{padding:3px 8px}
 
 .turn .tico.go{width:44px;height:17px}.turn .tico.go .hd{fill:currentColor;stroke-width:1}
+
+/* The Book of Quotations: four entries to a page, the little picture left, the words right */
+.qt-list .gz-in{gap:0;justify-content:space-between}
+.qt-e{flex:1 1 auto;min-height:0;display:flex;gap:3.4cqw;align-items:flex-start;padding:2.2cqw 0;border-bottom:.25cqw solid rgba(176,138,58,.45)}
+.qt-e:first-child{padding-top:.4cqw}.qt-e:last-child{border-bottom:0;padding-bottom:0}
+.qt-px{flex:none;width:15cqw;height:15cqw;border:.35cqw solid rgba(110,94,75,.55);border-radius:.8cqw;background:#fffaf0;padding:.6cqw}
+.qt-px svg{display:block;width:100%;height:100%}
+.qt-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:.6cqw;align-items:flex-start}
+.qt-no{font:600 2cqw var(--deco);letter-spacing:.2em;text-transform:uppercase;color:var(--tu-soft,#6e5e4b)}
+.qt-page .qt-e p.qt-q{margin:0;font-size:3.1cqw;line-height:1.28;font-style:italic}
+.qt-page .qt-e p.qt-none{opacity:.55}
+.qt-by{font:600 2.5cqw var(--deco);letter-spacing:.06em;color:var(--tu-ink,#2a2118)}
+.qt-fl{font:500 2.2cqw var(--deco);letter-spacing:.1em;text-transform:uppercase;color:#8a6a1f}
+
+/* the Gift Box: a button beside the commode, and its dialogs */
+.giftbtn{position:fixed;z-index:45;top:calc(max(8px,env(safe-area-inset-top,0px)) + (var(--store-h) - 4px) * .1);right:calc(max(10px,env(safe-area-inset-right,0px)) + (var(--store-h) - 4px) * 48 / 52 + 8px);width:calc((var(--store-h) - 4px) * .86);height:calc((var(--store-h) - 4px) * .86);padding:0;background:none;border:0;cursor:pointer;filter:drop-shadow(0 3px 0 rgba(0,0,0,.45))}
+.giftbtn svg{display:block;width:100%;height:100%;overflow:visible;transition:transform .15s cubic-bezier(.3,1.6,.5,1)}.giftbtn:hover svg,.giftbtn:focus-visible svg{transform:translateY(-1px) scale(1.05) rotate(-3deg)}.giftbtn:active svg{transform:translateY(2px)}
+.gfbox{--bx:#2b3a6a;--lid:#364a86;--rb:#e9c46a;--gd:#f6dc8c}.gfbox.xmas{--bx:#1f6a47;--lid:#27805a;--rb:#c8323e;--gd:#f0cf70}
+.gfbox .gb-b{fill:var(--bx)}.gfbox .gb-l{fill:var(--lid)}.gfbox .gb-r{fill:var(--rb)}.gfbox .gb-g{fill:none;stroke:var(--gd);stroke-width:1;opacity:.55}.gfbox .gb-d{fill:none;stroke:var(--gd);stroke-width:1.2;stroke-linecap:round;opacity:.75}
+.gfbox rect,.gfbox path.gb-r{stroke:#14100a;stroke-width:1.4;stroke-linejoin:round}
+.gf-card{width:min(560px,calc(100% - 8px));max-height:calc(100% - 16px);overflow:auto;text-align:center}
+.gf-card h2{margin:0 0 4px}.gf-hero{width:92px;height:92px;margin:6px auto 4px}.gf-hero svg{width:100%;height:100%;display:block}
+.gf-hero.gf-open svg{animation:gfOpen .7s cubic-bezier(.3,1.5,.5,1) both}@keyframes gfOpen{0%{transform:scale(.7) rotate(-6deg)}100%{transform:none}}
+.gf-lead{margin:6px 0;font:italic 14px/1.4 var(--fell)}.gf-tag{margin:2px 0 6px;font:14px/1.45 var(--fell)}.gf-tag b{font:700 15px var(--title)}
+.gf-note{margin:6px 0;font:italic 12.5px/1.4 var(--fell);opacity:.85}.gf-err{min-height:1.2em;margin:4px 0;font:italic 13px var(--fell);color:#8a2a18}
+.gf-acts{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:10px 0 2px}.gf-acts .px{margin:0}
+.gf-h{margin:14px 0 4px;font:600 12px var(--deco);letter-spacing:.14em;text-transform:uppercase;color:var(--hint);text-align:left}
+.gf-rows{list-style:none;margin:0;padding:0;text-align:left}.gf-rows>li{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 10px;padding:5px 0;border-bottom:1px dashed var(--paperLo);font:13.5px var(--fell)}
+.gf-rows>li.gf-got{display:block}.gf-got>span{display:block;margin-bottom:4px}
+.gf-things{list-style:none;margin:6px 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}.gf-th{display:flex;align-items:center;gap:6px;padding:3px 8px 3px 4px;border:1px solid var(--paperLo);border-radius:14px;background:var(--paper2);font:13px var(--fell)}
+.gf-th .gf-art{--a:28px}.gf-th i{font-style:normal;opacity:.7}.gf-th.gf-sp{border-style:dashed}
+.gf-art{--a:44px;display:inline-grid;place-items:center;width:var(--a);height:var(--a)}.gf-art svg{width:var(--a);height:var(--a);display:block}.gf-art img{max-width:100%;max-height:100%;width:auto;height:auto;display:block}.gf-art .style-swatch{width:30px;height:38px;display:block}
+.gf-big{gap:10px}.gf-big .gf-th{padding:6px 12px 6px 6px;font-size:15px}.gf-big .gf-th .gf-art{--a:44px}
+.gf-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
+.gf-it{position:relative;border:1.5px solid var(--paperLo);border-radius:8px;background:var(--paper2);overflow:hidden}.gf-it.on{border-color:var(--ink);box-shadow:0 0 0 2px rgba(233,196,106,.7)}
+.gf-pick{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;padding:6px 4px 4px;border:0;background:none;color:inherit;cursor:pointer;font:12px/1.15 var(--fell)}.gf-pick b{font:inherit;font-weight:600;overflow-wrap:anywhere}
+.gf-ctl{display:flex;align-items:center;justify-content:space-between;gap:4px;padding:2px 4px 5px;font:11px var(--fell)}.gf-ctl[hidden]{display:none}
+.gf-ctl button{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--paperLo);background:var(--paper);color:inherit;font:700 16px/1 var(--title);cursor:pointer;padding:0}.gf-ctl button:disabled{opacity:.35;cursor:default}
+.gf-sum{margin:10px 0 0;font:italic 13px var(--fell)}.gf-foot{position:sticky;bottom:-1px;margin:8px -4px 0;padding:2px 4px 4px;background:var(--paper)}.gf-th i.gf-s{font-style:italic;opacity:.65}
+.gf-code{width:100%;box-sizing:border-box;margin:8px 0 0;padding:8px;border:1.5px solid var(--paperLo);border-radius:6px;background:var(--paper2);color:inherit;font:12px/1.35 ui-monospace,Menlo,Consolas,monospace;resize:none;word-break:break-all}
+
+/* the Christmas shelf: what its ornaments do on the commode */
+.cm-orn.o-xtree{filter:drop-shadow(0 0 7px rgba(255,220,140,.5))}.cm-orn.o-xtree .o-li circle{animation:xtwink 1.9s ease-in-out infinite}.cm-orn.o-xtree.off{filter:none}.cm-orn.o-xtree.off .o-li circle{animation:none;fill:#3d5a4a}
+@keyframes xtwink{0%,100%{opacity:1}50%{opacity:.45}}
+.cm-orn.o-xarch{filter:drop-shadow(0 0 8px rgba(255,205,110,.55))}.cm-orn.o-xarch .o-flame{transform-box:fill-box;transform-origin:50% 90%;animation:cmflick 1.7s ease-in-out infinite}.cm-orn.o-xarch.off{filter:none}.cm-orn.o-xarch.off .o-flame{display:none}.cm-orn.o-xarch.off .o-back{fill:#8f7a55}
+.cm-orn.o-xdeer.play .o-roll{animation:xroll 1.2s ease-in-out}.cm-orn.o-xdeer.play .o-wheel{transform-box:fill-box;transform-origin:50% 50%;animation:xwheel 1.2s ease-in-out}
+@keyframes xroll{30%{transform:translateX(3.5px)}65%{transform:translateX(-2.5px)}}@keyframes xwheel{30%{transform:rotate(110deg)}65%{transform:rotate(-80deg)}}
+.cm-orn.o-xnut.play .o-jaw{animation:xjaw .66s steps(1,end)}@keyframes xjaw{0%,50%{transform:translateY(2.4px)}25%,75%{transform:none}}
+.cm-orn.o-xhouse.play .o-smoke{animation:xsmoke 1.25s ease-out}.cm-orn.o-xhouse.play .o-win{animation:xtwink .4s ease-in-out 3}
+@keyframes xsmoke{0%{opacity:0;transform:translateY(5px)}25%{opacity:.9}100%{opacity:0;transform:translateY(-7px)}}
+.cm-orn.o-xbox.play .o-fig{transform-box:fill-box;transform-origin:50% 50%;animation:xspin 1.6s linear infinite}.cm-orn.o-xbox.play .o-notes{animation:xnotes 1.6s ease-in-out infinite}.cm-orn.o-xbox.play .o-crank{transform-box:fill-box;transform-origin:0 100%;animation:xcrank .8s linear infinite}
+@keyframes xspin{0%,100%{transform:scaleX(1)}25%{transform:scaleX(.1)}50%{transform:scaleX(-1)}75%{transform:scaleX(.1)}}@keyframes xnotes{0%{opacity:0;transform:translateY(4px)}40%{opacity:1}100%{opacity:0;transform:translateY(-6px)}}@keyframes xcrank{50%{transform:rotate(-14deg)}}
+@media (prefers-reduced-motion:reduce){.cm-orn.o-xtree .o-li circle,.cm-orn.o-xarch .o-flame,.cm-orn.o-xbox.play .o-fig,.cm-orn.o-xbox.play .o-crank{animation:none}}
+.gz-xmas .gz-grid{grid-template-rows:repeat(4,1fr)}.gz-xmas .gz-tx b{white-space:normal}.gz-xmas .gz-pic{width:15.5cqw;height:15.5cqw}.gz-xmas .gz-aside{font-size:2.9cqw}
+.gz-items:not(.gz-week) .gz-pic .orn-art svg{width:13.6cqw;height:13.6cqw}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -2823,6 +2878,7 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
  </div>
  <button class="daybtn" id="dayBtn" type="button"></button>
  <button class="libbtn" id="libBtn" aria-label="The Commode Shelf: your books, plushies and drawers" title="Commode Shelf"></button>
+ <button class="giftbtn" id="giftBtn" aria-label="The Gift Box: wrap things for a friend, or open a gift" title="Gift Box"></button>
    <button class="cu setbtn" id="setBtn" data-pop="set" aria-label="Book settings" aria-expanded="false" title="Book settings" hidden></button>
  <div class="cert" id="certView" hidden role="dialog" aria-label="Certificate of ownership"><div class="cert-dim" data-certclose></div>
    <div class="cert-box"><img class="cert-img" id="certImg" alt="Certificate of ownership"><p class="cert-how" id="certHow"></p>
@@ -2835,6 +2891,7 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
    <div class="sgrp" id="calGrp"><b>Shop calendar</b><button class="namebtn" id="gzBtn" type="button">Open the shop catalogue</button><p class="pid-note">What comes into the shop, in which order and when, as a magazine to leaf through.</p></div>
    <div class="sgrp" id="toyGrp"><b>Inside the instrument</b><div class="row wrap" id="toyChoice"><button class="namebtn" data-toy="" type="button">Nothing</button><button class="namebtn" data-toy="perch" type="button">The reckoning fish</button><button class="namebtn" data-toy="seahorse" type="button">The thinking star</button></div><p class="pid-note">A prototype: what shows where the instrument was, while the save page is open.</p></div>
    <div class="sgrp" id="discGrp"><b>Discoveries</b><button class="namebtn" id="discBtn" type="button">Open the Book of Discoveries</button><p class="pid-note">A prototype, not in the shop: the hidden things of the game, each with a riddle, and the answer for whoever asks.</p></div>
+   <div class="sgrp" id="qtGrp"><b>Quotations</b><button class="namebtn" id="qtBtn" type="button">Open the Book of Quotations</button><p class="pid-note">Every line from the backs of the pages, all three volumes, each beside its little picture: an overview to look over, and later to replace with a selection of your own.</p></div>
    <div class="sgrp"><b>Your own page</b><div class="mag-choice"><button type="button" id="openEditor">Make a Sudoku</button></div><p class="pid-note" id="pidNote"></p></div>
    <div class="sgrp"><b>Ink</b><div class="row" id="pals"></div><span class="nm" id="nm-pal"></span>
      <div class="mag-choice daynight" id="dayNight"><button type="button" data-dark="0"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Day</button><button type="button" data-dark="1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>Night</button></div></div>
@@ -2898,7 +2955,7 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
 
 <template id="privacyText">
 <h1>Privacy</h1>
-<p class="asof">The Book of Nines · last changed 23 November 2026</p>
+<p class="asof">The Book of Nines · last changed 28 November 2026</p>
 <p class="lead">Your book stays on your device. There is no account, and we run no analytics of our own. Data leaves your device in two cases: when you play with friends (the name you gave your book, its player ID, and your moves in that match), and, in the Google Play app only, for the advertising shown by Google, which asks for your consent first where the law requires it.</p>
 
 <h2>Who is responsible</h2>
@@ -2939,6 +2996,8 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
 <h2>Links and other features</h2>
 <p><b>Music controls (Google Play app).</b> If you allow it, the app uses Android's notification access only to see which app is playing music or a video, its title and artist, so it can show back, pause or play, and next under the book. This stays on your phone: nothing is stored or sent anywhere, and the app does not read your notifications. You can switch it off any time in your phone's settings under Notification access.</p>
 <p><b>Letters (Google Play app).</b> If you allow notifications, the book may now and then send you a letter with news and events, such as tournaments. At present these letters are made on your phone and nothing about you is sent to us for them. If a letter service on our side is ever added, this page will say first what it needs. You can switch notifications off any time in your phone's settings.</p>
+<p><b>Gift boxes.</b> A gift box is made on your device: the things you pack, the name you gave your book and the date you sealed it are written into a link and a code. Nothing is sent to us, and we keep no copy: the box exists only in that link or code, wherever you send or paste it, and whoever has it can open it once in their own book. Send it only to people you mean to give it to. Your book remembers on your device which boxes it has sealed and opened.</p>
+<p><b>Invite links.</b> A match invite link carries only the four-digit room code. When you open a link, your browser or phone asks this website for a small page that passes you on to the book; GitHub, which hosts the page, sees the request as it would for any web page.</p>
 <p>The WhatsApp and Telegram buttons on the credits page open those apps; nothing is sent until you send a message there, and their own terms apply.</p>
 
 <h2>Children</h2>
@@ -3633,6 +3692,18 @@ const CAST=[
   spots:{forehead:-1,ears:0,cheeks:1,chin:1,belly:1,back:2,paws:1},act:{love:'tip',like:'tip'},
   spotLines:{love:['*contented hum*','Mm. Most agreeable.','Oh, I say... *blushes*'],like:['Lovely.','Much obliged.','*tips hat*'],meh:['Quite.'],no:['*straightens his hat*','Ahem.'],hate:['Really now.'],
    forehead_no:['Mind the hat, if you please.','Ahem. The hat.'],back_love:['Between the shoulders. Splendid.']}}
+ /* the Christmas plushie: in the shop from the 21st of December to Epiphany (xmas), a polar bear cub in a knitted hat and a scarf */
+ ,{id:'flocke',name:'Flocke',tag:'A polar bear cub in a bobble hat. Loves the snow, hates cold paws.',price:600,startBond:15,kind:'bear',hat:'bobble',xmas:21,
+  pal:{O:'#3a3540',F:'#f4f1ea',D:'#d9d3c6',P:'#f0a8a0',B:'#ffffff',E:'#1a1210',H:'#c8323e'},
+  voice:{w:'sine',f:520,syl:.09,g:.1,gl:.14,lp:2400},
+  lines:{adopt:['Is it snowing yet?'],poke:['Eep!','Brr!','Hey!'],hug:['Warm. So warm.','*snuggles in*','Not yet. A little longer.'],
+   mad:['My hat! Careful.','Hmph. Cold shoulder.','*pulls her hat down*'],sleep:['Wake me when it snows.'],wake:['Did it snow?'],bondup:['You are my favourite warm thing.','I saved you a snowflake. It melted. Sorry.'],
+   pet_hum:['*happy rumble*','Mmm.','That is nice.'],pet_tip:['*her bobble wiggles*','Hee.'],pet_blush:['Oh! *hides in her scarf*']},
+  story:['I was knitted before I was sewn: first the hat, then the scarf, and then somebody said, these need a bear.','I come from a stall at a Christmas market. All December it smelled of roast chestnuts, and I was never once allowed to taste one.','Every evening the lights went out and the snow came down on the roof of the stall. I counted the flakes. I got as far as a hundred and eleven.','On the last night of the market nobody had taken me home. The stallkeeper tucked my scarf in and said, next winter, little one.','It turns out next winter was you. I do not count snowflakes any more. I count the days you come by.'],
+  pet:b=>{const r=Math.random();if(b>=55&&r<.25)return{k:'blush',g:1.6};return r<.4?{k:'tip',g:1.2}:{k:'hum',g:1.3}},
+  spots:{forehead:0,ears:2,cheeks:1,chin:1,belly:1,back:1,paws:-1},act:{love:'tip',like:'hum'},
+  spotLines:{love:['*happy rumble*','Behind the ears. Yes.','Oh! *hides in her scarf*'],like:['Mmm.','That is nice.','Hee.'],meh:['Mm.'],no:['Cold paws. Careful.','*tucks her paws in*'],hate:['Brr! No.'],
+   paws_no:['My paws are cold enough already.','*tucks her paws in*'],ears_love:['Behind the ears. Yes.','*her bobble wiggles*']}}
 ];
 /* where a plushie likes to be stroked: 2 loves it, 1 likes it, 0 puts up with it, -1 would rather not, -2 hates it */
 const SPOTS=['forehead','ears','cheeks','chin','belly','back','paws'];
@@ -3748,6 +3819,13 @@ function bear2D(g,C,p){const {O,F,D,P:Pk,B,H}=C.pal,lw=2.4,e=p.eyes||'open',tip=
  g.strokeStyle=O;g.lineWidth=1.4;g.lineCap='round';g.beginPath();g.moveTo(50,47.6);g.lineTo(50,50.4);g.stroke();
  if(p.mouth){ell(g,50,52.4,2.4,2);g.fillStyle=O;g.fill()}else{g.beginPath();g.moveTo(45.6,50.4);g.quadraticCurveTo(48,53,50,50.4);g.quadraticCurveTo(52,53,54.4,50.4);g.stroke()}
  eyes2D(g,C,50,37,e,11);
+ if(C.hat==='bobble'){   /* a scarf round the neck with one end hanging, and a knitted hat with a white brim and a bobble; a tip lifts it */
+  rr(g,57,60,8,17,2.5);fillLine(g,H,O,1.6);g.fillStyle=CREAM;g.fillRect(57.8,69,6.4,2.2);g.fillRect(57.8,73,6.4,1.4);
+  rr(g,30,58,40,7.6,3.8);fillLine(g,H,O,1.8);g.fillStyle=CREAM;for(const x of [36,44,52,60])g.fillRect(x,59,2.2,5.6);
+  g.save();g.translate(50,22.5-6*tip);g.rotate(-.1-.3*tip);
+  g.beginPath();g.moveTo(-16,1);g.quadraticCurveTo(-15.5,-14,0,-14.5);g.quadraticCurveTo(15.5,-14,16,1);g.closePath();fillLine(g,H,O,1.8);
+  g.strokeStyle=CREAM;g.lineWidth=1.3;g.beginPath();for(let x=-12;x<=12;x+=4){g.moveTo(x,-5);g.lineTo(x+2,-8.5);g.lineTo(x+4,-5)}g.stroke();
+  rr(g,-18.5,-1.5,37,6.6,3.3);fillLine(g,CREAM,O,1.6);ell(g,0,-16,4.6,4.6);fillLine(g,'#ffffff',O,1.6);g.restore();return}
  /* the little top hat, tilted, with a gold band; a tip lifts it */
  g.save();g.translate(44,15-6*tip);g.rotate(-.17-.35*tip);
  ell(g,0,0,12.5,2.6);fillLine(g,H,O,1.4);rr(g,-6.8,-12,13.6,12,1.4);fillLine(g,H,O,1.4);g.fillStyle=GOLD;g.fillRect(-6.8,-4.2,13.6,2.6);
@@ -3781,7 +3859,10 @@ function parts3D(id,p){const C=get(id),{O,F,D,P:Pk,B,E}=C.pal,e=p.eyes||'open',o
   eyePair(.25,.36,.53,E);if(p.mouth)add([0,.04,.62],[.045,.04,.03],O,{line:false});
   /* the hat: a brim, a crown and a gold band, tilted; a tip lifts it off his head */
   const a=.18+.35*tip,bx=-.08-.05*tip,by=.9+.14*tip,up=(d)=>[bx-Math.sin(a)*d,by+Math.cos(a)*d,0];
-  add(up(0),[.22,.022,.2],H,{a,cyl:1});add(up(.13),[.13,.13,.12],H,{a,cyl:1});add(up(.05),[.135,.035,.125],GOLD,{a,cyl:1,line:false});
+  if(C.hat==='bobble'){const a2=.08+.3*tip,u=(d)=>[-.02-Math.sin(a2)*d,.74+.14*tip+Math.cos(a2)*d,0];   /* the knitted hat, its white brim and bobble; the scarf */
+   add(u(.06),[.5,.34,.46],H,{a:a2});add(u(0),[.56,.1,.52],CREAM,{a:a2});add(u(.44),[.13,.13,.13],'#ffffff',{a:a2});
+   add([0,-.1,.04],[.52,.11,.47],H);add([.3,-.36,.44],[.1,.24,.06],H)}
+  else{add(up(.13),[.13,.13,.12],H,{a,cyl:1});add(up(.05),[.135,.035,.125],GOLD,{a,cyl:1,line:false})}
  }else if(C.kind==='peng'){const fl=(p.flap||0)*.6;
   const Y=C.pal.Y;
   add([0,-.08,0],[.95,.92,.9],F,{fx:'pengu',white:hex(B),gold:GOLDRGB});                                  /* the ball, with its white face painted on */
@@ -4435,6 +4516,83 @@ const ORN={
   <path d="M38 27c2-6 4-12 4-18 4 0 14 2 16 6s-1 6-6 6c-5 1-10 3-14 6z" fill="url(#on-ph)" stroke="#6a4612" stroke-width=".8"/><path d="M42 9c3 1 9 3 11 6M41 15c3 0 8 1 11 3" stroke="#fff3c8" stroke-width=".7" opacity=".7" fill="none"/>`},
  fern:{name:'Potted fern',price:10,w:46,blurb:'A Boston fern in a terracotta pot.',svg:`<g class="o-fronds">${[[-62,22],[-40,26],[-18,28],[0,26],[18,28],[40,26],[62,22],[-80,16],[80,16]].map(([a,l],i)=>{const rad=a*Math.PI/180,x=30+Math.sin(rad)*l,y=40-Math.cos(rad)*l*.9;return`<path d="M30 40Q${r2(30+Math.sin(rad)*l*.4)} ${r2(40-Math.cos(rad)*l*.7)} ${r2(x)} ${r2(y)}" stroke="${i%2?'#3d7a3a':'#4f8f46'}" stroke-width="3.2" stroke-dasharray="1.6 .9" fill="none" stroke-linecap="round"/>`}).join('')}</g>
   <path d="M16 40h28l-3.5 23h-21z" fill="#c4643a" stroke="#6a2a12" stroke-width=".9"/><path d="M14.5 39h31v5h-31z" fill="#d07446" stroke="#6a2a12" stroke-width=".9"/><path d="M20 47l1.4 13" stroke="#fff" stroke-opacity=".25" stroke-width="1.4"/>`},
+ /* ---- the Christmas shelf: in the shop from December to Epiphany (xmas: the day of December each comes in) ---- */
+ xtree:{name:'Christmas tree',price:36,xmas:1,w:44,blurb:'A fir in a red pot, with a garland and a star. Tap it and its lights go on and off.',svg:`<defs><linearGradient id="on-xt" x1="0" x2="1"><stop offset="0" stop-color="#143d2a"/><stop offset=".5" stop-color="#2f7a4e"/><stop offset="1" stop-color="#103222"/></linearGradient></defs>
+  <rect x="27.5" y="50" width="5" height="8" fill="#6a4a2a" stroke="#2a170a" stroke-width=".6"/>
+  <path d="M21.5 56.5h17l-2.2 6.5H23.7z" fill="#b3262e" stroke="#4a0e12" stroke-width=".8"/><path d="M21 55h18v2.6H21z" fill="#e9c46a" stroke="#7a5418" stroke-width=".5"/>
+  <path d="M30 10L41 26H36.5L46 39.5H40L50 53H10L20 39.5H14L23.5 26H19Z" fill="url(#on-xt)" stroke="#0a2015" stroke-width=".9" stroke-linejoin="round"/>
+  <path d="M30 10L33 26l-3 3-3-3zM30 29l5 10.5-5 3.5-5-3.5zM30 43l7 10H23z" fill="#3f9463" opacity=".35"/>
+  <path d="M22 24.5q8 5 16.5-.5M16.5 37.5q13 7 27.5-.5M13 50.5q17 6 34.5-.5" fill="none" stroke="#e9c46a" stroke-width="1.1" stroke-linecap="round"/>
+  <g class="o-li">${[[25,26.5,'#ff5a4e'],[34,27,'#ffd84a'],[20,39,'#6fb8ff'],[30,41.5,'#ff5a4e'],[40,39.5,'#fff3c8'],[16.5,51.5,'#ffd84a'],[25,53.5,'#6fb8ff'],[35,53.5,'#fff3c8'],[44,51.5,'#ff5a4e'],[30,19,'#fff3c8']].map(([x,y,c],i)=>`<circle cx="${x}" cy="${y}" r="1.7" fill="${c}" stroke="#0a2015" stroke-width=".35" style="animation-delay:${-(i*.43).toFixed(2)}s"/>`).join('')}</g>
+  <path d="M30 1.5l2 4.4 4.8.6-3.5 3.3.9 4.7L30 12.2l-4.2 2.3.9-4.7-3.5-3.3 4.8-.6z" fill="#f6dc8c" stroke="#a87a22" stroke-width=".6" stroke-linejoin="round"/>`},
+ xdeer:{name:'Wooden reindeer',price:24,xmas:1,w:52,blurb:'Carved from pear wood, on a little cart with red wheels. Give it a push.',svg:`<defs><linearGradient id="on-xd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b98654"/><stop offset=".6" stop-color="#96673a"/><stop offset="1" stop-color="#6f4826"/></linearGradient></defs>
+  <g class="o-roll"><path d="M41.5 12V5M41.5 8.5l-3.2-3.3M41.5 7l3-3M45 12.5l1.2-6M45.6 9.5l3.4-2.3" fill="none" stroke="#d2a35c" stroke-width="1.5" stroke-linecap="round"/>
+  ${[14.5,19.5,33,38].map(x=>`<rect x="${x}" y="40" width="3.6" height="15.5" rx=".8" fill="${x===19.5||x===33?'#7a5230':'#96673a'}" stroke="#3a2210" stroke-width=".7"/>`).join('')}
+  <path d="M11 30l-3.5-4 1.2-.8 4.3 2.6z" fill="#96673a" stroke="#3a2210" stroke-width=".7" stroke-linejoin="round"/>
+  <path d="M11 32q0-5 5.5-5H36q6 0 6 6v5.5q0 3.5-4.5 3.5H16q-5 0-5-4.5z" fill="url(#on-xd)" stroke="#3a2210" stroke-width=".9"/>
+  <path d="M35.5 30L39 15h7.5l-1 15.5q-5 2.5-10-.5z" fill="url(#on-xd)" stroke="#3a2210" stroke-width=".9" stroke-linejoin="round"/>
+  <path d="M39.5 12.5q-3.5-4-5.5-1 1.5 3 5 3z" fill="#96673a" stroke="#3a2210" stroke-width=".7" stroke-linejoin="round"/>
+  <path d="M38.5 14q0-4 4.5-4h6.5q5 0 5 4t-5 4.5l-7.5 1q-3.5 0-3.5-5.5z" fill="url(#on-xd)" stroke="#3a2210" stroke-width=".9"/>
+  <circle cx="53.6" cy="13.6" r="2.1" fill="#d8303a" stroke="#6a0e14" stroke-width=".6"/><circle cx="53" cy="12.9" r=".6" fill="#fff" opacity=".8"/><circle cx="45.5" cy="13.3" r="1.1" fill="#1a0c04"/><path d="M48 17.2q2 .9 4-.3" fill="none" stroke="#3a2210" stroke-width=".7" stroke-linecap="round"/>
+  <path d="M19.5 26.6h13.5v10.4H19.5z" fill="#c8323e" stroke="#5a0e14" stroke-width=".7"/><path d="M19.5 28.6h13.5M19.5 35h13.5" stroke="#e9c46a" stroke-width=".9"/><path d="M21.5 31.8l2.3-1.6 2.3 1.6 2.3-1.6 2.3 1.6" fill="none" stroke="#fff3d6" stroke-width=".8" stroke-linejoin="round"/>
+  <path d="M36.8 25.5q4.5 2 8.7.3" fill="none" stroke="#1f6a47" stroke-width="1.8" stroke-linecap="round"/><circle cx="40.8" cy="28" r="1.7" fill="#e9c46a" stroke="#7a5418" stroke-width=".5"/>
+  <rect x="8" y="54.5" width="38" height="3.6" rx="1.2" fill="#1f6a47" stroke="#0c2e1e" stroke-width=".8"/>
+  ${[15,39].map(x=>`<g class="o-wheel"><circle cx="${x}" cy="60" r="3.5" fill="#c8323e" stroke="#5a0e14" stroke-width=".8"/><path d="M${x} 57.3v5.4M${x-2.7} 60h5.4" stroke="#5a0e14" stroke-width=".6"/><circle cx="${x}" cy="60" r="1.1" fill="#e9c46a"/></g>`).join('')}</g>`},
+ xnut:{name:'Nutcracker',price:28,xmas:7,w:28,blurb:'A soldier in a red coat and a tall hat. Tap him and he cracks a nut.',svg:`
+  <rect x="19" y="59.5" width="22" height="4" rx="1" fill="#1f6a47" stroke="#0c2e1e" stroke-width=".8"/>
+  <rect x="24" y="52" width="5.4" height="7.8" rx="1" fill="#1a1210" stroke="#000" stroke-width=".5"/><rect x="30.6" y="52" width="5.4" height="7.8" rx="1" fill="#1a1210" stroke="#000" stroke-width=".5"/>
+  <rect x="24.5" y="43" width="4.6" height="9.5" fill="#f3ead6" stroke="#8a7c60" stroke-width=".6"/><rect x="30.9" y="43" width="4.6" height="9.5" fill="#f3ead6" stroke="#8a7c60" stroke-width=".6"/>
+  <rect x="18.2" y="29" width="4" height="13" rx="1.6" fill="#b3262e" stroke="#4a0e12" stroke-width=".7"/><rect x="37.8" y="29" width="4" height="13" rx="1.6" fill="#b3262e" stroke="#4a0e12" stroke-width=".7"/>
+  <circle cx="20.2" cy="43" r="1.9" fill="#f1c9a5" stroke="#8a5a3a" stroke-width=".5"/><circle cx="39.8" cy="43" r="1.9" fill="#f1c9a5" stroke="#8a5a3a" stroke-width=".5"/>
+  <path d="M22.2 28.5h15.6v15l-1.8 1.5H24l-1.8-1.5z" fill="#c8323e" stroke="#4a0e12" stroke-width=".8" stroke-linejoin="round"/>
+  <path d="M26 29l4 6 4-6" fill="none" stroke="#e9c46a" stroke-width=".9"/><rect x="22.2" y="38.6" width="15.6" height="2.4" fill="#1a1210"/><rect x="28.3" y="38.2" width="3.4" height="3.2" rx=".5" fill="#e9c46a" stroke="#7a5418" stroke-width=".4"/>
+  <circle cx="30" cy="36.3" r=".9" fill="#e9c46a"/><circle cx="30" cy="42.7" r=".9" fill="#e9c46a"/>
+  <rect x="17.2" y="27.3" width="5.8" height="2.6" rx="1" fill="#e9c46a" stroke="#7a5418" stroke-width=".5"/><rect x="37" y="27.3" width="5.8" height="2.6" rx="1" fill="#e9c46a" stroke="#7a5418" stroke-width=".5"/>
+  <rect x="22.6" y="18.5" width="2" height="8.5" fill="#f4f1ea" stroke="#8a8478" stroke-width=".4"/><rect x="35.4" y="18.5" width="2" height="8.5" fill="#f4f1ea" stroke="#8a8478" stroke-width=".4"/>
+  <rect x="24" y="16.5" width="12" height="11.5" rx="1.5" fill="#f1c9a5" stroke="#8a5a3a" stroke-width=".7"/>
+  <circle cx="27.3" cy="20.6" r="1.1" fill="#1a1210"/><circle cx="32.7" cy="20.6" r="1.1" fill="#1a1210"/><path d="M25.6 18.5l3.2.5M34.4 18.5l-3.2.5" stroke="#1a1210" stroke-width=".9" stroke-linecap="round"/>
+  <circle cx="25.6" cy="23.2" r="1.2" fill="#e8857a" opacity=".7"/><circle cx="34.4" cy="23.2" r="1.2" fill="#e8857a" opacity=".7"/>
+  <rect x="26.2" y="24.6" width="7.6" height="3.2" fill="#3a1410"/>
+  <g class="o-jaw"><path d="M26.2 24.6h7.6v2.2h-7.6z" fill="#fff" stroke="#8a8478" stroke-width=".4"/><path d="M28.1 24.6v2.2M30 24.6v2.2M31.9 24.6v2.2" stroke="#8a8478" stroke-width=".4"/><path d="M24.6 26.8h10.8l-1.6 5.4h-7.6z" fill="#f4f1ea" stroke="#8a8478" stroke-width=".5" stroke-linejoin="round"/></g>
+  <path d="M25 23.6q2.5-2 5 0 2.5-2 5 0" fill="none" stroke="#1a1210" stroke-width="1.2" stroke-linecap="round"/>
+  <rect x="23.4" y="4.5" width="13.2" height="12.5" rx="1.2" fill="#1a1210" stroke="#000" stroke-width=".6"/><rect x="23.4" y="13" width="13.2" height="2.6" fill="#e9c46a" stroke="#7a5418" stroke-width=".4"/>
+  <path d="M30 6.5l2 2.6-2 2.6-2-2.6z" fill="#e9c46a"/><path d="M30 4.5q-2.5-3.5 0-4 2.5.5 0 4z" fill="#c8323e" stroke="#4a0e12" stroke-width=".4"/>`},
+ xhouse:{name:'Gingerbread house',price:30,xmas:7,w:50,blurb:'Baked walls, a roof of icing and a red sugar door. Tap it and the chimney smokes.',svg:`
+  <path d="M5 60.5q25-5 50 0V63.5H5z" fill="#f4f7fb" stroke="#b9c8dc" stroke-width=".7"/>
+  <rect x="38.5" y="12" width="5.5" height="12" fill="#9a5c2a" stroke="#4a2810" stroke-width=".8"/><path d="M37.5 10.5h7.5v3h-7.5z" fill="#fff" stroke="#b9c8dc" stroke-width=".5"/>
+  <g class="o-smoke" fill="#fff" opacity="0"><circle cx="41.3" cy="7" r="2.2"/><circle cx="43.5" cy="3" r="2.8"/><circle cx="40.5" cy="-1.5" r="3.2"/></g>
+  <path d="M12 33h36v28H12z" fill="#b8733a" stroke="#4a2810" stroke-width=".9"/>
+  <path d="M12 36.5l2.25 1.7 2.25-1.7 2.25 1.7 2.25-1.7 2.25 1.7 2.25-1.7 2.25 1.7 2.25-1.7 2.25 1.7 2.25-1.7 2.25 1.7 2.25-1.7 2.25 1.7 2.25-1.7 2.25 1.7 2.25-1.7" fill="none" stroke="#fff" stroke-width=".8" stroke-linejoin="round"/>
+  <path d="M30 9L53.5 34.5H6.5z" fill="#9a5c2a" stroke="#4a2810" stroke-width=".9" stroke-linejoin="round"/>
+  <path d="M6.5 34.5q2.9 4 5.875 0t5.875 0 5.875 0 5.875 0 5.875 0 5.875 0 5.875 0 5.875 0L30 9z" fill="#fff"/><path d="M30 13.5L48 33H12z" fill="#9a5c2a"/>
+  <path d="M30 9L53.5 34.5M30 9L6.5 34.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+  ${[[30,19,'#d8303a'],[25,25,'#2f8a5a'],[35,25,'#ffd84a'],[20.5,30.5,'#ffd84a'],[30,30.5,'#d8303a'],[39.5,30.5,'#2f8a5a']].map(([x,y,c])=>`<circle cx="${x}" cy="${y}" r="1.7" fill="${c}" stroke="#4a2810" stroke-width=".4"/>`).join('')}
+  <path d="M25.5 61V48.5a4.5 4.5 0 0 1 9 0V61z" fill="#c8323e" stroke="#fff" stroke-width="1.1"/><circle cx="32.3" cy="54" r=".9" fill="#e9c46a"/>
+  <path d="M30 40.5c-1.8-2.6-4.2-.3-2.6 1.5l2.6 2.3 2.6-2.3c1.6-1.8-.8-4.1-2.6-1.5z" fill="#fff"/>
+  ${[18.5,41.5].map(x=>`<circle class="o-win" cx="${x}" cy="48" r="3.9" fill="#ffd977" stroke="#fff" stroke-width="1.2"/><path d="M${x} 44.3v7.4M${x-3.7} 48h7.4" stroke="#fff" stroke-width=".8"/>`).join('')}
+  ${[22.5,37.5].map((x,i)=>`<path d="M${x} 61V52.5q0-2.3 ${i?'-':''}2.3-2.3" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/><path d="M${x} 61V52.5q0-2.3 ${i?'-':''}2.3-2.3" fill="none" stroke="#d8303a" stroke-width="1.9" stroke-dasharray="1.3 1.7"/>`).join('')}
+  ${[[14.5,'#2f8a5a'],[45.5,'#d8303a']].map(([x,c])=>`<path d="M${x-2.3} 61.5a2.3 2.6 0 0 1 4.6 0z" fill="${c}" stroke="#4a2810" stroke-width=".4"/>`).join('')}`},
+ xarch:{name:'Candle arch',price:38,xmas:14,w:58,blurb:'A Schwibbogen for the window: a village under the stars, cut from wood, with seven candles. Tap it to light them or put them out.',svg:`<defs><linearGradient id="on-xa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b98654"/><stop offset="1" stop-color="#7a5230"/></linearGradient><radialGradient id="on-xg" cx=".5" cy="1" r=".9"><stop offset="0" stop-color="#fff0b8"/><stop offset=".7" stop-color="#f3c66a"/><stop offset="1" stop-color="#d99a3a"/></radialGradient></defs>
+  <path class="o-back" d="M5.5 57A24.5 24.5 0 0 1 54.5 57z" fill="url(#on-xg)"/>
+  <path d="M40 40.5l.8 1.7 1.9.2-1.4 1.3.4 1.8-1.7-.9-1.7.9.4-1.8-1.4-1.3 1.9-.2zM19 37.5l.5 1.1 1.2.15-.9.8.25 1.2-1.05-.6-1.05.6.25-1.2-.9-.8 1.2-.15z" fill="#6a4220"/>
+  <path d="M8 57q9-6 20-3.5T52 52v5z" fill="#5a3418"/>
+  <path d="M14.5 53.5l3.5-9 3.5 9zM15.5 48.5l2.5-6.5 2.5 6.5z" fill="#5a3418"/><path d="M40.5 52.5l3-8 3 8zM41.3 48l2.2-5.8 2.2 5.8z" fill="#5a3418"/>
+  <path d="M26.5 54V44.5l4.5-3.5 4.5 3.5V54zM29.3 41V35.5l1.7-5 1.7 5V41z" fill="#5a3418"/><rect x="29.8" y="47.5" width="2.4" height="4" fill="#ffe9a8"/><rect x="30.3" y="36.5" width="1.4" height="2.2" fill="#ffe9a8"/>
+  <path d="M4 57A26 26 0 0 1 56 57h-3.2A22.8 22.8 0 0 0 7.2 57z" fill="url(#on-xa)" stroke="#3a2210" stroke-width=".8"/>
+  ${[164,139,114,90,66,41,16].map((a,i)=>{const r=a*Math.PI/180,x=r2(30+26*Math.cos(r)),y=r2(57-26*Math.sin(r));return`<rect x="${r2(x-1.3)}" y="${r2(y-5.6)}" width="2.6" height="5.6" fill="${i%2?'#f3ead6':'#c8323e'}" stroke="#3a2210" stroke-width=".5"/><path class="o-flame" d="M${x} ${r2(y-10.4)}c-1.5 2-1.9 3.2-1.1 4.2.6.7 1.6.7 2.2 0 .8-1-.4-2.2-1.1-4.2z" fill="#ffc23c" stroke="#e8763a" stroke-width=".4"/>`}).join('')}
+  <rect x="2" y="57" width="56" height="5.5" rx="1.2" fill="url(#on-xa)" stroke="#3a2210" stroke-width=".8"/><path d="M5 59.7h50" stroke="#e9c46a" stroke-width=".7" opacity=".8"/>`},
+ xbox:{name:'Music box',price:48,xmas:14,w:46,blurb:'Walnut and brass, with a skater who turns before a mirror. Wind it and it plays one of the Christmas records.',svg:`<defs><linearGradient id="on-xb" x1="0" x2="1"><stop offset="0" stop-color="#3a2210"/><stop offset=".5" stop-color="#8a5a32"/><stop offset="1" stop-color="#2a170a"/></linearGradient></defs>
+  <path d="M11 45L14.5 22h27L45 45z" fill="#5a3418" stroke="#1a0c04" stroke-width=".9" stroke-linejoin="round"/><path d="M15.3 43l2.7-18.5h20L40.7 43z" fill="#a9c4dc"/><path d="M19.5 27.5l-1.8 12M22.5 27.5l-.9 6" stroke="#fff" stroke-width="1.1" stroke-linecap="round" opacity=".7"/>
+  <g class="o-notes" fill="#e9c46a" stroke="#7a5418" stroke-width=".3" opacity="0"><path d="M44 17.5v-7l4.5-1.2v6.4a1.8 1.4 0 1 1-1-1.2v-3.3l-2.5.7v5.8a1.8 1.4 0 1 1-1-1.2z"/><path d="M12 12v-6l1.1-.3v5.9a1.7 1.3 0 1 1-1.1-1.2z"/></g>
+  <ellipse cx="28" cy="44.5" rx="9.5" ry="2.2" fill="#e9c46a" stroke="#7a5418" stroke-width=".5"/>
+  <g class="o-fig"><path d="M28 39.5v5" stroke="#f1c9a5" stroke-width="1.3" stroke-linecap="round"/><path d="M26 44.5h4.5" stroke="#cfd8e2" stroke-width=".8" stroke-linecap="round"/>
+   <path d="M23.2 40.3l4.8-5.3 4.8 5.3q-4.8 1.7-9.6 0z" fill="#c8323e" stroke="#5a0e14" stroke-width=".5" stroke-linejoin="round"/><path d="M23.6 39.8q4.4 1.5 8.8 0" fill="none" stroke="#fff" stroke-width=".9"/>
+   <path d="M26.7 31.5h2.6v4h-2.6z" fill="#c8323e" stroke="#5a0e14" stroke-width=".4"/><path d="M26.8 32.5q-3-.5-4.3-3M29.2 32.5q3-.5 4.3-3" fill="none" stroke="#f1c9a5" stroke-width="1.1" stroke-linecap="round"/>
+   <circle cx="28" cy="29.3" r="2.1" fill="#f1c9a5" stroke="#8a5a3a" stroke-width=".4"/><path d="M25.9 29a2.1 2.1 0 0 1 4.2 0q-2.1-1.2-4.2 0z" fill="#3a2210"/><circle cx="28" cy="26.7" r="1" fill="#3a2210"/></g>
+  <rect x="10" y="45" width="36" height="15.5" rx="1.6" fill="url(#on-xb)" stroke="#1a0c04" stroke-width=".9"/><rect x="13" y="48" width="30" height="9.5" fill="none" stroke="#e9c46a" stroke-width=".7"/>
+  <path d="M28 49.5l4.5 3.3-4.5 3.3-4.5-3.3z" fill="#e9c46a" stroke="#7a5418" stroke-width=".4"/><path d="M15.5 52.8h6M34.5 52.8h6" stroke="#e9c46a" stroke-width=".7"/>
+  <rect x="11.5" y="60" width="5" height="2.5" rx=".6" fill="#e9c46a" stroke="#7a5418" stroke-width=".4"/><rect x="39.5" y="60" width="5" height="2.5" rx=".6" fill="#e9c46a" stroke="#7a5418" stroke-width=".4"/>
+  <g class="o-crank"><path d="M46 52.5h4.2v-4.7" fill="none" stroke="#e9c46a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50.2" cy="46.8" r="1.7" fill="#c8323e" stroke="#5a0e14" stroke-width=".5"/></g>`},
 };
 const ornSvg=id=>{const o=ORN[id];return`<svg viewBox="${(60-o.w)/2} 0 ${o.w} 64" aria-hidden="true" overflow="visible">${o.svg}</svg>`};
 return{W,H,TOPY,SH,DR,S,ids,body,front,TEXTURES,swatch,icon,mini:miniSvg,alts:Object.keys(ALT),altLabel:k=>ALT[k]?.label,miniAlt:(k,live)=>`<svg viewBox="0 0 48 52" aria-hidden="true">${live&&ALT_LIVE[k]?altLive(k,live):ALT[k].svg}</svg>`,label:id=>(S[id]||S.farm).label,lab:id=>(S[id]||S.farm).lab,ORN,ornSvg};
@@ -6537,7 +6695,7 @@ const $=s=>document.querySelector(s);
    The last 400 events, kept on this device only (its own key, apart from the save). The Design panel's "Cut the log"
    copies it and clears it in one tap, so each log sent covers only what happened since the last one. Nothing personal
    goes in: no name, no place, no ad or account IDs; only what the game did, the screen, and errors. */
-const NINES_BUILD='1.0.71 · built 2026-11-28 08:33 UTC';
+const NINES_BUILD='1.0.72 · built 2026-11-28 11:35 UTC';
 const NLOG={k:'bookOfNines.log',max:400,a:null,t:0,
   load(){if(this.a)return this.a;try{const a=JSON.parse(localStorage.getItem(this.k)||'[]');this.a=Array.isArray(a)?a:[]}catch(e){this.a=[]}return this.a},
   add(kind,msg){const a=this.load(),d=new Date(),p=n=>String(n).padStart(2,'0');
@@ -6852,15 +7010,16 @@ function applyBell(){const id=BELLS[S.bell]?S.bell:'brass',row=$('#bellChoice');
    Each tune is eight bars that repeat, scheduled a second ahead; the whole piece goes through its own gain, so it can fade in after the bell and out as the door shuts. */
 const ShopTunes=(()=>{
   const N=n=>440*Math.pow(2,(n-69)/12),VOL=.55;
-  let ctx=null,bus=null,cur=null;
-  const env=(T,g,a,d,src)=>{const e=ctx.createGain();e.gain.setValueAtTime(0,T);e.gain.linearRampToValueAtTime(g,T+a);e.gain.exponentialRampToValueAtTime(.0001,T+a+d);src.connect(e);e.connect(bus);return e};
+  let ctx=null,bus=null,cur=null,GV=1;   /* GV: how loud the piece being written out is (the Christmas records are levelled against each other) */
+  const env=(T,g,a,d,src,hold=0)=>{g*=GV;const e=ctx.createGain();e.gain.value=0;e.gain.setValueAtTime(0,T);   /* silent from the start: a noise must not slip one loud sample through before its envelope begins */
+    e.gain.linearRampToValueAtTime(g,T+a);if(hold)e.gain.setValueAtTime(g,T+a+hold);e.gain.exponentialRampToValueAtTime(.0001,T+a+hold+d);src.connect(e);e.connect(bus);return e};
   /* one note: an oscillator, a filter, vibrato (vib: [rate, cents]) or tremolo (trem: [rate, depth]) */
-  function note(T,f,{type='sine',g=.05,a=.006,d=.5,lp=0,det=0,vib=null,trem=null}={}){if(!(f>0))return;
-    const o=ctx.createOscillator();o.type=type;o.frequency.value=f;o.detune.value=det;let n=o;const end=T+a+d+.05;
+  function note(T,f,{type='sine',g=.05,a=.006,d=.5,lp=0,det=0,vib=null,trem=null,hold=0}={}){if(!(f>0))return;   /* hold: a held note (a horn, a bow) before it dies away */
+    const o=ctx.createOscillator();o.type=type;o.frequency.value=f;o.detune.value=det;let n=o;const end=T+a+hold+d+.05;
     if(lp){const fl=ctx.createBiquadFilter();fl.type='lowpass';fl.frequency.value=lp;o.connect(fl);n=fl}
     if(vib){const l=ctx.createOscillator(),lg=ctx.createGain();l.frequency.value=vib[0];lg.gain.value=vib[1];l.connect(lg);lg.connect(o.detune);l.start(T);l.stop(end)}
     if(trem){const tg=ctx.createGain(),l=ctx.createOscillator(),lg=ctx.createGain();tg.gain.value=1-trem[1];l.frequency.value=trem[0];lg.gain.value=trem[1];l.connect(lg);lg.connect(tg.gain);n.connect(tg);n=tg;l.start(T);l.stop(end)}
-    env(T,g,a,d,n);o.start(T);o.stop(end)}
+    env(T,g,a,d,n,hold);o.start(T);o.stop(end)}
   function hiss(T,{type='bandpass',f=3000,q=1,g=.03,a=.002,d=.05}={}){const s=ctx.createBufferSource(),fl=ctx.createBiquadFilter();s.buffer=nbuf;s.loop=true;fl.type=type;fl.frequency.value=f;fl.Q.value=q;s.connect(fl);env(T,g,a,d,fl);s.start(T,Math.random()*.5);s.stop(T+a+d+.05)}
   /* the instruments */
   const I={
@@ -6882,10 +7041,111 @@ const ShopTunes=(()=>{
     brush:(T,g=.02)=>hiss(T,{f:3200,q:.6,g,a:.04,d:.22}),
     block:(T,g=.05)=>{note(T,880,{g,d:.06});hiss(T,{f:1300,q:9,g:g*.6,d:.03})},
     taiko:(T,g=.14)=>{const o=ctx.createOscillator();o.frequency.setValueAtTime(96,T);o.frequency.exponentialRampToValueAtTime(58,T+.25);env(T,g,.004,.38,o);o.start(T);o.stop(T+.45);hiss(T,{type:'lowpass',f:400,g:g*.4,d:.06})},
-    crackle:(T,g=.012)=>hiss(T,{type:'highpass',f:2500+Math.random()*3000,g:g*(.4+Math.random()),d:.004+Math.random()*.006})};
+    crackle:(T,g=.012)=>hiss(T,{type:'highpass',f:2500+Math.random()*3000,g:g*(.4+Math.random()),d:.004+Math.random()*.006}),
+    /* the Christmas band: a piano, a double bass, a ride cymbal, a brush stirred round the snare, sleigh bells, brass, a crooning horn, strings, a celesta */
+    piano:(T,m,d,g=.05)=>{const f=N(m),dd=Math.max(.7,d*1.3);note(T,f,{type:'triangle',g,a:.004,d:dd,lp:Math.min(5200,f*5+900)});note(T,f*2.001,{g:g*.28,a:.003,d:dd*.5});note(T,f*3.002,{g:g*.08,d:dd*.25});hiss(T,{f:2400,q:1,g:g*.1,d:.012})},
+    ubass:(T,m,d,g=.1)=>{const f=N(m);note(T,f,{type:'triangle',g,a:.012,d:Math.max(.35,d),lp:420});note(T,f*2,{g:g*.18,a:.004,d:.14});hiss(T,{type:'lowpass',f:700,g:g*.15,d:.012})},
+    ride:(T,g=.012)=>{hiss(T,{type:'highpass',f:6800,g,a:.002,d:.32});note(T,5100,{g:g*.1,d:.25});note(T,3650,{g:g*.08,d:.3})},
+    stir:(T,d,g=.01)=>hiss(T,{f:2600,q:.5,g,a:d*.45,d:d*.6}),
+    sleigh:(T,g=.012)=>{for(let k=0;k<3;k++)hiss(T+k*.017,{type:'highpass',f:8200+k*700,g:g*(1-k*.25),d:.05});note(T,6200,{g:g*.15,d:.06})},
+    brass:(T,m,d,g=.03)=>{const f=N(m);note(T,f,{type:'sawtooth',g,a:.03,hold:d,d:.12,lp:1500,det:-5});note(T,f,{type:'sawtooth',g:g*.8,a:.035,hold:d,d:.12,lp:1300,det:6})},
+    croon:(T,m,d,g=.05)=>{const f=N(m);note(T,f,{type:'sawtooth',g:g*.45,a:.05,hold:d*.85,d:.18,lp:1150,vib:[5.3,10]});note(T,f,{type:'triangle',g,a:.04,hold:d*.85,d:.2,lp:1900,vib:[5.3,10]})},
+    strings:(T,m,d,g=.012)=>{const f=N(m);note(T,f,{type:'sawtooth',g,a:.35,hold:d,d:.6,lp:1000,det:-7});note(T,f,{type:'sawtooth',g,a:.4,hold:d,d:.6,lp:1000,det:7})},
+    celesta:(T,m,g=.03)=>{const f=N(m);note(T,f,{g,d:.9});note(T,f*4,{g:g*.2,d:.25});note(T,f*2,{type:'triangle',g:g*.2,d:.4})}};
   /* a bar's melody: [beat, MIDI note, beats long] */
   const mel=(T,b,list,inst)=>{for(const [o,m,d] of list)I[inst](T+o*b,m,d*b)};
   const CH={maj:[0,4,7],min:[0,3,7],maj7:[0,4,7,11],m7:[0,3,7,10],dom:[0,4,7,10]};
+  /* ================= the Christmas records =================
+     Five pieces of our own for the weeks before Christmas, played one after another like a stack of records: three for a jazz trio
+     (piano, double bass, brushes) and two for a dance band with a crooning horn, brass and sleigh bells. Each is written out as a
+     lead sheet: a chord (or two) and a line of melody for every bar ('d5:2 b4:1' is a D for two beats, then a B for one; r is a rest).
+     The band reads the sheet: the bass walks to the next chord, the piano comps, the drummer keeps his pattern. */
+  const PCS={c:0,d:2,e:4,f:5,g:7,a:9,b:11};
+  const pit=s=>{const m=/^([a-g])([#b]?)(\d)$/.exec(s);return 12*(+m[3]+1)+PCS[m[1]]+(m[2]==='#'?1:m[2]==='b'?-1:0)};
+  const lead=s=>{let t=0;const out=[];for(const k of s.split(' ')){const [n,l]=k.split(':'),d=+l;if(n!=='r')out.push([t,pit(n),d]);t+=d}return{notes:out,len:t}};
+  /* rootless piano voicings, as a pianist's left hand has them */
+  const QUAL={maj7:[4,7,11,14],'6':[4,7,9,14],m7:[3,7,10,14],m9:[3,7,10,14],m6:[3,7,9,14],'7':[4,10,14],'9':[4,10,14],'13':[4,10,14,21],'7b9':[4,10,13],'7sus':[5,10,14],dim7:[3,6,9],m7b5:[3,6,10]};
+  const chd=s=>{const m=/^([A-G])([#b]?)(.*)$/.exec(s),iv=QUAL[m[3]];if(!iv)throw new Error('chord '+s);return{r:(PCS[m[1].toLowerCase()]+(m[2]==='#'?1:m[2]==='b'?-1:0)+12)%12,iv,q:m[3]}};
+  const fold=(n,lo,hi)=>{while(n>hi)n-=12;while(n<lo)n+=12;return n};
+  const voice=(c,tr)=>[...new Set(c.iv.map(i=>fold(48+c.r+tr+i,53,68)))].sort((a,b)=>a-b);
+  const root=(c,tr)=>fold(36+c.r+tr,31,42);
+  const sheet=o=>{o.bars=o.ch.map((c,i)=>({ch:c.split(' ').map(chd),mel:lead(o.mel[i]).notes}));o.fin=chd(o.end);return o};
+  const hum=()=>Math.random()*.012;
+  const swung=o=>{const f=o%1;return Math.abs(f-.5)<.02?o-f+.64:o};
+  /* the bass walks: root, a chord tone or two, and a step into the next root */
+  const walkTo=(from,to)=>to+(to>=from?-1:1);
+  function walk(c,nx,tr,n,k){const r=root(c,tr),t=r+c.iv[0],f=r+(c.q==='dim7'||c.q==='m7b5'?6:7),nr=root(nx,tr);
+    if(n<=2)return[r,walkTo(r,nr)];const mid=[[t,f],[f,t],[r+2,t]][k%3];return[r,mid[0],mid[1],walkTo(mid[1],nr)]}
+  const XMAS=[
+    /* a slow jazz waltz in G for the trio: the first snow, seen from the window */
+    sheet({id:'snow',name:'First Snow',style:'waltz',beat:.7,beats:3,rounds:2,end:'G6',
+      ch:['Gmaj7','Bm7','Em9','Em9','Cmaj7','Cm6','Bm7','E7b9','Am9','D13','Gmaj7','Em7','Am7','D7sus','G6','D7',
+          'Cmaj7','Cmaj7','Bm7','E7b9','Am7','Am7','A9','D7sus','Gmaj7','Bm7','Em9','Cm6','Bm7','D13','G6','G6'],
+      mel:['d5:2 b4:1','a4:2 f#4:1','g4:3','r:1 e4:1 g4:1','b4:2 g4:1','eb5:2 c5:1','d5:3','r:1 d5:1 f5:1',
+           'e5:2 c5:1','b4:2 f#4:1','a4:3','r:1 g4:1 b4:1','c5:2 a4:1','g4:2 e4:1','g4:3','r:1 b4:1 d5:1',
+           'e5:2 g5:1','e5:2 b4:1','d5:2 f#5:1','d5:2 b4:1','c5:2 e5:1','c5:2 a4:1','b4:2 c#5:1','d5:3',
+           'd5:2 b4:1','a4:2 f#4:1','g4:2 b4:1','eb5:2 c5:1','d5:2 a4:1','b4:2 f#4:1','g4:3','r:1 b5:1 d6:1']}),
+    /* a quick waltz in C: skaters on the pond, gliding and turning */
+    sheet({id:'skate',name:'Skaters’ Pond',style:'glide',beat:.31,beats:3,rounds:2,vol:.9,end:'C6',
+      ch:['Cmaj7','Cmaj7','Fmaj7','Fmaj7','Cmaj7','Cmaj7','Fmaj7','G13','Em7','A7b9','Dm7','G13','Em7','Am7','Dm7','G13',
+          'Abmaj7','Abmaj7','Dbmaj7','Dbmaj7','Abmaj7','Abmaj7','Dm7','G13','Cmaj7','Cmaj7','Fmaj7','Fmaj7','Dm7','G13','C6','C6'],
+      mel:['g5:2 a5:.5 g5:.5','e5:1 c5:1 d5:1','e5:2 f5:.5 e5:.5','c5:1 a4:1 c5:1','g5:2 a5:.5 g5:.5','e5:1 g5:1 b5:1','a5:2 g5:.5 f5:.5','e5:1 d5:1 b4:1',
+           'g5:.5 f#5:.5 g5:.5 b5:.5 g5:.5 e5:.5','g5:.5 e5:.5 c#5:.5 bb4:.5 c#5:.5 e5:.5','f5:.5 e5:.5 f5:.5 a5:.5 f5:.5 d5:.5','f5:.5 d5:.5 b4:.5 a4:.5 b4:.5 d5:.5','e5:2 g5:1','e5:2 c5:1','d5:2 f5:1','d5:1 b4:1 g4:1',
+           'eb5:2 f5:.5 eb5:.5','c5:1 ab4:1 c5:1','f5:2 g5:.5 f5:.5','c5:1 ab4:1 f4:1','eb5:2 g5:1','ab5:2 g5:.5 eb5:.5','f5:1.5 e5:.5 d5:1','b4:1 d5:1 f5:1',
+           'g5:2 a5:.5 g5:.5','e5:1 c5:1 d5:1','e5:2 f5:.5 e5:.5','c5:1 a4:1 c5:1','d5:.5 e5:.5 f5:.5 a5:.5 f5:.5 d5:.5','b4:.5 d5:.5 e5:.5 g5:.5 b5:1','c6:3','r:1 e5:.5 g5:.5 c6:1']}),
+    /* medium swing in F for the trio: a tune to hum with cold hands in warm mittens */
+    sheet({id:'mittens',name:'Mittens',style:'swing',beat:.46,beats:4,rounds:3,end:'F6',
+      ch:['F6','Gm7 C7','Am7 D7','Gm7 C7','F6 F7','Bbmaj7 Bbm6','Am7 D7','Gm7 C7','F6','Gm7 C7','Am7 D7','Gm7 C7','Cm7 F7','Bbmaj7 Bdim7','F6 D7','Gm7 C7'],
+      mel:['c5:1 a4:.5 c5:.5 d5:1 c5:1','bb4:.5 a4:.5 g4:1 r:.5 e4:.5 g4:1','a4:1 c5:.5 e5:.5 d5:1.5 c5:.5','bb4:1 g4:1 r:1.5 c5:.5',
+           'f5:1 d5:.5 c5:.5 a4:1 eb5:1','d5:1.5 bb4:.5 db5:1.5 bb4:.5','c5:1 a4:.5 g4:.5 f#4:1 a4:1','g4:1 bb4:1 c5:.5 d5:.5 e5:1',
+           'f5:1 r:.5 c5:.5 d5:.5 f5:.5 c5:1','bb4:.5 a4:.5 g4:1 r:.5 e4:.5 g4:.5 bb4:.5','a4:1 c5:.5 e5:.5 g5:1 f#5:1','f5:1 d5:1 e5:1 c5:1',
+           'eb5:1 g5:.5 eb5:.5 c5:1 a4:1','d5:1.5 f5:.5 ab5:1 f5:1','a4:1 c5:.5 a4:.5 f#4:1 a4:.5 c5:.5','bb4:1 d5:.5 bb4:.5 g4:1 e4:1']}),
+    /* the dance band in B flat, and up a step for the last chorus: on the way home on the twenty-fourth */
+    sheet({id:'eve',name:'Home by Christmas Eve',style:'band',beat:.44,beats:4,rounds:2,vol:.52,keys:[0,1],end:'Bb6',
+      ch:['Bb6','G7b9','Cm7','F13','Dm7 G7','Cm7 F13','Bb6 Gm7','Cm7 F13','Bb6','G7b9','Cm7','F13','Dm7 G7','Cm7 F13','Bb6 Eb9','Bb6',
+          'Fm7 Bb7','Ebmaj7','Ebm6','Bb6','Gm7','C9','Cm7','F13','Bb6','G7b9','Cm7','F13','Dm7 G7','Cm7 F13','Bb6','Bb6'],
+      mel:['f4:1.5 g4:.5 bb4:1 d5:1','f5:2 d5:1 b4:1','c5:1.5 d5:.5 eb5:1 g5:1','g5:1.5 f5:.5 d5:2','a4:.5 d5:.5 f5:1 g5:1 f5:1','eb5:1 c5:1 a4:1 c5:1','bb4:2 d5:1 bb4:1','c5:1 eb5:1 f5:1.5 f4:.5',
+           'f4:1.5 g4:.5 bb4:1 d5:1','f5:2 g5:1 f5:1','eb5:1.5 d5:.5 c5:1 g5:1','g5:1.5 f5:.5 d5:2','a4:.5 d5:.5 f5:1 g5:1 f5:1','eb5:1 c5:1 a4:1 c5:1','bb4:3 r:1','r:3 bb4:.5 c5:.5',
+           'c5:1 eb5:1 g5:1.5 f5:.5','g5:3 r:.5 g5:.5','gb5:1.5 eb5:.5 c5:1 eb5:1','d5:3 r:1','bb4:1 d5:1 f5:1.5 d5:.5','e5:3 d5:1','eb5:1 c5:1 g4:1 bb4:1','a4:2 r:1.5 f4:.5',
+           'f4:1.5 g4:.5 bb4:1 d5:1','f5:2 d5:1 b4:1','c5:1.5 d5:.5 eb5:1 g5:1','g5:1.5 f5:.5 d5:2','a4:.5 d5:.5 f5:1 g5:1 f5:1','eb5:1 c5:1 a4:1 c5:1','bb4:1 d5:1 f5:1 bb5:1','bb5:3 r:1']}),
+    /* a slow ballad in E flat with strings and a celesta: two cups of cocoa by the stove */
+    sheet({id:'cocoa',name:'Cocoa for Two',style:'ballad',beat:.84,beats:4,rounds:2,vol:.64,end:'Eb6',
+      ch:['Ebmaj7','Cm7','Fm7','Bb13','Gm7','C7b9','Fm7','Bb7sus Bb7','Ebmaj7','Eb7','Abmaj7','Abm6','Gm7 C7b9','Fm7 Bb13','Eb6','Fm7 Bb7'],
+      mel:['g4:1.5 bb4:.5 eb5:2','d5:1 eb5:1 g5:2','f5:1 eb5:1 c5:1 ab4:1','g4:3 r:1','bb4:1.5 d5:.5 f5:2','e5:1 g5:1 bb5:2','ab5:1 g5:1 f5:1 c5:1','eb5:2 d5:2',
+           'g4:1.5 bb4:.5 eb5:2','f5:1 g5:1 bb5:2','c6:1 bb5:1 ab5:1 eb5:1','f5:2 b4:2','bb4:1 d5:1 e5:1 g5:1','f5:1 ab5:1 g5:1.5 d5:.5','eb5:4','r:3 f4:1']})];
+  /* one bar of a record, as its band plays it (tr: the key, in semitones; rd: which time through) */
+  function xbar(P,T,k,tr,rd){const b=P.beat,B=P.bars[k],nxB=P.bars[(k+1)%P.bars.length],n=B.ch.length,st=P.style,span=P.beats/n,last=rd===P.rounds-1;
+    B.ch.forEach((c,j)=>{const t0=j*span,nx=j<n-1?B.ch[j+1]:nxB.ch[0],v=voice(c,tr),r=root(c,tr);
+      if(st==='waltz'){I.ubass(T,r,b*2.6,.1);if(k%2)I.ubass(T+2*b,r+7>43?r-5:r+7,b*.9,.06);
+        v.forEach((m,x)=>I.piano(T+b+x*.014+hum(),m,b*1.7,.017));if(k%4===2)v.slice(1).forEach(m=>I.piano(T+2*b+hum(),m,b*.9,.012));
+        I.stir(T,b*1.1,.011);I.brush(T+b,.012);I.brush(T+2*b,.014);if(k%8===7)I.ride(T+2*b,.008)}
+      else if(st==='glide'){const w=k>=8&&k<16||k>=22&&k<24?[r,r+c.iv[0],walkTo(r+c.iv[0],root(nx,tr))]:[r];w.forEach((m,x)=>I.ubass(T+x*b,m,w.length>1?b*.9:b*2.4,.095));
+        [1,2].forEach(t=>v.forEach(m=>I.piano(T+t*b+hum(),m,b*.5,t===1?.013:.01)));
+        I.ride(T,.011);I.ride(T+b,.008);I.ride(T+1.66*b,.006);I.ride(T+2*b,.009);I.sleigh(T,.007);if(k%2)I.brush(T+2*b,.012)}
+      else if(st==='swing'||st==='band'){walk(c,nx,tr,span,k+j).forEach((m,x)=>I.ubass(T+(t0+x)*b,fold(m,29,48),b*.92,x?.085:.1));
+        const hits=n>1?[0]:k%2?[1.64,3.64]:[0,1.64];
+        if(st==='swing')hits.forEach(t=>v.forEach(m=>I.piano(T+(t0+t)*b+hum(),m,b*(t===1.64?1.1:.6),.013)));
+        else{v.forEach(m=>I.epiano(T+t0*b,m,b*span*.9));   /* the rhythm guitar's place, kept soft */
+          if(k>=16&&k<24)v.forEach(m=>I.brass(T+t0*b+.02,m+12,b*span*.82,.006));   /* the bridge: the brass hold long notes */
+          else if(!j)(k%4===1?[2.64,3.64]:k%4===3?[1.64]:[]).forEach((t,x,a)=>v.forEach(m=>I.brass(T+t*b,m+12,b*(x===a.length-1&&a.length>1?.9:.16),.011)))}}
+      else{I.ubass(T+t0*b,r,b*span*.95,.1);if(n===1)I.ubass(T+2*b,k%2?r+7>43?r-5:r+7:r,b*1.8,.07);   /* the ballad */
+        v.forEach(m=>I.strings(T+t0*b,m+(m<60?12:0),b*span*.8,.0065));
+        const arp=[...v,v[v.length-2],v[1]];for(let e=0;e<span*2;e++)I.piano(T+(t0+e/2)*b+hum(),arp[e%arp.length]+(e===3?12:0),b*.9,e?.0095:.013)}});
+    if(st==='swing'||st==='band'){for(let t=0;t<4;t++){I.ride(T+t*b,t%2?.012:.009);if(t%2){I.ride(T+(t+.64)*b,.006);I.hat(T+t*b,.012)}}
+      I.stir(T,b*1.6,.006);I.stir(T+2*b,b*1.6,.006);I.brush(T+b,.013);I.brush(T+3*b,.015);
+      if(st==='band'){I.kick(T,.045);I.kick(T+2*b,.035);I.sleigh(T+b,.012);I.sleigh(T+3*b,.012);if(last)for(let t=0;t<4;t++)I.sleigh(T+(t+.64)*b,.005)}}
+    if(st==='ballad'){I.stir(T,b*1.8,.008);I.stir(T+2*b,b*1.8,.008);I.brush(T+b,.009);I.brush(T+3*b,.011);
+      if(k%4===3){const c=B.ch[B.ch.length-1],v=voice(c,tr);[0,1,2,3].forEach(x=>I.celesta(T+(2+x*.5)*b,v[x%v.length]+24,.014))}}
+    /* the melody: the piano for the trio (an octave doubled the second time round), a crooning horn for the band */
+    for(const [o,m,d] of B.mel){const t=T+(st==='swing'||st==='band'?swung(o):o)*b,p=m+tr;
+      if(st==='band'){I.croon(t,p-12,d*b*.92,.05);if(last)I.vibes(t,p,d*b)}
+      else if(st==='ballad'){I.croon(t,p,d*b*.95,.034);if(last)I.celesta(t,p+12,.012)}
+      else{I.piano(t+hum()*.5,p,Math.max(d*b,b),.05);if(rd%2||st==='glide')I.piano(t,p-12,Math.max(d*b,b),.018);if(st==='glide'&&d>=2)I.bell(t,p+12)}}
+    return P.beats*b}
+  /* the last chord of a record: rolled up the piano, the bass under it, a cymbal left to ring; then the needle lifts */
+  function xend(P,T,tr){const b=P.beat,c=P.fin,v=voice(c,tr),r=root(c,tr);I.ubass(T,r,b*5,.1);[...v,v[0]+12,v[1]+12].forEach((m,x)=>I.piano(T+x*.09,m,b*5,.022));I.ride(T,.012);
+    if(P.style==='band'){v.forEach(m=>I.brass(T,m+12,b*2.4,.011));I.sleigh(T,.014);I.kick(T,.06)}if(P.style==='ballad'){v.forEach(m=>I.strings(T,m+12,b*3,.007));I.celesta(T+b,v[v.length-1]+24,.02)}
+    return Math.max(4.2,b*7)}
   const TUNES={
     /* a waltz on a music box, in C: I vi IV V I vi ii V7 */
     waltz:{label:'Parlour waltz',beat:.42,beats:3,wet:.5,vol:.62,
@@ -6935,22 +7195,45 @@ const ShopTunes=(()=>{
       bar(T,i,b){const k=i%8,[r,q]=this.ch[k],v=CH[q].map(n=>r+12+n),nx=this.ch[(k+1)%8][0];
         v.slice(1).forEach(m=>I.epiano(T,m,b*3.6));const walk=[r,r+CH[q][1],r+7,nx+(nx>r?-1:1)];walk.forEach((m,t)=>I.bass(T+t*b,m-12,b*.85,.085));
         for(let t=0;t<4;t++){I.brush(T+t*b,t%2?.022:.012);if(t%2)I.hat(T+t*b+b*.66,.008)}
-        mel(T,b,this.mel[k],'vibes')}}};
+        mel(T,b,this.mel[k],'vibes')}},
+    /* the Christmas records: the five pieces in turn, each played through, its last chord, a breath, the next (me.x: which record, which bar) */
+    xmas:{label:'Christmas records',beat:.5,beats:4,wet:.36,vol:1.5,
+      icon:'<path d="M12 2.5l4 5h-2l4 5h-2.5l4.5 5.5h-16l4.5-5.5H6l4-5H8z"/><path d="M12 18v3.5"/>',
+      bar(T,i,b,me){const x=me.x||(me.x={p:me.first||0,k:0,rd:0});const P=XMAS[x.p%XMAS.length];me.title=P.name;GV=P.vol||1;
+        try{if(x.k>=P.bars.length){x.k=0;x.rd++;if(x.rd>=P.rounds){const d=xend(P,T,(P.keys||[0])[P.rounds-1]||0);x.p++;x.rd=0;return d}}
+          return xbar(P,T,x.k++,(P.keys||[])[x.rd]||0,x.rd)}finally{GV=1}}}};
   const now=()=>cur?.id||null;
   /* play: a tune fades in (after `delay` s); `length` s, if given, and it fades out on its own (the Design preview) */
-  function play(id,{delay=0,fade=1.4,length=0}={}){stop(.25);const P=TUNES[id];if(!P||!S.sound||RADIO.id)return false;const c=ac();if(!c)return false;ctx=c;
+  function play(id,{delay=0,fade=1.4,length=0,first=0}={}){stop(.25);const P=TUNES[id];if(!P||!S.sound||RADIO.id)return false;const c=ac();if(!c)return false;ctx=c;
     const T0=c.currentTime,out=c.createGain(),w=c.createGain();out.gain.setValueAtTime(0,T0);out.gain.setValueAtTime(0,T0+delay);out.gain.linearRampToValueAtTime(VOL*P.vol,T0+delay+fade);
     out.connect(master);w.gain.value=P.wet;out.connect(w);w.connect(verb);
-    const me={id,out,live:true,bar:0,next:T0+delay+.05};
-    const tick=()=>{if(!me.live)return;if(!S.sound||RADIO.id){if(cur===me)stop(.3);return}ctx=AC;bus=me.out;while(me.next<AC.currentTime+1.1){P.bar(me.next,me.bar++,P.beat);me.next+=P.beats*P.beat}};
+    const me={id,out,live:true,bar:0,next:T0+delay+.05,first};
+    const tick=()=>{if(!me.live)return;if(!S.sound||RADIO.id){if(cur===me)stop(.3);return}ctx=AC;bus=me.out;while(me.next<AC.currentTime+1.1){const d=P.bar(me.next,me.bar++,P.beat,me);me.next+=d||P.beats*P.beat}};
     cur=me;tick();me.iv=setInterval(tick,250);if(length)me.to=setTimeout(()=>{if(cur===me)stop(1.2)},length*1000);return true}
   function stop(f=.7){const me=cur;if(!me)return;cur=null;me.live=false;clearInterval(me.iv);clearTimeout(me.to);if(!AC)return;const T=AC.currentTime,g=me.out.gain;
     g.cancelScheduledValues(T);g.setValueAtTime(g.value,T);g.linearRampToValueAtTime(0,T+f);setTimeout(()=>{try{me.out.disconnect()}catch(e){}},f*1000+2500)}
-  return{TUNES,play,stop,now,ids:Object.keys(TUNES)};
+  /* a whole record rendered off the air (for the tests and for a listen outside the game): its sound as the bookstore has it, reverb and all */
+  async function render(i,nb=24){const P=typeof i==='string'?null:XMAS[i],X=P?TUNES.xmas:TUNES[i];if(!X||!ac())return null;const rate=verb.buffer.sampleRate,me={first:P?i:0},est=P?P.bars.length*P.rounds*P.beats*P.beat+9:nb*X.beats*X.beat+4,off=new OfflineAudioContext(2,Math.ceil(est*rate),rate);
+    const out=off.createGain(),w=off.createGain(),cv=off.createConvolver(),vg=off.createGain();out.gain.value=VOL*X.vol*.75;w.gain.value=X.wet;cv.buffer=verb.buffer;vg.gain.value=.3;out.connect(off.destination);out.connect(w);w.connect(cv);cv.connect(vg);vg.connect(off.destination);
+    const keep=[ctx,bus];ctx=off;bus=out;let T=.1,bars=0;try{while(P?(me.x?.p||i)===i&&bars<400:bars<nb){T+=X.bar(T,bars++,X.beat,me)||X.beats*X.beat}}finally{[ctx,bus]=keep}
+    const buf=await off.startRendering();return{buf,bars,len:T,name:P?P.name:X.label}}
+  /* the music box on the commode: the first eight bars of a record on a comb, with the root of each bar under it; returns how long it plays */
+  function chime(i){const P=XMAS[((i%XMAS.length)+XMAS.length)%XMAS.length],c=ac();if(!c||!S.sound)return 0;const keep=[ctx,bus],out=c.createGain(),w=c.createGain();out.gain.value=.55;out.connect(master);w.gain.value=.5;out.connect(w);w.connect(verb);
+    const b=Math.min(.5,Math.max(.3,P.beat*.8)),n=Math.min(8,P.bars.length);let T=c.currentTime+.06;ctx=c;bus=out;
+    try{for(let k=0;k<n;k++){const B=P.bars[k];I.box(T,fold(48+B.ch[0].r,48,59),b*P.beats);for(const [o,m,d] of B.mel)I.box(T+o*b+hum(),fold(m+12,72,96),d*b);T+=P.beats*b}}finally{[ctx,bus]=keep}
+    const len=T-c.currentTime+1.2;setTimeout(()=>{try{out.disconnect()}catch(e){}},len*1000+2500);return len}
+  return{TUNES,XMAS,play,stop,now,render,chime,title:()=>cur?.title||'',ids:Object.keys(TUNES)};
 })();
-/* the Design row: the five tunes and No music; a tap plays a few bars */
+/* the Design row: the five tunes, the Christmas records and No music; a tap plays a few bars */
 const TUNE_OFF={label:'No music',icon:'<path d="M9 17V5.5l10-2V15"/><circle cx="6.5" cy="17" r="2.5"/><circle cx="16.5" cy="15" r="2.5"/><path d="M3 3l18 18"/>'};
-function applyTune(){const id=S.shopTune==='off'||ShopTunes.TUNES[S.shopTune]?S.shopTune:'bossa',row=$('#tuneChoice');if(!row)return;
+/* From the first of December to Boxing Day the bookstore puts on its Christmas records by itself, whatever is chosen (unless it is No music);
+   a tune picked in Design during those weeks is kept instead (S.tuneYear: the Christmas for which the player chose). */
+const xmasNow=()=>new Date(window.__xmasDate??(/[?&]test\b/.test(location.search)?new Date(2026,5,1):Date.now()));   /* the tests live in June unless they say otherwise */
+const xmasTime=()=>{const d=xmasNow();return d.getMonth()===11&&d.getDate()<=26};
+const shopTuneNow=()=>{const t=S.shopTune==='off'||ShopTunes.TUNES[S.shopTune]?S.shopTune:'bossa';return t!=='off'&&xmasTime()&&S.tuneYear!==xmasNow().getFullYear()?'xmas':t};
+/* each visit starts with the next record of the stack */
+const shopTuneOpts=id=>id==='xmas'?{first:(S.xmasN=((S.xmasN|0)+1)%ShopTunes.XMAS.length)}:{};
+function applyTune(){const id=shopTuneNow(),row=$('#tuneChoice');if(!row)return;
   if(!row.children.length)row.innerHTML=[...Object.entries(ShopTunes.TUNES),['off',TUNE_OFF]].map(([k,v])=>`<button type="button" data-tune="${k}" aria-label="${v.label}"><svg class="bell-ic" viewBox="0 0 24 24" aria-hidden="true">${v.icon}</svg><span>${v.label}</span></button>`).join('');
   row.querySelectorAll('[data-tune]').forEach(x=>x.classList.toggle('selected',x.dataset.tune===id))}
 /* the sound of paying, chosen in Design: five of them */
@@ -8156,9 +8439,10 @@ function openCommode(back){
   v._refresh=()=>{if(!v.isConnected)return;paintZones();refresh()};
   /* the ornaments do a little something when tapped */
   const play=(o)=>{const e=cm.querySelector(`.cm-orn[data-orn="${o}"]`);if(!e)return;disc('ornament');
-    if(o==='candle'||o==='lamp'){e.classList.toggle('off');sfx.toggle();return}
+    if(o==='candle'||o==='lamp'||o==='xtree'||o==='xarch'){e.classList.toggle('off');sfx.toggle();return}
+    if(o==='xbox'){if(e.classList.contains('play'))return;const len=ShopTunes.chime(S.xboxN=((S.xboxN|0)+1)%ShopTunes.XMAS.length)||2.5;e.classList.add('play');setTimeout(()=>e.classList.remove('play'),len*1000);return}   /* the music box: each winding, the next record */
     e.classList.remove('play');void e.getBoundingClientRect();e.classList.add('play');setTimeout(()=>e.classList.remove('play'),o==='phono'?3000:1300);
-    if(o==='clock'){setClock();sfx.chime()}else if(o==='phono')sfx.tune();else if(o==='globe')sfx.slide();else if(o==='hourglass')sfx.tick();else sfx.tick()};
+    if(o==='clock'){setClock();sfx.chime()}else if(o==='xnut'){sfx.tick();setTimeout(()=>sfx.tick(),330)}else if(o==='phono')sfx.tune();else if(o==='globe')sfx.slide();else if(o==='hourglass')sfx.tick();else sfx.tick()};
   const goBack=()=>{const b=detail?.back||(detail?.hid?'matches':null);detail=null;unpull();if(b&&open===b)fill(b,true);else shut()};
   v.addEventListener('click',e=>{let t=e.target;if(v.classList.contains('cm-out')||dragged)return;   /* the click that ends a drag does nothing */
     if(e.detail>0&&t.closest('.cm .cm-it')){const it=itemAt(e.clientX,e.clientY);if(!it)return;t=it.firstElementChild}   /* a tap goes to the thing truly under it */
@@ -8281,6 +8565,10 @@ const YEAR_ANIMAL=['rat','ox','tiger','rabbit','dragon','snake','horse','goat','
 const yearAnimal=()=>{const d=new Date(),y=d.getFullYear()-(d.getMonth()<1?1:0);return YEAR_ANIMAL[((y-2020)%12+12)%12]};
 
 /* every thing the shop sells, in one shape: where it lives, what it costs, how it is given, and what can be done with it once it is yours */
+/* the Christmas shelf: a thing marked xmas (the day of December it comes in) is in the shop from that day to Epiphany, every winter; once bought it stays */
+const xmasShelf=day=>{const d=xmasNow(),m=d.getMonth(),n=d.getDate();return m===11&&n>=day||m===0&&n<=6};
+const xmasHid=(day,own)=>!!day&&!own&&!xmasShelf(day);   /* the season holds in the tests too (they live in June unless they say otherwise) */
+const XMAS_KEYS=()=>[...Object.entries(Commode.ORN).filter(([,o])=>o.xmas).map(([id,o])=>['or:'+id,o.xmas]),...PlushCast.CAST.filter(C=>C.xmas).map(C=>['pl:'+C.id,C.xmas])].sort((a,b)=>a[1]-b[1]);
 function shopCat(){const L=[],k=stk(),ps=plushState(),fs=floraState(),btn=(a,t,dis)=>`<button class="buy" ${a} ${dis?'disabled':''}>${t}</button>`;
   STK.filter(st=>st.page==null&&!st.adv).forEach(st=>L.push({key:'stk:'+st.id,tab:'stickers',sub:st.tape?'tape':st.zod?'signs':'stickers',name:st.name,price:st.price,many:1,have:k.owned[st.id]||0,legacy:`data-buy="${st.id}"`,
     k3:'cut',art:`<div class="art">${stickSVG(st)}</div>`,give:()=>{k.owned[st.id]=(k.owned[st.id]||0)+1}}));
@@ -8290,14 +8578,14 @@ function shopCat(){const L=[],k=stk(),ps=plushState(),fs=floraState(),btn=(a,t,d
   STYLES.filter(st=>!st.adv).forEach(st=>L.push({key:'sty:'+st.id,tab:'styles',sub:st.cat,name:st.name,price:st.price,blurb:st.blurb,own:!!S.styles?.[st.id],legacy:`data-buy-style="${st.id}"`,
     k3:'slab',art:`<div class="art"><div class="style-swatch ${st.id}"></div></div>`,give:()=>{S.styles=S.styles||{};S.styles[st.id]=1;wearOf()[st.cat]=st.id;applyStyle()},
     use:()=>btn(`data-wear="${st.id}"`,wearOf()[st.cat]===st.id?'Worn':'Wear it')}));
-  PlushCast.CAST.forEach(C=>L.push({key:'pl:'+C.id,tab:'plush',hid:!plushShown(C.id),name:C.name,price:C.price,blurb:C.tag,own:ps.own[C.id]!=null,legacy:`data-buy-plush="${C.id}"`,plush:C.id,
+  PlushCast.CAST.forEach(C=>L.push({key:'pl:'+C.id,tab:'plush',hid:!plushShown(C.id)||xmasHid(C.xmas,ps.own[C.id]!=null),xm:C.xmas,name:C.name,price:C.price,blurb:C.tag,own:ps.own[C.id]!=null,legacy:`data-buy-plush="${C.id}"`,plush:C.id,
     k3:'plush',art:`<div class="art"><img class="plush-art" data-plush="${C.id}" src="${plushArt(C.id)}" alt=""></div>`,
     give:()=>{ps.own[C.id]=C.startBond;ps.life=ps.life||{};ps.life[C.id]=0;if(!ps.lifeAt)ps.lifeAt=Date.now();ps.cur=C.id;ps.tvEmpty=0},use:()=>btn(`data-hold-plush="${C.id}"`,'Hold')}));
   Flora.FLOWERS.forEach(F=>L.push({key:'fl:'+F.id,tab:'flowers',hid:!S.flowers,name:F.name,price:F.price,blurb:F.blurb,many:1,have:floraHave(F.id),legacy:`data-buy-flower="${F.id}"`,
     k3:'cut',art:`<div class="art"><img class="plush-art" src="${floraArt('f',F.id)}" alt=""></div>`,give:()=>{fs.fl[F.id]=(fs.fl[F.id]||0)+1}}));
   Flora.VASES.forEach(V=>L.push({key:'vz:'+V.id,tab:'vases',hid:!S.flowers,name:V.name,price:V.price,blurb:`${V.blurb} Holds ${V.cap}.`,own:!!fs.vz[V.id],legacy:`data-buy-vase="${V.id}"`,vase:1,
     k3:'cut',art:`<div class="art"><img class="plush-art" src="${floraArt('v',V.id)}" alt=""></div>`,give:()=>{fs.vz[V.id]=1;if(!fs.cur)fs.cur=V.id},use:()=>btn(`data-arrange-vase="${V.id}"`,'Arrange')}));
-  Object.entries(Commode.ORN).filter(([,o])=>!o.free&&!o.adv).forEach(([id,o])=>L.push({key:'or:'+id,tab:'decor',name:o.name,price:o.price,blurb:o.blurb,own:ornOwned(id),legacy:`data-buy-orn="${id}"`,
+  Object.entries(Commode.ORN).filter(([,o])=>!o.free&&!o.adv).forEach(([id,o])=>L.push({key:'or:'+id,tab:'decor',name:o.name,price:o.price,blurb:o.blurb,own:ornOwned(id),hid:xmasHid(o.xmas,ornOwned(id)),xm:o.xmas,legacy:`data-buy-orn="${id}"`,
     art:`<div class="art orn-art">${Commode.ornSvg(id)}</div>`,give:()=>{const os=ornState(),full=ornOnTop().length>=ORN_TOP;os.own[id]=1;if(full)os.off[id]=1;else delete os.off[id]},
     use:()=>btn('',ornOnTop().includes(id)?'On the commode':'In its drawer',1)}));
   L.push({key:'sc:heraldry',tab:'scenes',name:'Heraldry',price:120,blurb:'A scene behind the book: drifting coats of arms, lions and fleurs-de-lis.',own:sceneOwned('heraldry'),legacy:'data-buy-scene="heraldry"',
@@ -8383,6 +8671,7 @@ function relIn(key){if(!releaseOn)return true;const slot=REL_SLOT[key];if(slot==
 function relApply(L){const today=relToday(),fresh=[];
   for(const it of L){it.base=it.price;it.price=relPrice(it.key,it.price);const owned=it.own||(it.have|0)>0;
     if(!relIn(it.key)&&!owned){it.hid=true;it.soon=true;continue}
+    if(releaseOn&&it.xm&&!it.hid&&!owned&&S.relSeen?.[it.key]==null){S.relSeen=S.relSeen||{};S.relSeen[it.key]=today;fresh.push(it)}   /* the Christmas shelf: news the day a thing comes in */
     if(releaseOn&&REL_SLOT[it.key]&&!(S.relKnown&&REL_SLOT[it.key]<=S.relKnown)&&S.relSeen?.[it.key]==null){S.relSeen=S.relSeen||{};S.relSeen[it.key]=today;fresh.push(it)}}
   if(fresh.length){S.relNews=[...new Set([...(S.relNews||[]),...fresh.map(it=>it.key)])];try{save()}catch(e){}}
   return L}
@@ -8391,6 +8680,7 @@ const REL_KIND=k=>k.startsWith('stk:a-')?'Zodiac sign':k.startsWith('stk:t-')?'W
 const REL_GATE={'pl:pengu':'also needs Pengu’s story','bk:nines2':'when Volume I is finished','bk:nines3':'when Volume II is finished'};   /* the volumes keep no date: each comes in the moment the one before is finished */
 const gzDate=d=>new Date(d*864e5).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'});
 function relWhen(D,k){const it=D.by[k];if(!it)return['',''];if(!it.hid)return['in','In the shop'];if(k==='in:gilt4')return['gate','At 999 coins'];
+  if(it.xm&&!it.soon)return['soon',`From ${it.xm} December`];
   if(!it.soon)return['gate',REL_GATE[k]?REL_GATE[k].replace('also needs','Needs').replace(/^when/,'When'):'Waiting'];
   const slot=REL_SLOT[k],pages=Math.max(0,(REL_NEED[k]||0)-D.have);let n=0;for(;n<900&&!(slot<=Math.min(relShopSlots(D.today+n),relOwnSlots(D.today+n)));n++);
   const d=n===0?'':n===1?'Tomorrow':gzDate(D.today+n);return['soon',pages?(d?d+', once ':'Once ')+pages+' more page'+(pages===1?'':'s'):d||'Any moment']}
@@ -8414,12 +8704,12 @@ function gzPages(){const L=shopCat(),by=Object.fromEntries(L.map(it=>[it.key,it]
   const inShop=L.filter(it=>!it.hid).length,first=RELEASES.find(([k])=>by[k]?.hid);
   const page=(cls,body,no)=>`<section class="gz-page ${cls}"><div class="gz-in">${body}</div>${no!=null?`<footer class="gz-foot"><span>The Bookstore Catalogue</span><b>${no}</b></footer>`:''}</section>`;
   const head=(kick,title,note)=>`<header class="gz-head"><span class="gz-kick">${kick}</span><h3>${title}</h3>${note?`<span class="gz-note">${note}</span>`:''}</header>`;
-  const more=(6+weeks.length)%2===1,giltNo=6+weeks.length+(more?1:0);   /* cover, rules 1, Advent 2, calendar 3, first stock 4–5, a page a week, (more to come, to keep the spreads even,) then what is kept back */
+  const more=(7+weeks.length)%2===1,giltNo=7+weeks.length+(more?1:0);   /* cover, rules 1, Advent 2, the Christmas shelf 3, calendar 4, first stock 5–6, a page a week, (more to come, to keep the spreads even,) then what is kept back */
   const P=[];
   /* the cover */
   P.push(page('gz-cover',`<div class="gz-awn" aria-hidden="true"></div><div class="gz-mast"><span class="gz-issue">No. 2 · Winter 2026–27</span><h2>Bookstore</h2><span class="gz-sub">The Catalogue</span></div>
     <div class="gz-hero"><i class="gz-burst" aria-hidden="true"></i><div class="gz-h3">${['pl:pookie','sty:velvet','sc:heraldry'].map(k=>`<div class="gz-pic" ${gzi(k)}>${art(k)}</div>`).join('')}</div></div>
-    <ul class="gz-lines"><li><b>${RELEASE_START.length+RELEASES.length+1} things</b>, ${nw(DROP_WEEK)} a week <em>p. 1</em></li><li><b>Twenty-four doors</b>, this December <em>p. 2</em></li><li><b>Every ${DROPS[0][2]}</b>, ${nw(DROPS[0][1])} new things <em>p. 3</em></li><li><b>Kept back</b>, the volumes and the Gilt counter <em>p. ${giltNo}</em></li></ul>
+    <ul class="gz-lines"><li><b>${RELEASE_START.length+RELEASES.length+1} things</b>, ${nw(DROP_WEEK)} a week <em>p. 1</em></li><li><b>Twenty-four doors</b>, this December <em>p. 2</em></li><li><b>Every ${DROPS[0][2]}</b>, ${nw(DROPS[0][1])} new things <em>p. 4</em></li><li><b>Kept back</b>, the volumes and the Gilt counter <em>p. ${giltNo}</em></li></ul>
     <span class="gz-free">Free with every book</span>`));
   /* how the shop works */
   P.push(page('gz-rules',`${head('Before you shop','How the shop works')}
@@ -8428,7 +8718,7 @@ function gzPages(){const L=shopCat(),by=Object.fromEntries(L.map(it=>[it.key,it]
     <p><b>Two clocks.</b> A book takes in every collection that comes after it was begun, and catches up on older ones a thing a day and a thing for every 4 pages solved.</p>
     <p><b>Page goals.</b> Some things also wait for solved pages, without holding up the rest.</p>
     <p><b>Prices.</b> The first ${RELEASE_KEEP} arrivals keep their prices; then each ${nw(RELEASE_SEASON)} cost about ${Math.round((RELEASE_RISE-1)*100)}% more. Nothing gets dearer once in the shop.</p></div>
-    <div class="gz-box"><b>In this issue</b><ol><li>The Advent doors<em>2</em></li><li>Week by week<em>3</em></li><li>First stock<em>4–5</em></li><li>Weeks 1 to ${weeks.length}<em>6–${5+weeks.length}</em></li>${more?`<li>More to come<em>${giltNo-1}</em></li>`:''}<li>Kept back<em>${giltNo}</em></li></ol>
+    <div class="gz-box"><b>In this issue</b><ol><li>The Advent doors<em>2</em></li><li>The Christmas shelf<em>3</em></li><li>Week by week<em>4</em></li><li>First stock<em>5–6</em></li><li>Weeks 1 to ${weeks.length}<em>7–${6+weeks.length}</em></li>${more?`<li>More to come<em>${giltNo-1}</em></li>`:''}<li>Kept back<em>${giltNo}</em></li></ol>
     <p class="gz-now">${S.relKnown?'This book was begun before the calendar: the whole shop is open to it, at the old prices.':`${inShop} of ${L.length} things are in the shop for this book.${first?` Next: ${escH(by[first[0]].name)}, ${escH(relWhen(D,first[0])[1].toLowerCase())}.`:''}`}</p></div>`,1));
   /* this December: the Advent doors (what is behind them stays behind them) */
   {const now=new Date(relToday()*864e5),dec=now.getUTCMonth()===11,dd=now.getUTCDate(),yr=now.getUTCFullYear(),   /* the December of this year: the one coming, or the one now */
@@ -8440,6 +8730,9 @@ function gzPages(){const L=shopCat(),by=Object.fromEntries(L.map(it=>[it.key,it]
     <p><b>The key.</b> A door opens only when its day’s page is solved, while the page can still be played. A page that is lost keeps its door shut.</p>
     <p><b>Behind them.</b> Something for every day, and on Christmas Eve something for the whole winter. None of it is ever sold in this shop.</p></div>
     <p class="gz-aside">${when}</p>`,2))}
+  /* the Christmas shelf: seven things that are in the shop only from December to Epiphany */
+  {const X=XMAS_KEYS();P.push(page('gz-items gz-xmas',head('Only in winter','Christmas shelf','1 Dec to 6 Jan')+`<div class="gz-grid">${X.map(([k])=>item(0,k)).join('')}</div>
+    <p class="gz-aside">In the shop through December, gone after Epiphany. What is bought stays, and wraps well in a gift box.</p>`,3))}
   /* the calendar, week by week: the shop's post, the same for everyone */
   {const today=D.today,cur=relShopSlots(today);
    const strip=ks=>{const m=ks.length>8?7:8;return ks.slice(0,m).map(k=>`<i class="gz-tm" ${gzi(k)}><span class="gz-pic">${art(k)}</span></i>`).join('')+(ks.length>m?`<i class="gz-more">+${ks.length-m}</i>`:'')};
@@ -8451,14 +8744,14 @@ function gzPages(){const L=shopCat(),by=Object.fromEntries(L.map(it=>[it.key,it]
    let nd=today+1;while(nd<today+15&&relShopSlots(nd)<=cur)nd++;const nn=relShopSlots(nd)-cur,dr=relDrop(nd);
    const next=nn>0&&cur<RELEASES.length?`Next at the shop: ${dr?dr[3]:'the post'}, ${new Date(nd*864e5).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short',timeZone:'UTC'})}, ${nw(Math.min(nn,RELEASES.length-cur))} new thing${Math.min(nn,RELEASES.length-cur)===1?'':'s'}. `:'';
    P.push(page('gz-time',`${head('The shop’s calendar','Week by week',`${nw(DROPS[0][1])} on ${DROPS[0][2]}s · ${nw(DROPS[1][1])} on ${DROPS[1][2]}s`)}<ol class="gz-tl">${rows.join('')}</ol>
-    <p class="gz-aside">${next}Green: in the shop; red: this week. These are the shop’s dates. Each book keeps a clock of its own as well, so a thing may reach yours a little later.</p>`,3))}
+    <p class="gz-aside">${next}Green: in the shop; red: this week. These are the shop’s dates. Each book keeps a clock of its own as well, so a thing may reach yours a little later.</p>`,4))}
   /* the first stock, on two pages */
-  P.push(page('gz-items',head('From the first day','First stock',`${RELEASE_START.length} things`)+`<div class="gz-grid">${RELEASE_START.slice(0,8).map(k=>item(0,k)).join('')}</div>`,4));
-  P.push(page('gz-items',head('From the first day','First stock, continued')+`<div class="gz-grid">${RELEASE_START.slice(8).map(k=>item(0,k)).join('')}${pre.map(([n,k])=>item(n,k)).join('')}</div><p class="gz-aside">The first stock is on the shelves the day a book is begun.${pre.length?` Nos. 1 to ${pre.length} came in before the ${DROPS[0][2]}s began.`:''}</p>`,5));
+  P.push(page('gz-items',head('From the first day','First stock',`${RELEASE_START.length} things`)+`<div class="gz-grid">${RELEASE_START.slice(0,8).map(k=>item(0,k)).join('')}</div>`,5));
+  P.push(page('gz-items',head('From the first day','First stock, continued')+`<div class="gz-grid">${RELEASE_START.slice(8).map(k=>item(0,k)).join('')}${pre.map(([n,k])=>item(n,k)).join('')}</div><p class="gz-aside">The first stock is on the shelves the day a book is begun.${pre.length?` Nos. 1 to ${pre.length} came in before the ${DROPS[0][2]}s began.`:''}</p>`,6));
   /* a page for each week: the Monday collection, then the weekend extra */
   weeks.forEach((g,w)=>{const m0=mon(w);
     P.push(page('gz-items gz-week',head(DROPS.map(x=>`${x[2]} ${dm(m0+x[0])}`).join(' · '),`Week ${w+1}`,`${g.length} thing${g.length===1?'':'s'}`)+
-      `<div class="gz-grid">${g.map(([n,k,d])=>item(n,k,relDrop(d)?.[0]>0)).join('')}</div>`,6+w))});
+      `<div class="gz-grid">${g.map(([n,k,d])=>item(n,k,relDrop(d)?.[0]>0)).join('')}</div>`,7+w))});
   if(more)P.push(page('gz-items gz-moreto',`${head('After the last week','More to come')}
     <p class="gz-lede">The calendar does not end here. New things are being made in the back room; as they are ready they will join the ${DROPS[0][2]}s and ${DROPS[1][2]}s after the last ones, and this catalogue will be printed again with them.</p>
     <div class="gz-ghosts" aria-hidden="true">${'<i></i>'.repeat(6)}</div>`,giltNo-1));
@@ -8499,7 +8792,7 @@ function gzTurnOpen(fwd,style){const sp=GZ.spreads,from=GZ.at,to=from+(fwd?1:-1)
   GZ.T=T;TURN_ENG[style].build(T);return T}
 function gzGo(d){if(GZ.T)return;if(dcArm){dcArm='';if(GZ.kind==='disc')GZ.html=discPages()}const to=GZ.at+d;if(to<0||to>=GZ.spreads.length)return;
   if(reduced){GZ.at=to;sfx.flip?.();gzShow();return}const T=gzTurnOpen(d>0,gzStyle());if(T)TURN_ENG[T.style].auto(T)}
-function gzOpen(kind='cat'){closePops();GZ.kind=kind;if(kind==='disc'){dcArm='';discSync()}GZ.html=kind==='tut'?tuPages():kind==='disc'?discPages():gzPages();GZ.at=0;gzSize();gzEl.hidden=false;gzEl.classList.toggle('tu',kind==='tut'||kind==='disc');gzEl.classList.toggle('dc',kind==='disc');gzEl.setAttribute('aria-label',kind==='tut'?'First Steps in Sudoku':kind==='disc'?'The Book of Discoveries':'The Bookstore Catalogue');gzShow();sfx.leaf?.('lift');
+function gzOpen(kind='cat'){closePops();GZ.kind=kind;if(kind==='disc'){dcArm='';discSync()}GZ.html=kind==='tut'?tuPages():kind==='disc'?discPages():kind==='qt'?qtPages():gzPages();GZ.at=0;gzSize();gzEl.hidden=false;gzEl.classList.toggle('tu',kind==='tut'||kind==='disc'||kind==='qt');gzEl.classList.toggle('dc',kind==='disc');gzEl.setAttribute('aria-label',kind==='tut'?'First Steps in Sudoku':kind==='disc'?'The Book of Discoveries':kind==='qt'?'The Book of Quotations':'The Bookstore Catalogue');gzShow();sfx.leaf?.('lift');
   if(!reduced)gzBook.animate([{opacity:0,transform:'translateY(24px) scale(.96)'},{opacity:1,transform:'none'}],{duration:320,easing:'cubic-bezier(.2,.8,.2,1)',composite:'add'})}
 function gzClose(){if(GZ.T)turnClose(GZ.T,false);gzxClose(true);gzEl.hidden=true}
 /* ================= the catalogue's close-up: a thing lifted off the page to be looked at =================
@@ -8643,6 +8936,21 @@ function discPages(){const P=[],d=discState(),N=DISC.length,nf=DISC.filter(x=>d.
   return P}
 function discTell(id){const d=discState();if(d.f[id]||d.t[id])return;if(dcArm!==id){dcArm=id;sfx.tick?.()}else{dcArm='';d.t[id]=1;save();sfx.leaf?.('lift')}GZ.html=discPages();gzShow()}
 $('#discBtn')?.addEventListener('click',e=>{e.stopPropagation();gzOpen('disc')});
+/* The Book of Quotations: every line from the backs of the pages (all three volumes) beside its 9 x 9 picture, in one overview to read through and, later, to replace with a selection of his own */
+function qtPages(){const P=[],page=(cls,body,no)=>`<section class="gz-page tu-page qt-page ${cls}"><div class="gz-in">${body}</div>${no!=null?`<footer class="gz-foot"><span>The Book of Quotations</span><b>${no}</b></footer>`:''}</section>`;
+  const VOLS=[[VQ1,1,'I','Gentle to Master'],[VQ2,2,'II',''],[VQ3,3,'III','']];
+  P.push(page('dc-cover qt-cover',`<div class="dc-frame"><span class="dc-kick">The Book of Nines Library</span><h2>The Book<small>of</small>Quotations</h2><em>Every line, with its little picture</em></div>`));
+  P.push(page('tu-text dc-fore',`<header class="tu-head"><span class="tu-kick">For the one who chooses</span><h3>All the backs, side by side</h3></header><p class="tu-drop">On the back of every solved page there is a line, and on its front a small picture. Here they all stand together, three volumes of them, so they can be read as one book.</p><p>Each entry gives the volume and the sheet, the words, who said them and where, and the name and meaning of the picture beside them. Sheet 0 has a picture only.</p>`,1));
+  let no=2;
+  for(const [Q,v,rom] of VOLS){
+    const items=[];for(let p=0;p<=99;p++){const a=PixArt.getV(v,p),q=p?Q[p-1]:null;if(!a&&!q)continue;items.push({p,a,q})}
+    P.push(page('tu-text qt-vol',`<header class="tu-head"><span class="tu-kick">Volume ${rom}</span><h3>${items.length} sheets</h3></header><p class="tu-drop">${rom==='I'?'The first volume: the Gentle sheets to the Master ones, with the appendix.':rom==='II'?'The second volume.':'The third volume.'}</p>`,no++));
+    for(let k=0;k<items.length;){let len=0,n=0;const chunk=[];while(k<items.length&&n<4&&(n===0||len+(items[k].q?items[k].q[0].length:40)<520)){len+=items[k].q?items[k].q[0].length:40;chunk.push(items[k++]);n++}
+      P.push(page('qt-list',chunk.map(({p,a,q})=>`<article class="qt-e"><span class="qt-px">${a?pxMini(a):''}</span><div class="qt-tx"><span class="qt-no">Vol. ${rom} · Sheet ${p}</span>${q?`<p class="qt-q">“${escH(q[0])}”</p><span class="qt-by">${escH(q[1])}${q[2]?', '+escH(q[2]):''}</span>`:'<p class="qt-q qt-none">no line: the picture only</p>'}${a?`<span class="qt-fl">${escH(a.n)}${a.m?' · '+escH(a.m):''}</span>`:''}</div></article>`).join(''),no++))}}
+  if(P.length%2===0)P.push(page('tu-text dc-fore',`<header class="tu-head"><span class="tu-kick">A last word</span><h3>Yours next</h3></header><p>When the lines are replaced with a selection of your own, this book is the list to work from.</p>`,no++));
+  P.push(page('dc-cover dc-back qt-cover',`<div class="dc-frame"><em>Every page has a back.</em></div>`));
+  return P}
+$('#qtBtn')?.addEventListener('click',e=>{e.stopPropagation();gzOpen('qt')});
 
 gzEl.addEventListener('click',e=>{if(e.target.closest('[data-gzclose]')){gzClose();return}if(e.target.closest('[data-tut-play]')){tutPlay();return}const dt=e.target.closest('[data-dc-tell]');if(dt){discTell(dt.dataset.dcTell);return}const g=e.target.closest('[data-gzgo]');if(g)gzGo(+g.dataset.gzgo)});
 addEventListener('keydown',e=>{if(gzEl.hidden)return;if(GZX.el){GZX.key(e);return}if((e.key==='Enter'||e.key===' ')&&document.activeElement?.matches?.('[data-gzi]')){gzxOpen(document.activeElement.dataset.gzi,document.activeElement);e.preventDefault();return}if(e.key==='Escape'){gzClose();e.preventDefault()}else if(e.key==='ArrowRight'){gzGo(1);e.preventDefault()}else if(e.key==='ArrowLeft'){gzGo(-1);e.preventDefault()}},true);
@@ -9190,7 +9498,7 @@ function openShop(tab,door){window.shopOpenedAt=performance.now();if(!adsOff())a
   if(news.length){S.relNews=[];save();setTimeout(()=>toast('New in the shop: '+news.map(it=>it.name).join(', ')+'.',4200),door?1500:700)}
   let cur=tabs().some(t=>t[0]===tab)?tab:news.length?'new':'offer',view='shelf';
   const v=document.createElement('div');v.className='veil';{const rm=v.remove.bind(v);v.remove=()=>{if(!v.isConnected)return;rm();ShopTunes.stop(.9);storeDoor();posterAds.close();shopRepaint=null}}
-  if(S.shopTune!=='off')ShopTunes.play(ShopTunes.TUNES[S.shopTune]?S.shopTune:'bossa',{delay:door?1.1:.9,fade:1.6});   /* the music comes up once the bell has rung */
+  if(shopTuneNow()!=='off'){const t=shopTuneNow();ShopTunes.play(t,{delay:door?1.1:.9,fade:1.6,...shopTuneOpts(t)})}   /* the music comes up once the bell has rung */
   v.innerHTML=`<div class="toc shop" role="dialog" aria-label="Bookstore"><div class="awning" aria-hidden="true"></div><h2>Bookstore</h2><p class="slogan">More than just Books!</p>
     <div class="shop-tabs" data-tabstrip><b class="padhint" data-tabstep="-1" aria-hidden="true"></b><div class="tabs-row" role="tablist"></div><b class="padhint" data-tabstep="1" aria-hidden="true"></b></div>
     <div class="shop-body"></div>
@@ -9738,7 +10046,7 @@ $('#payChoice').addEventListener('click',e=>{const b=e.target.closest('[data-pay
 $('#rcChoice').addEventListener('click',e=>{const b=e.target.closest('[data-rc-style]');if(!b)return;S.receiptStyle=b.dataset.rcStyle;applyRcpt();save();   /* a tap prints a sample over the settings (not kept) */
   if(!document.querySelector('.rc-wrap'))printReceipt(document.body,{when:Date.now(),no:0,rows:[['Dokushin',1,40],['Star',2,6],['Globe',1,22]],total:68,left:S.coins,st:S.receiptStyle})});
 applyTune();
-$('#tuneChoice').addEventListener('click',e=>{const b=e.target.closest('[data-tune]');if(!b)return;S.shopTune=b.dataset.tune;applyTune();save();if(S.shopTune==='off'){ShopTunes.stop(.4);sfx.toggle()}else ShopTunes.play(S.shopTune,{fade:.5,length:9})});   /* a tap plays a few bars */
+$('#tuneChoice').addEventListener('click',e=>{const b=e.target.closest('[data-tune]');if(!b)return;S.shopTune=b.dataset.tune;if(xmasTime())S.tuneYear=xmasNow().getFullYear();applyTune();save();if(S.shopTune==='off'){ShopTunes.stop(.4);sfx.toggle()}else ShopTunes.play(S.shopTune,{fade:.5,length:S.shopTune==='xmas'?14:9,...shopTuneOpts(S.shopTune)})});   /* a tap plays a few bars */
 $('#dnChoice').addEventListener('click',e=>{const b=e.target.closest('[data-dn]');if(!b)return;S.dnStyle=b.dataset.dn;applyDayBtn();sfx.toggle();save()});
 function applyStore(){const id=STORES[S.store]?S.store:'corner-awning',b=$('#shopBtn');b.innerHTML=`<svg viewBox="0 0 60 56" aria-hidden="true">${STORES[id].svg}</svg>`;b.dataset.store=id;
   const row=$('#storeChoice');if(row&&!row.children.length)row.innerHTML=Object.entries(STORES).map(([k,st])=>`<button type="button" data-store="${k}" aria-label="${st.label}"><svg viewBox="0 0 60 56" aria-hidden="true">${st.svg.replace(/id="(s[wd]-[a-z]+)"/g,'id="$1-p"').replace(/url\(#(s[wd]-[a-z]+)\)/g,'url(#$1-p)')}</svg><span>${st.label}</span></button>`).join('');
@@ -9907,7 +10215,7 @@ function normaliseSave(d){
   n.store=['corner','bouquiniste','jinbocho','deco','corner-flat','corner-awning','corner-ink','corner-pixel'].includes(d.store)?(d.store==='corner'&&!d.mig34?'corner-awning':d.store):'corner-awning';   /* Corner · Awning is the default (from 7 Nov 2026) */
   n.dnStyle=['line','coin','almanac','deco','pixel','switch'].includes(d.dnStyle)?d.dnStyle:'line';
   n.bell=['brass','chimes','dingdong','konbini','furin'].includes(d.bell)?d.bell:'brass';
-  n.shopTune=['waltz','bossa','lofi','shoten','muzak','off'].includes(d.shopTune)?d.shopTune:'bossa';   /* the bookstore's music: bossa nova unless chosen otherwise */
+  n.shopTune=['waltz','bossa','lofi','shoten','muzak','xmas','off'].includes(d.shopTune)?d.shopTune:'bossa';if(Number.isInteger(d.tuneYear)&&d.tuneYear>2000&&d.tuneYear<3000)n.tuneYear=d.tuneYear;if(Number.isInteger(d.xmasN))n.xmasN=Math.abs(d.xmasN)%5;if(Number.isInteger(d.xboxN))n.xboxN=Math.abs(d.xboxN)%5;   /* the bookstore's music: bossa nova unless chosen otherwise */
   if(d.tune62)n.tune62=1;else{n.tune62=1;if(n.shopTune==='waltz')n.shopTune='bossa'}   /* once: the old default (the waltz) becomes the new one */
   n.paySound=['register','coins','scanner','soroban','sparkle'].includes(d.paySound)?d.paySound:'register';n.receiptStyle=['thermal','dotmatrix','typewriter'].includes(d.receiptStyle)?d.receiptStyle:'thermal';
   n.receipts=(Array.isArray(d.receipts)?d.receipts:[]).filter(r=>r&&/^rc[a-z0-9]{3,20}$/.test(r.id)&&Array.isArray(r.rows)).slice(0,60).map(r=>({id:r.id,when:+r.when||0,no:Math.max(0,Math.floor(+r.no||0)),
@@ -9921,6 +10229,12 @@ function normaliseSave(d){
   n.scenes={};for(const k of Object.keys(obj(d.scenes)))if(SCENE_SHOP.includes(k))n.scenes[k]=1;
   n.advent={};for(const[k,g]of Object.entries(obj(d.advent)))if(/^\d{4}-12-(0[1-9]|1\d|2[0-4])$/.test(k)){const o=obj(g),ok=Number.isInteger(o.c)&&o.c>0&&o.c<100?{c:o.c}:typeof o.s==='string'&&STK.some(x=>x.id===o.s)?{s:o.s}:typeof o.o==='string'&&Commode.ORN[o.o]?{o:o.o}:typeof o.y==='string'&&STYLES.some(x=>x.id===o.y)?{y:o.y}:o.sc==='snowfall'?{sc:'snowfall'}:{c:9};n.advent[k]=ok}   /* the Advent doors opened, and what each held */if(!d.mig34&&d.scene==='heraldry')n.scenes.heraldry=1;   /* Heraldry was free before it went into the bookstore */
   n.commode=Commode.S[d.commode]?d.commode:'farm';n.cmIcon=n.commode==='farm'?(d.cmIcon==='full'||Commode.alts.includes(d.cmIcon)?d.cmIcon:'flat'):null;   /* Farmhouse · Flat is the default icon; 'full' is the detailed one */
+  /* the Gift Box: the boxes opened and sealed (a box opens only once), the spare copies, and the cards of the gifts received */
+  n.gift={opened:{},sent:{},spare:{},got:[]};{const g=obj(d.gift),bid=/^[a-z0-9]{8,16}$/;
+    for(const [k,t] of Object.entries(obj(g.opened)).slice(0,5000))if(bid.test(k)&&+t>0)n.gift.opened[k]=+t;
+    for(const [k,x] of Object.entries(obj(g.sent)).slice(0,2000))if(bid.test(k)&&x&&+x.at>0&&typeof x.code==='string'&&x.code.length<12000&&/^NG1\.[A-Za-z0-9_-]+\.[a-z0-9]{7}$/.test(x.code))n.gift.sent[k]={at:+x.at,n:Math.max(1,Math.min(9999,x.n|0)),code:x.code};
+    for(const [k,c] of Object.entries(obj(g.spare)).slice(0,400))if(/^[opc]:[A-Za-z0-9_-]{1,30}$/.test(k)&&(c|0)>0)n.gift.spare[k]=Math.min(999,c|0);
+    for(const r of (Array.isArray(g.got)?g.got:[]).slice(0,200))if(r&&bid.test(r.id||'')&&+r.at>0&&Array.isArray(r.items))n.gift.got.push({id:r.id,from:String(r.from||'').replace(/[|<>"&]/g,'').slice(0,18)||'A friend',at:+r.at,opened:+r.opened||0,items:r.items.slice(0,80).filter(i=>Array.isArray(i)&&/^[sfopc]$/.test(i[0])&&/^[A-Za-z0-9_-]{1,30}$/.test(i[1]||'')).map(i=>[i[0],i[1],Math.max(1,Math.min(99,i[2]|0))])})}
   n.orn={own:{},off:{}};{const o=obj(d.orn);for(const id of Object.keys(obj(o.own)))if(Commode.ORN[id]&&!Commode.ORN[id].free)n.orn.own[id]=1;for(const id of Object.keys(obj(o.off)))if(Commode.ORN[id])n.orn.off[id]=1;
     let k=0;for(const id of Object.keys(Commode.ORN))if((Commode.ORN[id].free||n.orn.own[id])&&!n.orn.off[id]&&++k>ORN_TOP)n.orn.off[id]=1}   /* the top holds four */
   n.adsOn=d.adsOn===1?1:0;   /* with No ads bought: 1 = the player switched the ads back on */
@@ -10212,7 +10526,7 @@ gridEl.addEventListener('lostpointercapture',e=>{if(SLIDE&&e.pointerId===SLIDE.i
  lv.addEventListener('pointerleave',()=>{if(!H)clearTimeout(hold)});lv.addEventListener('contextmenu',e=>e.preventDefault())}
 /* tap outside the grid and the keys to let go of the selection or the picked-up number */
 document.addEventListener('pointerdown',e=>{if(!opened||e._inside)return;
-  if(e.target.closest('.grid,.hand,.tools-g,.popv,.cu,.libbtn,.veil,.shopbtn,.setbtn,.tab,.ribbon,.turn,.placebar,.toast'))return;
+  if(e.target.closest('.grid,.hand,.tools-g,.popv,.cu,.libbtn,.giftbtn,.veil,.shopbtn,.setbtn,.tab,.ribbon,.turn,.placebar,.toast'))return;
   if(G.sel>=0||G.arm||G.hl||G.rub||G.bulb){G.sel=-1;G.arm=0;G.hl=0;G.rub=false;G.bulb=false;render()}});
 /* developer option: tap 2 2 8 8 4 6 4 6 5 on the keypad to reveal the design button */
 const DEV_CODE='228846465';let devTyped='',devOn=false;   // never saved: every launch starts locked
@@ -10391,7 +10705,7 @@ document.addEventListener('keydown',e=>{
    Touching the screen hides the ring until the controller is used again. */
 const PAD={on:false,raf:0,active:false,prev:{},since:{},rep:{},ctx:'',focus:null,sig:null,last:{},corner:false,keypad:false,key:5,listen:null,mods:{},fam:'xbox',tick:0};
 const PAD_SEL='button,a[href],input:not([type=hidden]),select,textarea,label.tog,[role=button],[tabindex]:not([tabindex="-1"])';
-const PAD_CORNER='#cover,#dateBtn,#faxBtn,#tvBtn,#plushBtn,#sproutBtn,#vaseBtn,#radioBtn,#shopBtn,#libBtn,#setBtn,#fsBtn,#sndBtn,#tocBtn,#saveBtn,#versoBtn,#closeBtn,#zoomBtn,#page .turn';
+const PAD_CORNER='#cover,#dateBtn,#faxBtn,#tvBtn,#plushBtn,#sproutBtn,#vaseBtn,#radioBtn,#shopBtn,#libBtn,#giftBtn,#setBtn,#fsBtn,#sndBtn,#tocBtn,#saveBtn,#versoBtn,#closeBtn,#zoomBtn,#page .turn';
 const PAD_MENU=['dialog','back','pop','cover','corner'];
 const PAD_BACK=/^\s*(back|done|close|cancel|not now|return to)\b/i;
 function padSet(){return S.pad&&S.pad.set||PadSets.DEFAULT}
@@ -10649,7 +10963,7 @@ function fit(){if(root.classList.contains('ov-fly'))return;   /* the book is fly
   /* the book's own place is read through its current lift (a margin of 2L moves it up by L), so nothing has to be undone and measured mid-transition */
   {const vb=$('#vaseBtn');vb.style.width=vb.style.height=vb.style.right='';let mb='';
    if(!immersed&&!seam&&S.flowers&&!vb.hidden){const m0=parseFloat(getComputedStyle(board).marginBottom)||0,b0=board.getBoundingClientRect(),br={top:b0.top+m0/2,bottom:b0.bottom+m0/2,left:b0.left,right:b0.right},vr=vb.getBoundingClientRect(),vw=vr.width,vh=vr.height,vt=vr.top,vl=vr.left;
-    if(vw&&vl<br.right+2&&vt-6<br.bottom){let lim=st.top;for(const id of ['dateBtn','faxBtn','radioBtn','libBtn','fsBtn','sndBtn']){const e=document.getElementById(id);if(!e||e.hidden)continue;const q=e.getBoundingClientRect();if(q.width&&q.left<br.right&&q.right>br.left)lim=Math.max(lim,q.bottom+6);if(q.width&&q.left<br.left+66&&q.right>br.left+30)lim=Math.max(lim,q.bottom+4+40)}   /* the red ribbon stands 40px above the book */
+    if(vw&&vl<br.right+2&&vt-6<br.bottom){let lim=st.top;for(const id of ['dateBtn','faxBtn','radioBtn','libBtn','giftBtn','fsBtn','sndBtn']){const e=document.getElementById(id);if(!e||e.hidden)continue;const q=e.getBoundingClientRect();if(q.width&&q.left<br.right&&q.right>br.left)lim=Math.max(lim,q.bottom+6);if(q.width&&q.left<br.left+66&&q.right>br.left+30)lim=Math.max(lim,q.bottom+4+40)}   /* the red ribbon stands 40px above the book */
      const lift=Math.max(0,Math.min(br.bottom-(vt-6),br.top-lim));if(lift>0)mb=(2*lift)+'px';
      const left=Math.max(0,br.bottom-lift-(vt-6));if(left>0){const h2=Math.max(32,vh-left),w2=Math.round(h2*vw/vh),x=Math.max(vl+(vw-w2)/2,br.right+3);vb.style.height=h2+'px';vb.style.width=w2+'px';vb.style.right=Math.max(4,innerWidth-x-w2)+'px'}}}
    if(board.style.marginBottom!==mb)board.style.marginBottom=mb}   /* a very short screen: the vase gets a little smaller rather than the book */
@@ -11332,7 +11646,7 @@ const TYPE_ROLES=[
  {id:'patron',n:'The Patron’s Counter (real money)',m:[/\.pc-/],x:'No ads, for a lifetime'},
  {id:'itself',n:'The Book Itself (its picture and the certificate)',m:[/\.it-/,/\.cert/],x:'This book belongs to'},
  {id:'lessons',n:'First Steps in Sudoku (the lessons book)',m:[/\.tu-/,/\.cm-tut/],x:'Lesson 3 · Scanning a box'},
- {id:'discoveries',n:'The Book of Discoveries',m:[/\.dc-/],x:'No. 06 · Down with it'},
+ {id:'discoveries',n:'The Book of Discoveries',m:[/\.dc-/,/\.qt-/],x:'No. 06 · Down with it'},
  {id:'catalogue',n:'Shop catalogue (the magazine)',m:[/\.gz-/,/\.gzx/,/\.cm-gz/],x:'Bookstore · Season 3'},
  {id:'shoptabs',n:'Shop tabs',m:[/shop-tab/],x:'Daily offer'},
  {id:'posters',n:'Posters',m:[/\.item\.poster/,/\.p-who/,/\.wpa/],x:'Lumière · Club · Cocktails'},
@@ -11353,7 +11667,7 @@ const TYPE_ROLES=[
  {id:'calendar',at:'calendar',n:'Daily almanac: days and notes',m:[/^\.day\b/,/weekdays/,/date-mini/,/daily-detail/,/archive-note/,/adv-note/],x:'Sun Mon Tue · 15'},
  {id:'plush',n:'Plushies and flowers',m:[/^\.pl-/,/^\.fl-/,/grow-/],x:'Pookie purrs.'},
  {id:'stickbar',n:'Sticker bar and page maker',m:[/placebar/,/\.pb-/,/#placeMsg/,/ed-cell/,/ed-keys/],x:'Tap one to stick it on'},
- {id:'gift',n:'Sticker cards',m:[/^\.g-/],x:'Pi · a sticker for page 1'},
+ {id:'gift',n:'Sticker cards and the gift box',m:[/^\.g-/,/\.gf-/],x:'Pi · a sticker for page 1'},
  {g:'Windows',e:'leaves of the book',id:'wtitle',n:'Window titles',m:[/ h2$/,/\.privacy h1/,/\.cr-name/,/^\.goal b$/,/^\.contact b$/,/^\.hist b$/],x:'Contents'},
  {id:'wsub',n:'Subheadings',m:[/ h3( em)?$/,/\.dept$/,/draft-fh/,/\.mbset b/,/^\.popv b$/],x:'Chapter I · Gentle'},
  {id:'toast',n:'Messages',m:[/^\.toast$/],x:'Every square is full.'},
@@ -12284,6 +12598,152 @@ function inviteTry(){if(!inviteWant)return;if(introOn()||MP.busy){setTimeout(inv
   setTimeout(()=>inviteJoin(c),500)}
 window.ninesJoin=c=>{const k=inviteCode('?join='+c);if(k){inviteWant=k;inviteTry()}};
 setTimeout(inviteTry,300);
+/* ================= the Gift Box =================
+   A box is packed from the commode, sealed, and sent as a link (…/gift/#NG1.…) or a pasteable code. It lives entirely in that text:
+   nothing goes to a server, so a box waits as long as the link does. Each box carries its own number; a book remembers the boxes it has
+   opened and never opens the same one twice (and not its own). Sealing takes the things out of the sender's commode for good.
+   Stickers and flowers simply add up. A thing a friend already has (a plushie, an ornament, a cover) is kept as a spare copy,
+   which can be wrapped and given on. The code: NG1.<base64url of "id|from|sealed|kind:thing:count,...">.<check> */
+const GIFT_SEC=[['s','Stickers'],['f','Flowers'],['o','Ornaments'],['p','Plushies'],['c','Covers']];
+const GIFT_ID=/^[A-Za-z0-9_-]{1,30}$/;
+function giftInfo(t,id){if(!GIFT_ID.test(id||''))return null;
+  if(t==='s'){const st=STK.find(x=>x.id===id);return st&&st.page==null?{name:st.name,art:()=>stickSVG(st)}:null}
+  if(t==='f'){const F=Flora.FLOWERS.find(x=>x.id===id);return F?{name:F.name,art:()=>`<img src="${floraArt('f',id)}" alt="">`}:null}
+  if(t==='o'){const o=Commode.ORN[id];return o&&!o.free?{name:o.name,art:()=>Commode.ornSvg(id)}:null}
+  if(t==='p'){const C=PlushCast.CAST.find(x=>x.id===id);return C&&plushShown(id)?{name:C.name,art:()=>`<img src="${plushArt(id)}" alt="">`}:null}
+  if(t==='c'){const st=STYLES.find(x=>x.id===id&&x.cat==='cover');return st?{name:st.name,art:()=>`<span class="style-swatch ${id}"></span>`}:null}
+  return null}
+const gs=()=>{const g=S.gift||(S.gift={});g.opened=g.opened||{};g.sent=g.sent||{};g.spare=g.spare||{};g.got=g.got||[];return g};
+/* how many of a thing there are to give: the ones in stock, and for a thing one has only once, the one and its spares */
+function giftHave(t,id){const sp=gs().spare[t+':'+id]||0;
+  if(t==='s')return stk().owned[id]||0;
+  if(t==='f')return floraState().fl[id]||0;
+  if(t==='o')return(ornOwned(id)?1:0)+sp;
+  if(t==='p')return(plushState().own[id]!=null&&plushShown(id)?1:0)+sp;
+  if(t==='c')return(S.styles?.[id]?1:0)+sp;return 0}
+function giftIds(t){return t==='s'?STK.filter(x=>x.page==null).map(x=>x.id):t==='f'?Flora.FLOWERS.map(x=>x.id):t==='o'?Object.keys(Commode.ORN).filter(i=>!Commode.ORN[i].free):t==='p'?PlushCast.CAST.map(x=>x.id).filter(plushShown):STYLES.filter(x=>x.cat==='cover').map(x=>x.id)}
+/* everything that can go in a box, section by section */
+function giftStock(){return GIFT_SEC.map(([t,label])=>({t,label,list:giftIds(t).map(id=>({t,id,have:giftHave(t,id),...giftInfo(t,id)})).filter(x=>x.have>0&&x.name)})).filter(s=>s.list.length)}
+/* out of the commode for good: a spare goes first, otherwise the thing itself (a plushie leaves with its bond and its life) */
+function giftTake(t,id,n){const g=gs(),k=t+':'+id;
+  if(t==='s'){const o=stk().owned;o[id]=Math.max(0,(o[id]||0)-n);return}
+  if(t==='f'){const f=floraState().fl;f[id]=Math.max(0,(f[id]||0)-n);return}
+  const sp=Math.min(n,g.spare[k]||0);if(sp){g.spare[k]-=sp;if(!g.spare[k])delete g.spare[k];n-=sp}
+  if(n<1)return;
+  if(t==='o'){const os=ornState();delete os.own[id];delete os.off[id];delete cmPos()['o:'+id]}
+  if(t==='p'){const ps=plushState();delete ps.own[id];if(ps.life)delete ps.life[id];if(ps.away)delete ps.away[id];if(ps.told)delete ps.told[id];delete cmPos()['p:'+id];if(ps.cur===id)ps.cur=plushIds(ps)[0]||null;renderPlushIcon()}
+  if(t==='c'){if(S.styles)delete S.styles[id];wearOf();applyStyle()}}
+/* into the commode: what the book has not got goes in as it would from the shop; what it has becomes spares. Returns how many were kept as spares */
+function giftGive(t,id,n){const g=gs(),k=t+':'+id;
+  if(t==='s'){const o=stk().owned;o[id]=(o[id]||0)+n;return 0}
+  if(t==='f'){const f=floraState().fl;f[id]=(f[id]||0)+n;return 0}
+  const has=t==='o'?ornOwned(id):t==='p'?plushState().own[id]!=null:!!S.styles?.[id];
+  if(!has){
+    if(t==='o'){const os=ornState(),full=ornOnTop().length>=ORN_TOP;os.own[id]=1;if(full)os.off[id]=1;else delete os.off[id]}
+    if(t==='p'){const ps=plushState(),C=PlushCast.get(id);ps.own[id]=C.startBond;ps.life=ps.life||{};ps.life[id]=0;if(!ps.lifeAt)ps.lifeAt=Date.now();if((!ps.cur||!plushShown(ps.cur))&&!ps.tvEmpty)ps.cur=id;renderPlushIcon(true)}
+    if(t==='c'){S.styles=S.styles||{};S.styles[id]=1}
+    n--}
+  if(n>0)g.spare[k]=(g.spare[k]||0)+n;return n}
+/* the code */
+const gB64=s=>btoa(Array.from(new TextEncoder().encode(s),c=>String.fromCharCode(c)).join('')).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const gUn64=s=>{s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0)))};
+const gSum=s=>{let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return h.toString(36).padStart(7,'0')};
+const gNewId=()=>{const a=new Uint8Array(10);try{crypto.getRandomValues(a)}catch(e){for(let i=0;i<10;i++)a[i]=Math.random()*256}return Array.from(a,b=>(b%36).toString(36)).join('')};
+const gName=s=>String(s||'').replace(/[|<>"&\u0000-\u001f]/g,'').trim().slice(0,18);
+const giftDate=t=>new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+function giftCode(box){const p=[box.id,box.from,box.at.toString(36),box.items.map(i=>i.t+':'+i.id+':'+i.n).join(',')].join('|');return'NG1.'+gB64(p)+'.'+gSum(p)}
+/* reads a code, or a whole link or message with one in it: the box, {err:'newer'} when it holds something this book does not know, or null */
+function giftRead(raw){const RX=/NG1\.([A-Za-z0-9_-]{8,8000})\.([a-z0-9]{7})(?![A-Za-z0-9_-])/,txt=String(raw||''),m=RX.exec(txt)||RX.exec(txt.replace(/\s+/g,''));if(!m)return null;   /* as pasted, or (a code a message program broke across lines) with the breaks taken out */
+  let p;try{p=gUn64(m[1])}catch(e){return null}if(gSum(p)!==m[2])return null;
+  const a=p.split('|');if(a.length!==4||!/^[a-z0-9]{8,16}$/.test(a[0]))return null;const at=parseInt(a[2],36);if(!(at>0&&at<4e12))return null;
+  const items=[],seen=new Set();let newer=false;
+  for(const e of a[3].split(',')){const [t,id,n]=e.split(':'),c=Math.floor(+n);if(!(c>=1&&c<=99)||seen.has(t+id)||items.length>=80)return null;seen.add(t+id);if(!giftInfo(t,id)){newer=true;continue}items.push({t,id,n:c})}
+  if(newer)return{err:'newer'};if(!items.length)return null;
+  return{id:a[0],from:gName(a[1])||'A friend',at,items,code:'NG1.'+m[1]+'.'+m[2]}}
+const giftLink=code=>INVITE_BASE+'gift/#'+code;
+/* seal: the things leave the commode, the box is remembered as sent (so its link can be shown again; it cannot be unsealed) */
+function giftSeal(picks){const items=picks.filter(p=>p.n>0&&giftInfo(p.t,p.id)&&p.n<=giftHave(p.t,p.id)).map(p=>({t:p.t,id:p.id,n:Math.min(99,p.n)}));if(!items.length)return null;
+  const box={id:gNewId(),from:gName(faxName())||'A friend',at:Date.now(),items};box.code=giftCode(box);
+  items.forEach(i=>giftTake(i.t,i.id,i.n));const g=gs();g.sent[box.id]={at:box.at,n:items.reduce((s,i)=>s+i.n,0),code:box.code};
+  applyCommode();save();return box}
+/* open: only a box this book has neither opened nor sealed itself */
+function giftOpenBox(box){const g=gs();if(g.opened[box.id]||g.sent[box.id])return null;
+  const res=box.items.map(i=>({...i,extra:giftGive(i.t,i.id,i.n)}));
+  g.opened[box.id]=Date.now();g.got.unshift({id:box.id,from:box.from,at:box.at,opened:g.opened[box.id],items:box.items.map(i=>[i.t,i.id,i.n])});if(g.got.length>200)g.got.length=200;
+  applyStyle();applyCommode();renderPlushIcon();save();return res}
+/* its look: a box with a ribbon; red and green in December */
+const giftXmas=()=>(window.__giftMonth??new Date().getMonth())===11;
+const giftArt=()=>`<svg class="gfbox${giftXmas()?' xmas':''}" viewBox="0 0 52 52" aria-hidden="true"><rect class="gb-b" x="8" y="25" width="36" height="23" rx="2"/><path class="gb-g" d="M8 33h36M8 40h36"/><rect class="gb-l" x="5" y="17" width="42" height="10" rx="2"/><rect class="gb-r" x="23" y="17" width="6" height="31"/><path class="gb-r" d="M26 17C21 5 9 6 12 13c2.6 4 10 4 14 4zM26 17c5-12 17-11 14-4-2.6 4-10 4-14 4z"/><path class="gb-d" d="M26 17C22 10 16 9 15 12M26 17c4-7 10-8 11-5"/></svg>`;
+const giftBtnPaint=()=>{const b=$('#giftBtn');if(b){const k=giftXmas()?'x':'n';if(b.dataset.k!==k){b.dataset.k=k;b.innerHTML=giftArt()}}};
+function giftDialog(html){closePops();document.querySelectorAll('.veil').forEach(v=>v.remove());const v=document.createElement('div');v.className='veil gf-veil';
+  v.innerHTML=`<div class="toc paper gf-card" role="dialog" aria-label="The Gift Box">${html}</div>`;document.body.appendChild(v);v.addEventListener('click',e=>{if(e.target===v)v.remove()});return v}
+const gfThings=(items,extra)=>items.map((i,x)=>{const I=giftInfo(i[0]||i.t,i[1]||i.id);if(!I)return'';const n=i[2]??i.n;return`<li class="gf-th${extra?.[x]?' gf-sp':''}"><span class="gf-art">${I.art()}</span><b>${escH(I.name)}</b>${n>1?`<i>×${n}</i>`:''}${extra?.[x]?'<i class="gf-s">spare</i>':''}</li>`}).join('');
+function giftHome(){giftBtnPaint();
+  const g=gs(),sent=Object.entries(g.sent).sort((a,b)=>b[1].at-a[1].at),got=g.got.slice(0,12),spare=Object.entries(g.spare).filter(([,n])=>n>0);
+  const v=giftDialog(`<h2>The Gift Box</h2><div class="gf-hero">${giftArt()}</div>
+    <p class="gf-lead">Wrap things from your commode for a friend, or open a box that was sent to you.</p>
+    <div class="gf-acts"><button type="button" class="px close" id="gfWrap">Wrap a gift</button><button type="button" class="px close" id="gfAsk">Open a gift</button></div>
+    ${sent.length?`<h3 class="gf-h">Wrapped by you</h3><ul class="gf-rows">${sent.slice(0,8).map(([id,s])=>`<li><span>${giftDate(s.at)} · ${s.n} thing${s.n>1?'s':''}</span><button type="button" class="linkish" data-gfshow="${id}">Show the link</button></li>`).join('')}</ul>`:''}
+    ${got.length?`<h3 class="gf-h">Received</h3><ul class="gf-rows">${got.map(r=>`<li class="gf-got"><span>From ${escH(r.from)} · sealed ${giftDate(r.at)}</span><ul class="gf-things">${gfThings(r.items)}</ul></li>`).join('')}</ul>`:''}
+    ${spare.length?`<h3 class="gf-h">Spare copies</h3><ul class="gf-things">${gfThings(spare.map(([k,n])=>{const [t,id]=[k[0],k.slice(2)];return[t,id,n]}))}</ul><p class="gf-note">Things you were given twice. They can be wrapped and given on.</p>`:''}
+    <div class="gf-acts"><button type="button" class="px close" id="gfBye">Close</button></div>`);
+  v.querySelector('#gfWrap').onclick=()=>giftPack();v.querySelector('#gfAsk').onclick=()=>giftAsk();v.querySelector('#gfBye').onclick=()=>v.remove();
+  v.querySelectorAll('[data-gfshow]').forEach(b=>b.onclick=()=>{const s=g.sent[b.dataset.gfshow];const box=giftRead(s.code);if(box&&!box.err)giftSealed({...box,code:s.code,again:true})})}
+/* packing */
+function giftPack(){const stock=giftStock(),pick={},keyOf=(t,id)=>t+':'+id;
+  if(!stock.length){const v=giftDialog(`<h2>Wrap a gift</h2><div class="gf-hero">${giftArt()}</div><p class="gf-lead">There is nothing in your commode to give yet: stickers, flowers, ornaments, plushies and covers can go in a box.</p><div class="gf-acts"><button type="button" class="px close" id="gfBack">Back</button></div>`);v.querySelector('#gfBack').onclick=()=>giftHome();return}
+  const v=giftDialog(`<h2>Wrap a gift</h2><p class="gf-lead">Tap what should go in the box. It leaves your commode for good once the box is sealed.</p>
+    <div class="gf-pack">${stock.map(s=>`<h3 class="gf-h">${s.label}</h3><ul class="gf-grid">${s.list.map(x=>`<li class="gf-it" data-k="${keyOf(x.t,x.id)}"><button type="button" class="gf-pick" data-add="${keyOf(x.t,x.id)}" aria-label="${escH(x.name)}: add to the box"><span class="gf-art">${x.art()}</span><b>${escH(x.name)}</b></button><div class="gf-ctl" hidden><button type="button" class="gf-m" data-sub="${keyOf(x.t,x.id)}" aria-label="One fewer ${escH(x.name)}">−</button><span class="gf-c"></span><button type="button" class="gf-p" data-add="${keyOf(x.t,x.id)}" aria-label="One more ${escH(x.name)}">+</button></div></li>`).join('')}</ul>`).join('')}</div>
+    <div class="gf-foot"><p class="gf-sum" id="gfSum" aria-live="polite"></p>
+    <div class="gf-acts"><button type="button" class="px close" id="gfSeal" disabled>Seal the box</button><button type="button" class="px close" id="gfBack">Back</button></div></div>`);
+  const have=k=>{const [t,id]=[k[0],k.slice(2)];return giftHave(t,id)};
+  const paint=()=>{let n=0;v.querySelectorAll('.gf-it').forEach(li=>{const k=li.dataset.k,c=pick[k]||0,max=have(k);n+=c;li.classList.toggle('on',c>0);li.querySelector('.gf-ctl').hidden=c<1;li.querySelector('.gf-c').textContent=c?(max>1?`${c} of ${max}`:'in the box'):'';li.querySelector('.gf-p').disabled=c>=max});
+    v.querySelector('#gfSum').textContent=n?`${n} thing${n>1?'s':''} in the box`:'The box is empty.';v.querySelector('#gfSeal').disabled=!n};paint();
+  v.addEventListener('click',e=>{const a=e.target.closest('[data-add]'),s=e.target.closest('[data-sub]');if(a){const k=a.dataset.add;if((pick[k]||0)<have(k)){pick[k]=(pick[k]||0)+1;sfx.tick();paint()}}else if(s){const k=s.dataset.sub;if(pick[k]){pick[k]--;if(!pick[k])delete pick[k];sfx.tick();paint()}}});
+  v.querySelector('#gfBack').onclick=()=>giftHome();
+  v.querySelector('#gfSeal').onclick=()=>{const n=Object.values(pick).reduce((s,c)=>s+c,0);if(!n)return;
+    const q=giftDialog(`<h2>Seal the box?</h2><div class="gf-hero">${giftArt()}</div><ul class="gf-things">${gfThings(Object.entries(pick).map(([k,c])=>[k[0],k.slice(2),c]))}</ul><p class="gf-lead">From ${escH(gName(faxName())||'you')}, sealed today. These leave your commode for good, and a sealed box cannot be undone.</p><div class="gf-acts"><button type="button" class="px close" id="gfYes">Seal it</button><button type="button" class="px close" id="gfNo">Not yet</button></div>`);
+    q.querySelector('#gfNo').onclick=()=>giftPack();
+    q.querySelector('#gfYes').onclick=()=>{const box=giftSeal(Object.entries(pick).map(([k,c])=>({t:k[0],id:k.slice(2),n:c})));if(!box){giftHome();return}sfx.stamp?.();giftSealed(box)}}}
+/* the sealed box: its link and its code */
+function giftSealed(box){const link=giftLink(box.code);
+  const v=giftDialog(`<h2>${box.again?'Your gift box':'Sealed'}</h2><div class="gf-hero">${giftArt()}</div>
+    <p class="gf-tag">From <b>${escH(box.from)}</b><br>sealed ${giftDate(box.at)} · box ${escH(box.id.slice(0,4).toUpperCase())}</p>
+    <p class="gf-lead">Send the link. Whoever opens it first in their book gets what is inside, and it waits as long as the link does.</p>
+    <div class="gf-acts"><button type="button" class="px close" id="gfSend">Send the link</button><button type="button" class="px close" id="gfCopy">Copy the code</button></div>
+    <textarea class="gf-code" readonly rows="3" aria-label="The code of the box" id="gfCodeOut">${escH(box.code)}</textarea>
+    <p class="gf-note" id="gfSaid">Or send the code on its own: it can be pasted into Open a gift.</p>
+    <div class="gf-acts"><button type="button" class="px close" id="gfDone">Done</button></div>`);
+  const say=t=>{v.querySelector('#gfSaid').textContent=t};
+  v.querySelector('#gfSend').onclick=async()=>{const text='A gift for you in The Book of Nines. Tap the link to open it.';
+    try{if(navigator.share&&!window.claude){await navigator.share({title:'The Book of Nines',text,url:link});return}}catch(e){if(e&&e.name==='AbortError')return}
+    try{await navigator.clipboard.writeText(text+' '+link);say('The link is copied. Paste it into any message.');sfx.tick()}catch(e){say(link)}};
+  v.querySelector('#gfCopy').onclick=async()=>{try{await navigator.clipboard.writeText(box.code);say('The code is copied.');sfx.tick()}catch(e){v.querySelector('#gfCodeOut').select();say('Select the code and copy it.')}};
+  v.querySelector('#gfDone').onclick=()=>v.remove()}
+/* opening: paste a code or a link, or arrive by a link */
+function giftAsk(msg){const v=giftDialog(`<h2>Open a gift</h2><div class="gf-hero">${giftArt()}</div><p class="gf-lead">Paste the code, or the whole link, of a gift box.</p>
+    <textarea class="gf-code" rows="3" id="gfIn" placeholder="NG1.…" aria-label="The code of a gift box" autocapitalize="off" autocomplete="off" spellcheck="false"></textarea>
+    <p class="gf-err" id="gfErr" role="alert">${msg?escH(msg):''}</p>
+    <div class="gf-acts"><button type="button" class="px close" id="gfLook">Look at the box</button><button type="button" class="px close" id="gfBack">Back</button></div>`);
+  const go=()=>{const raw=v.querySelector('#gfIn').value,b=giftRead(raw);v.querySelector('#gfErr').textContent=!raw.trim()?'Paste a code first.':!b?'That is not the code of a gift box. Check that all of it was copied.':b.err?'This box holds something from a newer Book of Nines. Update the app and try again.':'';if(b&&!b.err)giftPreview(b)};
+  v.querySelector('#gfLook').onclick=go;v.querySelector('#gfBack').onclick=()=>giftHome();setTimeout(()=>v.querySelector('#gfIn')?.focus(),80)}
+function giftPreview(box){const g=gs(),mine=!!g.sent[box.id],done=g.opened[box.id];
+  const v=giftDialog(`<h2>A gift box</h2><div class="gf-hero">${giftArt()}</div><p class="gf-tag">From <b>${escH(box.from)}</b><br>sealed ${giftDate(box.at)}</p>
+    ${done?`<p class="gf-lead">You opened this box on ${giftDate(done)}. A box opens only once.</p>`:mine?`<p class="gf-lead">This is a box you sealed yourself. It is for someone else to open.</p>`:`<p class="gf-lead">Untie the ribbon to see what is inside. It will go into your commode.</p>`}
+    <div class="gf-acts">${done||mine?'':'<button type="button" class="px close" id="gfUntie">Untie the ribbon</button>'}<button type="button" class="px close" id="gfBack">${done||mine?'Back':'Later'}</button></div>`);
+  v.querySelector('#gfBack').onclick=()=>{if(done||mine)giftHome();else v.remove()};
+  v.querySelector('#gfUntie')?.addEventListener('click',()=>{const res=giftOpenBox(box);if(!res){giftPreview(box);return}giftReveal(box,res)})}
+function giftReveal(box,res){sfx.tada?.();const sp=res.filter(r=>r.extra);
+  const v=giftDialog(`<h2>From ${escH(box.from)}</h2><div class="gf-hero gf-open">${giftArt()}</div><ul class="gf-things gf-big">${gfThings(res,res.map(r=>r.extra))}</ul>
+    <p class="gf-note">${sp.length?'What you already had is kept as a spare copy, in your Gift Box. ':''}Everything else is in your commode now.</p><div class="gf-acts"><button type="button" class="px close" id="gfDone">Thank you</button></div>`);
+  v.querySelector('#gfDone').onclick=()=>v.remove()}
+/* the button, the link, and the book opening on a gift */
+$('#giftBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();giftHome()});giftBtnPaint();
+function giftArrive(raw){const b=giftRead(raw);if(!b){giftAsk('That gift link could not be read. Paste the code that came with it.');return}if(b.err){giftAsk('This box holds something from a newer Book of Nines. Update the app and try again.');return}giftPreview(b)}
+let giftWant=(/[#&]gift=([A-Za-z0-9._-]+)/.exec(location.hash)||[])[1]||'';
+function giftTry(){if(!giftWant)return;if(introOn()){setTimeout(giftTry,400);return}const c=giftWant;giftWant='';try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}setTimeout(()=>giftArrive(c),500)}
+window.ninesGift=c=>{giftWant=String(c||'').replace(/[^A-Za-z0-9._-]/g,'');giftTry()};
+setTimeout(giftTry,300);
 const lobbySig=r=>JSON.stringify([r.status,r.mode,r.minutes,r.host,r.players.map(p=>[p.id,p.name])]);
 function mpLobby(){const r=MP.room;if(!r)return;const me=r.players.find(p=>p.id===MP.playerId),host=r.host===MP.playerId,mode=r.mode==='bo3'?'Best of Three':r.mode==='party'?`Party · ${r.minutes} minutes`:'Duel';const v=mpDialog(`<h2>${mode}</h2>${r.code==='WIFI'?`<p class="mp-status">Direct play · same Wi-Fi</p>`:`<p class="mp-status">Room code — share this with ${r.mode==='party'?'up to three other players':'your opponent'}</p><div class="roomcode">${escH(r.code)}</div>`}<div class="lobby-players">${r.players.map((p,i)=>`<div class="lobby-player"><span>${escH(p.name)}${p.id===MP.playerId?' (you)':''}</span><b>Line ${i+1}</b></div>`).join('')}</div><p class="mp-status" id="mpLobbyStatus">${r.players.length<2?'Waiting for another player…':host?'The line is ready.':'Waiting for the host to start…'}</p><div class="mp-actions">${host?`<button class="px close" id="mpStart" ${r.players.length<2?'disabled':''}>Start match</button>`:''}${host&&r.code==='WIFI'&&r.players.length<MatchCore.LIMIT[r.mode]?`<button class="px close" id="mpInvite">Invite another player</button>`:''}${r.code!=='WIFI'&&r.players.length<MatchCore.LIMIT[r.mode]?`<button class="px close" id="mpInviteLink">Send invite link</button>`:''}<button class="px close" id="mpLeave">Leave room</button></div><p class="mp-status mp-error" id="mpError"></p>`);v.dataset.lobby=lobbySig(r);v.querySelector('#mpInviteLink')?.addEventListener('click',()=>inviteSend(r.code,v));if(host&&r.code==='WIFI'&&v.querySelector('#mpInvite'))v.querySelector('#mpInvite').onclick=()=>mpDirectInvite();if(host)v.querySelector('#mpStart').onclick=async()=>{try{acceptMP(await Net.start())}catch(e){v.querySelector('#mpError').textContent=e.message}};v.querySelector('#mpLeave').onclick=()=>{leaveMatch();v.remove();MP.overlay=null}}
 function openMultiplayer(){closePops();if(MP.room&&MP.away){mpWaiting();return}if(MP.room){if(MP.room.status==='lobby')mpLobby();else if(MP.room.status==='finished')mpResult();else{const v=mpDialog(`<h2>Match in progress</h2>${MP.room.code==='WIFI'?'<p class="mp-status">Direct play</p>':`<div class="roomcode">${escH(MP.room.code)}</div>`}<p class="mp-status">${MP.room.mode==='bo3'?'Swipe across the page to move among your three sheets.':MP.room.mode==='party'?'Finish the active sheet to print the next one.':'Complete boxes to damage the opposing heart.'}</p><div class="mp-actions"><button class="px close" id="mpResume">Return to puzzle</button><button class="px close" id="mpAway">Keep it for later</button><button class="px close" id="mpLeave">Give up the match</button></div><p class="mp-status">Kept for later, the match waits in your book for days; your rival plays on in the meantime.</p>`);v.querySelector('#mpResume').onclick=()=>{v.remove();MP.overlay=null};v.querySelector('#mpAway').onclick=()=>mpPutAway();v.querySelector('#mpLeave').onclick=()=>{v.remove();MP.overlay=null;mpGiveUp()}}return}mpSetup()}
@@ -12751,7 +13211,7 @@ $('#radioBtn').addEventListener('click',e=>{e.stopPropagation();sfx.tick();openR
 
 /* ================= boot ================= */
 function start(data){
-  if(/[?&]test\b/.test(location.search))window.__nines={inviteUrl,inviteCode,get G(){return G},solved,rateAsk,NLOG,logCut,gzxOpen,gzxClose,get GZX(){return GZX},ADVENT,adventGiftOf,adventDay,shopCat,adsOff,noAdsOwned,tvLeft,TV_DAILY,TV_COINS,bookSnap,drawWidgetBook,polyBuild,polyDraw,polyPose,get POLY(){return POLY},overlayEnter,overlayLeave,certOpen,certDraw,ownerPlate,tutPlay,TUT_P,solve,gzOpen,gzGo,gzClose,GZ,setCoins,saveNow,giltOn,RELEASES,RELEASE_START,REL_SLOT,relNext,relSlots,relShopSlots,relOwnSlots,relPrice,setRelease:on=>{releaseOn=!!on},get TURN(){return TURN},get flipping(){return flipping},turnAuto,turnStyle,TURNS,flipTo,flipBack,pageTurn,get typeDraft(){return TYPE_DRAFT},openTypeCase,typeApply,typeCode,typeRead,typeClean,typeUse,typeSaveAs,typeCurrent,typeProfiles,typeRoleAt,typeNow,typeBook,TYPE_DEFAULT,TYPE_ROLES,TYPE_SEL,TYPE_HOUSE,openCommode,openTV,openToc,openVerso,bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
+  if(/[?&]test\b/.test(location.search))window.__nines={ENV:{get S(){return S},gzOpen,gzShow,get GZ(){return GZ},xmasShelf,XMAS_KEYS,shopCat,PlushCast,setRelease:on=>{releaseOn=on},ShopTunes,shopTuneNow,xmasTime,applyTune,Flora,Commode,stk,floraState,ornState,ornOwned,plushState,plushShown,wearOf,applyStyle,save,STK,STYLES,giftHave,giftStock,giftSeal,giftRead,giftOpenBox,giftCode,giftLink,giftHome,giftArrive,gs},inviteUrl,inviteCode,giftHave,giftStock,giftSeal,giftRead,giftOpenBox,giftCode,giftLink,giftInfo,giftHome,giftPack,giftArrive,gs,get G(){return G},solved,rateAsk,NLOG,logCut,gzxOpen,gzxClose,get GZX(){return GZX},ADVENT,adventGiftOf,adventDay,shopCat,adsOff,noAdsOwned,tvLeft,TV_DAILY,TV_COINS,bookSnap,drawWidgetBook,polyBuild,polyDraw,polyPose,get POLY(){return POLY},overlayEnter,overlayLeave,certOpen,certDraw,ownerPlate,tutPlay,TUT_P,solve,gzOpen,gzGo,gzClose,GZ,setCoins,saveNow,giltOn,RELEASES,RELEASE_START,REL_SLOT,relNext,relSlots,relShopSlots,relOwnSlots,relPrice,setRelease:on=>{releaseOn=!!on},get TURN(){return TURN},get flipping(){return flipping},turnAuto,turnStyle,TURNS,flipTo,flipBack,pageTurn,get typeDraft(){return TYPE_DRAFT},openTypeCase,typeApply,typeCode,typeRead,typeClean,typeUse,typeSaveAs,typeCurrent,typeProfiles,typeRoleAt,typeNow,typeBook,TYPE_DEFAULT,TYPE_ROLES,TYPE_SEL,TYPE_HOUSE,openCommode,openTV,openToc,openVerso,bookSane,get verso(){return{atFront,versoMoving}},get KOI(){return KOI},koiLive,koiSnap,goQuiet,quietPay,adDay,pageCard,versoFace,fitVerso,PixArt,wallArt,wallSlot,ripSound,WALL_ART,switchBlock,puzzle,loadPage,vol1Done,cmMiniLive,applyCommode,faxPrint,setScene,get ROSES(){return ROSES},playBells:()=>{ac();for(const b of Object.values(BELLS))b.play(0);return Object.keys(BELLS).length},get tune(){return ShopTunes.now()},endReceipt:()=>{if(rcEnd){rcEnd();return true}return false},audio:()=>({c:ac(),master,ShopTunes,sfx}),playTunes:()=>ShopTunes.ids.map(id=>{const ok=ShopTunes.play(id);ShopTunes.stop(.05);return ok}),get S(){return S},MP,get mode(){return playMode},makeSaveCode,readSaveCode,askName,normaliseSave,pollMP,acceptMP,mpPutAway,mpGiveUp,readPageCode,pageCode,BLOCKS,solve,dailyPuzzle,singlesLeft,target,chapterOf,fit,get PAD(){return PAD},padSet,setFold:f=>{foldTest=f;fit()},plushSpot,plushBox,PlushCast,TVS,tvModel,applyTV,moonDisc,shopCat,shopDeals,priceOf,openShop,setDeals:on=>{shopDealsOn=on},lifeStage,plushLife,lifeMult,lifeAdd,
     puzzleIn(id,p){const was=S.block;S.block=id;try{return puzzle(p)}finally{S.block=was}}};
   load();if(saveLost)setTimeout(()=>toast('The book’s record could not be read, so a fresh book was opened. The old record is kept aside.'+(S.savePage?' A save code from the Binder’s Record can bring a book back.':'')),2500);
   devUnlocked();
