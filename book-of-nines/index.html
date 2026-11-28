@@ -2672,6 +2672,25 @@ body .board[data-cover="frost"] .cf{background-image:radial-gradient(40% 30% at 
 .backcover.with-toy #savePage .sv-reach{gap:16px;margin:9px 0 4px}
 .backcover.with-toy #savePage .savecode{scrollbar-width:none;-ms-overflow-style:none}.backcover.with-toy #savePage .savecode::-webkit-scrollbar{display:none}
 .backcover.with-toy #savePage .sv-in>.close{position:absolute;right:6px;bottom:6px;margin:0;height:var(--bk,34px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;padding-top:7px;padding-bottom:5px}
+
+/* web ads: one labelled unit over a poster's frame (the layer sits above the shop's sheet, below the toasts) */
+#webPosterAds{position:fixed;inset:0;pointer-events:none;z-index:60}
+.wpa{position:fixed;overflow:hidden;background:#f1e6cc;border:1px solid #8a6a3a;border-radius:3px;pointer-events:auto;transition:opacity .12s}
+.wpa small{position:absolute;left:4px;top:2px;z-index:2;font:600 9px/1 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#5a4220;background:#f1e6cc;padding:1px 3px;border-radius:2px}
+
+/* the page links are quiet pictures, not words: a thin arrow on, a little scroll for the quote on the back */
+.turn.ico{border-bottom:0;padding:6px 8px;line-height:0}
+.turn .tico{display:block;width:34px;height:15px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.turn .tico.scroll{width:22px;height:22px}
+
+.turn .tico.go{width:38px;height:19px;stroke-width:1.8}
+.turn.back.ico{display:flex;align-items:center;gap:4px}
+.turn .tico.lft{width:13px;height:10px;stroke-width:1.7}
+.turn.back .tico.scroll{width:22px;height:22px}
+.turn.ico{bottom:2px;padding:3px 8px}
+.turn.back.ico{padding:3px 8px}
+
+.turn .tico.go{width:44px;height:17px}.turn .tico.go .hd{fill:currentColor;stroke-width:1}
 </style>
 
 <div class="publisher-intro" id="publisherIntro" role="status" aria-label="Tea Story">
@@ -6518,7 +6537,7 @@ const $=s=>document.querySelector(s);
    The last 400 events, kept on this device only (its own key, apart from the save). The Design panel's "Cut the log"
    copies it and clears it in one tap, so each log sent covers only what happened since the last one. Nothing personal
    goes in: no name, no place, no ad or account IDs; only what the game did, the screen, and errors. */
-const NINES_BUILD='1.0.69 · built 2026-11-27 14:17 UTC';
+const NINES_BUILD='1.0.70 · built 2026-11-28 00:39 UTC';
 const NLOG={k:'bookOfNines.log',max:400,a:null,t:0,
   load(){if(this.a)return this.a;try{const a=JSON.parse(localStorage.getItem(this.k)||'[]');this.a=Array.isArray(a)?a:[]}catch(e){this.a=[]}return this.a},
   add(kind,msg){const a=this.load(),d=new Date(),p=n=>String(n).padStart(2,'0');
@@ -7478,12 +7497,12 @@ function showSolved(anim,reward){nlog('page',`solved: ${S.block||'nines'} page $
   else if(!G.failed)showArt(anim,anim&&reward?`+${reward} coins${G.blind?' · quiet page':G.clean?' · clean page':''}`:'');
   else if(anim){const cap=document.createElement('div');cap.className='px-cap dead';cap.innerHTML='<b>A dead page</b><i>no picture, no reward. A heart sticker brings it back to life.</i>';$('#gridwrap').appendChild(cap);setTimeout(()=>{cap.classList.add('out');setTimeout(()=>cap.remove(),700)},6000)}
   const b=document.createElement('button');b.className='px turn';
-  b.innerHTML=`page ${S.page+1} <span class="arr">&rarr;</span>`;b.setAttribute('aria-label','Turn to page '+(S.page+1));b.className='turn';
+  b.innerHTML=`<span class="arr"><svg class="tico go" viewBox="0 0 46 18" aria-hidden="true"><path d="M4 9H35M4 9 1 5.2M4 9 1 12.8M9 9 6 5.2M9 9 6 12.8M14 9 11 5.2M14 9 11 12.8"/><path class="hd" d="M45 9 33 3.4v11.2Z"/></svg></span>`;b.setAttribute('aria-label','Turn to page '+(S.page+1));b.className='turn ico';
   b.addEventListener('click',e=>{e.stopPropagation();flipTo(S.page+1)});
   if(anim){b.style.visibility='hidden';setTimeout(()=>{b.style.visibility=''},1400)}   /* cleared, not 'visible': it must still hide with its page behind either cover */
   if(isVol(block().id)||S.page<block().pages)pageEl.appendChild(b);
   /* a solved sheet of Volume I offers to turn straight over to the quote on its back */
-  if(versoOK()&&S.page<=NP){const q=document.createElement('button');q.className='turn back';q.innerHTML='<span class="arr">&larr;</span> its quote';q.setAttribute('aria-label',`Turn page ${S.page} over and read the quote on its back`);
+  if(versoOK()&&S.page<=NP){const q=document.createElement('button');q.className='turn back ico';q.innerHTML='<svg class="tico lft arr" viewBox="0 0 20 14" aria-hidden="true"><path d="M18 7H3M8 2 3 7l5 5"/></svg><svg class="tico scroll" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h11a2 2 0 0 1 2 2v11a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-1h11v1a1.6 1.6 0 0 0 3 0V6"/><path d="M7 4a2 2 0 0 0-2 2v10"/><path d="M9 9h7M9 12.5h5"/></svg>';q.setAttribute('aria-label',`Turn page ${S.page} over and read the quote on its back`);
     q.addEventListener('click',e=>{e.stopPropagation();openVerso()});if(anim){q.style.visibility='hidden';setTimeout(()=>{q.style.visibility=''},1400)}pageEl.appendChild(q)}
   if(anim&&!reduced&&!G.failed)sparks();
 }
@@ -11316,7 +11335,7 @@ const TYPE_ROLES=[
  {id:'discoveries',n:'The Book of Discoveries',m:[/\.dc-/],x:'No. 06 · Down with it'},
  {id:'catalogue',n:'Shop catalogue (the magazine)',m:[/\.gz-/,/\.gzx/,/\.cm-gz/],x:'Bookstore · Season 3'},
  {id:'shoptabs',n:'Shop tabs',m:[/shop-tab/],x:'Daily offer'},
- {id:'posters',n:'Posters',m:[/\.item\.poster/,/\.p-who/],x:'Lumière · Club · Cocktails'},
+ {id:'posters',n:'Posters',m:[/\.item\.poster/,/\.p-who/,/\.wpa/],x:'Lumière · Club · Cocktails'},
  {id:'shopitems',n:'Item names and blurbs',m:[/\.nm2/,/^\.item$/,/\.item \.blurb/,/^\.empty$/],x:'Mantel clock'},
  {id:'shopprice',n:'Prices, badges, counts',m:[/\.price/,/\.badge/,/\.have$/,/\.purse/,/\.ends$/,/\.need$/,/tagsoon/,/inb-mark/,/bsk-/,/padhint/,/see-all/],x:'500 · New! · −20%'},
  {id:'shopdesc',n:'Description window',m:[/^\.sd-/],x:'Ornament · A brass clock for the commode.'},
@@ -12309,12 +12328,38 @@ const adsOff=()=>noAdsOwned()&&S.adsOn!==1;
 const tvLeft=()=>S.tvWatch&&S.tvWatch.d===dayNo()?Math.max(0,TV_DAILY-S.tvWatch.n):TV_DAILY;
 const tvCounted=()=>{const d=dayNo();if(!S.tvWatch||S.tvWatch.d!==d)S.tvWatch={d,n:0};S.tvWatch.n++};
 const runCard=(T,onProgress,res)=>new Promise(ok=>{const t0=performance.now();const step=()=>{const f=Math.min(1,(performance.now()-t0)/T);onProgress(f);if(f<1)requestAnimationFrame(step);else ok(res)};requestAnimationFrame(step)});
+/* ---- web ads (Google AdSense / H5 Games Ads), the web edition only ----
+   SWITCHED OFF until a domain and an AdSense account exist: put the publisher id (pub-…) and the ad unit's slot id below, and it
+   comes alive on those hosts. It does the same as the app: the television's broadcast is a rewarded ad, and the shop's poster frames
+   carry real ads, each plainly labelled "Advertisement". Never runs in the Android app (which has AdMob) or with "no ads" owned.
+   Consent: Google's own message (a certified CMP, set up in AdSense) asks in the EEA, UK and Switzerland. */
+const WEBADS={pub:'',slot:'',hosts:[]};   /* e.g. pub:'pub-6323573559644791', slot:'1234567890', hosts:['bookofnines.com'] */
+const webAdsOn=()=>{if(window.NinesApp||adsOff())return false;if(window.__webAdsTest)return true;return!!(WEBADS.pub&&WEBADS.slot&&WEBADS.hosts.includes(location.hostname))};
+let webAdsLoaded=false;
+function webAdsLoad(){if(webAdsLoaded)return;webAdsLoaded=true;
+  window.adsbygoogle=window.adsbygoogle||[];window.adBreak=window.adConfig=o=>{window.adsbygoogle.push(o)};
+  if(window.__webAdsTest)return;   /* tests bring their own fake */
+  const sc=document.createElement('script');sc.async=true;sc.crossOrigin='anonymous';
+  sc.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-'+WEBADS.pub;
+  sc.setAttribute('data-ad-frequency-hint','30s');sc.onerror=()=>nlog('ad','the ad script did not load');document.head.appendChild(sc);
+  window.adConfig({preloadAdBreaks:'on',sound:'on'})}
+/* a rewarded break: resolves {channel} when watched, rejects 'skipped' when closed early, 'none' when nothing is on offer */
+function webReward(channel,onProgress){return new Promise((ok,no)=>{webAdsLoad();let done=false,shown=false;
+  const end=(f,v)=>{if(done)return;done=true;clearTimeout(tm);f(v)};
+  const tm=setTimeout(()=>{if(!shown)end(no,new Error('none'))},window.__webAdsTest?.wait||20000);
+  nlog('ad','channel '+channel+': asking the web for a rewarded ad');
+  window.adBreak({type:'reward',name:'tv-'+channel,
+    beforeReward:show=>{shown=true;clearTimeout(tm);show()},
+    adViewed:()=>{onProgress(1);end(ok,{channel})},
+    adDismissed:()=>{onProgress(1);end(no,new Error('skipped'))},
+    adBreakDone:info=>{if(info&&info.breakStatus&&info.breakStatus!=='viewed'&&!shown)end(no,new Error('none'))}})})}
 const NinesAds={
   ready:()=>{if(adsOff())return true;if(NA('rewardedReady'))try{return!!window.NinesApp.rewardedReady()}catch(e){return false}return true},
   play(channel,onProgress){
     if(adsOff()){nlog('ad','channel '+channel+': ads off, a short card instead');return runCard(reduced?60:1300,onProgress,{channel,free:1})}   /* no ad: just the channel coming in */
     if(NA('showRewarded'))return new Promise((ok,no)=>{window.ninesRewarded=r=>{window.ninesRewarded=null;nlog('ad',`channel ${channel}: the app says ${r} (page ${document.hidden?'hidden':'visible'})`);onProgress(1);r==='earned'?ok({channel}):no(new Error(r||'skipped'))};
       let shown=false;try{shown=!!window.NinesApp.showRewarded()}catch(e){nlog('ad','showRewarded threw: '+e.message)}nlog('ad',`channel ${channel}: rewarded ad ${shown?'shown':'NOT shown'}`);if(!shown){window.ninesRewarded=null;no(new Error('none'))}});
+    if(webAdsOn())return webReward(channel,onProgress).catch(e=>{if(e.message!=='none')throw e;nlog('ad','channel '+channel+': no web ad on offer, the six-second card');return runCard(6000,onProgress,{channel})});
     nlog('ad','channel '+channel+': no app, the six-second card');
     return runCard(6000,onProgress,{channel})},
 };
@@ -12342,9 +12387,24 @@ window.ninesPurchase=state=>{nlog('purchase',state);if(state==='owned'){S.adsOn=
    on an ad comes to the page, so peeling and tearing work on every poster alike; when one with an ad on it is torn, the
    app tears the ad. Each morning at five the posters go up again (S.ripped, by adDay). */
 const posterAds={v:null,body:null,raf:0,last:'',fill:new Set(),pics:{},prev:'',still:0,
-  on(){return NA('adSlots')},   /* with the ads switched off it still runs, and simply says: no posters */
+  web:null,
+  on(){return NA('adSlots')||webAdsOn()},   /* with the ads switched off it still runs, and simply says: no posters */
   open(v,body){if(!this.on())return;this.v=v;this.body=body;this.last='';cancelAnimationFrame(this.raf);const tick=()=>{if(!this.v)return;this.send();this.raf=requestAnimationFrame(tick)};this.raf=requestAnimationFrame(tick)},
-  close(){if(!this.v)return;this.v=null;cancelAnimationFrame(this.raf);try{window.NinesApp.adSlots('[]');window.NinesApp.adShopClosed()}catch(e){}this.last=''},
+  close(){if(!this.v)return;this.v=null;cancelAnimationFrame(this.raf);if(NA('adSlots'))try{window.NinesApp.adSlots('[]');window.NinesApp.adShopClosed()}catch(e){}this.webClear();this.last=''},
+  /* on the web: a fixed layer holds one labelled AdSense unit per poster, moved over the poster's frame */
+  webClear(){this.web?.remove();this.web=null;this.fill=new Set();document.querySelectorAll('.item.poster.has-ad').forEach(e=>e.classList.remove('has-ad'))},
+  webSend(L,moving){webAdsLoad();if(!this.web){const w=document.createElement('div');w.id='webPosterAds';document.body.appendChild(w);this.web=w}
+    const k=devicePixelRatio||1,keep=new Set(L.map(o=>o.s));
+    this.web.querySelectorAll('.wpa').forEach(u=>{if(!keep.has(u.dataset.s)&&!this.fill.has(u.dataset.s)){u.remove()}else if(!keep.has(u.dataset.s))u.style.display='none'});
+    for(const o of L){let u=this.web.querySelector(`.wpa[data-s="${CSS.escape(o.s)}"]`);
+      if(!u){u=document.createElement('div');u.className='wpa';u.dataset.s=o.s;u.innerHTML='<small>Advertisement</small><ins class="adsbygoogle" style="display:block;width:100%;height:100%"></ins>';this.web.appendChild(u);
+        const ins=u.querySelector('ins');ins.dataset.adClient='ca-'+(WEBADS.pub||'pub-test');ins.dataset.adSlot=WEBADS.slot||'0';ins.dataset.fullWidthResponsive='true';
+        new MutationObserver(()=>{if(ins.dataset.adStatus==='filled'){if(!this.fill.has(o.s)){this.fill=new Set([...this.fill,o.s]);nlog('ad','poster '+o.s+': an ad fills it')}}else if(ins.dataset.adStatus==='unfilled'){this.fill.delete(o.s)}}).observe(ins,{attributes:true,attributeFilter:['data-ad-status']});
+        try{(window.adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}}
+      const x=o.x/k,y=o.y/k,w=o.w/k,h=o.h/k;
+      Object.assign(u.style,{display:'block',left:x+'px',top:y+'px',width:w+'px',height:h+'px',opacity:!this.fill.has(o.s)||moving||o.tx||o.ty?0:1,
+        clipPath:`inset(${Math.max(0,o.ct/k-y)}px ${Math.max(0,x+w-o.cr/k)}px ${Math.max(0,y+h-o.cb/k)}px ${Math.max(0,o.cl/k-x)}px)`})}
+    document.querySelectorAll('.item.poster[data-slot]').forEach(el=>el.classList.toggle('has-ad',this.fill.has(el.dataset.slot)&&!el.classList.contains('ripped')))},
   list(){const v=this.v,b=this.body;if(!v||!v.isConnected||!b||adsOff())return[];
     const top=[...document.querySelectorAll('.veil')].pop();if(top!==v)return[];   /* something else is open over the shop */
     const k=devicePixelRatio||1,c=b.getBoundingClientRect(),out=[];
@@ -12353,7 +12413,7 @@ const posterAds={v:null,body:null,raf:0,last:'',fill:new Set(),pics:{},prev:'',s
       if(ad)this.pic(el);
       const r=el.getBoundingClientRect();if(!r.width||r.bottom<=c.top||r.top>=c.bottom||r.right<=c.left||r.left>=c.right)continue;
       const L=Math.max(r.left,c.left),T=Math.max(r.top,c.top),Rr=Math.min(r.right,c.right),B=Math.min(r.bottom,c.bottom);
-      const at=(x,y)=>{const e=document.elementFromPoint(x,y);return!!e&&el.contains(e)};   /* nothing of the page's own lies over it */
+      const at=(x,y)=>{const e=document.elementFromPoint(x,y);return!!e&&(el.contains(e)||!!e.closest('#webPosterAds'))};   /* nothing of the page's own lies over it */
       if(!at((L+Rr)/2,(T+B)/2)||!at(L+4,T+4)||!at(Rr-4,B-4))continue;
       const p=el._peel||{dx:0,dy:0};
       out.push({s:el.dataset.slot,x:Math.round(r.left*k),y:Math.round(r.top*k),w:Math.round(r.width*k),h:Math.round(r.height*k),
@@ -12366,10 +12426,13 @@ const posterAds={v:null,body:null,raf:0,last:'',fill:new Set(),pics:{},prev:'',s
   send(){const L=this.list(),geo=JSON.stringify(L.map(o=>[o.s,o.x,o.y,o.w,o.h,o.cb,o.ct])),now=performance.now(),peel=L.some(o=>o.tx||o.ty);
     if(geo!==this.prev||peel){this.prev=geo;this.still=now}
     const moving=now-this.still<160,s=moving?JSON.stringify(L.map(o=>({s:o.s,hide:1}))):JSON.stringify(L);
+    if(!NA('adSlots')){this.webSend(L,moving);return}
     if(s===this.last)return;this.last=s;try{window.NinesApp.adSlots(s)}catch(e){}},
-  rip(el,dx,dy){if(!el.classList.contains('has-ad')||!NA('adRip'))return false;const k=devicePixelRatio||1;el.classList.remove('has-ad');this.fill.delete(el.dataset.slot);try{window.NinesApp.adRip(el.dataset.slot,dx*k,dy*k)}catch(e){}return true}};
+  rip(el,dx,dy){if(!NA('adSlots')&&el.classList.contains('has-ad')&&this.web){const u=this.web.querySelector(`.wpa[data-s="${CSS.escape(el.dataset.slot)}"]`);u&&u.remove();this.fill.delete(el.dataset.slot);el.classList.remove('has-ad');return false}   /* a web ad is simply taken down with its poster */
+    if(!el.classList.contains('has-ad')||!NA('adRip'))return false;const k=devicePixelRatio||1;el.classList.remove('has-ad');this.fill.delete(el.dataset.slot);try{window.NinesApp.adRip(el.dataset.slot,dx*k,dy*k)}catch(e){}return true}};
 /* the app says which posters have a real ad over them now: their own picture steps aside, the wall stays */
 window.ninesAdFill=json=>{let keys=[];try{keys=JSON.parse(json)}catch(e){}posterAds.fill=new Set(keys);document.querySelectorAll('.item.poster[data-slot]').forEach(el=>el.classList.toggle('has-ad',posterAds.fill.has(el.dataset.slot)&&!el.classList.contains('ripped')))};
+window.__webAdsHook=()=>({poster:posterAds,on:webAdsOn});
 window.ninesAdWake=()=>{posterAds.last=''};
 window.ninesAdPic=(key,url)=>{if(!/^data:image\/(png|jpeg);base64,/.test(url||''))return;posterAds.pics[key]=url;const el=document.querySelector(`.item.poster[data-slot="${CSS.escape(key)}"]`);if(el&&el.classList.contains('has-ad'))posterAds.pic(el)};   /* a new ad has come in: say again where the posters are */
 let tvTimer=0;
